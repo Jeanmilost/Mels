@@ -1,0 +1,5 @@
+// component icons (used on designer and toolbars), must be the same name as component class
+TQRPlayerAL      BITMAP    "Resources\Images\Icons\TQRPlayerAL_24x24.bmp"
+TQRPlayerAL16    BITMAP    "Resources\Images\Icons\TQRPlayerAL_16x16.bmp"
+TQRPlayerAL32    BITMAP    "Resources\Images\Icons\TQRPlayerAL_32x32.bmp"
+

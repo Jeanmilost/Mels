@@ -1,0 +1,14 @@
+#ifndef RESOURCES_RH
+#define RESOURCES_RH
+
+// MD3 model
+#define ID_MD3_MODEL               1001
+#define ID_MD3_TEXTURE             1002
+
+// shader
+#define ID_COLOR_VERTEX_SHADER     1003
+#define ID_COLOR_FRAGMENT_SHADER   1004
+#define ID_TEXTURE_VERTEX_SHADER   1005
+#define ID_TEXTURE_FRAGMENT_SHADER 1006
+
+#endif
