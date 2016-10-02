@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8345775C-9575-4120-94C1-1A1B7BD1762D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Base\Mels_Player_Base.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Player\Mels_Player.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Player\Mels_PlayerD.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DelphiAL">
+        <MSBuild Projects="..\..\Prerequisites\Delphi OpenAL\DelphiAL.dproj"/>
+    </Target>
+    <Target Name="DelphiAL:Clean">
+        <MSBuild Projects="..\..\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiAL:Make">
+        <MSBuild Projects="..\..\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_Player_Base">
+        <MSBuild Projects="Base\Mels_Player_Base.dproj"/>
+    </Target>
+    <Target Name="Mels_Player_Base:Clean">
+        <MSBuild Projects="Base\Mels_Player_Base.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_Player_Base:Make">
+        <MSBuild Projects="Base\Mels_Player_Base.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_Player">
+        <MSBuild Projects="Player\Mels_Player.dproj"/>
+    </Target>
+    <Target Name="Mels_Player:Clean">
+        <MSBuild Projects="Player\Mels_Player.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_Player:Make">
+        <MSBuild Projects="Player\Mels_Player.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_PlayerD">
+        <MSBuild Projects="Player\Mels_PlayerD.dproj"/>
+    </Target>
+    <Target Name="Mels_PlayerD:Clean">
+        <MSBuild Projects="Player\Mels_PlayerD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_PlayerD:Make">
+        <MSBuild Projects="Player\Mels_PlayerD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DelphiAL;Mels_Player_Base;Mels_Player;Mels_PlayerD"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DelphiAL:Clean;Mels_Player_Base:Clean;Mels_Player:Clean;Mels_PlayerD:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DelphiAL:Make;Mels_Player_Base:Make;Mels_Player:Make;Mels_PlayerD:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
