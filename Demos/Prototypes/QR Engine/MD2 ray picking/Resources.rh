@@ -1,0 +1,9 @@
+#ifndef RESOURCES_RH
+#define RESOURCES_RH
+
+// MD2 model
+#define ID_MD2_MODEL            1001
+#define ID_MD2_TEXTURE          1002
+#define ID_MD2_NORMALS_TABLE    1003
+
+#endif

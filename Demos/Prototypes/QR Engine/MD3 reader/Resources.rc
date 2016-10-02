@@ -1,0 +1,11 @@
+#include "Resources.rh"
+
+// MD3 model
+ID_ELF_BMP          DATA    "Resources\Models\elf\elf.bmp"
+ID_ELF_ANMATION_CFG DATA    "Resources\Models\elf\elf_animation.cfg"
+ID_ELF_HEAD_MD3     DATA    "Resources\Models\elf\elf_head.md3"
+ID_ELF_HEAD_SKIN    DATA    "Resources\Models\elf\elf_head.skin"
+ID_ELF_LOWER_MD3    DATA    "Resources\Models\elf\elf_lower.md3"
+ID_ELF_LOWER_SKIN   DATA    "Resources\Models\elf\elf_lower.skin"
+ID_ELF_UPPER_MD3    DATA    "Resources\Models\elf\elf_upper.md3"
+ID_ELF_UPPER_SKIN   DATA    "Resources\Models\elf\elf_upper.skin"

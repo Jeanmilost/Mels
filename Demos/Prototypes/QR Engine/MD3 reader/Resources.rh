@@ -1,0 +1,14 @@
+#ifndef RESOURCES_RH
+#define RESOURCES_RH
+
+// MD3 model
+#define ID_ELF_BMP          1001
+#define ID_ELF_ANMATION_CFG 1002
+#define ID_ELF_HEAD_MD3     1003
+#define ID_ELF_HEAD_SKIN    1004
+#define ID_ELF_LOWER_MD3    1005
+#define ID_ELF_LOWER_SKIN   1006
+#define ID_ELF_UPPER_MD3    1007
+#define ID_ELF_UPPER_SKIN   1008
+
+#endif
