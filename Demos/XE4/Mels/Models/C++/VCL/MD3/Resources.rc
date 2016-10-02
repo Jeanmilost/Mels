@@ -1,0 +1,12 @@
+#include "Resources.rh"
+
+// MD3 model
+ID_MD3_MODEL                  DATA    "Resources\Models\watercan.md3"
+ID_MD3_TEXTURE                DATA    "Resources\Models\watercan.bmp"
+
+// shader
+ID_COLOR_VERTEX_SHADER        DATA    "Resources\Shader\color_vertex.glsl"
+ID_COLOR_FRAGMENT_SHADER      DATA    "Resources\Shader\color_fragment.glsl"
+ID_TEXTURE_VERTEX_SHADER      DATA    "Resources\Shader\texture_vertex.glsl"
+ID_TEXTURE_FRAGMENT_SHADER    DATA    "Resources\Shader\texture_fragment.glsl"
+
