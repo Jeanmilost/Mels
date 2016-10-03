@@ -33,7 +33,11 @@ requires
   rtl,
   vcl,
   vclimg,
-  Mels_VCLComponentsGL;
+  Mels_VCLComponentsGL,
+  DelphiGL,
+  Mels_Base,
+  Mels_Models,
+  Mels_VCL;
 
 contains
   UTQRVCLModelsGL_Register in 'UTQRVCLModelsGL_Register.pas';

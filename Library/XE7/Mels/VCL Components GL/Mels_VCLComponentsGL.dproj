@@ -87,6 +87,7 @@
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="Mels_Base.dcp"/>
         <DCCReference Include="Mels_Models.dcp"/>
+        <DCCReference Include="DelphiGL.dcp"/>
         <DCCReference Include="UTQRVCLHelpersGL.pas"/>
         <DCCReference Include="UTQRVCLMD2ModelComponentGL.pas"/>
         <DCCReference Include="UTQRVCLModelComponentGL.pas"/>
@@ -170,7 +171,7 @@
                 </VersionInfoKeys>
             </Delphi.Personality>
             <Deployment>
-                <DeployFile LocalName="..\..\..\..\..\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Mels_VCLComponentsGL.bpl</RemoteName>
                     </Platform>
@@ -179,7 +180,7 @@
                     <Platform Name="OSX32"/>
                     <Platform Name="iOSSimulator"/>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\..\..\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Mels_VCLComponentsGL.bpl</RemoteName>
                     </Platform>

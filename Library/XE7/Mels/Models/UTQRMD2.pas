@@ -1107,14 +1107,8 @@ begin
         Exit;
     end;
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // read version
-        pBuffer.Read(fileVersion, SizeOf(fileVersion));
-    {$ELSE}
-        // read version
-        pBuffer.ReadData(fileVersion);
-    {$IFEND}
+    // read version
+    pBuffer.Read(fileVersion, SizeOf(fileVersion));
 
     // is version correct?
     if (fileVersion <> CQR_MD2_Normals_Table_File_Version) then
@@ -1123,14 +1117,8 @@ begin
         Exit;
     end;
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // read file length
-        pBuffer.Read(dataLength, SizeOf(TQRUInt32));
-    {$ELSE}
-        // read file length
-        pBuffer.ReadData(dataLength);
-    {$IFEND}
+    // read file length
+    pBuffer.Read(dataLength, SizeOf(TQRUInt32));
 
     // is file empty?
     if (dataLength = 0) then
@@ -1145,18 +1133,10 @@ begin
     // iterate through normals
     for i := 0 to dataLength - 1 do
     begin
-        // is compiling on XE2 or earlier?
-        {$IF CompilerVersion < 24}
-            // read next normal from file
-            pBuffer.Read(x, SizeOf(x));
-            pBuffer.Read(y, SizeOf(y));
-            pBuffer.Read(z, SizeOf(z));
-        {$ELSE}
-            // read next normal from file
-            pBuffer.ReadData(x);
-            pBuffer.ReadData(y);
-            pBuffer.ReadData(z);
-        {$IFEND}
+        // read next normal from file
+        pBuffer.Read(x, SizeOf(x));
+        pBuffer.Read(y, SizeOf(y));
+        pBuffer.Read(z, SizeOf(z));
 
         // set normal in table
         m_Normals[i] := TQRVector3D.Create(x, y, z);

@@ -1205,15 +1205,11 @@ class function TQRMD3Helper.BuildName(const templateName,
                                                   prefix: UnicodeString): UnicodeString;
 begin
     // no template to build from?
-    {$IF CompilerVersion < 24}
-        if (Length(templateName) = 0) then
-    {$ELSE}
-        if (templateName.IsEmpty) then
-    {$IFEND}
-        begin
-            Result := prefix;
-            Exit;
-        end;
+    if (Length(templateName) = 0) then
+    begin
+        Result := prefix;
+        Exit;
+    end;
 
     // build name from template
     Result := StringReplace(templateName, prefixKeyword, prefix, []);
@@ -1294,29 +1290,19 @@ begin
     if (m_ReadHeadOffset) then
     begin
         // is word empty?
-        {$IF CompilerVersion < 24}
-            if (Length(word) = 0) then
-        {$ELSE}
-            if (word.Length = 0) then
-        {$IFEND}
+        if (Length(word) = 0) then
+        begin
+            Result := False;
+            Exit;
+        end;
+
+        // by default, each line contains 4 numeric values, that describes the animation
+        for i := 1 to Length(word) do
+            if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
             begin
                 Result := False;
                 Exit;
             end;
-
-        // is compiling on XE2 or earlier?
-        {$IF CompilerVersion < 24}
-            // by default, each line contains 4 numeric values, that describes the animation
-            for i := 1 to Length(word) do
-        {$ELSE}
-            // by default, each line contains 4 numeric values, that describes the animation
-            for i := 1 to word.Length do
-        {$IFEND}
-                if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
 
         // search for head offset value to set
         case (m_Column) of
@@ -1343,29 +1329,19 @@ begin
     else
     begin
         // is word empty?
-        {$IF CompilerVersion < 24}
-            if (Length(word) = 0) then
-        {$ELSE}
-            if (word.Length = 0) then
-        {$IFEND}
+        if (Length(word) = 0) then
+        begin
+            Result := False;
+            Exit;
+        end;
+
+        // by default, each line contains 4 numeric values, that describes the animation
+        for i := 1 to Length(word) do
+            if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
             begin
                 Result := False;
                 Exit;
             end;
-
-        // is compiling on XE2 or earlier?
-        {$IF CompilerVersion < 24}
-            // by default, each line contains 4 numeric values, that describes the animation
-            for i := 1 to Length(word) do
-        {$ELSE}
-            // by default, each line contains 4 numeric values, that describes the animation
-            for i := 1 to word.Length do
-        {$IFEND}
-                if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
 
         // first item to parse?
         if (Length(m_Items) = 0) then
@@ -1509,78 +1485,62 @@ var
     i:          NativeUInt;
 begin
     // no line to parse?
-    {$IF CompilerVersion < 24}
-        if (Length(line) = 0) then
-    {$ELSE}
-        if (line.IsEmpty) then
-    {$IFEND}
-        begin
-            Result := True;
-            Exit;
-        end;
+    if (Length(line) = 0) then
+    begin
+        Result := True;
+        Exit;
+    end;
 
     readPath := False;
 
     // iterate through line chars
-    {$IF CompilerVersion < 24}
-        for i := 1 to Length(line) do
-    {$ELSE}
-        for i := 1 to line.Length do
-    {$IFEND}
-        begin
-            // dispatch char
-            case (line[i]) of
-                ',':
-                begin
-                    // found separator, from now path should be read
-                    readPath := True;
-                    continue;
-                end
-            else
-                // is reading path?
-                if (readPath) then
-                begin
-                    // add char to path
-                    path := path + line[i];
-                    continue;
-                end;
-
-                // add char to name
-                name := name + line[i];
+    for i := 1 to Length(line) do
+    begin
+        // dispatch char
+        case (line[i]) of
+            ',':
+            begin
+                // found separator, from now path should be read
+                readPath := True;
+                continue;
+            end
+        else
+            // is reading path?
+            if (readPath) then
+            begin
+                // add char to path
+                path := path + line[i];
+                continue;
             end;
+
+            // add char to name
+            name := name + line[i];
         end;
+    end;
 
     // empty name?
-    {$IF CompilerVersion < 24}
-        if (Length(name) = 0) then
-    {$ELSE}
-        if (name.IsEmpty) then
-    {$IFEND}
+    if (Length(name) = 0) then
+    begin
+        Result := False;
+        Exit;
+    end;
+
+    // no path?
+    if (Length(path) = 0) then
+    begin
+        // in this case, the line contains a link key. Check if the name key already exists
+        if (m_LinkKeys.IndexOf(name) <> -1) then
         begin
             Result := False;
             Exit;
         end;
 
-    // no path?
-    {$IF CompilerVersion < 24}
-        if (Length(path) = 0) then
-    {$ELSE}
-        if (path.IsEmpty) then
-    {$IFEND}
-        begin
-            // in this case, the line contains a link key. Check if the name key already exists
-            if (m_LinkKeys.IndexOf(name) <> -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+        // add link key to table
+        m_LinkKeys.Add(name);
 
-            // add link key to table
-            m_LinkKeys.Add(name);
-
-            Result := True;
-            Exit;
-        end;
+        Result := True;
+        Exit;
+    end;
 
     // name already exists in path table?
     if (m_PathTable.ContainsKey(name)) then
@@ -2087,11 +2047,7 @@ begin
                         dstIndex := l;
 
                         // search for source index by name. If not found, default index will be used
-                        {$IF CompilerVersion < 24}
-                            if (Length(srcTagName) > 0) then
-                        {$ELSE}
-                            if (not srcTagName.IsEmpty) then
-                        {$IFEND}
+                        if (Length(srcTagName) > 0) then
                             for m := 0 to tagCount - 1 do
                                 if (dstTagName = UnicodeString(AnsiString(pParser.Tags[m].m_Name))) then
                                 begin
@@ -2100,11 +2056,7 @@ begin
                                 end;
 
                         // search for dest index by name. If not found, default index will be used
-                        {$IF CompilerVersion < 24}
-                            if (Length(dstTagName) > 0) then
-                        {$ELSE}
-                            if (not dstTagName.IsEmpty) then
-                        {$IFEND}
+                        if (Length(dstTagName) > 0) then
                             for m := 0 to targetTagCount - 1 do
                                 if (srcTagName = UnicodeString(AnsiString(pTargetParser.Tags[m].m_Name))) then
                                 begin
@@ -2184,16 +2136,10 @@ begin
             m_pLock.Lock;
 
             try
-                m_TextureName := meshName;
-
-                {$IF CompilerVersion < 24}
-                    m_TextureFileName := System.Copy(texturePath,
-                                                     texturePos + 2,
-                                                     Length(texturePath) - (texturePos + 1));
-                {$ELSE}
-                    m_TextureFileName := texturePath.Substring(texturePos + 1,
-                                                               texturePath.Length - (texturePos + 1));
-                {$IFEND}
+                m_TextureName     := meshName;
+                m_TextureFileName := System.Copy(texturePath,
+                                                 texturePos + 2,
+                                                 Length(texturePath) - (texturePos + 1));
             finally
                 m_pLock.Unlock;
             end;
@@ -2249,16 +2195,10 @@ begin
             m_pLock.Lock;
 
             try
-                m_TextureName := meshName;
-
-                {$IF CompilerVersion < 24}
-                    m_TextureFileName := System.Copy(texturePath,
-                                                     texturePos + 2,
-                                                     Length(texturePath) - (texturePos + 1));
-                {$ELSE}
-                    m_TextureFileName := texturePath.Substring(texturePos + 1,
-                                                               texturePath.Length - (texturePos + 1));
-                {$IFEND}
+                m_TextureName     := meshName;
+                m_TextureFileName := System.Copy(texturePath,
+                                                 texturePos + 2,
+                                                 Length(texturePath) - (texturePos + 1));
             finally
                 m_pLock.Unlock;
             end;

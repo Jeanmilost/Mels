@@ -3,6 +3,9 @@
         <ProjectGuid>{2F4EB5EA-89EF-45B2-AF1E-C43A40166553}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -29,6 +32,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="DelphiGL">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
+    </Target>
+    <Target Name="DelphiGL:Clean">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiGL:Make">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj"/>
     </Target>
@@ -84,13 +96,13 @@
         <MSBuild Projects="MD3ScrollBox.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;MD3ScrollBox"/>
+        <CallTarget Targets="DelphiGL;Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;MD3ScrollBox"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;MD3ScrollBox:Clean"/>
+        <CallTarget Targets="DelphiGL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;MD3ScrollBox:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;MD3ScrollBox:Make"/>
+        <CallTarget Targets="DelphiGL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;MD3ScrollBox:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
