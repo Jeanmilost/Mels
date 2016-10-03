@@ -7,14 +7,10 @@
  **************************************************************************************************/
 
 #include <vcl.h>
-#pragma hdrstop
-#pragma package(smart_init) // madExcept
-#pragma link "madExcept"
-#pragma link "madLinkDisAsm"
-#pragma link "madListHardware"
-#pragma link "madListProcesses"
-#pragma link "madListModules"
 #include <tchar.h>
+
+#pragma hdrstop
+#pragma package(smart_init)
 
 //--------------------------------------------------------------------------------------------------
 USEFORM("Main.cpp", MainForm);

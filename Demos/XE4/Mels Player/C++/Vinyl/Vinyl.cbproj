@@ -56,7 +56,7 @@
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Build>1</VerInfo_Build>
-        <Icon_MainIcon>Vinyl_Icon.ico</Icon_MainIcon>
+        <Icon_MainIcon>..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
         <SanitizedProjectName>Vinyl</SanitizedProjectName>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
@@ -64,7 +64,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <VerInfo_Locale>4108</VerInfo_Locale>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;Mels_Player.lib;DelphiAL.lib;Mels_Base.lib;Mels_VCLComponentsGL.lib;Mels_Models.lib;vclimg.lib;Mels_VCL.lib;Mels_Player_Base.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;DelphiGL.lib;Mels_Base.lib;Mels_Models.lib;Mels_VCL.lib;Mels_VCLComponentsGL.lib;DelphiAL.lib;Mels_Player_Base.lib;Mels_Player.lib</AllPackageLibs>
         <ProjectType>CppVCLApplication</ProjectType>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -119,7 +119,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <ILINK_LibraryPath>C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDS)\lib\Win32\debug\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;Mels_Player.lib;DelphiAL.lib;Mels_Base.lib;Mels_VCLComponentsGL.lib;Mels_Models.lib;vclimg.lib;Mels_VCL.lib;Mels_Player_Base.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;DelphiGL.lib;Mels_Base.lib;Mels_Models.lib;Mels_VCL.lib;Mels_VCLComponentsGL.lib;DelphiAL.lib;Mels_Player_Base.lib;Mels_Player.lib</LinkPackageStatics>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -216,10 +216,10 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k210.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp210.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k180.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp180.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp180.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment/>

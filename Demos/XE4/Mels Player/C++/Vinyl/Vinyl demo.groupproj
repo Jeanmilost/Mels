@@ -3,6 +3,9 @@
         <ProjectGuid>{0A6E59D4-4815-4A4A-BF66-C076F409DB1A}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -41,6 +44,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="DelphiGL">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
+    </Target>
+    <Target Name="DelphiGL:Clean">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiGL:Make">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj"/>
     </Target>
@@ -132,13 +144,13 @@
         <MSBuild Projects="Vinyl.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;DelphiAL;Mels_Player_Base;Mels_Player;Mels_PlayerD;Vinyl"/>
+        <CallTarget Targets="DelphiGL;Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;DelphiAL;Mels_Player_Base;Mels_Player;Mels_PlayerD;Vinyl"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;DelphiAL:Clean;Mels_Player_Base:Clean;Mels_Player:Clean;Mels_PlayerD:Clean;Vinyl:Clean"/>
+        <CallTarget Targets="DelphiGL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;DelphiAL:Clean;Mels_Player_Base:Clean;Mels_Player:Clean;Mels_PlayerD:Clean;Vinyl:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;DelphiAL:Make;Mels_Player_Base:Make;Mels_Player:Make;Mels_PlayerD:Make;Vinyl:Make"/>
+        <CallTarget Targets="DelphiGL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;DelphiAL:Make;Mels_Player_Base:Make;Mels_Player:Make;Mels_PlayerD:Make;Vinyl:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
