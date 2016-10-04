@@ -1959,7 +1959,7 @@ begin
     if (Assigned(m_pJob)) then
     begin
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
+        m_pJob := nil;
     end;
 
     // delete animation
@@ -2519,7 +2519,6 @@ begin
     begin
         // delete previous job
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
         m_pJob := nil;
     end;
 

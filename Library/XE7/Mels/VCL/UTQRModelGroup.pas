@@ -699,6 +699,13 @@ type
         private
             class var m_pInstance: TQRModelWorker;
                       m_pWorker:   TQRVCLThreadWorker;
+                      m_pGarbage:  TList<TQRThreadJob>;
+
+            {**
+            * Called when a job is done
+            *@param pJob - done job
+            *}
+            procedure OnThreadJobDone(pJob: TQRThreadJob);
 
         public
             { Construction/Destruction }
@@ -1693,18 +1700,50 @@ begin
 
     inherited Create;
 
-    m_pWorker := TQRVCLThreadWorker.Create;
+    // create the garbage collector
+    m_pGarbage := TList<TQRThreadJob>.Create;
+
+    // create and configure threaded job worker
+    m_pWorker        := TQRVCLThreadWorker.Create;
+    m_pWorker.OnDone := OnThreadJobDone;
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRModelWorker.Destroy();
+var
+    i: NativeInt;
 begin
     // cancel all jobs and free the worker
     m_pWorker.Cancel;
     m_pWorker.Free;
 
+    // clear eventual remaining jobs
+    if (m_pGarbage.Count > 0) then
+        for i := 0 to m_pGarbage.Count - 1 do
+            m_pGarbage[i].Free;
+
+    // clear garbage collector
+    m_pGarbage.Free;
+
     inherited Destroy;
 
     m_pInstance := nil;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRModelWorker.OnThreadJobDone(pJob: TQRThreadJob);
+var
+    i: NativeInt;
+begin
+    // search for done job in garbage collector
+    if (m_pGarbage.Count > 0) then
+        for i := 0 to m_pGarbage.Count - 1 do
+            // found it?
+            if (pJob = m_pGarbage[i]) then
+            begin
+                // clear done job
+                m_pGarbage[i].Free;
+                m_pGarbage.Delete(i);
+                break;
+            end;
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelWorker.GetInstance(): TQRModelWorker;
@@ -1739,7 +1778,14 @@ begin
     if (not Assigned(pJob)) then
         Exit;
 
+    // delete job in worker
     m_pWorker.DeleteJob(pJob, True);
+
+    // release job, postpone destruction if still processed in worker
+    if (pJob <> m_pWorker.ProcessingJob) then
+        pJob.Free
+    else
+        m_pGarbage.Add(pJob);
 end;
 //--------------------------------------------------------------------------------------------------
 

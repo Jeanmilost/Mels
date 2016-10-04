@@ -3823,7 +3823,7 @@ begin
     if (Assigned(m_pJob)) then
     begin
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
+        m_pJob := nil;
     end;
 
     // clear postponed gestures
@@ -4455,9 +4455,7 @@ begin
     // delete model and his associated job, don't forget to unregister it from worker
     if (Assigned(m_pJob)) then
     begin
-        m_pJob.Cancel;
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
         m_pJob := nil;
     end;
 
