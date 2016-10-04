@@ -16,23 +16,9 @@
 #pragma resource "*.dfm"
 
 //--------------------------------------------------------------------------------------------------
-TMainForm *MainForm;
+TMainForm* MainForm;
 //--------------------------------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* pOwner) :
-    TForm(pOwner),
-    m_Angle(0.0f)
-{
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TMainForm::tiAnimationTimer(TObject *Sender)
-{
-    suSurface->Model->RotationZ = m_Angle;
-
-    m_Angle += 0.05f;
-
-    if (m_Angle > M_PI * 2.0)
-        m_Angle -= M_PI * 2.0;
-
-    suSurface->Invalidate();
-}
+    TForm(pOwner)
+{}
 //--------------------------------------------------------------------------------------------------

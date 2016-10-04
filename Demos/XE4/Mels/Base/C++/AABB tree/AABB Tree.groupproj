@@ -3,7 +3,7 @@
         <ProjectGuid>{F37C3A7B-17DD-4F32-8328-515B25C08270}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj">
+        <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="AABBTree.cbproj">
@@ -18,13 +18,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="Mels_Base">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
     <Target Name="Mels_Base:Clean">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Base:Make">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Make"/>
     </Target>
     <Target Name="AABBTree">
         <MSBuild Projects="AABBTree.cbproj"/>

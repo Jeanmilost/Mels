@@ -11,6 +11,7 @@
 
 // vcl
 #include <System.Classes.hpp>
+#include <Vcl.Imaging.pngimage.hpp>
 #include <Vcl.Graphics.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.ExtCtrls.hpp>
@@ -28,20 +29,14 @@ class TMainForm : public TForm
 {
     __published:
         TQRVCLSurfaceGL *suSurface;
-        TTimer *tiAnimation;
         TQRVCLBoxGL *boBox;
         TQRVCLSphereGL *spSphere;
         TQRVCLConeGL *coCone;
         TQRVCLTorusGL *toTorus;
         TQRVCLParabolaGL *prParabola;
 
-        void __fastcall tiAnimationTimer(TObject* pSender);
-
     public:
         __fastcall TMainForm(TComponent* pOwner);
-
-    private:
-        float m_Angle;
 };
 extern PACKAGE TMainForm* MainForm;
 #endif

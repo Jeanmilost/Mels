@@ -34,7 +34,6 @@ requires
   vcl,
   vclimg,
   Mels_VCLComponentsGL,
-  DelphiGL,
   Mels_Base,
   Mels_Models,
   Mels_VCL;

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Default.Personality>
-    <Projects ActiveProject="C:\Private\Devel\Mels\trunk\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
-  </Default.Personality>
+	<Default.Personality>
+		<Projects ActiveProject="C:\Private\Devel\Mels\trunk\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj"/>
+	</Default.Personality>
 </BorlandProject>

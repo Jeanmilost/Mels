@@ -6,31 +6,31 @@
         <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels Player\Base\Mels_Player_Base.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_Player.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_PlayerD.dproj">
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Vinyl.cbproj">
@@ -54,49 +54,49 @@
         <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Base">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
     <Target Name="Mels_Base:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Base:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Models">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj"/>
     </Target>
     <Target Name="Mels_Models:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Models:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_VCL">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj"/>
     </Target>
     <Target Name="Mels_VCL:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_VCL:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_VCLComponentsGL">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj"/>
     </Target>
     <Target Name="Mels_VCLComponentsGL:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_VCLComponentsGL:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_VCLComponentsGLD">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj"/>
     </Target>
     <Target Name="Mels_VCLComponentsGLD:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_VCLComponentsGLD:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Mels_VCLComponentsGLD.dproj" Targets="Make"/>
     </Target>
     <Target Name="DelphiAL">
         <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj"/>
@@ -108,31 +108,31 @@
         <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Player_Base">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Base\Mels_Player_Base.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj"/>
     </Target>
     <Target Name="Mels_Player_Base:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Base\Mels_Player_Base.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Player_Base:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Base\Mels_Player_Base.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Player">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_Player.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj"/>
     </Target>
     <Target Name="Mels_Player:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_Player.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Player:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_Player.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_PlayerD">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_PlayerD.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj"/>
     </Target>
     <Target Name="Mels_PlayerD:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_PlayerD.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_PlayerD:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE7\Mels Player\Player\Mels_PlayerD.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Vinyl">
         <MSBuild Projects="Vinyl.cbproj"/>

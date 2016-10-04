@@ -35,8 +35,7 @@ requires
   vcl,
   vclimg,
   Mels_Base,
-  Mels_Models,
-  DelphiGL;
+  Mels_Models;
 
 contains
   UTQRVCLHelpersGL in 'UTQRVCLHelpersGL.pas',

@@ -64,7 +64,7 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>rtl;vclimg;vcl;Mels_VCLComponentsGL;DelphiGL;Mels_Models;Mels_Base;Mels_VCL;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>rtl;vclimg;vcl;Mels_VCLComponentsGL;Mels_Models;Mels_Base;Mels_VCL;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -103,7 +103,6 @@
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="Mels_VCLComponentsGL.dcp"/>
-        <DCCReference Include="DelphiGL.dcp"/>
         <DCCReference Include="Mels_Base.dcp"/>
         <DCCReference Include="Mels_Models.dcp"/>
         <DCCReference Include="Mels_VCL.dcp"/>

@@ -25,6 +25,7 @@ package DelphiGL;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Delphi OpenGL Extended library'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -32,7 +33,7 @@ requires
   rtl;
 
 contains
-  XE7.OpenGL,
-  XE7.OpenGLext;
+  XE7.OpenGL in 'XE7.OpenGL.pas',
+  XE7.OpenGLext in 'XE7.OpenGLext.pas';
 
 end.

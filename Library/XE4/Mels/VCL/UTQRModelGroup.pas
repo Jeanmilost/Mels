@@ -699,6 +699,13 @@ type
         private
             class var m_pInstance: TQRModelWorker;
                       m_pWorker:   TQRVCLThreadWorker;
+                      m_pGarbage:  TList<TQRThreadJob>;
+
+            {**
+            * Called when a job is done
+            *@param pJob - done job
+            *}
+            procedure OnThreadJobDone(pJob: TQRThreadJob);
 
         public
             { Construction/Destruction }
@@ -1259,143 +1266,65 @@ var
 begin
     m_Column := 0;
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // no line to parse?
-        if (Length(line) = 0) then
-    {$ELSE}
-        // no line to parse?
-        if (line.IsEmpty) then
-    {$IFEND}
-        begin
-            Result := True;
-            Exit;
-        end;
+    // no line to parse?
+    if (Length(line) = 0) then
+    begin
+        Result := True;
+        Exit;
+    end;
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // search for comment marker
-        commentPos := System.Pos('//', line) - 1;
+    // search for comment marker
+    commentPos := System.Pos('//', line) - 1;
 
-        // if not found, set to -1 (it's the position that IndexOf() returns in this case)
-        if (commentPos = 0) then
-            commentPos := -1;
-    {$ELSE}
-        // search for comment marker
-        commentPos := line.IndexOf('//', 1);
-    {$IFEND}
+    // if not found, set to -1 (it's the position that IndexOf() returns in this case)
+    if (commentPos = 0) then
+        commentPos := -1;
 
     // found it?
     if (commentPos = 0) then
         // no, parse entire line
         data := line
     else
-        // is compiling on XE2 or earlier?
-        {$IF CompilerVersion < 24}
-            // yes, parse only the uncommented line part
-            data := Trim(System.Copy(line, 1, commentPos - 1));
-        {$ELSE}
-            // yes, parse only the uncommented line part
-            data := line.Substring(0, commentPos - 1).Trim;
-        {$IFEND}
+        // yes, parse only the uncommented line part
+        data := Trim(System.Copy(line, 1, commentPos - 1));
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // nothing to parse?
-        if (Length(data) = 0) then
-    {$ELSE}
-        // nothing to parse?
-        if (data.IsEmpty) then
-    {$IFEND}
-        begin
-            Result := True;
-            Exit;
-        end;
+    // nothing to parse?
+    if (Length(data) = 0) then
+    begin
+        Result := True;
+        Exit;
+    end;
 
     // don't forget, the UnicodeString index system is 1 based
     i    := 1;
     word := '';
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // iterate through line chars
-        while (i <= Length(data)) do
-    {$ELSE}
-        // iterate through line chars
-        while (i <= data.Length) do
-    {$IFEND}
-        begin
-            // search for char
-            case (data[i]) of
-                '/',
-                '*':
-                begin
-                    // is compiling on XE2 or earlier?
-                    {$IF CompilerVersion < 24}
-                        // found a long comment (i.e. comment between /* and */) start or end mark?
-                        if ((i + 1) <= Length(data)) then
-                    {$ELSE}
-                        // found a long comment (i.e. comment between /* and */) start or end mark?
-                        if ((i + 1) <= data.Length) then
-                    {$IFEND}
-                            if ((data[i] = '/') and (data[i + 1] = '*')) then
-                            begin
-                                m_LongComment := True;
-                                Inc(i);
-                            end
-                            else
-                            if ((data[i] = '*') and (data[i + 1] = '/')) then
-                            begin
-                                m_LongComment := False;
-                                Inc(i);
-                            end;
-                end;
-
-                ' ',
-                #09:
-                begin
-                    // skip all chars inside a long comment
-                    if (m_LongComment) then
+    // iterate through line chars
+    while (i <= Length(data)) do
+    begin
+        // search for char
+        case (data[i]) of
+            '/',
+            '*':
+            begin
+                // found a long comment (i.e. comment between /* and */) start or end mark?
+                if ((i + 1) <= Length(data)) then
+                    if ((data[i] = '/') and (data[i + 1] = '*')) then
                     begin
+                        m_LongComment := True;
                         Inc(i);
-                        continue;
+                    end
+                    else
+                    if ((data[i] = '*') and (data[i + 1] = '/')) then
+                    begin
+                        m_LongComment := False;
+                        Inc(i);
                     end;
+            end;
 
-                    // is compiling on XE2 or earlier?
-                    {$IF CompilerVersion < 24}
-                        // found word to parse?
-                        if (Length(word) > 0) then
-                    {$ELSE}
-                        // found word to parse?
-                        if (not word.IsEmpty) then
-                    {$IFEND}
-                        begin
-                            // parse it
-                            if (not ParseWord(word, lineNb)) then
-                            begin
-                                Result := False;
-                                Exit;
-                            end;
-
-                            // clear parsed word to read next
-                            word := '';
-                        end;
-
-                    // is compiling on XE2 or earlier?
-                    {$IF CompilerVersion < 24}
-                        // skip all remaining spaces
-                        while (((i + 1) <= Length(data)) and
-                               ((data[i + 1] = ' ') or (data[i + 1] = '\t')))
-                        do
-                    {$ELSE}
-                        // skip all remaining spaces
-                        while (((i + 1) <= data.Length) and
-                               ((data[i + 1] = ' ') or (data[i + 1] = '\t')))
-                        do
-                    {$IFEND}
-                            Inc(i);
-                end
-            else
+            ' ',
+            #09:
+            begin
                 // skip all chars inside a long comment
                 if (m_LongComment) then
                 begin
@@ -1403,12 +1332,40 @@ begin
                     continue;
                 end;
 
-                // add char to word
-                word := word + data[i];
+                // found word to parse?
+                if (Length(word) > 0) then
+                begin
+                    // parse it
+                    if (not ParseWord(word, lineNb)) then
+                    begin
+                        Result := False;
+                        Exit;
+                    end;
+
+                    // clear parsed word to read next
+                    word := '';
+                end;
+
+                // skip all remaining spaces
+                while (((i + 1) <= Length(data)) and
+                       ((data[i + 1] = ' ') or (data[i + 1] = '\t')))
+                do
+                    Inc(i);
+            end
+        else
+            // skip all chars inside a long comment
+            if (m_LongComment) then
+            begin
+                Inc(i);
+                continue;
             end;
 
-            Inc(i);
+            // add char to word
+            word := word + data[i];
         end;
+
+        Inc(i);
+    end;
 
     // skip all chars inside a long comment
     if (m_LongComment) then
@@ -1417,19 +1374,13 @@ begin
         Exit;
     end;
 
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // last word to parse?
-        if (Length(word) > 0) then
-    {$ELSE}
-        // last word to parse?
-        if (not word.IsEmpty) then
-    {$IFEND}
-        begin
-            // parse it
-            Result := ParseWord(word, lineNb);
-            Exit;
-        end;
+    // last word to parse?
+    if (Length(word) > 0) then
+    begin
+        // parse it
+        Result := ParseWord(word, lineNb);
+        Exit;
+    end;
 
     Result := True;
 end;
@@ -1749,18 +1700,50 @@ begin
 
     inherited Create;
 
-    m_pWorker := TQRVCLThreadWorker.Create;
+    // create the garbage collector
+    m_pGarbage := TList<TQRThreadJob>.Create;
+
+    // create and configure threaded job worker
+    m_pWorker        := TQRVCLThreadWorker.Create;
+    m_pWorker.OnDone := OnThreadJobDone;
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRModelWorker.Destroy();
+var
+    i: NativeInt;
 begin
     // cancel all jobs and free the worker
     m_pWorker.Cancel;
     m_pWorker.Free;
 
+    // clear eventual remaining jobs
+    if (m_pGarbage.Count > 0) then
+        for i := 0 to m_pGarbage.Count - 1 do
+            m_pGarbage[i].Free;
+
+    // clear garbage collector
+    m_pGarbage.Free;
+
     inherited Destroy;
 
     m_pInstance := nil;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRModelWorker.OnThreadJobDone(pJob: TQRThreadJob);
+var
+    i: NativeInt;
+begin
+    // search for done job in garbage collector
+    if (m_pGarbage.Count > 0) then
+        for i := 0 to m_pGarbage.Count - 1 do
+            // found it?
+            if (pJob = m_pGarbage[i]) then
+            begin
+                // clear done job
+                m_pGarbage[i].Free;
+                m_pGarbage.Delete(i);
+                break;
+            end;
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelWorker.GetInstance(): TQRModelWorker;
@@ -1795,7 +1778,14 @@ begin
     if (not Assigned(pJob)) then
         Exit;
 
+    // delete job in worker
     m_pWorker.DeleteJob(pJob, True);
+
+    // release job, postpone destruction if still processed in worker
+    if (pJob <> m_pWorker.ProcessingJob) then
+        pJob.Free
+    else
+        m_pGarbage.Add(pJob);
 end;
 //--------------------------------------------------------------------------------------------------
 

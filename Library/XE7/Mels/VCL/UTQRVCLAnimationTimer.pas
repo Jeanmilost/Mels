@@ -57,6 +57,9 @@ type
             constructor Create();
             destructor  Destroy(); override;
 
+            function _AddRef: Integer; stdcall;
+            function _Release: Integer; stdcall;
+
             {**
             * Gets animation timer instance, creates one if still not created
             *@return model cache instance
@@ -197,6 +200,35 @@ begin
         // notify observer about message
         pItem.OnNotified(message);
     end;
+end;
+//--------------------------------------------------------------------------------------------------
+
+function TQRVCLAnimationTimer._AddRef: Integer;
+begin
+    Result := inherited _AddRef;
+end;
+function TQRVCLAnimationTimer._Release: Integer;
+begin
+    Result := inherited _Release;
+end;
+
+initialization
+//--------------------------------------------------------------------------------------------------
+// TQRModelWorker
+//--------------------------------------------------------------------------------------------------
+begin
+end;
+//--------------------------------------------------------------------------------------------------
+
+finalization
+//--------------------------------------------------------------------------------------------------
+// TQRModelWorker
+//--------------------------------------------------------------------------------------------------
+begin
+    // free instance when application closes
+    if (Assigned(TQRVCLAnimationTimer.m_pInstance)) then
+    TQRVCLAnimationTimer.m_pInstance._Release;
+    //REM TQRVCLAnimationTimer.m_pInstance := nil;
 end;
 //--------------------------------------------------------------------------------------------------
 

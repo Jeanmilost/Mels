@@ -329,16 +329,33 @@ end;
 class function TQRFileHelper.AppendDelimiter(const dirName: UnicodeString;
                                                  delimiter: Char): UnicodeString;
 begin
-    // is name empty?
-    if (Length(dirName) = 0) then
-    begin
-        SetLength(Result, 1);
-        Result[1] := delimiter;
-        Exit;
-    end;
+    // is compiling on XE2 or earlier?
+    {$IF CompilerVersion < 24}
+        // is name empty?
+        if (Length(dirName) = 0) then
+    {$ELSE}
+        // is name empty?
+        if (dirName.IsEmpty) then
+    {$IFEND}
+        begin
+            // is compiling on XE2 or earlier?
+            {$IF CompilerVersion < 24}
+                SetLength(Result, 1);
+                Result[1] := delimiter;
+            {$ELSE}
+                Result := UnicodeString.Create(delimiter, 1);
+            {$IFEND}
+            Exit;
+        end;
 
-    // dir name already contains delimiter at end?
-    if (dirName[Length(dirName)] = delimiter) then
+    // is compiling on XE2 or earlier?
+    {$IF CompilerVersion < 24}
+        // dir name already contains delimiter at end?
+        if (dirName[Length(dirName)] = delimiter) then
+    {$ELSE}
+        // dir name already contains delimiter at end?
+        if (dirName.Chars[Length(dirName) - 1] = delimiter) then
+    {$IFEND}
     begin
         Result := dirName;
         Exit;

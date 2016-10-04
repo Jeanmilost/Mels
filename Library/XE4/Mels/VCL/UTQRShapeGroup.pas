@@ -987,7 +987,7 @@ begin
     if (Assigned(m_pJob)) then
     begin
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
+        m_pJob := nil;
     end;
 
     inherited Destroy;
@@ -1000,7 +1000,6 @@ begin
     begin
         // delete previous job
         TQRModelWorker.GetInstance.CancelJob(m_pJob);
-        m_pJob.Free;
         m_pJob := nil;
     end;
 end;

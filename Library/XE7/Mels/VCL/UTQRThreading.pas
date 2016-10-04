@@ -216,7 +216,11 @@ type
             m_fOnDone:        TQRThreadJobDoneEvent;
             m_fOnCanceled:    TQRThreadJobCancelEvent;
             m_fOnIdle:        TQRThreadJobIdleEvent;
-            m_Started:        Boolean;
+
+            // is compiling on XE4 or earlier?
+            {$IF CompilerVersion < 26}
+                m_Started: Boolean;
+            {$IFEND}
 
         protected
             {**
@@ -343,7 +347,11 @@ type
             property OnDone:        TQRThreadJobDoneEvent    read GetOnDone     write SetOnDone;
             property OnCanceled:    TQRThreadJobCancelEvent  read GetOnCanceled write SetOnCanceled;
             property OnIdle:        TQRThreadJobIdleEvent    read GetOnIdle     write SetOnIdle;
-            property Started:       Boolean                  read m_Started;
+
+            // is compiling on XE4 or earlier?
+            {$IF CompilerVersion < 26}
+                property Started: Boolean read m_Started;
+            {$IFEND}
     end;
 
 implementation
@@ -491,7 +499,11 @@ begin
     m_fOnProcess     := nil;
     m_fOnDone        := nil;
     m_fOnCanceled    := nil;
-    m_Started        := False;
+
+    // is compiling on XE4 or earlier?
+    {$IF CompilerVersion < 26}
+        m_Started := False;
+    {$IFEND}
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLThreadWorker.Destroy();
@@ -499,9 +511,14 @@ begin
     // break the thread execution
     Terminate();
 
-    if (m_Started) then
-        // wait until worker has really stopped to work
-        WaitFor();
+    // is compiling on XE4 or earlier?
+    {$IF CompilerVersion < 26}
+        if (m_Started) then
+    {$ELSE}
+        if (Started) then
+    {$IFEND}
+            // wait until worker has really stopped to work
+            WaitFor();
 
     m_pJobs.Free;
     m_pLock.Free;
@@ -579,7 +596,10 @@ var
     idle, success:  Boolean;
     fOnIdle:        TQRThreadJobIdleEvent;
 begin
-    m_Started := True;
+    // is compiling on XE4 or earlier?
+    {$IF CompilerVersion < 26}
+        m_Started := True;
+    {$IFEND}
 
     // repeat thread execution until terminated
     while (not Terminated) do
@@ -865,12 +885,17 @@ begin
         m_pLock.Unlock();
     end;
 
-    if (m_Started and running) then
-    begin
-        // wait until worker has really stopped to work
-        Terminate;
-        WaitFor();
-    end;
+    // is compiling on XE4 or earlier?
+    {$IF CompilerVersion < 26}
+        if (m_Started and running) then
+    {$ELSE}
+        if (Started and running) then
+    {$IFEND}
+        begin
+            // wait until worker has really stopped to work
+            Terminate;
+            WaitFor();
+        end;
 
     // notify that job is canceled
     Synchronize(OnCanceledNotify);

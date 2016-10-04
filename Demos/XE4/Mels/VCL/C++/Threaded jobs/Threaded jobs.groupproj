@@ -3,13 +3,13 @@
         <ProjectGuid>{62D0224B-4FD6-4E58-B7C2-C71EE01481FD}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj">
+        <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj">
+        <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj">
+        <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="ThreadedJobs.cbproj">
@@ -24,31 +24,31 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="Mels_Base">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
     <Target Name="Mels_Base:Clean">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Base:Make">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Base\Mels_Base.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Models">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj"/>
     </Target>
     <Target Name="Mels_Models:Clean">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Models:Make">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\Models\Mels_Models.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Models\Mels_Models.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_VCL">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj"/>
     </Target>
     <Target Name="Mels_VCL:Clean">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_VCL:Make">
-        <MSBuild Projects="..\..\..\..\..\..\Library\XE7\Mels\VCL\Mels_VCL.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\VCL\Mels_VCL.dproj" Targets="Make"/>
     </Target>
     <Target Name="ThreadedJobs">
         <MSBuild Projects="ThreadedJobs.cbproj"/>
