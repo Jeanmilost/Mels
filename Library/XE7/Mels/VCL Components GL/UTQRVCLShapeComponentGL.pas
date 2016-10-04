@@ -839,10 +839,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
-    // is component in design time?
-    if (csDesigning in ComponentState) then
-        // invalidate model to repaint it, as in design time animation isn't running
-        Invalidate();
+    // invalidate model to repaint it
+    Invalidate();
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnTextureChanged(pSender: TObject);

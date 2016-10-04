@@ -853,9 +853,9 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
-    // is component in design time?
+    // no animation is running or component is in design time?
     if (m_NoAnimation or (csDesigning in ComponentState)) then
-        // invalidate model to repaint it, as in design time animation isn't running
+        // invalidate model to repaint it
         Invalidate();
 end;
 //--------------------------------------------------------------------------------------------------
