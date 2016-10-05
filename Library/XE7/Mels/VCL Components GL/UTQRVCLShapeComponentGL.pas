@@ -9,15 +9,8 @@
 unit UTQRVCLShapeComponentGL;
 
 interface
-
-// is compiling on XE4 or earlier?
-{$IF CompilerVersion < 26}
-    // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE XE7.OpenGLext *)
-{$ELSE}
     // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
     (*$NOINCLUDE Winapi.OpenGLext *)
-{$ENDIF}
 
 uses System.Classes,
      System.SysUtils,
@@ -36,13 +29,8 @@ uses System.Classes,
      Vcl.Graphics,
      Vcl.Controls,
      Winapi.Windows,
-     {$IF CompilerVersion < 26}
-         // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-         // earlier, so the DelphiGL component (provided with installation) should be used instead
-         XE7.OpenGL, XE7.OpenGLext;
-     {$ELSE}
-         Winapi.OpenGL, Winapi.OpenGLext;
-     {$ENDIF}
+     Winapi.OpenGL,
+     Winapi.OpenGLext;
 
 type
     {**

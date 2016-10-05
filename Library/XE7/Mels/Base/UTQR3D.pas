@@ -486,15 +486,9 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRShader.SetAttributeName(attribute: EQRShaderAttribute; const name: UnicodeString);
 begin
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // is name empty?
-        if (Length(name) = 0) then
-    {$ELSE}
-        // is name empty?
-        if (name.IsEmpty) then
-    {$IFEND}
-            Exit;
+    // is name empty?
+    if (name.IsEmpty) then
+        Exit;
 
     // no dictionary defined?
     if (not Assigned(m_pAttributeDictionary)) then

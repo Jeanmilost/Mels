@@ -648,32 +648,20 @@ var
     i:       NativeUInt;
     gesture: NativeInt;
 begin
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // nothing to parse?
-        if (Length(word) = 0) then
-    {$ELSE}
-        // nothing to parse?
-        if (word.IsEmpty) then
-    {$IFEND}
+    // nothing to parse?
+    if (word.IsEmpty) then
+    begin
+        Result := True;
+        Exit;
+    end;
+
+    // by default, each line contains 4 numeric values, that describes the animation
+    for i := 1 to word.Length do
+        if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], False))) then
         begin
-            Result := True;
+            Result := False;
             Exit;
         end;
-
-    // is compiling on XE2 or earlier?
-    {$IF CompilerVersion < 24}
-        // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to Length(word) do
-    {$ELSE}
-        // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to word.Length do
-    {$IFEND}
-            if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], False))) then
-            begin
-                Result := False;
-                Exit;
-            end;
 
     // first item to parse?
     if (Length(m_Items) = 0) then

@@ -15,7 +15,8 @@ interface
 
 // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and earlier, so
 // the DelphiGL component (provided with installation) should be used instead
-uses XE7.OpenGL, XE7.OpenGLext;
+uses XE7.OpenGL,
+     XE7.OpenGLext;
 
 type
     {**

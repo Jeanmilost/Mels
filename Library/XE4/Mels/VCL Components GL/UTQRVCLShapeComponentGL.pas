@@ -31,7 +31,8 @@ uses System.Classes,
      Winapi.Windows,
      // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
      // earlier, so the DelphiGL component (provided with installation) should be used instead
-     XE7.OpenGL, XE7.OpenGLext;
+     XE7.OpenGL,
+     XE7.OpenGLext;
 
 type
     {**
