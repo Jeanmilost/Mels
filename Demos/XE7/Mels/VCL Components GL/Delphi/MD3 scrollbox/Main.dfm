@@ -1,7 +1,8 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  BorderStyle = bsDialog
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Illustrated text'
   ClientHeight = 510
   ClientWidth = 310
@@ -191,7 +192,6 @@ object MainForm: TMainForm
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
-      Zoom = 100
     end
     object btSaveToFile: TButton
       AlignWithMargins = True

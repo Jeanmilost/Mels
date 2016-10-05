@@ -46,7 +46,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Icon_MainIcon>AABBTree_Icon.ico</Icon_MainIcon>
+        <Icon_MainIcon>..\..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
         <IncludePath>..\..\..\..\..\Common\C++\;.\..\..\..\..\..\Common\C++\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\..\..\..\..\Common\C++\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_InstructionSet>6</BCC_InstructionSet>

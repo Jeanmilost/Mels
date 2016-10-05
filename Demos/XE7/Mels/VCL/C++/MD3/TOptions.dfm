@@ -2,7 +2,7 @@ object Options: TOptions
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Lara - Options'
   ClientHeight = 420
   ClientWidth = 408

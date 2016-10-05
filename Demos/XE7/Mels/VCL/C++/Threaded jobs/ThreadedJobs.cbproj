@@ -8,7 +8,7 @@
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <TargetedPlatforms>1</TargetedPlatforms>
+        <TargetedPlatforms>3</TargetedPlatforms>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -56,7 +56,7 @@
         <Multithreaded>true</Multithreaded>
         <IncludePath>..\..\..\..\..\Common\C++\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>..\..\..\..\..\Common\C++\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <Icon_MainIcon>ThreadedJobs_Icon.ico</Icon_MainIcon>
+        <Icon_MainIcon>..\..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
         <AllPackageLibs>rtl.lib;vcl.lib;Mels_Base.lib;Mels_Models.lib;Mels_VCL.lib;vclimg.lib</AllPackageLibs>
         <SanitizedProjectName>ThreadedJobs</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
