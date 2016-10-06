@@ -10,6 +10,10 @@
 #pragma hdrstop
 #include "Main.h"
 
+#include <memory>
+
+#include "Resources.rh"
+
 #pragma package(smart_init)
 #pragma link "UTQRPlayerAL"
 #pragma link "UTQRVCLModelComponentGL"
@@ -23,6 +27,26 @@ __fastcall TMainForm::TMainForm(TComponent* pOwner) :
     TForm(pOwner),
     m_Angle(M_PI * 2.0f)
 {}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TMainForm::FormCreate(TObject* pSender)
+{
+    // get music from resources
+    std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance, ID_MUSIC, L"DATA"));
+    std::auto_ptr<TMemoryStream>   pBuffer(new TMemoryStream());
+    pBuffer->CopyFrom(pVertexPrg.get(), pVertexPrg->Size);
+
+    // load music
+    if (!mpPlayer->Open((unsigned char*)pBuffer->Memory, pBuffer->Size))
+    {
+        ::MessageDlg("Could not load music.\r\n\r\nApplication will close.",
+                     mtError,
+                     TMsgDlgButtons() << mbOK,
+                     0);
+
+        Application->Terminate();
+        return;
+    }
+}
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::imStartClick(TObject* pSender)
 {

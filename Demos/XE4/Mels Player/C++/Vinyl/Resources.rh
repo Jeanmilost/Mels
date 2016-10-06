@@ -1,0 +1,7 @@
+#ifndef RESOURCES_RH
+#define RESOURCES_RH
+
+// music
+#define ID_MUSIC 1001
+
+#endif

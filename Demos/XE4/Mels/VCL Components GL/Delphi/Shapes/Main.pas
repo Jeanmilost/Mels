@@ -1,31 +1,48 @@
+{**************************************************************************************************
+ * ==> Main --------------------------------------------------------------------------------------*
+ **************************************************************************************************
+ * Description : Shapes demo main form                                                            *
+ * Developer   : Jean-Milost Reymond                                                              *
+ * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
+ **************************************************************************************************}
+
 unit Main;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UTQRVCLShapeComponentGL, Vcl.Imaging.pngimage,
-  UTQRVCLModelComponentGL;
+uses System.SysUtils,
+     System.Variants,
+     System.Classes,
+     Vcl.Graphics,
+     Vcl.Imaging.pngimage,
+     Vcl.Controls,
+     Vcl.Forms,
+     Vcl.Dialogs,
+     Winapi.Windows,
+     Winapi.Messages,
+     UTQRVCLShapeComponentGL,
+     UTQRVCLModelComponentGL;
 
 type
-  TForm1 = class(TForm)
-    suSurface: TQRVCLSurfaceGL;
-    boBox: TQRVCLBoxGL;
-    spSphere: TQRVCLSphereGL;
-    coCone: TQRVCLConeGL;
-    toTorus: TQRVCLTorusGL;
-    prParabola: TQRVCLParabolaGL;
-  private
-    { Private declarations }
-  public
-    { Public declarations }
-  end;
+    {**
+    * Shapes demo
+    *}
+    TMainForm = class(TForm)
+        published
+            suSurface: TQRVCLSurfaceGL;
+            boBox: TQRVCLBoxGL;
+            spSphere: TQRVCLSphereGL;
+            coCone: TQRVCLConeGL;
+            toTorus: TQRVCLTorusGL;
+            prParabola: TQRVCLParabolaGL;
+    end;
 
 var
-  Form1: TForm1;
+    MainForm: TMainForm;
 
 implementation
-
+//--------------------------------------------------------------------------------------------------
 {$R *.dfm}
+//--------------------------------------------------------------------------------------------------
 
 end.

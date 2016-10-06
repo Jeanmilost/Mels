@@ -1,4 +1,4 @@
-object Form1: TForm1
+object MainForm: TMainForm
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
@@ -13,6 +13,7 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object suSurface: TQRVCLSurfaceGL
@@ -34413,8 +34414,8 @@ object Form1: TForm1
       0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0E
       FF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E0EFF0E
       0EFF}
-    InnerRadiusX = 0.800000011920929000
-    InnerRadiusY = 0.800000011920929000
+    InnerRadiusX = 0.800000011920928900
+    InnerRadiusY = 0.800000011920928900
     OuterRadiusX = 0.200000002980232200
     OuterRadiusY = 0.200000002980232200
   end

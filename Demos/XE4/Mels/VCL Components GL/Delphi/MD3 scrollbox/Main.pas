@@ -10,9 +10,7 @@ unit Main;
 
 interface
 
-uses Winapi.Windows,
-     Winapi.Messages,
-     System.SysUtils,
+uses System.SysUtils,
      System.Variants,
      System.Classes,
      Vcl.Graphics,
@@ -21,6 +19,8 @@ uses Winapi.Windows,
      Vcl.ComCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.Windows,
+     Winapi.Messages,
      UTQRVCLModelComponentGL,
      UTQRVCLMD3ModelComponentGL;
 
@@ -46,8 +46,8 @@ type
             m3Model: TQRVCLMD3ModelGL;
             sdSave: TSaveDialog;
 
-            procedure btSaveToFileClick(pSender: TObject);
             procedure FormShow(pSender: TObject);
+            procedure btSaveToFileClick(pSender: TObject);
     end;
 
 var

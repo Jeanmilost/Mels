@@ -5,7 +5,7 @@ package Mels_Player_Base;
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
-{$DEBUGINFO OFF}
+{$DEBUGINFO ON}
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
@@ -33,6 +33,6 @@ requires
   rtl;
 
 contains
-  UTQRPlayer in 'UTQRPlayer.pas';
+  UTQRPlayer;
 
 end.

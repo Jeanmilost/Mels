@@ -141,6 +141,12 @@
             <DependentOn>Main.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <ResourceCompile Include="Resources.rc">
+            <ModuleName>Resources.rc</ModuleName>
+            <Form>Resources.res</Form>
+            <BuildOrder>3</BuildOrder>
+        </ResourceCompile>
+        <None Include="Resources.rh"/>
         <CppCompile Include="Vinyl.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
