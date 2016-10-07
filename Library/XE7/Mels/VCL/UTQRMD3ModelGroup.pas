@@ -1187,19 +1187,19 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3Helper
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3Helper.Create();
 begin
     inherited Create;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3Helper.Destroy();
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMD3Helper.BuildName(const templateName,
                                            prefixKeyword,
                                                   prefix: UnicodeString): UnicodeString;
@@ -1214,7 +1214,7 @@ begin
     // build name from template
     Result := StringReplace(templateName, prefixKeyword, prefix, []);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMD3Helper.BuildTagName(const itemName: UnicodeString): UnicodeString;
 var
     name: UnicodeString;
@@ -1229,9 +1229,9 @@ begin
     else
         Result := '';
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3AnimCfgFile
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3AnimCfgFile.Create();
 begin
     inherited Create;
@@ -1243,12 +1243,12 @@ begin
     m_ReadHeadOffset := False;
     m_ReadFootSteps  := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3AnimCfgFile.Destroy();
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean;
 begin
     m_ReadGender     := False;
@@ -1257,7 +1257,7 @@ begin
 
     Result := inherited OnParseLine(line, lineNb);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
 var
     i, index: NativeUInt;
@@ -1392,7 +1392,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3AnimCfgFile.Clear();
 begin
     inherited Clear;
@@ -1409,22 +1409,22 @@ begin
     m_ReadHeadOffset := False;
     m_ReadFootSteps  := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.GetGender(): EQRMD3Gender;
 begin
     Result := m_Gender;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.GetHeadOffset(): PQRMD3AnimCfgFileHeadOffset;
 begin
     Result := @m_HeadOffset;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.GetFootSteps(): PQRMD3AnimCfgFileFootSteps;
 begin
     Result := @m_FootSteps;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMD3AnimCfgFile.GestureToStr(gesture: EQRMD3AnimationGesture): UnicodeString;
 begin
     case (gesture) of
@@ -1458,9 +1458,9 @@ begin
         raise Exception.Create('Unknown animation type');
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3Skin
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3Skin.Create();
 begin
     inherited Create;
@@ -1468,7 +1468,7 @@ begin
     m_PathTable := TQRMD3PathTable.Create;
     m_LinkKeys  := TQRMD3LinkKeys.Create;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3Skin.Destroy();
 begin
     // clear memory
@@ -1477,7 +1477,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Skin.OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean;
 var
     name, path: UnicodeString;
@@ -1554,13 +1554,13 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Skin.Clear();
 begin
     m_PathTable.Clear();
     m_LinkKeys.Clear();
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Skin.GetPath(const name: UnicodeString): UnicodeString;
 begin
     // name exists in table?
@@ -1572,9 +1572,9 @@ begin
 
     Result := m_PathTable[name];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3AnimationItem
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3AnimationItem.Create;
 begin
     inherited Create;
@@ -1584,7 +1584,7 @@ begin
     m_FramesPerSecond := 0;
     m_Loop            := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3AnimationItem.Create(startFrame, endFrame, fps: NativeUInt; loop: Boolean);
 begin
     inherited Create;
@@ -1594,14 +1594,14 @@ begin
     m_FramesPerSecond := fps;
     m_Loop            := loop;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3AnimationItem.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3ModelLink
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3ModelLink.Create;
 begin
     inherited Create;
@@ -1609,7 +1609,7 @@ begin
     m_TagIndex := 0;
     m_pItem    := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3ModelLink.Create(tagIndex: NativeUInt; const pItem: Pointer);
 begin
     inherited Create;
@@ -1617,14 +1617,14 @@ begin
     m_TagIndex := tagIndex;
     m_pItem    := pItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3ModelLink.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3ModelItem
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3ModelItem.Create;
 begin
     inherited Create;
@@ -1638,7 +1638,7 @@ begin
     m_CacheIndex  := 0;
     m_RhToLh      := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3ModelItem.Destroy;
 var
     i:        Cardinal;
@@ -1678,7 +1678,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3ModelItem.AddLink(var links: TQRMD3ModelLinks;
                               const pTarget: TQRMD3ModelItem;
                                    tagIndex: NativeUInt);
@@ -1701,7 +1701,7 @@ begin
     SetLength(links, index + 1);
     links[index] := TQRMD3ModelLink.Create(tagIndex, pTarget);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetAnimation(gesture: EQRMD3AnimationGesture): TQRMD3AnimationItem;
 begin
     if (not m_pAnimations.ContainsKey(gesture)) then
@@ -1712,7 +1712,7 @@ begin
 
     Result := m_pAnimations[gesture];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3ModelItem.SetAnimation(gesture: EQRMD3AnimationGesture;
                               const pAnimation: TQRMD3AnimationItem);
 begin
@@ -1725,7 +1725,7 @@ begin
 
     m_pAnimations.Add(gesture, pAnimation);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetTexture(index: NativeInt): TQRTexture;
 begin
     if (index >= Length(m_Textures)) then
@@ -1736,7 +1736,7 @@ begin
 
     Result := m_Textures[index];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetLinkFrom(index: NativeInt): TQRMD3ModelLink;
 begin
     if (index >= Length(m_LinksFrom)) then
@@ -1747,7 +1747,7 @@ begin
 
     Result := m_LinksFrom[index];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetLinkTo(index: NativeInt): TQRMD3ModelLink;
 begin
     if (index >= Length(m_LinksTo)) then
@@ -1758,27 +1758,27 @@ begin
 
     Result := m_LinksTo[index];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetTextureCount: NativeInt;
 begin
     Result := Length(m_Textures);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetLinksFromCount: NativeInt;
 begin
     Result := Length(m_LinksFrom);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetLinksToCount: NativeInt;
 begin
     Result := Length(m_LinksTo);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3ModelItem.GetAnimationCount: NativeInt;
 begin
     Result := m_pAnimations.Count;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3ModelItem.AddTexture(const pTexture: TQRTexture);
 var
     index: NativeUInt;
@@ -1787,19 +1787,19 @@ begin
     SetLength(m_Textures, index + 1);
     m_Textures[index] := pTexture;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3ModelItem.AddLinkFrom(tagIndex: NativeUInt; const pTarget: TQRMD3ModelItem);
 begin
     AddLink(m_LinksFrom, pTarget, tagIndex);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3ModelItem.AddLinkTo(tagIndex: NativeUInt; const pTarget: TQRMD3ModelItem);
 begin
     AddLink(m_LinksTo, pTarget, tagIndex);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3GroupInfo
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3GroupInfo.Create(createDefaultPrefixes: Boolean);
 begin
     inherited Create;
@@ -1817,7 +1817,7 @@ begin
         m_pPrefixes.Add('head');
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3GroupInfo.Create(const pOther: TQRMD3GroupInfo);
 begin
     inherited Create;
@@ -1835,7 +1835,7 @@ begin
     m_AnimTemplate  := pOther.m_AnimTemplate;
     m_pPrefixes.Assign(pOther.m_pPrefixes);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3GroupInfo.Destroy();
 begin
     // clear memory
@@ -1843,7 +1843,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3GroupInfo.GetPrefix(index: NativeInt): UnicodeString;
 begin
     // is index out of bounds?
@@ -1855,12 +1855,12 @@ begin
 
     Result := m_pPrefixes[index];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3GroupInfo.GetPrefixCount(): NativeInt;
 begin
     Result := m_pPrefixes.Count;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3GroupInfo.AddPrefix(const prefix: UnicodeString);
 var
     index: Integer;
@@ -1871,9 +1871,9 @@ begin
 
     m_pPrefixes.Add(prefix);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3Job
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3Job.Create(pGroup: TQRModelGroup;
                         const pInfo: TQRMD3GroupInfo;
                        const pColor: TQRColor;
@@ -1896,7 +1896,7 @@ begin
     m_FramedModelOptions :=  framedModelOptions;
     m_fOnLoadTexture     :=  fOnLoadTexture;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3Job.Destroy();
 var
     i: NativeInt;
@@ -1921,7 +1921,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.GetItem(index: NativeInt): TQRMD3ModelItem;
 begin
     m_pLock.Lock;
@@ -1938,7 +1938,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.GetItem(const name: UnicodeString): TQRMD3ModelItem;
 begin
     m_pLock.Lock;
@@ -1955,21 +1955,21 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.GetFramedModelOptions(): TQRFramedModelOptions;
 begin
     m_pLock.Lock;
     Result := m_FramedModelOptions;
     m_pLock.Unlock;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Job.SetFramedModelOptions(options: TQRFramedModelOptions);
 begin
     m_pLock.Lock;
     m_FramedModelOptions := options;
     m_pLock.Unlock;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Job.LinkModel();
 var
     itemCount, tagCount, targetTagCount, srcIndex, dstIndex, i, j, k, l, m: NativeUInt;
@@ -2074,7 +2074,7 @@ begin
         end;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.LinkSkin(const pSkin: TQRMD3Skin;
                               const dir: UnicodeString;
                             const pItem: TQRMD3ModelItem): Boolean;
@@ -2218,7 +2218,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.LinkAnimations(const pInfo: TQRMD3GroupInfo;
                             const pAnimations: TQRMD3AnimCfgFile): Boolean;
 var
@@ -2337,7 +2337,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Job.OnLoadTexture();
 var
     max:                 NativeUInt;
@@ -2445,23 +2445,23 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Job.Cancel();
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Job.IsCanceled(): Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
     m_pLock.Unlock;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRLoadMD3FileJob
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRLoadMD3FileJob.Create(pGroup: TQRModelGroup;
                                   const dir,
                               prefixKeyword: UnicodeString;
@@ -2482,12 +2482,12 @@ begin
     m_Dir           := dir;
     m_PrefixKeyword := prefixKeyword;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRLoadMD3FileJob.Destroy();
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3FileJob.LoadSkin(const fileName: TFileName;
                                        const pItem: TQRMD3ModelItem): Boolean;
 begin
@@ -2502,7 +2502,7 @@ begin
                        TQRFileHelper.AppendDelimiter(ExtractFileDir(fileName)),
                        pItem);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3FileJob.LoadAnimations(const pInfo: TQRMD3GroupInfo;
                                        const fileName: TFileName): Boolean;
 var
@@ -2523,7 +2523,7 @@ begin
         pAnimations.Free;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRLoadMD3FileJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
@@ -2536,7 +2536,7 @@ begin
     else
         pTexture.FileName := m_TextureFileName;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3FileJob.LoadTexture(pTexture: TQRTexture;
                                         pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -2580,7 +2580,7 @@ begin
         pFileStream.Free;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3FileJob.Process(): Boolean;
 var
     vertexFormat:                                         TQRVertexFormat;
@@ -2895,9 +2895,9 @@ begin
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRLoadMD3MemoryDirJob
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRLoadMD3MemoryDirJob.Create(pGroup: TQRModelGroup;
                                       const pDir: TQRMemoryDir;
                              const prefixKeyword: UnicodeString;
@@ -2918,7 +2918,7 @@ begin
     m_pDir          := pDir;
     m_PrefixKeyword := prefixKeyword;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRLoadMD3MemoryDirJob.Destroy();
 begin
     m_pLock.Lock;
@@ -2932,7 +2932,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3MemoryDirJob.LoadSkin(pStream: TStream; const pItem: TQRMD3ModelItem): Boolean;
 begin
     // load skin file
@@ -2944,7 +2944,7 @@ begin
 
     Result := LinkSkin(pItem.m_pSkin, '', pItem);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3MemoryDirJob.LoadAnimations(const pInfo: TQRMD3GroupInfo;
                                                    pStream: TStream): Boolean;
 var
@@ -2965,7 +2965,7 @@ begin
         pAnimations.Free;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRLoadMD3MemoryDirJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
@@ -2978,7 +2978,7 @@ begin
     else
         pTexture.FileName := m_TextureFileName;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3MemoryDirJob.LoadTexture(pTexture: TQRTexture;
                                              pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -3015,14 +3015,14 @@ begin
                                               ExtractFileExt(pTexture.FileName),
                                               pBitmap);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3MemoryDirJob.GetMemoryDir(): TQRMemoryDir;
 begin
     m_pLock.Lock;
     Result := m_pDir;
     m_pLock.Unlock;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3MemoryDirJob.Process(): Boolean;
 var
     pModelStream, pSkinStream, pAnimCfgStream:            TStream;
@@ -3398,9 +3398,9 @@ begin
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRLoadMD3PackageJob
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRLoadMD3PackageJob.Create(pGroup: TQRModelGroup;
                                 const pPackage: TStream;
                            const prefixKeyword: UnicodeString;
@@ -3454,7 +3454,7 @@ begin
     // copy values needed to load the model
     m_pPackage := pPackage;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRLoadMD3PackageJob.Destroy();
 begin
     m_pLock.Lock;
@@ -3469,7 +3469,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.Unpack(): Boolean;
 var
     pZipFile:     TZipFile;
@@ -3595,7 +3595,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.GetIcon: TBitmap;
 var
     fileName:    TFileName;
@@ -3667,7 +3667,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.GetShader: TStream;
 begin
     m_pLock.Lock;
@@ -3700,7 +3700,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.GetSound(index: EQRMD3PackageSound): TStream;
 var
     fileName: TFileName;
@@ -3754,7 +3754,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRLoadMD3PackageJob.OnUnpackModelExternally();
 begin
     m_pLock.Lock;
@@ -3778,7 +3778,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.Process(): Boolean;
 begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
@@ -3803,9 +3803,9 @@ begin
 
     Result := inherited Process;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMD3Group
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMD3Group.Create;
 begin
     inherited Create;
@@ -3814,7 +3814,7 @@ begin
     m_pJob               := nil;
     m_pPostponedGestures := TQRMD3ModelPostponedGestures.Create;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRMD3Group.Destroy;
 begin
     // delete model and his associated job, don't forget to unregister it from worker
@@ -3829,7 +3829,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.AnimateModel(elapsedTime: Double; pItem: TQRMD3ModelItem);
 var
     pAnimItem:           TQRMD3AnimationItem;
@@ -3887,7 +3887,7 @@ begin
                                        interpolationFactor,
                                        endNotified);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.GetDynamicMesh(const pItem: TQRMD3ModelItem;
                                            index: NativeUInt;
                                         out mesh: TQRMesh);
@@ -3928,7 +3928,7 @@ begin
         {$endif}
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.GetDynamicMeshUseCache(const pItem: TQRMD3ModelItem;
                                                    index: NativeUInt;
                                                out pMesh: PQRMesh;
@@ -4017,7 +4017,7 @@ begin
             pTree.Free;
         end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawDynamicModel(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
 var
     pMesh, pNextMesh: PQRMesh;
@@ -4133,7 +4133,7 @@ begin
                       pTree,
                       pNextTree);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawCachedModel(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
 var
     interpolatedMesh: TQRMesh;
@@ -4226,7 +4226,7 @@ begin
                       m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
                       m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex]);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawMesh(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
 var
     pParser:                          TQRMD3Parser;
@@ -4339,7 +4339,7 @@ begin
         DrawMesh(pLink.m_pItem, interpolatedMatrix.Multiply(matrix));
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.GetMemoryDir(): TQRMemoryDir;
 begin
     // model not created?
@@ -4366,7 +4366,7 @@ begin
 
     Result := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.GetIcon: TBitmap;
 begin
     // model not created?
@@ -4393,7 +4393,7 @@ begin
 
     Result := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.GetShader: TStream;
 begin
     // model not created?
@@ -4420,7 +4420,7 @@ begin
 
     Result := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.GetSound(index: EQRMD3PackageSound): TStream;
 begin
     // model not created?
@@ -4447,7 +4447,7 @@ begin
 
     Result := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.Clear();
 begin
     // delete model and his associated job, don't forget to unregister it from worker
@@ -4459,12 +4459,12 @@ begin
 
     m_pPostponedGestures.Clear;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.IsEmpty(): Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.Load(const dir: UnicodeString;
                         const pInfo: TQRMD3GroupInfo;
                        const pColor: TQRColor;
@@ -4490,7 +4490,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.Load(const pDir: TQRMemoryDir;
                          const pInfo: TQRMD3GroupInfo;
                         const pColor: TQRColor;
@@ -4527,7 +4527,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.Load(const fileName: TFileName;
                             const pColor: TQRColor;
                                   rhToLh: Boolean;
@@ -4558,7 +4558,7 @@ begin
     // load package
     Result := Load(pPackage, pColor, rhToLh, modelOptions, framedModelOptions, team, customTeamName);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.Load(const pPackage: TStream;
                             const pColor: TQRColor;
                                   rhToLh: Boolean;
@@ -4604,7 +4604,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.SetAnimation(const name: UnicodeString;
                                      gesture: EQRMD3AnimationGesture): Boolean;
 var
@@ -4662,7 +4662,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMD3Group.QueryJobStatus(): TQRModelJobStatus;
 begin
     // model not created?
@@ -4681,7 +4681,7 @@ begin
 
     Result := m_pJobStatus;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMD3Group.Draw(const elapsedTime: Double);
 var
     itemCount, i:         NativeUInt;
@@ -4738,6 +4738,6 @@ begin
     // draw all sub-models, recursively
     DrawMesh(m_pJob.m_Items[0], modelMatrix);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.

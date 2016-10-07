@@ -11,8 +11,6 @@ unit UTQRDesignPatterns;
 interface
 
 type
-    {$REGION 'Observers'}
-
     {**
     * Generic message, e.g. sent from a subject to an observer
     *}
@@ -55,8 +53,6 @@ type
         *}
         procedure Notify(message: TQRMessage);
     end;
-
-    {$ENDREGION}
 
 implementation
 

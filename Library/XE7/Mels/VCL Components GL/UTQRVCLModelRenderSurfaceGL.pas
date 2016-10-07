@@ -143,9 +143,9 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLModelComponent
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLModelRenderSurfaceGL.Create(pOwner: TWinControl; pRenderer: TQRVCLModelRendererGL);
 begin
     inherited Create;
@@ -163,12 +163,12 @@ begin
     m_Transparent         := False;
     m_Allowed             := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLModelRenderSurfaceGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.CreateARGBRenderBuffers(hDC: THandle;
                                                   width, height: NativeInt): Boolean;
 begin
@@ -219,7 +219,7 @@ begin
     // check if render buffers were created correctly and return result
     Result := (glCheckFramebufferStatus(GL_FRAMEBUFFER) = GL_FRAMEBUFFER_COMPLETE);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRenderSurfaceGL.ClearARGBRenderBuffers(hDC: THandle);
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -249,7 +249,7 @@ begin
     m_OverlayRenderBuffer := 0;
     m_OverlayFrameBuffer  := 0;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.Initialize(hDC: THandle;
                                             factor: NativeInt;
                            transparent, supportGDI: Boolean): Boolean;
@@ -350,7 +350,7 @@ begin
     m_Allowed := True;
     Result    := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRenderSurfaceGL.Release(hDC: THandle);
 begin
     // no owner?
@@ -380,7 +380,7 @@ begin
     m_Factor      := 1;
     m_Transparent := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRenderSurfaceGL.Resize(hDC: THandle);
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -416,7 +416,7 @@ begin
         Exit;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.EnableContext(hDC: THandle): Boolean;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -436,7 +436,7 @@ begin
     // make render context as OpenGL current context
     Result := wglMakeCurrent(hDC, m_hGLContext);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.BeginScene(hDC: THandle): Boolean;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -467,7 +467,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRenderSurfaceGL.EndScene(hDC: THandle);
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -491,7 +491,7 @@ begin
         // show render target
         SwapBuffers(hDC);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.GetPixels(hDC: THandle; var pixels: TQRByteArray): Boolean;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
@@ -552,7 +552,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRenderSurfaceGL.GetBitmap(hDC: THandle; pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
     pixels:                  TQRByteArray;
@@ -666,6 +666,6 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.

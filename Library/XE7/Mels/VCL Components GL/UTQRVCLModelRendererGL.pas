@@ -208,19 +208,19 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLModelRendererGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLModelRendererGL.Create;
 begin
     inherited Create;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLModelRendererGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.SelectTexture(const textures: TQRTextures;
                                              const modelName: UnicodeString);
 var
@@ -259,7 +259,7 @@ begin
 
     glDisable(GL_TEXTURE_2D);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.SelectTexture(const pShader: TQRShader;
                                              const textures: TQRTextures;
                                             const modelName: UnicodeString);
@@ -309,7 +309,7 @@ begin
 
     glDisable(GL_TEXTURE_2D);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.CreateDCAndEnableOpenGL(hWnd: THandle;
                                              doubleBuffered: Boolean;
                                                out hDC, hRC: THandle): Boolean;
@@ -334,7 +334,7 @@ begin
     // device context is created, now enable OpenGL
     Result := EnableOpenGL(doubleBuffered, hDC, hRC);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.EnableOpenGL(doubleBuffered: Boolean;
                                                        hDC: THandle;
                                                    out hRC: THandle): Boolean;
@@ -372,7 +372,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.DisableOpenGL(hWnd, hDC, hRC: THandle);
 begin
     // disable and delete OpenGL context
@@ -386,7 +386,7 @@ begin
     if ((hWnd <> 0) and (hDC <> 0)) then
         ReleaseDC(hWnd, hDC);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.GetUniform(const pShader: TQRShader;
                                                 uniform: EQRShaderAttribute): GLint;
 var
@@ -412,7 +412,7 @@ begin
     // get model matrix slot from shader
     Result := glGetUniformLocation(pShader.GetProgramID(), PAnsiChar(propertyName));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.GetAttribute(const pShader: TQRShader;
                                                 attribute: EQRShaderAttribute): GLint;
 var
@@ -438,7 +438,7 @@ begin
     // get shader interpolation position attribute
     Result := glGetAttribLocation(pShader.GetProgramID(), PAnsiChar(propertyName));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.CreateViewport(clientWidth, clientHeight: Integer);
 begin
     // invalid width?
@@ -452,7 +452,7 @@ begin
     // set viewport
     glViewport(0, 0, clientWidth, clientHeight);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.MousePosToGLPoint(hWnd: THandle; out viewRect: TQRRect): TQRVector3D;
 var
     p:                                         TPoint;
@@ -491,7 +491,7 @@ begin
                                  viewRect.Min.Y - ((mouseY * viewRect.Height) / clientHeight),
                                  0.0);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.GetBitmapFromOpenGL(pBitmap: Vcl.Graphics.TBitmap);
 var
     dimensions: array [0..3] of GLint;
@@ -564,7 +564,7 @@ begin
             FreeMem(pPixels);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.CreateTexture(width, height, format: WORD;
                                                            pPixels: Pointer;
                            minFilter, magFilter, targetID: GLuint): GLInt;
@@ -591,7 +591,7 @@ begin
 
     Result := texture;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
                             const translation: TQRVector3D;
                                     rotationX,
@@ -717,7 +717,7 @@ begin
 
     glPopMatrix();
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
                             const modelMatrix: TQRMatrix4x4;
                                const textures: TQRTextures);
@@ -835,7 +835,7 @@ begin
 
     glPopMatrix();
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
                            const modelMatrix: TQRMatrix4x4;
                               const textures: TQRTextures;
@@ -1035,7 +1035,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
                               const nextMesh: TQRMesh;
                            const modelMatrix: TQRMatrix4x4;
@@ -1303,6 +1303,6 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.

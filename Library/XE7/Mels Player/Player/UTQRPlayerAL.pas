@@ -168,15 +168,16 @@ type
             property Sampling:       NativeUInt                   read m_Sampling        write SetSampling default 44100;
             property WavName:        TFileName                    read m_WavName         write SetWavName;
             property OnPlay:         TQROnPlayerPlayEvent         read m_fOnPlay         write m_fOnPlay;
-            property OnPause:        TQROnPlayerPauseEvent        read m_fOnPause        write m_fOnPause;
+
+            property OnPause:        TQROnPlayerPauseEvent        read m_fOnPause        write m_fOnPause;
             property OnStop:         TQROnPlayerStopEvent         read m_fOnStop         write m_fOnStop;
             property OnChangeVolume: TQROnPlayerChangeVolumeEvent read m_fOnChangeVolume write m_fOnChangeVolume;
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRPlayerAL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRPlayerAL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -193,7 +194,7 @@ begin
     m_fOnStop         := nil;
     m_fOnChangeVolume := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRPlayerAL.Destroy;
 begin
     // stop music before closing it
@@ -207,7 +208,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.Release;
 begin
     // allowed to use OpenAL?
@@ -243,7 +244,7 @@ begin
         m_pDevice := nil;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.SetSampling(sampling: NativeUInt);
 begin
     // nothing to do?
@@ -260,7 +261,7 @@ begin
 
     LoadWav;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.SetWavName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -311,7 +312,7 @@ begin
 
     LoadWav;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.DefineProperties(pFiler: TFiler);
     function DoWriteWav: Boolean;
     begin
@@ -326,7 +327,7 @@ begin
     // register the properties that will load and save a binary data in DFM files
     pFiler.DefineBinaryProperty('Package', ReadWav, WriteWav, DoWriteWav);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.ReadWav(pStream: TStream);
 begin
     // previous package was loaded?
@@ -337,7 +338,7 @@ begin
     // read model package from DFM stream
     m_pWav.CopyFrom(pStream, pStream.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.WriteWav(pStream: TStream);
 begin
     // reset stream position to start
@@ -346,14 +347,14 @@ begin
     // write model package to DFM stream
     pStream.CopyFrom(m_pWav, m_pWav.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.Loaded;
 begin
     inherited Loaded;
 
     LoadWav;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.LoadWav;
 begin
     // is component in desing time?
@@ -369,7 +370,7 @@ begin
     // open wav file
     Open(PByte(m_pWav.Memory), m_pWav.Size, m_Sampling);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.Open(const pFileBuffer: PByte;
                                         fileSize: NativeUInt;
                                         sampling: NativeUInt): Boolean;
@@ -443,7 +444,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.Play: Boolean;
 begin
     // allowed to use OpenAL?
@@ -465,7 +466,7 @@ begin
     alSourcePlay(m_ID);
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.Pause: Boolean;
 begin
     // allowed to use OpenAL?
@@ -487,7 +488,7 @@ begin
     alSourcePause(m_ID);
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.Stop: Boolean;
 begin
     // allowed to use OpenAL?
@@ -509,7 +510,7 @@ begin
     alSourceStop(m_ID);
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.IsPlaying: Boolean;
 var
     state: TALenum;
@@ -531,7 +532,7 @@ begin
 
     Result := (state = AL_PLAYING);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPlayerAL.ChangeVolume(const value: Single): Boolean;
 begin
     if (m_ID = CQR_ErrorID) then
@@ -560,7 +561,7 @@ begin
 
     Result := False;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRPlayerAL.Loop(value: Boolean);
 begin
     // allowed to use OpenAL?
@@ -572,6 +573,6 @@ begin
 
     alSourcei(m_ID, AL_LOOPING, AL_TRUE);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.

@@ -605,9 +605,9 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLShapeGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLShapeGL.Create(pOwner: TComponent);
 begin
     // initialize values
@@ -624,7 +624,7 @@ begin
 
     inherited Create(pOwner);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLShapeGL.Destroy;
 begin
     // clear memory
@@ -641,12 +641,12 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.SetTexture(pPicture: TPicture);
 begin
     m_pTexture.Assign(pPicture);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.SetModelOptions(options: TQRModelOptions);
 begin
     // no changes?
@@ -657,7 +657,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.SetVertexName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -703,7 +703,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.SetFragmentName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -749,7 +749,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.DefineProperties(pFiler: TFiler);
     function DoWriteVertexShader: Boolean;
     begin
@@ -773,7 +773,7 @@ begin
     pFiler.DefineBinaryProperty('VertexShader',   ReadVertexShader,   WriteVertexShader,   DoWriteVertexShader);
     pFiler.DefineBinaryProperty('FragmentShader', ReadFragmentShader, WriteFragmentShader, DoWriteFragmentShader);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.ReadVertexShader(pStream: TStream);
 begin
     // previous vertex shader was loaded?
@@ -784,7 +784,7 @@ begin
     // read vertex shader from DFM stream
     m_pVertexShader.CopyFrom(pStream, pStream.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.WriteVertexShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -793,7 +793,7 @@ begin
     // write vertex shader to DFM stream
     pStream.CopyFrom(m_pVertexShader, m_pVertexShader.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.ReadFragmentShader(pStream: TStream);
 begin
     // previous fragment shader was loaded?
@@ -804,7 +804,7 @@ begin
     // read fragment shader from DFM stream
     m_pFragmentShader.CopyFrom(pStream, pStream.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.WriteFragmentShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -813,7 +813,7 @@ begin
     // write fragment shader to DFM stream
     pStream.CopyFrom(m_pFragmentShader, m_pFragmentShader.Size);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.CreateWindowHandle(const params: TCreateParams);
 begin
     inherited CreateWindowHandle(params);
@@ -826,7 +826,7 @@ begin
     // correctly
     LoadModel;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.DestroyWindowHandle;
 begin
     // as model is linked to the current context, clears it if context is shutting down
@@ -835,18 +835,18 @@ begin
 
     inherited DestroyWindowHandle;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
     // invalidate model to repaint it
     Invalidate();
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnTextureChanged(pSender: TObject);
 begin
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLShapeGL.OnLoadMeshTexture(const pGroup: TQRModelGroup;
                                          const pModel: TQRModel;
                                               pBitmap: Vcl.Graphics.TBitmap;
@@ -944,7 +944,7 @@ begin
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnDrawSceneContent(hDC: Thandle);
 begin
     if (not Assigned(m_pShape)) then
@@ -962,7 +962,7 @@ begin
         m_hSceneDC := 0;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                                     pModel: TQRModel;
                                             const textures: TQRTextures;
@@ -983,7 +983,7 @@ begin
                                      nil,
                                      nil);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnDrawModelItem(const pGroup: TQRModelGroup;
                                         const pModel: TQRModel;
                                       const textures: TQRTextures;
@@ -1023,7 +1023,7 @@ begin
     if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
         m_fOnDetectCollisions(Self, matrix, pAABBTree);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLShapeGL;
@@ -1058,9 +1058,9 @@ begin
     m_pModel.Assign(pSrc.m_pModel);
     m_pTexture.Assign(pSrc.m_pTexture);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLSurfaceGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLSurfaceGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1076,12 +1076,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLSurfaceGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSurfaceGL.SetSurfaceWidth(width: Single);
 begin
     // no changes?
@@ -1092,7 +1092,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSurfaceGL.SetSurfaceHeight(height: Single);
 begin
     // no changes?
@@ -1103,7 +1103,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLSurfaceGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1152,7 +1152,7 @@ begin
                                              m_pModel.Color.NativeColor,
                                              m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSurfaceGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLSurfaceGL;
@@ -1173,9 +1173,9 @@ begin
     m_SurfaceWidth  := pSrc.m_SurfaceWidth;
     m_SurfaceHeight := pSrc.m_SurfaceHeight;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLBoxGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLBoxGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1192,12 +1192,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLBoxGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLBoxGL.SetBoxWidth(width: Single);
 begin
     // no changes?
@@ -1208,7 +1208,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLBoxGL.SetBoxHeight(height: Single);
 begin
     // no changes?
@@ -1219,7 +1219,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLBoxGL.SetBoxDepth(depth: Single);
 begin
     // no changes?
@@ -1230,7 +1230,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLBoxGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1281,7 +1281,7 @@ begin
                                          m_RepeatTexOnEachFace,
                                          m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLBoxGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLBoxGL;
@@ -1304,9 +1304,9 @@ begin
     m_BoxHeight := pSrc.m_BoxHeight;
     m_BoxDepth  := pSrc.m_BoxDepth;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLSphereGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLSphereGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1323,12 +1323,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLSphereGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSphereGL.SetSlices(slices: NativeUInt);
 begin
     // no changes?
@@ -1339,7 +1339,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSphereGL.SetStacks(stacks: NativeUInt);
 begin
     // no changes?
@@ -1350,7 +1350,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSphereGL.SetRadius(radius: Single);
 begin
     // no changes?
@@ -1361,7 +1361,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLSphereGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1411,7 +1411,7 @@ begin
                                             m_pModel.Color.NativeColor,
                                             m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLSphereGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLSphereGL;
@@ -1434,9 +1434,9 @@ begin
     m_Stacks  := pSrc.m_Stacks;
     m_Radius  := pSrc.m_Radius;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLConeGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLConeGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1457,12 +1457,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLConeGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetFaces(faces: NativeUInt);
 begin
     // no changes?
@@ -1473,7 +1473,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetConeHeight(height: Single);
 begin
     // no changes?
@@ -1484,7 +1484,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetTopRadiusX(topRadiusX: Single);
 begin
     // no changes?
@@ -1495,7 +1495,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetTopRadiusY(topRadiusY: Single);
 begin
     // no changes?
@@ -1506,7 +1506,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetBottomRadiusX(bottomRadiusX: Single);
 begin
     // no changes?
@@ -1517,7 +1517,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetBottomRadiusY(bottomRadiusY: Single);
 begin
     // no changes?
@@ -1528,7 +1528,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.SetClosing(closing: EQR_Cone_Closing);
 begin
     // no changes?
@@ -1539,7 +1539,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLConeGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1593,7 +1593,7 @@ begin
                                           m_pModel.Color.NativeColor,
                                           m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLConeGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLConeGL;
@@ -1624,9 +1624,9 @@ begin
     m_BottomRadiusY := pSrc.m_BottomRadiusY;
     m_Closing       := pSrc.m_Closing;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLTorusGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLTorusGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1646,12 +1646,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLTorusGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetSlices(slices: NativeUInt);
 begin
     // no changes?
@@ -1662,7 +1662,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetFacesPerSlices(facesPerSlices: NativeUInt);
 begin
     // no changes?
@@ -1673,7 +1673,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetInnerRadiusX(innerRadiusX: Single);
 begin
     // no changes?
@@ -1684,7 +1684,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetInnerRadiusY(innerRadiusY: Single);
 begin
     // no changes?
@@ -1695,7 +1695,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetOuterRadiusX(outerRadiusX: Single);
 begin
     // no changes?
@@ -1706,7 +1706,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.SetOuterRadiusY(outerRadiusY: Single);
 begin
     // no changes?
@@ -1717,7 +1717,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLTorusGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1770,7 +1770,7 @@ begin
                                            m_pModel.Color.NativeColor,
                                            m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLTorusGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLTorusGL;
@@ -1799,9 +1799,9 @@ begin
     m_InnerRadiusX   := pSrc.m_InnerRadiusX;
     m_InnerRadiusY   := pSrc.m_InnerRadiusY;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLParabolaGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLParabolaGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1819,12 +1819,12 @@ begin
     m_pShape.OnDrawItem            := OnDrawModelItem;
     m_pShape.OnCustomDrawItem      := OnCustomDrawModelItem;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLParabolaGL.Destroy;
 begin
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLParabolaGL.SetSlices(slices: NativeUInt);
 begin
     // no changes?
@@ -1835,7 +1835,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLParabolaGL.SetFacesPerSlices(facesPerSlices: NativeUInt);
 begin
     // no changes?
@@ -1846,7 +1846,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLParabolaGL.SetParabolaHeight(height: Single);
 begin
     // no changes?
@@ -1857,7 +1857,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLParabolaGL.SetRadius(radius: Single);
 begin
     // no changes?
@@ -1868,7 +1868,7 @@ begin
 
     RecreateWnd;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLParabolaGL.LoadModel: Boolean;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -1919,7 +1919,7 @@ begin
                                               m_pModel.Color.NativeColor,
                                               m_ModelOptions);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLParabolaGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLParabolaGL;
@@ -1944,6 +1944,6 @@ begin
     m_ParabolaHeight := pSrc.m_ParabolaHeight;
     m_Radius         := pSrc.m_Radius;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.
