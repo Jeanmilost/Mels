@@ -485,504 +485,528 @@ type
 
   {$ENDREGION}
 
-    {$REGION 'Quaternion'}
+  {$REGION 'TQRQuaternion'}
+
+  {**
+  * Quaternion
+  *}
+  TQRQuaternion = record
+  private
+    FX: Double; // x coordinate for the quaternion
+    FY: Double; // y coordinate for the quaternion
+    FZ: Double; // z coordinate for the quaternion
+    FW: Double; // w coordinate for the quaternion
+
+  public
+    {**
+    * Constructor
+    *@param X - vector x Value
+    *@param Y - vector y Value
+    *@param Z - vector z Value
+    *@param W - vector w Value
+    *}
+    constructor Create(X, Y, Z, W: Double); overload;
 
     {**
-    * Quaternion
+    * Constructor that creates a quaternion from an axis and an angle
+    *@param Vector - vector representing axis
+    *@param Angle - angle in radians
     *}
-    TQRQuaternion = record
-        private
-            FX: Double; // x coordinate for the quaternion
-            FY: Double; // y coordinate for the quaternion
-            FZ: Double; // z coordinate for the quaternion
-            FW: Double; // w coordinate for the quaternion
+    constructor Create(const Vector: TQRVector3D; Angle: Double); overload;
 
-        public
-            {**
-            * Constructor
-            *@param x - vector x Value
-            *@param y - vector y Value
-            *@param z - vector z Value
-            *@param w - vector w Value
-            *}
-            constructor Create(x, y, z, w: Double); overload;
+    {**
+    * Constructor that creates a quaternion from a 4x4 matrix
+    *@param matrix - matrix
+    *}
+    constructor Create(const Matrix: TQRMatrix4x4); overload;
 
-            {**
-            * Constructor that creates a quaternion from an axis and an angle
-            *@param vector - vector representing axis
-            *@param angle - angle in radians
-            *}
-            constructor Create(const vector: TQRVector3D; angle: Double); overload;
+    {**
+    * Copy constructor
+    *@param Other - Other quaternion to copy from
+    *}
+    constructor Create(const Other: TQRQuaternion); overload;
 
-            {**
-            * Constructor that creates a quaternion from a 4x4 matrix
-            *@param matrix - matrix
-            *}
-            constructor Create(const matrix: TQRMatrix4x4); overload;
+    { Basic functions }
+    procedure Assign(const Other: TQRQuaternion);                                inline;
+    function  Add(const Value: Double): TQRQuaternion;                 overload; inline;
+    function  Add(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
+    function  Invert: TQRQuaternion;                                   overload; inline;
+    function  Sub(const Value: Double): TQRQuaternion;                 overload; inline;
+    function  Sub(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
+    function  Mul(const Value: Double): TQRQuaternion;                 overload; inline;
+    function  Mul(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
+    function  Divide(const Value: Double): TQRQuaternion;              overload; inline;
+    function  Divide(const Other: TQRQuaternion): TQRQuaternion;       overload; inline;
+    function  AddAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
+    function  AddAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
+    function  SubAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
+    function  SubAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
+    function  MulAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
+    function  MulAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
+    function  DivAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
+    function  DivAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
+    function  IsEqual(const Other: TQRQuaternion): Boolean;                      inline;
+    function  Differs(const Other: TQRQuaternion): Boolean;                      inline;
 
-            {**
-            * Copy constructor
-            *@param Other - Other quaternion to copy from
-            *}
-            constructor Create(const Other: TQRQuaternion); overload;
+    {**
+    * Calculates the norm of the quaternion
+    *@return the norm of the quaternion
+    *}
+    function Norm: Double; inline;
 
-            { Basic functions }
-            procedure Assign(const Other: TQRQuaternion);                                inline;
-            function  Add(const Value: Double): TQRQuaternion;                 overload; inline;
-            function  Add(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Invert: TQRQuaternion;                                   overload; inline;
-            function  Sub(const Value: Double): TQRQuaternion;                 overload; inline;
-            function  Sub(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Mul(const Value: Double): TQRQuaternion;                 overload; inline;
-            function  Mul(const Other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Divide(const Value: Double): TQRQuaternion;              overload; inline;
-            function  Divide(const Other: TQRQuaternion): TQRQuaternion;       overload; inline;
-            function  AddAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
-            function  AddAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  SubAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
-            function  SubAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  MulAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
-            function  MulAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  DivAndAssign(const Value: Double): TQRQuaternion;        overload; inline;
-            function  DivAndAssign(const Other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  IsEqual(const Other: TQRQuaternion): Boolean;                      inline;
-            function  Differs(const Other: TQRQuaternion): Boolean;                      inline;
+    {**
+    * Gets the quaternion length
+    *@return the quaternion length
+    *}
+    function Length: Double; inline;
 
-            {**
-            * Calculates the norm of the quaternion
-            *@return the norm of the quaternion
-            *}
-            function Norm: Double; inline;
+    {**
+    * Normalizes the vector
+    *@return normalized vector
+    *}
+    function Normalize: TQRQuaternion; inline;
 
-            {**
-            * Gets the quaternion length
-            *@return the quaternion length
-            *}
-            function Length: Double; inline;
+    {**
+    * Calculates the dot product between 2 quaternions
+    *@param Q - quaternion with which dot product is calculated
+    *@return dot product
+    *}
+    function Dot(const Q: TQRQuaternion): Double; inline;
 
-            {**
-            * Normalizes the vector
-            *@return normalized vector
-            *}
-            function Normalize: TQRQuaternion; inline;
+    {**
+    * Scales the quaternion
+    *@param S - scale factor to apply
+    *@return scaled quaternion
+    *}
+    function Scale(S: Double): TQRQuaternion; inline;
 
-            {**
-            * Calculates the dot product between 2 quaternions
-            *@param q - quaternion with which dot product is calculated
-            *@return dot product
-            *}
-            function Dot(const q: TQRQuaternion): Double; inline;
+    {**
+    * Conjugates quaternion
+    *@return the conjugate of the quaternion
+    *}
+    function Conjugate: TQRQuaternion; inline;
 
-            {**
-            * Scales the quaternion
-            *@param s - scale factor to apply
-            *@return scaled quaternion
-            *}
-            function Scale(s: Double): TQRQuaternion; inline;
+    {**
+    * Inverse quaternion
+    *@return inverted quaternion
+    *}
+    function Inverse: TQRQuaternion; inline;
 
-            {**
-            * Conjugates quaternion
-            *@return the conjugate of the quaternion
-            *}
-            function Conjugate: TQRQuaternion; inline;
+    {**
+    * Gets the spherical linear interpolated quaternion between 2 quaternions
+    *@param Other - Other quaternion to interpolate with
+    *@param p - interpolation position, in percent (between 0.0f and 1.0f)
+    *@return the spherical linear interpolated quaternion
+    *}
+    function Slerp(const Other: TQRQuaternion; P: Double): TQRQuaternion; inline;
 
-            {**
-            * Inverse quaternion
-            *@return inverted quaternion
-            *}
-            function Inverse: TQRQuaternion; inline;
+    {**
+    * Rotates a vector by the quaternion
+    *@param Vector - vector to rotate
+    *@return rotated vector
+    *}
+    function Rotate(const Vector: TQRVector3D): TQRVector3D; inline;
 
-            {**
-            * Gets the spherical linear interpolated quaternion between 2 quaternions
-            *@param Other - Other quaternion to interpolate with
-            *@param p - interpolation position, in percent (between 0.0f and 1.0f)
-            *@return the spherical linear interpolated quaternion
-            *}
-            function Slerp(const Other: TQRQuaternion; p: Double): TQRQuaternion; inline;
-
-            {**
-            * Rotates a vector by the quaternion
-            *@param vector - vector to rotate
-            *@return rotated vector
-            *}
-            function Rotate(const vector: TQRVector3D): TQRVector3D; inline;
-
-            {**
-            * Gets matrix from quaternion
-            *@return matrix
-            *}
-            function GetMatrix: TQRMatrix4x4; inline;
+    {**
+    * Gets matrix from quaternion
+    *@return matrix
+    *}
+    function GetMatrix: TQRMatrix4x4; inline;
 
 
-            { Properties }
-            property X: Double read FX write FX;
-            property Y: Double read FY write FY;
-            property Z: Double read FZ write FZ;
-            property W: Double read FW write FW;
-    end;
+    { Properties }
+    property X: Double read FX write FX;
+    property Y: Double read FY write FY;
+    property Z: Double read FZ write FZ;
+    property W: Double read FW write FW;
+  end;
 
-    PQRQuaternion = ^TQRQuaternion;
+  PQRQuaternion = ^TQRQuaternion;
 
-    {$ENDREGION}
+  {$ENDREGION}
+
+  {$REGION 'TQRRay'}
 
   {**
   * Ray
   *}
-    TQRRay = class
-        protected
-            FPos:    TQRVector3D;
-            FDir:    TQRVector3D;
-            m_InvDir: TQRVector3D;
-
-            {**
-            * Gets position
-            *@return position
-            *}
-            function GetPos: PQRVector3D; virtual;
-
-            {**
-            * Sets position
-            *@param pPos - position
-            *}
-            procedure SetPos(const pPos: PQRVector3D); virtual;
-
-            {**
-            * Gets direction
-            *@return direction
-            *}
-            function GetDir: PQRVector3D; virtual;
-
-            {**
-            * Sets direction
-            *@param pDir - direction
-            *}
-            procedure SetDir(const pDir: PQRVector3D); virtual;
-
-            {**
-            * Gets inverted direction
-            *@return inverted direction
-            *}
-            function GetInvDir: PQRVector3D; virtual;
-
-        public
-            {**
-            * Constructor
-            *}
-            constructor Create; overload; virtual;
-
-            {**
-            * Constructor
-            *@param pOther - Other ray to copy from
-            *}
-            constructor Create(const pOther: TQRRay); overload; virtual;
-
-            { Properties }
-            property Pos:    PQRVector3D read GetPos write SetPos;
-            property Dir:    PQRVector3D read GetDir write SetDir;
-            property InvDir: PQRVector3D read GetInvDir;
-    end;
+  TQRRay = class
+  private
+    FPos:    TQRVector3D;
+    FDir:    TQRVector3D;
+    FInvDir: TQRVector3D;
 
     {**
-    * Class representing a polygon
+    * Gets position
+    *@return position
     *}
-    TQRPolygon = record
-        private
-            m_Vertex: array[0..2] of TQRVector3D;
-
-            {**
-            * Checks if a vector is between start and end limits
-            *@param Value - Value to check
-            *@param vStart - start limit
-            *@param vEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if Value is between limits, otherwise false
-            *}
-            function IsBetween(const Value, vStart, vEnd: TQRVector3D;
-                                               tolerance: Double): Boolean; overload;
-
-            {**
-            * Checks if a Value is between start and end limits
-            *@param Value - Value to check
-            *@param lStart - start limit
-            *@param lEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if Value is between limits, otherwise false
-            *}
-            function IsBetween(const Value, lStart, lEnd, tolerance: Double): Boolean; overload;
-
-        public
-            {**
-            * Constructor
-            *@param vertex1 - first vertex of the polygon
-            *@param vertex2 - second vertex of the polygon
-            *@param vertex3 - third vertex of the polygon
-            *}
-            constructor Create(const vertex1, vertex2, vertex3: TQRVector3D);
-
-            {**
-            * Gets vertex at index
-            *@param index - vertex index
-            *@return corresponding vertex, nil if not found
-            *}
-             function GetVertex(index: Byte): TQRVector3D;
-
-            {**
-            * Sets vertex
-            *@param index - vertex index to set
-            *@param vertex - vertex Value
-            *}
-            procedure SetVertex(index: Byte; const vertex: TQRVector3D);
-
-            {**
-            * Gets first polygon vertex
-            *@return first polygon vertex
-            *}
-            function GetVertex1: PQRVector3D;
-
-            {**
-            * Sets first polygon vertex
-            *@param pVertex - first polygon vertex Value
-            *}
-            procedure SetVertex1(const pVertex: PQRVector3D);
-
-            {**
-            * Gets second polygon vertex
-            *@return second polygon vertex
-            *}
-            function GetVertex2: PQRVector3D;
-
-            {**
-            * Sets second polygon vertex
-            *@param pVertex - second polygon vertex Value
-            *}
-            procedure SetVertex2(const pVertex: PQRVector3D);
-
-            {**
-            * Gets third polygon vertex
-            *@return third polygon vertex
-            *}
-            function GetVertex3: PQRVector3D;
-
-            {**
-            * Sets third polygon vertex
-            *@param pVertex - third polygon vertex Value
-            *}
-            procedure SetVertex3(const pVertex: PQRVector3D);
-
-            {**
-            * Creates and returns a clone of the polygon
-            *@return a clone of the polygon
-            *@note The returned polygon should be deleted when useless
-            *}
-            function GetClone: TQRPolygon;
-
-            {**
-            * Applies the given matrix to the polygon
-            *@param matrix - matrix to apply
-            *@return transformed polygon
-            *@note The returned polygon should be deleted when useless
-            *}
-            function ApplyMatrix(const matrix: TQRMatrix4x4): TQRPolygon;
-
-            {**
-            * Gets the polygon plane
-            *@return the polygon plane
-            *}
-            function GetPlane: TQRPlane;
-
-            {**
-            * Calculates and returns the center point of the polygon
-            *@return the center point of the polygon
-            *}
-            function GetCenter: TQRVector3D;
-
-            {**
-            * Checks if a point is inside polygon
-            *@param x - point x coordinate
-            *@param y - point y coordinate
-            *@param z - point z coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
-            function Inside(const x, y, z: Double): Boolean; overload;
-
-            {**
-            * Checks if a point is inside polygon
-            *@param point - point coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
-            function Inside(const point: TQRVector3D): Boolean; overload;
-
-            { Properties }
-            property Vertex1: PQRVector3D read GetVertex1 write SetVertex1;
-            property Vertex2: PQRVector3D read GetVertex2 write SetVertex2;
-            property Vertex3: PQRVector3D read GetVertex3 write SetVertex3;
-    end;
+    function GetPos: PQRVector3D; virtual;
 
     {**
-    * Polygon list
+    * Sets position
+    *@param PtPos - position
     *}
-    TQRPolygons = array of TQRPolygon;
-    PQRPolygons = ^TQRPolygons;
+    procedure SetPos(const PtPos: PQRVector3D); virtual;
 
     {**
-    * 2D circle
+    * Gets direction
+    *@return direction
     *}
-    TQRCircle = record
-        private
-            FPos:    TQRVector2D;
-            m_Radius: Double;
-
-            {**
-            * Gets circle center pos
-            *@return sphere center pos
-            *}
-            function GetPos: PQRVector2D;
-
-            {**
-            * Sets circle center pos
-            *@param pPos - sphere center pos
-            *}
-            procedure SetPos(const pPos: PQRVector2D);
-
-        public
-            { Properties }
-            property Pos:    PQRVector2D read GetPos   write SetPos;
-            property Radius: Double      read m_Radius write m_Radius;
-    end;
+    function GetDir: PQRVector3D; virtual;
 
     {**
-    * 3D sphere
+    * Sets direction
+    *@param PtDir - direction
     *}
-    TQRSphere = record
-        private
-            FPos:    TQRVector3D;
-            m_Radius: Double;
-
-            {**
-            * Gets sphere center pos
-            *@return sphere center pos
-            *}
-            function GetPos: PQRVector3D;
-
-            {**
-            * Sets sphere center pos
-            *@param pPos - sphere center pos
-            *}
-            procedure SetPos(const pPos: PQRVector3D);
-
-        public
-            { Properties }
-            property Pos:    PQRVector3D read GetPos   write SetPos;
-            property Radius: Double      read m_Radius write m_Radius;
-    end;
+    procedure SetDir(const PtDir: PQRVector3D); virtual;
 
     {**
-    * 2D rectangle
+    * Gets inverted direction
+    *@return inverted direction
     *}
-    TQRRect = record
-        private
-            FMin: TQRVector2D;
-            FMax: TQRVector2D;
+    function GetInvDir: PQRVector3D; virtual;
 
-            {**
-            * Gets rect min edge
-            *@return box min edge
-            *}
-            function GetMin: PQRVector2D;
-
-            {**
-            * Sets rect min edge
-            *@param pValue - box min edge
-            *}
-            procedure SetMin(const pValue: PQRVector2D);
-
-            {**
-            * Gets rect max edge
-            *@return box max edge
-            *}
-            function GetMax: PQRVector2D;
-
-            {**
-            * Sets rect max edge
-            *@param pValue - box max edge
-            *}
-            procedure SetMax(const pValue: PQRVector2D);
-
-        public
-            {**
-            * Constructor
-            *@param x - rect x position, i.e. the position of the left edge
-            *@param y - rect y position, i.e. the position of the top edge
-            *@param width - width
-            *@param height - height
-            *}
-            constructor Create(const x, y, width, height: Double);
-
-            {**
-            * Gets width
-            *@return width
-            *}
-            function GetWidth: Double;
-
-            {**
-            * Gets height
-            *@return height
-            *}
-            function GetHeight: Double;
-
-            { Properties }
-            property Min:    PQRVector2D read GetMin write SetMin;
-            property Max:    PQRVector2D read GetMax write SetMax;
-            property Width:  Double      read GetWidth;
-            property Height: Double      read GetHeight;
-    end;
+  public
+    {**
+    * Constructor
+    *}
+    constructor Create; overload; virtual;
 
     {**
-    * 3D aligned-axis box
+    * Constructor
+    *@param PtOther - other ray to copy from
     *}
-    TQRBox = record
-        private
-            FMin: TQRVector3D;
-            FMax: TQRVector3D;
+    constructor Create(const PtOther: TQRRay); overload; virtual;
 
-            {**
-            * Gets box min edge
-            *@return box min edge
-            *}
-            function GetMin: PQRVector3D;
+    { Properties }
+    property Pos:    PQRVector3D read GetPos write SetPos;
+    property Dir:    PQRVector3D read GetDir write SetDir;
+    property InvDir: PQRVector3D read GetInvDir;
+  end;
 
-            {**
-            * Sets box min edge
-            *@param pValue - box min edge
-            *}
-            procedure SetMin(const pValue: PQRVector3D);
+  {$ENDREGION}
 
-            {**
-            * Gets box max edge
-            *@return box max edge
-            *}
-            function GetMax: PQRVector3D;
+  {$REGION 'TQRPolygon'}
 
-            {**
-            * Sets box max edge
-            *@param pValue - box max edge
-            *}
-            procedure SetMax(const pValue: PQRVector3D);
+  {**
+  * Class representing a polygon
+  *}
+  TQRPolygon = record
+  private
+    FVertex: array[0..2] of TQRVector3D;
 
-        public
-            {**
-            * Cuts box on the longest axis
-            *@param[in, out] leftBox - resulting left box
-            *@param[in, out] rightBox - resulting right box
-            *}
-            procedure Cut(var leftBox: TQRBox; var rightBox: TQRBox);
+    {**
+    * Checks if a vector is between start and end limits
+    *@param Value - value to check
+    *@param VStart - start limit
+    *@param VEnd - end limit
+    *@param Tolerance - tolerance
+    *@return true if value is between limits, otherwise false
+    *}
+    function IsBetween(const Value, VStart,VvEnd: TQRVector3D;
+                                       Tolerance: Double): Boolean; overload;
 
-            { Properties }
-            property Min: PQRVector3D read GetMin write SetMin;
-            property Max: PQRVector3D read GetMax write SetMax;
-    end;
+    {**
+    * Checks if a Value is between start and end limits
+    *@param Value - value to check
+    *@param LStart - start limit
+    *@param LEnd - end limit
+    *@param Tolerance - tolerance
+    *@return true if value is between limits, otherwise false
+    *}
+    function IsBetween(const Value, LStart, LEnd, Tolerance: Double): Boolean; overload;
 
-    PQRBox = ^TQRBox;
+  public
+    {**
+    * Constructor
+    *@param Vertex1 - first vertex of the polygon
+    *@param Vertex2 - second vertex of the polygon
+    *@param Vertex3 - third vertex of the polygon
+    *}
+    constructor Create(const Vertex1, Vertex2, Vertex3: TQRVector3D);
+
+    {**
+    * Gets vertex at index
+    *@param Index - vertex index
+    *@return corresponding vertex, nil if not found
+    *}
+     function GetVertex(Index: Byte): TQRVector3D;
+
+    {**
+    * Sets vertex
+    *@param Index - vertex index to set
+    *@param Vertex - vertex Value
+    *}
+    procedure SetVertex(Index: Byte; const Vertex: TQRVector3D);
+
+    {**
+    * Gets first polygon vertex
+    *@return first polygon vertex
+    *}
+    function GetVertex1: PQRVector3D;
+
+    {**
+    * Sets first polygon vertex
+    *@param PtVertex - first polygon vertex Value
+    *}
+    procedure SetVertex1(const PtVertex: PQRVector3D);
+
+    {**
+    * Gets second polygon vertex
+    *@return second polygon vertex
+    *}
+    function GetVertex2: PQRVector3D;
+
+    {**
+    * Sets second polygon vertex
+    *@param PtVertex - second polygon vertex Value
+    *}
+    procedure SetVertex2(const PtVertex: PQRVector3D);
+
+    {**
+    * Gets third polygon vertex
+    *@return third polygon vertex
+    *}
+    function GetVertex3: PQRVector3D;
+
+    {**
+    * Sets third polygon vertex
+    *@param PtVertex - third polygon vertex Value
+    *}
+    procedure SetVertex3(const PtVertex: PQRVector3D);
+
+    {**
+    * Creates and returns a clone of the polygon
+    *@return a clone of the polygon
+    *@note The returned polygon should be deleted when useless
+    *}
+    function GetClone: TQRPolygon;
+
+    {**
+    * Applies the given matrix to the polygon
+    *@param Matrix - matrix to apply
+    *@return transformed polygon
+    *@note The returned polygon should be deleted when useless
+    *}
+    function ApplyMatrix(const Matrix: TQRMatrix4x4): TQRPolygon;
+
+    {**
+    * Gets the polygon plane
+    *@return the polygon plane
+    *}
+    function GetPlane: TQRPlane;
+
+    {**
+    * Calculates and returns the center point of the polygon
+    *@return the center point of the polygon
+    *}
+    function GetCenter: TQRVector3D;
+
+    {**
+    * Checks if a point is inside polygon
+    *@param X - point x coordinate
+    *@param Y - point y coordinate
+    *@param Z - point z coordinate
+    *@return true if point is inside polygon, otherwise false
+    *}
+    function Inside(const X, Y, Z: Double): Boolean; overload;
+
+    {**
+    * Checks if a point is inside polygon
+    *@param Point - point coordinate
+    *@return true if point is inside polygon, otherwise false
+    *}
+    function Inside(const Point: TQRVector3D): Boolean; overload;
+
+    { Properties }
+    property Vertex1: PQRVector3D read GetVertex1 write SetVertex1;
+    property Vertex2: PQRVector3D read GetVertex2 write SetVertex2;
+    property Vertex3: PQRVector3D read GetVertex3 write SetVertex3;
+  end;
+
+  {**
+  * Polygon list
+  *}
+  TQRPolygons = array of TQRPolygon;
+  PQRPolygons = ^TQRPolygons;
+
+  {$ENDREGION}
+
+  {$REGION 'TQRCircle'}
+
+  {**
+  * 2D circle
+  *}
+  TQRCircle = record
+  private
+    FPos:    TQRVector2D;
+    FRadius: Double;
+
+    {**
+    * Gets circle center pos
+    *@return sphere center pos
+    *}
+    function GetPos: PQRVector2D;
+
+    {**
+    * Sets circle center pos
+    *@param PtPos - sphere center pos
+    *}
+    procedure SetPos(const PtPos: PQRVector2D);
+
+  public
+    { Properties }
+    property Pos:    PQRVector2D read GetPos  write SetPos;
+    property Radius: Double      read FRadius write FRadius;
+  end;
+
+  {$ENDREGION}
+
+  {$REGION 'TQRSphere'}
+
+  {**
+  * 3D sphere
+  *}
+  TQRSphere = record
+  private
+    FPos:    TQRVector3D;
+    FRadius: Double;
+
+    {**
+    * Gets sphere center pos
+    *@return sphere center pos
+    *}
+    function GetPos: PQRVector3D;
+
+    {**
+    * Sets sphere center pos
+    *@param PtPos - sphere center pos
+    *}
+    procedure SetPos(const PtPos: PQRVector3D);
+
+  public
+    { Properties }
+    property Pos:    PQRVector3D read GetPos  write SetPos;
+    property Radius: Double      read FRadius write FRadius;
+  end;
+
+  {$ENDREGION}
+
+  {$REGION 'TQRRect'}
+
+  {**
+  * 2D rectangle
+  *}
+  TQRRect = record
+  private
+    FMin: TQRVector2D;
+    FMax: TQRVector2D;
+
+    {**
+    * Gets rect min edge
+    *@return box min edge
+    *}
+    function GetMin: PQRVector2D;
+
+    {**
+    * Sets rect min edge
+    *@param PtValue - box min edge
+    *}
+    procedure SetMin(const PtValue: PQRVector2D);
+
+    {**
+    * Gets rect max edge
+    *@return box max edge
+    *}
+    function GetMax: PQRVector2D;
+
+    {**
+    * Sets rect max edge
+    *@param PtValue - box max edge
+    *}
+    procedure SetMax(const PtValue: PQRVector2D);
+
+  public
+    {**
+    * Constructor
+    *@param X - rect x position, i.e. the position of the left edge
+    *@param Y - rect y position, i.e. the position of the top edge
+    *@param Width - width
+    *@param Height - height
+    *}
+    constructor Create(const X, Y, Width, Height: Double);
+
+    {**
+    * Gets width
+    *@return width
+    *}
+    function GetWidth: Double;
+
+    {**
+    * Gets height
+    *@return height
+    *}
+    function GetHeight: Double;
+
+    { Properties }
+    property Min:    PQRVector2D read GetMin write SetMin;
+    property Max:    PQRVector2D read GetMax write SetMax;
+    property Width:  Double      read GetWidth;
+    property Height: Double      read GetHeight;
+  end;
+
+  {$ENDREGION}
+
+  {$REGION 'TQRBox'}
+
+  {**
+  * 3D aligned-axis box
+  *}
+  TQRBox = record
+  private
+    FMin: TQRVector3D;
+    FMax: TQRVector3D;
+
+    {**
+    * Gets box min edge
+    *@return box min edge
+    *}
+    function GetMin: PQRVector3D;
+
+    {**
+    * Sets box min edge
+    *@param PtValue - box min edge
+    *}
+    procedure SetMin(const PtValue: PQRVector3D);
+
+    {**
+    * Gets box max edge
+    *@return box max edge
+    *}
+    function GetMax: PQRVector3D;
+
+    {**
+    * Sets box max edge
+    *@param PtValue - box max edge
+    *}
+    procedure SetMax(const PtValue: PQRVector3D);
+
+  public
+    {**
+    * Cuts box on the longest axis
+    *@param[in, out] LeftBox - resulting left box
+    *@param[in, out] RightBox - resulting right box
+    *}
+    procedure Cut(var LeftBox, RightBox: TQRBox);
+
+    { Properties }
+    property Min: PQRVector3D read GetMin write SetMin;
+    property Max: PQRVector3D read GetMax write SetMax;
+  end;
+
+  PQRBox = ^TQRBox;
+
+  {$ENDREGION}
 
 implementation
 //------------------------------------------------------------------------------
@@ -1553,17 +1577,17 @@ begin
   FTable[2][0] := _31; FTable[2][1] := _32; FTable[2][2] := _33; FTable[2][3] := _34;
   FTable[3][0] := _41; FTable[3][1] := _42; FTable[3][2] := _43; FTable[3][3] := _44;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRMatrix4x4.Create(const Other: TQRMatrix4x4);
 begin
   Assign(Other);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMatrix4x4.GetDefault: TQRMatrix4x4;
 begin
   Result := Identity;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.GetItem(Index: NativeInt): Double;
 var
   X, Y: NativeInt;
@@ -1577,7 +1601,7 @@ begin
 
   Result := FTable[X][Y];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMatrix4x4.SetItem(Index: NativeInt; Value: Double);
 var
   X, Y: NativeInt;
@@ -1591,7 +1615,7 @@ begin
 
   FTable[X][Y] := Value;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.GetTableItem(X, Y: NativeInt): Double;
 begin
   if (X > 3) then
@@ -1602,7 +1626,7 @@ begin
 
   Result := FTable[X][Y];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMatrix4x4.SetTableItem(X, Y: NativeInt; Value: Double);
 begin
   if (X > 3) then
@@ -1613,7 +1637,7 @@ begin
 
   FTable[X][Y] := Value;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRMatrix4x4.Assign(const Other: TQRMatrix4x4);
 var
   I, J: Byte;
@@ -1623,7 +1647,7 @@ begin
     for J := 0 to 3 do
       FTable[I][J] := Other.FTable[I][J];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.IsEqual(const Other: TQRMatrix4x4): Boolean;
 var
   I, J: Byte;
@@ -1639,17 +1663,17 @@ begin
 
   Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.Differs(const Other: TQRMatrix4x4): Boolean;
 begin
   Result := not IsEqual(Other);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.IsIdentity: Boolean;
 begin
   Result := IsEqual(Identity);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.Determinant: Double;
 var
   T: array [0..2] of Double;
@@ -1674,7 +1698,7 @@ begin
             FTable[0][2] * V[2] +
             FTable[0][3] * V[3];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.Inverse(out Determinant: Double): TQRMatrix4x4;
 var
   InvDet: Double;
@@ -1753,876 +1777,880 @@ begin
     for J := 0 to 3 do
       Result.FTable[I][J] := V[4 * I + J] * InvDet;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.Multiply(const Other: TQRMatrix4x4): TQRMatrix4x4;
 var
   I, J: Byte;
 begin
-    for i := 0 to 3 do
-        for j := 0 to 3 do
-            Result.FTable[i][j] := FTable[i][0] * Other.FTable[0][j] +
-                                    FTable[i][1] * Other.FTable[1][j] +
-                                    FTable[i][2] * Other.FTable[2][j] +
-                                    FTable[i][3] * Other.FTable[3][j];
+  for I := 0 to 3 do
+    for J := 0 to 3 do
+      Result.FTable[I][J] := FTable[I][0] * Other.FTable[0][J] +
+                             FTable[I][1] * Other.FTable[1][J] +
+                             FTable[I][2] * Other.FTable[2][J] +
+                             FTable[I][3] * Other.FTable[3][J];
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Translate(const t: TQRVector3D): TQRMatrix4x4;
+//------------------------------------------------------------------------------
+function TQRMatrix4x4.Translate(const T: TQRVector3D): TQRMatrix4x4;
 begin
-    FTable[3][0] := FTable[3][0] + (FTable[0][0] * t.FX + FTable[1][0] * t.FY + FTable[2][0] * t.FZ);
-    FTable[3][1] := FTable[3][1] + (FTable[0][1] * t.FX + FTable[1][1] * t.FY + FTable[2][1] * t.FZ);
-    FTable[3][2] := FTable[3][2] + (FTable[0][2] * t.FX + FTable[1][2] * t.FY + FTable[2][2] * t.FZ);
-    FTable[3][3] := FTable[3][3] + (FTable[0][3] * t.FX + FTable[1][3] * t.FY + FTable[2][3] * t.FZ);
+  FTable[3][0] := FTable[3][0] + (FTable[0][0] * T.FX + FTable[1][0] * T.FY + FTable[2][0] * T.FZ);
+  FTable[3][1] := FTable[3][1] + (FTable[0][1] * T.FX + FTable[1][1] * T.FY + FTable[2][1] * T.FZ);
+  FTable[3][2] := FTable[3][2] + (FTable[0][2] * T.FX + FTable[1][2] * T.FY + FTable[2][2] * T.FZ);
+  FTable[3][3] := FTable[3][3] + (FTable[0][3] * T.FX + FTable[1][3] * T.FY + FTable[2][3] * T.FZ);
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Rotate(const angle: Double; const r: TQRVector3D): TQRMatrix4x4;
+//------------------------------------------------------------------------------
+function TQRMatrix4x4.Rotate(const Angle: Double; const R: TQRVector3D): TQRMatrix4x4;
 var
-    c, s, ic: Double;
-    matrix:   TQRMatrix4x4;
+  C, S, Ic: Double;
+  Matrix:   TQRMatrix4x4;
 begin
-    // calculate sinus, cosinus and inverted cosinus Values
-    c  := cos(angle);
-    s  := sin(angle);
-    ic := (1.0 - c);
+  // calculate sinus, cosinus and inverted cosinus Values
+  C  := Cos(Angle);
+  S  := Sin(Angle);
+  Ic := (1.0 - C);
 
-    // create rotation matrix
-    matrix               := Identity;
-    matrix.FTable[0][0] := (ic * r.FX * r.FX) + c;
-    matrix.FTable[1][0] := (ic * r.FX * r.FY) - (s * r.FZ);
-    matrix.FTable[2][0] := (ic * r.FX * r.FZ) + (s * r.FY);
-    matrix.FTable[0][1] := (ic * r.FY * r.FX) + (s * r.FZ);
-    matrix.FTable[1][1] := (ic * r.FY * r.FY) + c;
-    matrix.FTable[2][1] := (ic * r.FY * r.FZ) - (s * r.FX);
-    matrix.FTable[0][2] := (ic * r.FZ * r.FX) - (s * r.FY);
-    matrix.FTable[1][2] := (ic * r.FZ * r.FY) + (s * r.FX);
-    matrix.FTable[2][2] := (ic * r.FZ * r.FZ) + c;
+  // create rotation matrix
+  Matrix               := Identity;
+  Matrix.FTable[0][0] := (Ic * R.FX * R.FX) +  C;
+  Matrix.FTable[1][0] := (Ic * R.FX * R.FY) - (S * R.FZ);
+  Matrix.FTable[2][0] := (Ic * R.FX * R.FZ) + (S * R.FY);
+  Matrix.FTable[0][1] := (Ic * R.FY * R.FX) + (S * R.FZ);
+  Matrix.FTable[1][1] := (Ic * R.FY * R.FY) +  C;
+  Matrix.FTable[2][1] := (Ic * R.FY * R.FZ) - (S * R.FX);
+  Matrix.FTable[0][2] := (Ic * R.FZ * R.FX) - (S * R.FY);
+  Matrix.FTable[1][2] := (Ic * R.FZ * R.FY) + (S * R.FX);
+  Matrix.FTable[2][2] := (Ic * R.FZ * R.FZ) +  C;
 
-    // combine current matrix with rotation matrix
-    Self := matrix.Multiply(Self);
+  // combine current matrix with rotation matrix
+  Self := Matrix.Multiply(Self);
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Scale(const s: TQRVector3D): TQRMatrix4x4;
+//------------------------------------------------------------------------------
+function TQRMatrix4x4.Scale(const S: TQRVector3D): TQRMatrix4x4;
 begin
-    FTable[0][0] := FTable[0][0] * s.FX; FTable[1][0] := FTable[1][0] * s.FY; FTable[2][0] := FTable[2][0] * s.FZ;
-    FTable[0][1] := FTable[0][1] * s.FX; FTable[1][1] := FTable[1][1] * s.FY; FTable[2][1] := FTable[2][1] * s.FZ;
-    FTable[0][2] := FTable[0][2] * s.FX; FTable[1][2] := FTable[1][2] * s.FY; FTable[2][2] := FTable[2][2] * s.FZ;
-    FTable[0][3] := FTable[0][3] * s.FX; FTable[1][3] := FTable[1][3] * s.FY; FTable[2][3] := FTable[2][3] * s.FZ;
+  FTable[0][0] := FTable[0][0] * S.FX; FTable[1][0] := FTable[1][0] * S.FY; FTable[2][0] := FTable[2][0] * S.FZ;
+  FTable[0][1] := FTable[0][1] * S.FX; FTable[1][1] := FTable[1][1] * S.FY; FTable[2][1] := FTable[2][1] * S.FZ;
+  FTable[0][2] := FTable[0][2] * S.FX; FTable[1][2] := FTable[1][2] * S.FY; FTable[2][2] := FTable[2][2] * S.FZ;
+  FTable[0][3] := FTable[0][3] * S.FX; FTable[1][3] := FTable[1][3] * S.FY; FTable[2][3] := FTable[2][3] * S.FZ;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.Swap: TQRMatrix4x4;
 begin
-    Result := TQRMatrix4x4.Create(FTable[0][0], FTable[1][0], FTable[2][0], FTable[3][0],
-                                  FTable[0][1], FTable[1][1], FTable[2][1], FTable[3][1],
-                                  FTable[0][2], FTable[1][2], FTable[2][2], FTable[3][2],
-                                  FTable[0][3], FTable[1][3], FTable[2][3], FTable[3][3]);
+  Result := TQRMatrix4x4.Create(FTable[0][0], FTable[1][0], FTable[2][0], FTable[3][0],
+                                FTable[0][1], FTable[1][1], FTable[2][1], FTable[3][1],
+                                FTable[0][2], FTable[1][2], FTable[2][2], FTable[3][2],
+                                FTable[0][3], FTable[1][3], FTable[2][3], FTable[3][3]);
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Transform(const vector: TQRVector3D): TQRVector3D;
+//------------------------------------------------------------------------------
+function TQRMatrix4x4.Transform(const Vector: TQRVector3D): TQRVector3D;
 begin
-    // calculates x, y and z coordinates (don't use w component), and returns
-    // transformed vector
-    Result := TQRVector3D.Create((vector.FX * FTable[0][0] +
-                                  vector.FY * FTable[1][0] +
-                                  vector.FZ * FTable[2][0] +
-                                  FTable[3][0]),
-                                 (vector.FX * FTable[0][1] +
-                                  vector.FY * FTable[1][1] +
-                                  vector.FZ * FTable[2][1] +
-                                  FTable[3][1]),
-                                 (vector.FX * FTable[0][2] +
-                                  vector.FY * FTable[1][2] +
-                                  vector.FZ * FTable[2][2] +
-                                  FTable[3][2]));
+  // calculates x, y and z coordinates (don't use w component), and returns
+  // transformed vector
+  Result := TQRVector3D.Create((Vector.FX * FTable[0][0] +
+                                Vector.FY * FTable[1][0] +
+                                Vector.FZ * FTable[2][0] +
+                                FTable[3][0]),
+                               (Vector.FX * FTable[0][1] +
+                                Vector.FY * FTable[1][1] +
+                                Vector.FZ * FTable[2][1] +
+                                FTable[3][1]),
+                               (Vector.FX * FTable[0][2] +
+                                Vector.FY * FTable[1][2] +
+                                Vector.FZ * FTable[2][2] +
+                                FTable[3][2]));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRMatrix4x4.GetPtr: PDouble;
 begin
-    Result := @FTable[0][0];
+  Result := @FTable[0][0];
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMatrix4x4.Identity: TQRMatrix4x4;
 begin
-    Result := TQRMatrix4x4.Create(1.0, 0.0, 0.0, 0.0,
-                                  0.0, 1.0, 0.0, 0.0,
-                                  0.0, 0.0, 1.0, 0.0,
-                                  0.0, 0.0, 0.0, 1.0);
+  Result := TQRMatrix4x4.Create(1.0, 0.0, 0.0, 0.0,
+                                0.0, 1.0, 0.0, 0.0,
+                                0.0, 0.0, 1.0, 0.0,
+                                0.0, 0.0, 0.0, 1.0);
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRQuaternion
-//--------------------------------------------------------------------------------------------------
-constructor TQRQuaternion.Create(x, y, z, w: Double);
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRQuaternion'}
+//------------------------------------------------------------------------------
+constructor TQRQuaternion.Create(X, Y, Z, W: Double);
 begin
-    FX := x;
-    FY := y;
-    FZ := z;
-    m_W := w;
+  FX := X;
+  FY := Y;
+  FZ := Z;
+  FW := W;
 end;
-//--------------------------------------------------------------------------------------------------
-constructor TQRQuaternion.Create(const vector: TQRVector3D; angle: Double);
+//------------------------------------------------------------------------------
+constructor TQRQuaternion.Create(const Vector: TQRVector3D; Angle: Double);
 var
-    sinAngle: Double;
+  SinAngle: Double;
 begin
-    sinAngle := Sin(angle);
+  SinAngle := Sin(Angle);
 
-    FX := (vector.FX * sinAngle);
-    FY := (vector.FY * sinAngle);
-    FZ := (vector.FZ * sinAngle);
-    m_W :=  Cos(angle);
+  FX := (Vector.FX * SinAngle);
+  FY := (Vector.FY * SinAngle);
+  FZ := (Vector.FZ * SinAngle);
+  FW :=  Cos(Angle);
 end;
-//--------------------------------------------------------------------------------------------------
-constructor TQRQuaternion.Create(const matrix: TQRMatrix4x4);
+//------------------------------------------------------------------------------
+constructor TQRQuaternion.Create(const Matrix: TQRMatrix4x4);
 var
-    diagonal, scale: Double;
+ Diagonal, Scale: Double;
 begin
-    // calculate the matrix diagonal by adding up it's diagonal indices (also known as "trace")
-    diagonal := matrix.FTable[0][0] +
-                matrix.FTable[1][1] +
-                matrix.FTable[2][2] +
-                matrix.FTable[3][3];
+  // calculate the matrix diagonal by adding up it's diagonal indices (also known as "trace")
+  Diagonal := Matrix.FTable[0][0] +
+              Matrix.FTable[1][1] +
+              Matrix.FTable[2][2] +
+              Matrix.FTable[3][3];
 
-    // is diagonal greater than zero?
-    if (diagonal > 0.00000001) then
-    begin
-        // calculate the diagonal scale
-        scale := Sqrt(diagonal) * 2.0;
+  // is diagonal greater than zero?
+  if (Diagonal > 0.00000001) then
+  begin
+    // calculate the diagonal Scale
+    Scale := Sqrt(Diagonal) * 2.0;
 
-        // calculate the quaternion Values using the respective equation
-        FX := (matrix.FTable[1][2] - matrix.FTable[2][1]) / scale;
-        FY := (matrix.FTable[2][0] - matrix.FTable[0][2]) / scale;
-        FZ := (matrix.FTable[0][1] - matrix.FTable[1][0]) / scale;
-        m_W := 0.25 * scale;
+    // calculate the quaternion values using the respective equation
+    FX := (Matrix.FTable[1][2] - Matrix.FTable[2][1]) / Scale;
+    FY := (Matrix.FTable[2][0] - Matrix.FTable[0][2]) / Scale;
+    FZ := (Matrix.FTable[0][1] - Matrix.FTable[1][0]) / Scale;
+    FW := 0.25 * Scale;
 
-        Exit;
-    end;
+    Exit;
+  end;
 
-    // search for highest Value in the matrix diagonal
-    if ((matrix.FTable[0][0] > matrix.FTable[1][1]) and (matrix.FTable[0][0] > matrix.FTable[2][2])) then
-    begin
-        // calculate scale using the first diagonal element and double that Value
-        scale := Sqrt(1.0 + matrix.FTable[0][0] - matrix.FTable[1][1] - matrix.FTable[2][2]) * 2.0;
+  // search for highest value in the matrix diagonal
+  if ((Matrix.FTable[0][0] > Matrix.FTable[1][1]) and (Matrix.FTable[0][0] > Matrix.FTable[2][2])) then
+  begin
+    // calculate scale using the first diagonal element and double that value
+    Scale := Sqrt(1.0 + Matrix.FTable[0][0] - Matrix.FTable[1][1] - Matrix.FTable[2][2]) * 2.0;
 
-        // calculate the quaternion Values using the respective equation
-        FX := 0.25 * scale;
-        FY := (matrix.FTable[0][1] + matrix.FTable[1][0]) / scale;
-        FZ := (matrix.FTable[2][0] + matrix.FTable[0][2]) / scale;
-        m_W := (matrix.FTable[1][2] - matrix.FTable[2][1]) / scale;
-    end
-    else
-    if (matrix.FTable[1][1] > matrix.FTable[2][2]) then
-    begin
-        // calculate scale using the second diagonal element and double that Value
-        scale := Sqrt(1.0 + matrix.FTable[1][1] - matrix.FTable[0][0] - matrix.FTable[2][2]) * 2.0;
+    // calculate the quaternion values using the respective equation
+    FX := 0.25 * Scale;
+    FY := (Matrix.FTable[0][1] + Matrix.FTable[1][0]) / Scale;
+    FZ := (Matrix.FTable[2][0] + Matrix.FTable[0][2]) / Scale;
+    FW := (Matrix.FTable[1][2] - Matrix.FTable[2][1]) / Scale;
+  end
+  else
+  if (Matrix.FTable[1][1] > Matrix.FTable[2][2]) then
+  begin
+    // calculate scale using the second diagonal element and double that value
+    Scale := Sqrt(1.0 + Matrix.FTable[1][1] - Matrix.FTable[0][0] - Matrix.FTable[2][2]) * 2.0;
 
-        // calculate the quaternion Values using the respective equation
-        FX := (matrix.FTable[0][1] + matrix.FTable[1][0]) / scale;
-        FY := 0.25 * scale;
-        FZ := (matrix.FTable[1][2] + matrix.FTable[2][1]) / scale;
-        m_W := (matrix.FTable[2][0] - matrix.FTable[0][2]) / scale;
-    end
-    else
-    begin
-        // calculate scale using the third diagonal element and double that Value
-        scale := Sqrt(1.0 + matrix.FTable[2][2] - matrix.FTable[0][0] - matrix.FTable[1][1]) * 2.0;
+    // calculate the quaternion values using the respective equation
+    FX := (Matrix.FTable[0][1] + Matrix.FTable[1][0]) / Scale;
+    FY := 0.25 * Scale;
+    FZ := (Matrix.FTable[1][2] + Matrix.FTable[2][1]) / Scale;
+    FW := (Matrix.FTable[2][0] - Matrix.FTable[0][2]) / Scale;
+  end
+  else
+  begin
+    // calculate scale using the third diagonal element and double that value
+    Scale := Sqrt(1.0 + Matrix.FTable[2][2] - Matrix.FTable[0][0] - Matrix.FTable[1][1]) * 2.0;
 
-        // calculate the quaternion Values using the respective equation
-        FX := (matrix.FTable[2][0] + matrix.FTable[0][2]) / scale;
-        FY := (matrix.FTable[1][2] + matrix.FTable[2][1]) / scale;
-        FZ := 0.25 * scale;
-        m_W := (matrix.FTable[0][1] - matrix.FTable[1][0]) / scale;
-    end
+    // calculate the quaternion values using the respective equation
+    FX := (Matrix.FTable[2][0] + Matrix.FTable[0][2]) / Scale;
+    FY := (Matrix.FTable[1][2] + Matrix.FTable[2][1]) / Scale;
+    FZ := 0.25 * Scale;
+    FW := (Matrix.FTable[0][1] - Matrix.FTable[1][0]) / Scale;
+  end
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRQuaternion.Create(const Other: TQRQuaternion);
 begin
-    Assign(Other);
+  Assign(Other);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRQuaternion.Assign(const Other: TQRQuaternion);
 begin
-    FX := Other.FX;
-    FY := Other.FY;
-    FZ := Other.FZ;
-    m_W := Other.m_W;
+  FX := Other.FX;
+  FY := Other.FY;
+  FZ := Other.FZ;
+  FW := Other.FW;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Add(const Value: Double): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX + Value, FY + Value, FZ + Value, m_W + Value);
+  Result := TQRQuaternion.Create(FX + Value, FY + Value, FZ + Value, FW + Value);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Add(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX + Other.FX,
-                                   FY + Other.FY,
-                                   FZ + Other.FZ,
-                                   m_W + Other.m_W);
+  Result := TQRQuaternion.Create(FX + Other.FX,
+                                 FY + Other.FY,
+                                 FZ + Other.FZ,
+                                 FW + Other.FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Invert: TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(-FX, -FY, -FZ, -m_W);
+  Result := TQRQuaternion.Create(-FX, -FY, -FZ, -FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Sub(const Value: Double): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX - Value, FY - Value, FZ - Value, m_W - Value);
+  Result := TQRQuaternion.Create(FX - Value, FY - Value, FZ - Value, FW - Value);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Sub(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX - Other.FX,
-                                   FY - Other.FY,
-                                   FZ - Other.FZ,
-                                   m_W - Other.m_W);
+  Result := TQRQuaternion.Create(FX - Other.FX,
+                                 FY - Other.FY,
+                                 FZ - Other.FZ,
+                                 FW - Other.FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Mul(const Value: Double): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX * Value, FY * Value, FZ * Value, m_W * Value);
+  Result := TQRQuaternion.Create(FX * Value, FY * Value, FZ * Value, FW * Value);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Mul(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX * Other.FX,
-                                   FY * Other.FY,
-                                   FZ * Other.FZ,
-                                   m_W * Other.m_W);
+  Result := TQRQuaternion.Create(FX * Other.FX,
+                                 FY * Other.FY,
+                                 FZ * Other.FZ,
+                                 FW * Other.FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Divide(const Value: Double): TQRQuaternion;
 begin
-    if (Value = 0.0) then
-        raise Exception.Create('Division by 0 is prohibited');
+  if (Value = 0.0) then
+    raise Exception.Create('Division by 0 is prohibited');
 
-    Result := TQRQuaternion.Create(FX / Value, FY / Value, FZ / Value, m_W / Value);
+  Result := TQRQuaternion.Create(FX / Value, FY / Value, FZ / Value, FW / Value);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Divide(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    if (Other.FX = 0.0) then
-        raise Exception.Create('Quaternion x Value - division by 0 is prohibited');
+  if (Other.FX = 0.0) then
+    raise Exception.Create('Quaternion x Value - division by 0 is prohibited');
 
-    if (Other.FY = 0.0) then
-        raise Exception.Create('Quaternion y Value - division by 0 is prohibited');
+  if (Other.FY = 0.0) then
+    raise Exception.Create('Quaternion y Value - division by 0 is prohibited');
 
-    if (Other.FZ = 0.0) then
-        raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
+  if (Other.FZ = 0.0) then
+    raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
 
-    if (Other.m_W = 0.0) then
-        raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
+  if (Other.FW = 0.0) then
+    raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
 
-    Result := TQRQuaternion.Create(FX / Other.FX,
-                                   FY / Other.FY,
-                                   FZ / Other.FZ,
-                                   m_W / Other.m_W);
+  Result := TQRQuaternion.Create(FX / Other.FX,
+                                 FY / Other.FY,
+                                 FZ / Other.FZ,
+                                 FW / Other.FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.AddAndAssign(const Value: Double): TQRQuaternion;
 begin
-    FX := FX + Value;
-    FY := FY + Value;
-    FZ := FZ + Value;
-    m_W := m_W + Value;
+  FX := FX + Value;
+  FY := FY + Value;
+  FZ := FZ + Value;
+  FW := FW + Value;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.AddAndAssign(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    FX := FX + Other.FX;
-    FY := FY + Other.FY;
-    FZ := FZ + Other.FZ;
-    m_W := m_W + Other.m_W;
+  FX := FX + Other.FX;
+  FY := FY + Other.FY;
+  FZ := FZ + Other.FZ;
+  FW := FW + Other.FW;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.SubAndAssign(const Value: Double): TQRQuaternion;
 begin
-    FX := FX - Value;
-    FY := FY - Value;
-    FZ := FZ - Value;
-    m_W := m_W - Value;
+  FX := FX - Value;
+  FY := FY - Value;
+  FZ := FZ - Value;
+  FW := FW - Value;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.SubAndAssign(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    FX := FX - Other.FX;
-    FY := FY - Other.FY;
-    FZ := FZ - Other.FZ;
-    m_W := m_W - Other.m_W;
+  FX := FX - Other.FX;
+  FY := FY - Other.FY;
+  FZ := FZ - Other.FZ;
+  FW := FW - Other.FW;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.MulAndAssign(const Value: Double): TQRQuaternion;
 begin
-    FX := FX * Value;
-    FY := FY * Value;
-    FZ := FZ * Value;
-    m_W := m_W * Value;
+  FX := FX * Value;
+  FY := FY * Value;
+  FZ := FZ * Value;
+  FW := FW * Value;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.MulAndAssign(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    FX := FX * Other.FX;
-    FY := FY * Other.FY;
-    FZ := FZ * Other.FZ;
-    m_W := m_W * Other.m_W;
+  FX := FX * Other.FX;
+  FY := FY * Other.FY;
+  FZ := FZ * Other.FZ;
+  FW := FW * Other.FW;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.DivAndAssign(const Value: Double): TQRQuaternion;
 begin
-    if (Value = 0.0) then
-        raise Exception.Create('Division by 0 is prohibited');
+  if (Value = 0.0) then
+    raise Exception.Create('Division by 0 is prohibited');
 
-    FX := FX / Value;
-    FY := FY / Value;
-    FZ := FZ / Value;
-    m_W := m_W / Value;
+  FX := FX / Value;
+  FY := FY / Value;
+  FZ := FZ / Value;
+  FW := FW / Value;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.DivAndAssign(const Other: TQRQuaternion): TQRQuaternion;
 begin
-    if (Other.FX = 0.0) then
-        raise Exception.Create('Quaternion x Value - division by 0 is prohibited');
+  if (Other.FX = 0.0) then
+    raise Exception.Create('Quaternion x Value - division by 0 is prohibited');
 
-    if (Other.FY = 0.0) then
-        raise Exception.Create('Quaternion y Value - division by 0 is prohibited');
+  if (Other.FY = 0.0) then
+    raise Exception.Create('Quaternion y Value - division by 0 is prohibited');
 
-    if (Other.FZ = 0.0) then
-        raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
+  if (Other.FZ = 0.0) then
+    raise Exception.Create('Quaternion z Value - division by 0 is prohibited');
 
-    if (Other.m_W = 0.0) then
-        raise Exception.Create('Quaternion w Value - division by 0 is prohibited');
+  if (Other.FW = 0.0) then
+    raise Exception.Create('Quaternion w Value - division by 0 is prohibited');
 
-    FX := FX / Other.FX;
-    FY := FY / Other.FY;
-    FZ := FZ / Other.FZ;
-    m_W := m_W / Other.m_W;
+  FX := FX / Other.FX;
+  FY := FY / Other.FY;
+  FZ := FZ / Other.FZ;
+  FW := FW / Other.FW;
 
-    Result := Self;
+  Result := Self;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.IsEqual(const Other: TQRQuaternion): Boolean;
 begin
-    Result := ((FX = Other.FX) and (FY = Other.FY) and (FZ = Other.FZ) and (m_W = Other.m_W));
+  Result := ((FX = Other.FX) and (FY = Other.FY) and (FZ = Other.FZ) and (FW = Other.FW));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Differs(const Other: TQRQuaternion): Boolean;
 begin
-    Result := ((FX <> Other.FX) or (FY <> Other.FY) or (FZ <> Other.FZ) or (m_W <> Other.m_W));
+  Result := ((FX <> Other.FX) or (FY <> Other.FY) or (FZ <> Other.FZ) or (FW <> Other.FW));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Norm: Double;
 begin
-    Result := ((FX * FX) + (FY * FY) + (FZ * FZ) + (m_W * m_W));
+  Result := ((FX * FX) + (FY * FY) + (FZ * FZ) + (FW * FW));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Length: Double;
 begin
-    Result := Sqrt(Norm);
+  Result := Sqrt(Norm);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Normalize: TQRQuaternion;
 var
-    len: Double;
+  Len: Double;
 begin
-    len := Length;
+  Len := Length;
 
-    if (len = 0.0) then
-    begin
-        Result := Default(TQRQuaternion);
-        Exit;
-    end;
+  if (Len = 0.0) then
+  begin
+    Result := Default(TQRQuaternion);
+    Exit;
+  end;
 
-    Result := TQRQuaternion.Create((FX / len), (FY / len), (FZ / len), (m_W / len));
+  Result := TQRQuaternion.Create((FX / Len), (FY / Len), (FZ / Len), (FW / Len));
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Dot(const q: TQRQuaternion): Double;
+//------------------------------------------------------------------------------
+function TQRQuaternion.Dot(const Q: TQRQuaternion): Double;
 begin
-    Result := ((FX * q.FX) + (FY * q.FY) + (FZ * q.FZ) + (m_W * q.m_W));
+  Result := ((FX * Q.FX) + (FY * Q.FY) + (FZ * Q.FZ) + (FW * Q.FW));
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Scale(s: Double): TQRQuaternion;
+//------------------------------------------------------------------------------
+function TQRQuaternion.Scale(S: Double): TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(FX * s, FY * s, FZ * s, m_W * s);
+  Result := TQRQuaternion.Create(FX * S, FY * S, FZ * S, FW * S);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Conjugate: TQRQuaternion;
 begin
-    Result := TQRQuaternion.Create(-FX, -FY, -FZ, m_W);
+  Result := TQRQuaternion.Create(-FX, -FY, -FZ, FW);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.Inverse: TQRQuaternion;
 var
-    quatNorm: Double;
+  QuatNorm: Double;
 begin
-    // calculate the norm of the quaternion
-    quatNorm := Norm;
+  // calculate the norm of the quaternion
+  QuatNorm := Norm;
 
-    // empty quaternion?
-    if (quatNorm = 0.0) then
-    begin
-        Result := Default(TQRQuaternion);
-        Exit;
-    end;
+  // empty quaternion?
+  if (QuatNorm = 0.0) then
+  begin
+    Result := Default(TQRQuaternion);
+    Exit;
+  end;
 
-    Result := Conjugate.Scale(1.0 / quatNorm);
+  Result := Conjugate.Scale(1.0 / QuatNorm);
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Slerp(const Other: TQRQuaternion; p: Double): TQRQuaternion;
+//------------------------------------------------------------------------------
+function TQRQuaternion.Slerp(const Other: TQRQuaternion; P: Double): TQRQuaternion;
 var
-    quatDot, scale0, scale1, theta, sinTheta: Double;
-    interpolateWith:                          TQRQuaternion;
+  QuatDot, Scale0, Scale1, Theta, SinTheta: Double;
+  InterpolateWith:                          TQRQuaternion;
 begin
-    // are quaternions identical?
-    if (IsEqual(Other)) then
-    begin
-        Result := Self;
-        Exit;
-    end;
+  // are quaternions identical?
+  if (IsEqual(Other)) then
+  begin
+    Result := Self;
+    Exit;
+  end;
 
-    // calculate dot product between q1 and q2
-    quatDot := Dot(Other);
+  // calculate dot product between q1 and q2
+  QuatDot := Dot(Other);
 
-    // check if angle is higher than 90° (this happen if dot product is less than 0)
-    if (quatDot < 0.0) then
-    begin
-        // negate the second quaternion and the dot product result
-        interpolateWith :=  Other.Invert;
-        quatDot         := -quatDot;
-    end
-    else
-        interpolateWith := Other;
+  // check if angle is higher than 90° (this happen if dot product is less than 0)
+  if (QuatDot < 0.0) then
+  begin
+    // negate the second quaternion and the dot product result
+    InterpolateWith :=  Other.Invert;
+    QuatDot         := -QuatDot;
+  end
+  else
+    InterpolateWith := Other;
 
-    // calculate the interpolation first and second scale
-    scale0 := 1.0 - p;
-    scale1 := p;
+  // calculate the interpolation first and second scale
+  Scale0 := 1.0 - P;
+  Scale1 := P;
 
-    // is angle large enough to apply the calculation
-    if ((1.0 - quatDot) > 0.1) then
-    begin
-        // calculate the angle between the 2 quaternions and get the sinus of that angle
-        theta    := ArcCos(quatDot);
-        sinTheta := Sin(theta);
+  // is angle large enough to apply the calculation
+  if ((1.0 - QuatDot) > 0.1) then
+  begin
+    // calculate the angle between the 2 quaternions and get the sinus of that angle
+    Theta    := ArcCos(QuatDot);
+    SinTheta := Sin(Theta);
 
-        // is resulting sinus equal to 0? (just to verify, should not happen)
-        if (sinTheta = 0.0) then
-            raise Exception.Create('Invalid Value');
+    // is resulting sinus equal to 0? (just to verify, should not happen)
+    if (SinTheta = 0.0) then
+      raise Exception.Create('Invalid Value');
 
-        // calculate the scaling for q1 and q2, according to the angle and it's sine Value
-        scale0 := Sin((1.0 - p) * theta)  / sinTheta;
-        scale1 := Sin((p        * theta)) / sinTheta;
-    end;
+    // calculate the scaling for q1 and q2, according to the angle and it's sine Value
+    Scale0 := Sin((1.0 - P) * Theta)  / SinTheta;
+    Scale1 := Sin((P        * Theta)) / SinTheta;
+  end;
 
-    // calculate the resulting quaternion by using a special form of linear interpolation
-    Result.FX := (scale0 * FX) + (scale1 * interpolateWith.FX);
-    Result.FY := (scale0 * FY) + (scale1 * interpolateWith.FY);
-    Result.FZ := (scale0 * FZ) + (scale1 * interpolateWith.FZ);
-    Result.m_W := (scale0 * m_W) + (scale1 * interpolateWith.m_W);
+  // calculate the resulting quaternion by using a special form of linear interpolation
+  Result.FX := (Scale0 * FX) + (Scale1 * InterpolateWith.FX);
+  Result.FY := (Scale0 * FY) + (Scale1 * InterpolateWith.FY);
+  Result.FZ := (Scale0 * FZ) + (Scale1 * InterpolateWith.FZ);
+  Result.FW := (Scale0 * FW) + (Scale1 * InterpolateWith.FW);
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Rotate(const vector: TQRVector3D): TQRVector3D;
+//------------------------------------------------------------------------------
+function TQRQuaternion.Rotate(const Vector: TQRVector3D): TQRVector3D;
 var
-    qv, qm: TQRQuaternion;
+  Qv, Qm: TQRQuaternion;
 begin
-    // rotate vector
-    qv := TQRQuaternion.Create(vector.FX, vector.FY, vector.FZ, 0);
-    qm := Mul(qv.Mul(Inverse));
+  // rotate vector
+  Qv := TQRQuaternion.Create(Vector.FX, Vector.FY, Vector.FZ, 0);
+  Qm := Mul(qv.Mul(Inverse));
 
-    Result.FX := qm.FX;
-    Result.FY := qm.FY;
-    Result.FZ := qm.FZ;
+  Result.FX := Qm.FX;
+  Result.FY := Qm.FY;
+  Result.FZ := Qm.FZ;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRQuaternion.GetMatrix: TQRMatrix4x4;
 begin
-    Result := TQRMAtrix4x4.Create(1.0 -  2.0 * (FY * FY + FZ * FZ), 2.0 * (FX *  FY - m_W * FZ),       2.0 * (FX *  FZ + m_W * FY),       0.0,
-                                  2.0 * (FX *  FY + m_W * FZ),       1.0 -  2.0 * (FX * FX + FZ * FZ), 2.0 * (FY *  FZ - m_W * FX),       0.0,
-                                  2.0 * (FX *  FZ - m_W * FY),       2.0 * (FY *  FZ + m_W * FX),       1.0 -  2.0 * (FX * FX + FY * FY), 0.0,
-                                  0.0,                                  0.0,                                  0.0,                                  1.0);
+  Result := TQRMAtrix4x4.Create(1.0 -  2.0 * (FY * FY + FZ * FZ), 2.0 * (FX *  FY - FW * FZ),       2.0 * (FX *  FZ + FW * FY),       0.0,
+                                2.0 * (FX *  FY + FW * FZ),       1.0 -  2.0 * (FX * FX + FZ * FZ), 2.0 * (FY *  FZ - FW * FX),       0.0,
+                                2.0 * (FX *  FZ - FW * FY),       2.0 * (FY *  FZ + FW * FX),       1.0 -  2.0 * (FX * FX + FY * FY), 0.0,
+                                0.0,                              0.0,                              0.0,                              1.0);
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRRay
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRRay'}
+//------------------------------------------------------------------------------
 constructor TQRRay.Create;
 var
-    dir: TQRVector3D;
+  Dir: TQRVector3D;
 begin
-    FPos := Default(TQRVector3D);
-    dir   := Default(TQRVector3D);
-    SetDir(@dir);
+  FPos := Default(TQRVector3D);
+  Dir  := Default(TQRVector3D);
+  SetDir(@Dir);
 end;
-//--------------------------------------------------------------------------------------------------
-constructor TQRRay.Create(const pOther: TQRRay);
+//------------------------------------------------------------------------------
+constructor TQRRay.Create(const PtOther: TQRRay);
 begin
-    FPos.Assign(pOther.FPos);
-    FDir.Assign(pOther.FDir);
-    m_InvDir.Assign(pOther.m_InvDir);
+  FPos.Assign(PtOther.FPos);
+  FDir.Assign(PtOther.FDir);
+  FInvDir.Assign(PtOther.FInvDir);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRay.GetPos: PQRVector3D;
 begin
-    Result := @FPos;
+  Result := @FPos;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRRay.SetPos(const pPos: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRRay.SetPos(const PtPos: PQRVector3D);
 begin
-    FPos := pPos^;
+  FPos := PtPos^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRay.GetDir: PQRVector3D;
 begin
-    Result := @FDir;
+  Result := @FDir;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRRay.SetDir(const pDir: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRRay.SetDir(const PtDir: PQRVector3D);
 begin
-    FDir.Assign(pDir^);
+  FDir.Assign(PtDir^);
 
-    // is x direction empty?
-    if (FDir.FX = 0.0) then
-        // in this case invert direction on x axis is infinite
-        m_InvDir.FX := Infinity
-    else
-        // calculate invert direction on x axis
-        m_InvDir.FX := (1.0 / FDir.FX);
+  // is x direction empty?
+  if (FDir.FX = 0.0) then
+    // in this case invert direction on x axis is infinite
+    FInvDir.FX := Infinity
+  else
+    // calculate invert direction on x axis
+    FInvDir.FX := (1.0 / FDir.FX);
 
-    // is y direction empty?
-    if (FDir.FY = 0.0) then
-        // in this case invert direction on y axis is infinite
-        m_InvDir.FY := Infinity
-    else
-        // calculate invert direction on y axis
-        m_InvDir.FY := (1.0 / FDir.FY);
+  // is y direction empty?
+  if (FDir.FY = 0.0) then
+    // in this case invert direction on y axis is infinite
+    FInvDir.FY := Infinity
+  else
+    // calculate invert direction on y axis
+    FInvDir.FY := (1.0 / FDir.FY);
 
-    // is z direction empty?
-    if (FDir.FZ = 0.0) then
-        // in this case invert direction on z axis is infinite
-        m_InvDir.FZ := Infinity
-    else
-        // calculate invert direction on z axis
-        m_InvDir.FZ := (1.0 / FDir.FZ);
+  // is z direction empty?
+  if (FDir.FZ = 0.0) then
+    // in this case invert direction on z axis is infinite
+    FInvDir.FZ := Infinity
+  else
+    // calculate invert direction on z axis
+    FInvDir.FZ := (1.0 / FDir.FZ);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRay.GetInvDir: PQRVector3D;
 begin
-    Result := @m_InvDir;
+  Result := @FInvDir;
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRPolygon
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.IsBetween(const Value, vStart, vEnd: TQRVector3D; tolerance: Double): Boolean;
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRPolygon'}
+//------------------------------------------------------------------------------
+function TQRPolygon.IsBetween(const Value, VStart, VEnd: TQRVector3D; Tolerance: Double): Boolean;
 begin
-    // check if each vector component is between start and end limits
-    Result := (IsBetween(Value.X, vStart.X, vEnd.X, tolerance) and
-               IsBetween(Value.Y, vStart.Y, vEnd.Y, tolerance) and
-               IsBetween(Value.Z, vStart.Z, vEnd.Z, tolerance));
+  // check if each vector component is between start and end limits
+  Result := (IsBetween(Value.X, VStart.X, VEnd.X, Tolerance) and
+             IsBetween(Value.Y, VStart.Y, VEnd.Y, Tolerance) and
+             IsBetween(Value.Z, VStart.Z, VEnd.Z, Tolerance));
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.IsBetween(const Value, lStart, lEnd, tolerance: Double): Boolean;
+//------------------------------------------------------------------------------
+function TQRPolygon.IsBetween(const Value, LStart, LEnd, Tolerance: Double): Boolean;
 begin
-    // check if each Value is between start and end limits considering tolerance
-    Result := ((Value >= Min(lStart, lEnd) - tolerance) and
-               (Value <= Max(lStart, lEnd) + tolerance));
+  // check if each Value is between start and end limits considering tolerance
+  Result := ((Value >= Min(LStart, LEnd) - Tolerance) and
+             (Value <= Max(LStart, LEnd) + Tolerance));
 end;
-//--------------------------------------------------------------------------------------------------
-constructor TQRPolygon.Create(const vertex1, vertex2, vertex3: TQRVector3D);
+//------------------------------------------------------------------------------
+constructor TQRPolygon.Create(const Vertex1, Vertex2, Vertex3: TQRVector3D);
 begin
-    m_Vertex[0] := vertex1;
-    m_Vertex[1] := vertex2;
-    m_Vertex[2] := vertex3;
+    FVertex[0] := Vertex1;
+    FVertex[1] := Vertex2;
+    FVertex[2] := Vertex3;
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetVertex(index: Byte): TQRVector3D;
+//------------------------------------------------------------------------------
+function TQRPolygon.GetVertex(Index: Byte): TQRVector3D;
 begin
-    // search for index to get
-    case (index) of
-        0:
-            Result := m_Vertex[0];
-
-        1:
-            Result := m_Vertex[1];
-
-        2:
-            Result := m_Vertex[2];
-    end;
+  // search for index to get
+  case (Index) of
+    0: Result := FVertex[0];
+    1: Result := FVertex[1];
+    2: Result := FVertex[2];
+  end;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRPolygon.SetVertex(index: Byte; const vertex: TQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRPolygon.SetVertex(Index: Byte; const Vertex: TQRVector3D);
 begin
     // search for index to set
-    case (index) of
-        0:
-            m_Vertex[0] := vertex;
-
-        1:
-            m_Vertex[1] := vertex;
-
-        2:
-            m_Vertex[2] := vertex;
+    case (Index) of
+      0: FVertex[0] := Vertex;
+      1: FVertex[1] := Vertex;
+      2: FVertex[2] := Vertex;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetVertex1: PQRVector3D;
 begin
-    Result := @m_Vertex[0];
+  Result := @FVertex[0];
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRPolygon.SetVertex1(const pVertex: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRPolygon.SetVertex1(const PtVertex: PQRVector3D);
 begin
-    m_Vertex[0] := pVertex^;
+  FVertex[0] := PtVertex^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetVertex2: PQRVector3D;
 begin
-    Result := @m_Vertex[1];
+  Result := @FVertex[1];
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRPolygon.SetVertex2(const pVertex: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRPolygon.SetVertex2(const PtVertex: PQRVector3D);
 begin
-    m_Vertex[1] := pVertex^;
+  FVertex[1] := PtVertex^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetVertex3: PQRVector3D;
 begin
-    Result := @m_Vertex[2];
+  Result := @FVertex[2];
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRPolygon.SetVertex3(const pVertex: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRPolygon.SetVertex3(const PtVertex: PQRVector3D);
 begin
-    m_Vertex[2] := pVertex^;
+  FVertex[2] := PtVertex^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetClone: TQRPolygon;
 begin
-    // copies the polygon, then returns the copy
-    Result := TQRPolygon.Create(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
+  // copies the polygon, then returns the copy
+  Result := TQRPolygon.Create(FVertex[0], FVertex[1], FVertex[2]);
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.ApplyMatrix(const matrix: TQRMatrix4x4): TQRPolygon;
+//------------------------------------------------------------------------------
+function TQRPolygon.ApplyMatrix(const Matrix: TQRMatrix4x4): TQRPolygon;
 begin
-    // build a new polygon transforming all vertices of the polygon using
-    // given matrix, and return new built polygon
-    Result := TQRPolygon.Create(matrix.Transform(m_Vertex[0]),
-                                matrix.Transform(m_Vertex[1]),
-                                matrix.Transform(m_Vertex[2]));
+  // build a new polygon transforming all vertices of the polygon using
+  // given matrix, and return new built polygon
+  Result := TQRPolygon.Create(Matrix.Transform(FVertex[0]),
+                              Matrix.Transform(FVertex[1]),
+                              Matrix.Transform(FVertex[2]));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetPlane: TQRPlane;
 begin
-    // calculates the plane from the Values of the 3 vertices of the polygon
-    Result := TQRPlane.FromPoints(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
+  // calculates the plane from the Values of the 3 vertices of the polygon
+  Result := TQRPlane.FromPoints(FVertex[0], FVertex[1], FVertex[2]);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRPolygon.GetCenter: TQRVector3D;
 begin
-    // calculates then returns the Value of the midpoint of the polygon
-    Result := TQRVector3D.Create(((m_Vertex[0].X + m_Vertex[1].X + m_Vertex[2].X) / 3.0),
-                                 ((m_Vertex[0].Y + m_Vertex[1].Y + m_Vertex[2].Y) / 3.0),
-                                 ((m_Vertex[0].Z + m_Vertex[1].Z + m_Vertex[2].Z) / 3.0));
+  // calculates then returns the Value of the midpoint of the polygon
+  Result := TQRVector3D.Create(((FVertex[0].X + FVertex[1].X + FVertex[2].X) / 3.0),
+                               ((FVertex[0].Y + FVertex[1].Y + FVertex[2].Y) / 3.0),
+                               ((FVertex[0].Z + FVertex[1].Z + FVertex[2].Z) / 3.0));
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.Inside(const x, y, z: Double): Boolean;
+//------------------------------------------------------------------------------
+function TQRPolygon.Inside(const X, Y, Z: Double): Boolean;
 begin
-    Result := Inside(TQRVector3D.Create(x, y, z));
+  Result := Inside(TQRVector3D.Create(X, Y, Z));
 end;
-//--------------------------------------------------------------------------------------------------
-function TQRPolygon.Inside(const point: TQRVector3D): Boolean;
+//------------------------------------------------------------------------------
+function TQRPolygon.Inside(const Point: TQRVector3D): Boolean;
 var
-    nPToV1, nPToV2, nPToV3:  TQRVector3D;
-    a1, a2, a3, angleResult: Double;
+    NPToV1, NPToV2, NPToV3:  TQRVector3D;
+    A1, A2, A3, AngleResult: Double;
 begin
-    {*
-    * check if the point p is inside the polygon in the following manner:
-    *
-    *                  V1                         V1
-    *                  /\                         /\
-    *                 /  \                       /  \
-    *                / *p \                  *P /    \
-    *               /      \                   /      \
-    *            V2 -------- V3             V2 -------- V3
-    *
-    * calculate the vectors between the point p and each polygon vertex, then
-    * calculate the angle formed by each of these vectors. If the sum of the
-    * angles is equal to a complete circle, i.e. 2 * pi in radians, then the
-    * point p is inside the polygon limits, otherwise the point is outside. It
-    * is assumed that the point to check belongs to the polygon's plane
-    *}
-    nPToV1 := m_Vertex[0].Sub(point).Normalize;
-    nPToV2 := m_Vertex[1].Sub(point).Normalize;
-    nPToV3 := m_Vertex[2].Sub(point).Normalize;
+  { check if the point p is inside the polygon in the following manner:
+  *
+  *                  V1                         V1
+  *                  /\                         /\
+  *                 /  \                       /  \
+  *                / *p \                  *P /    \
+  *               /      \                   /      \
+  *            V2 -------- V3             V2 -------- V3
+  *
+  * calculate the vectors between the point p and each polygon vertex, then
+  * calculate the angle formed by each of these vectors. If the sum of the
+  * angles is equal to a complete circle, i.e. 2 * pi in radians, then the
+  * point p is inside the polygon limits, otherwise the point is outside. It
+  * is assumed that the point to check belongs to the polygon's plane }
+  NPToV1 := FVertex[0].Sub(point).Normalize;
+  NPToV2 := FVertex[1].Sub(point).Normalize;
+  NPToV3 := FVertex[2].Sub(point).Normalize;
 
-    // calculate the angles using the dot product of each vectors. Limit range
-    // to Values between -1.0f and 1.0f
-    a1 := Max(Min(nPToV1.Dot(nPToV2), 1.0), -1.0);
-    a2 := Max(Min(nPToV2.Dot(nPToV3), 1.0), -1.0);
-    a3 := Max(Min(nPToV3.Dot(nPToV1), 1.0), -1.0);
+  // calculate the angles using the dot product of each vectors. Limit range
+  // to Values between -1.0f and 1.0f
+  A1 := Max(Min(NPToV1.Dot(NPToV2), 1.0), -1.0);
+  A2 := Max(Min(NPToV2.Dot(NPToV3), 1.0), -1.0);
+  A3 := Max(Min(NPToV3.Dot(NPToV1), 1.0), -1.0);
 
-    // calculate the sum of all angles
-    angleResult := ArcCos(a1) + ArcCos(a2) + ArcCos(a3);
+  // calculate the sum of all angles
+  AngleResult := ArcCos(A1) + ArcCos(A2) + ArcCos(A3);
 
-    // if sum is equal to 6.28 radians then point p is inside polygon. NOTE can
-    // be higher due to precision errors in calculations
-    Result := (angleResult >= 6.28);
+  // if sum is equal to 6.28 radians then point p is inside polygon. NOTE can
+  // be higher due to precision errors in calculations
+  Result := (AngleResult >= 6.28);
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRCircle
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRCircle'}
+//------------------------------------------------------------------------------
 function TQRCircle.GetPos: PQRVector2D;
 begin
-    Result := @FPos;
+  Result := @FPos;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRCircle.SetPos(const pPos: PQRVector2D);
+//------------------------------------------------------------------------------
+procedure TQRCircle.SetPos(const PtPos: PQRVector2D);
 begin
-    FPos := pPos^;
+  FPos := PtPos^;
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRSphere
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRSphere'}
+//------------------------------------------------------------------------------
 function TQRSphere.GetPos: PQRVector3D;
 begin
-    Result := @FPos;
+  Result := @FPos;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRSphere.SetPos(const pPos: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRSphere.SetPos(const PtPos: PQRVector3D);
 begin
-    FPos := pPos^;
+  FPos := PtPos^;
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRRect
-//--------------------------------------------------------------------------------------------------
-constructor TQRRect.Create(const x, y, width, height: Double);
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRRect'}
+//------------------------------------------------------------------------------
+constructor TQRRect.Create(const X, Y, Width, Height: Double);
 begin
-    FMin := TQRVector2D.Create(x,         y);
-    FMax := TQRVector2D.Create(x + width, y + height);
+  FMin := TQRVector2D.Create(X,         Y);
+  FMax := TQRVector2D.Create(X + Width, Y + Height);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRect.GetMin: PQRVector2D;
 begin
-    Result := @FMin;
+  Result := @FMin;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRRect.SetMin(const pValue: PQRVector2D);
+//------------------------------------------------------------------------------
+procedure TQRRect.SetMin(const PtValue: PQRVector2D);
 begin
-    FMin := pValue^;
+  FMin := PtValue^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRect.GetMax: PQRVector2D;
 begin
-    Result := @FMax;
+  Result := @FMax;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRRect.SetMax(const pValue: PQRVector2D);
+//------------------------------------------------------------------------------
+procedure TQRRect.SetMax(const PtValue: PQRVector2D);
 begin
-    FMax := pValue^;
+  FMax := PtValue^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRect.GetWidth: Double;
 begin
-    Result := (FMax.FX - FMin.FX);
+  Result := (FMax.FX - FMin.FX);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRRect.GetHeight: Double;
 begin
-    Result := (FMax.FY - FMin.FY);
+  Result := (FMax.FY - FMin.FY);
 end;
-//--------------------------------------------------------------------------------------------------
-// TQRBox
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
+{$REGION 'TQRBox'}
+//------------------------------------------------------------------------------
 function TQRBox.GetMin: PQRVector3D;
 begin
-    Result := @FMin;
+  Result := @FMin;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRBox.SetMin(const pValue: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRBox.SetMin(const PtValue: PQRVector3D);
 begin
-    FMin := pValue^;
+  FMin := PtValue^;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRBox.GetMax: PQRVector3D;
 begin
-    Result := @FMax;
+  Result := @FMax;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRBox.SetMax(const pValue: PQRVector3D);
+//------------------------------------------------------------------------------
+procedure TQRBox.SetMax(const PtValue: PQRVector3D);
 begin
-    FMax := pValue^;
+  FMax := PtValue^;
 end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRBox.Cut(var leftBox: TQRBox; var rightBox: TQRBox);
+//------------------------------------------------------------------------------
+procedure TQRBox.Cut(var LeftBox: TQRBox; var RightBox: TQRBox);
 var
-    x, y, z:     Double;
-    longestAxis: NativeUInt;
+  X, Y, Z:     Double;
+  LongestAxis: NativeUInt;
 begin
-    // calculate each edge length
-    x := Abs(FMax.FX - FMin.FX);
-    y := Abs(FMax.FY - FMin.FY);
-    z := Abs(FMax.FZ - FMin.FZ);
+  // calculate each edge length
+  X := Abs(FMax.FX - FMin.FX);
+  Y := Abs(FMax.FY - FMin.FY);
+  Z := Abs(FMax.FZ - FMin.FZ);
 
-    // search for longest axis
-    if ((x >= y) and (x >= z)) then
-        longestAxis := 0
-    else
-    if ((y >= x) and (y >= z)) then
-        longestAxis := 1
-    else
-        longestAxis := 2;
+  // search for longest axis
+  if ((X >= Y) and (X >= Z)) then
+    LongestAxis := 0
+  else
+  if ((Y >= X) and (Y >= Z)) then
+    LongestAxis := 1
+  else
+    LongestAxis := 2;
 
-    // cut box
-    case longestAxis of
-        // cut on x axis
-        0:
-        begin
-            leftBox.FMin.Assign(FMin);
-            leftBox.FMax.Assign(FMax);
-            leftBox.FMax.FX := FMin.FX + (x * 0.5);
+  // cut box
+  case LongestAxis of
+    // cut on x axis
+    0:
+    begin
+      LeftBox.FMin.Assign(FMin);
+      LeftBox.FMax.Assign(FMax);
+      LeftBox.FMax.FX := FMin.FX + (X * 0.5);
 
-            rightBox.FMin.Assign(FMin);
-            rightBox.FMax.Assign(FMax);
-            rightBox.FMin.FX := leftBox.FMax.FX;
-        end;
-
-        // cut on y axis
-        1:
-        begin
-            leftBox.FMin.Assign(FMin);
-            leftBox.FMax.Assign(FMax);
-            leftBox.FMax.FY := FMin.FY + (y * 0.5);
-
-            rightBox.FMin.Assign(FMin);
-            rightBox.FMax.Assign(FMax);
-            rightBox.FMin.FY := leftBox.FMax.FY;
-        end;
-
-        // cut on z axis
-        2:
-        begin
-            leftBox.FMin.Assign(FMin);
-            leftBox.FMax.Assign(FMax);
-            leftBox.FMax.FZ := FMin.FZ + (z * 0.5);
-
-            rightBox.FMin.Assign(FMin);
-            rightBox.FMax.Assign(FMax);
-            rightBox.FMin.FZ := leftBox.FMax.FZ;
-        end;
+      RightBox.FMin.Assign(FMin);
+      RightBox.FMax.Assign(FMax);
+      RightBox.FMin.FX := LeftBox.FMax.FX;
     end;
+
+    // cut on y axis
+    1:
+    begin
+      LeftBox.FMin.Assign(FMin);
+      LeftBox.FMax.Assign(FMax);
+      LeftBox.FMax.FY := FMin.FY + (Y * 0.5);
+
+      RightBox.FMin.Assign(FMin);
+      RightBox.FMax.Assign(FMax);
+      RightBox.FMin.FY := LeftBox.FMax.FY;
+    end;
+
+    // cut on z axis
+    2:
+    begin
+      LeftBox.FMin.Assign(FMin);
+      LeftBox.FMax.Assign(FMax);
+      LeftBox.FMax.FZ := FMin.FZ + (Z * 0.5);
+
+      RightBox.FMin.Assign(FMin);
+      RightBox.FMax.Assign(FMax);
+      RightBox.FMin.FZ := LeftBox.FMax.FZ;
+    end;
+  end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+{$ENDREGION}
+//------------------------------------------------------------------------------
 
 end.
