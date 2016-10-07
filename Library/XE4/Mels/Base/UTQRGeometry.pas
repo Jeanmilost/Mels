@@ -1965,7 +1965,7 @@ begin
         raise Exception.Create('Quaternion z value - division by 0 is prohibited');
 
     if (other.m_W = 0.0) then
-        raise Exception.Create('Quaternion z value - division by 0 is prohibited');
+        raise Exception.Create('Quaternion w value - division by 0 is prohibited');
 
     Result := TQRQuaternion.Create(m_X / other.m_X,
                                    m_Y / other.m_Y,
