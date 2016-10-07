@@ -40,7 +40,7 @@ type
             Procedure Assign(const other: TQRVector2D);                              inline;
             function  Add(const value: Single): TQRVector2D;               overload; inline;
             function  Add(const other: TQRVector2D): TQRVector2D;          overload; inline;
-            function  Invert(): TQRVector2D;                               overload; inline;
+            function  Invert: TQRVector2D;                                 overload; inline;
             function  Sub(const value: Single): TQRVector2D;               overload; inline;
             function  Sub(const other: TQRVector2D): TQRVector2D;          overload; inline;
             function  Mul(const value: Single): TQRVector2D;               overload; inline;
@@ -62,13 +62,13 @@ type
             * Gets the vector length
             *@return vector length
             *}
-            function Length(): Single; inline;
+            function Length: Single; inline;
 
             {**
             * Normalizes the vector
             *@return normalized vector
             *}
-            function Normalize(): TQRVector2D; inline;
+            function Normalize: TQRVector2D; inline;
 
             {**
             * Calculates the cross product between 2 vectors
@@ -127,7 +127,7 @@ type
             procedure Assign(const other: TQRVector3D);                              inline;
             function  Add(const value: Single): TQRVector3D;               overload; inline;
             function  Add(const other: TQRVector3D): TQRVector3D;          overload; inline;
-            function  Invert(): TQRVector3D;                               overload; inline;
+            function  Invert: TQRVector3D;                                 overload; inline;
             function  Sub(const value: Single): TQRVector3D;               overload; inline;
             function  Sub(const other: TQRVector3D): TQRVector3D;          overload; inline;
             function  Mul(const value: Single): TQRVector3D;               overload; inline;
@@ -149,13 +149,13 @@ type
             * Gets the vector length
             *@return vector length
             *}
-            function Length(): Single; inline;
+            function Length: Single; inline;
 
             {**
             * Normalizes the vector
             *@return normalized vector
             *}
-            function Normalize(): TQRVector3D; inline;
+            function Normalize: TQRVector3D; inline;
 
             {**
             * Calculates the cross product between 2 vectors
@@ -215,7 +215,7 @@ type
 
             { Basic functions }
             procedure Assign(const other: TQRPlane);           inline;
-            function  Invert(): TQRPlane;                      inline;
+            function  Invert: TQRPlane;                        inline;
             function  IsEqual(const other: TQRPlane): Boolean; inline;
             function  Differs(const other: TQRPlane): Boolean; inline;
 
@@ -366,13 +366,13 @@ type
             * Checks if matrix is an identity matrix
             *@return true if matrix is an identity matrix, otherwise false
             *}
-            function IsIdentity(): Boolean; inline;
+            function IsIdentity: Boolean; inline;
 
             {**
             * Gets matrix determinant
             *@return matrix determinant
             *}
-            function Determinant(): Single; inline;
+            function Determinant: Single; inline;
 
             {**
             * Inverses the matrix
@@ -415,7 +415,7 @@ type
             * Swaps matrix lines and columns
             *@return swapped matrix
             *}
-            function Swap(): TQRMatrix4x4; inline;
+            function Swap: TQRMatrix4x4; inline;
 
             {**
             * Applies a transformation matrix to a vector
@@ -429,13 +429,13 @@ type
             * Gets table pointer
             *@return pointer
             *}
-            function GetPtr(): PSingle; inline;
+            function GetPtr: PSingle; inline;
 
             {**
             * Gets an identity matrix
             *@return identity matrix
             *}
-            class function Identity(): TQRMatrix4x4; static; inline;
+            class function Identity: TQRMatrix4x4; static; inline;
 
             { Properties }
             property Item[i: NativeInt]:     Single read GetItem      write SetItem;
@@ -488,7 +488,7 @@ type
             procedure Assign(const other: TQRQuaternion);                                inline;
             function  Add(const value: Single): TQRQuaternion;                 overload; inline;
             function  Add(const other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Invert(): TQRQuaternion;                                 overload; inline;
+            function  Invert: TQRQuaternion;                                   overload; inline;
             function  Sub(const value: Single): TQRQuaternion;                 overload; inline;
             function  Sub(const other: TQRQuaternion): TQRQuaternion;          overload; inline;
             function  Mul(const value: Single): TQRQuaternion;                 overload; inline;
@@ -510,19 +510,19 @@ type
             * Calculates the norm of the quaternion
             *@return the norm of the quaternion
             *}
-            function Norm(): Single; inline;
+            function Norm: Single; inline;
 
             {**
             * Gets the quaternion length
             *@return the quaternion length
             *}
-            function Length(): Single; inline;
+            function Length: Single; inline;
 
             {**
             * Normalizes the vector
             *@return normalized vector
             *}
-            function Normalize(): TQRQuaternion; inline;
+            function Normalize: TQRQuaternion; inline;
 
             {**
             * Calculates the dot product between 2 quaternions
@@ -542,13 +542,13 @@ type
             * Conjugates quaternion
             *@return the conjugate of the quaternion
             *}
-            function Conjugate(): TQRQuaternion; inline;
+            function Conjugate: TQRQuaternion; inline;
 
             {**
             * Inverse quaternion
             *@return inverted quaternion
             *}
-            function Inverse(): TQRQuaternion; inline;
+            function Inverse: TQRQuaternion; inline;
 
             {**
             * Gets the spherical linear interpolated quaternion between 2 quaternions
@@ -569,7 +569,7 @@ type
             * Gets matrix from quaternion
             *@return matrix
             *}
-            function GetMatrix(): TQRMatrix4x4; inline;
+            function GetMatrix: TQRMatrix4x4; inline;
 
 
             { Properties }
@@ -594,7 +594,7 @@ type
             * Gets position
             *@return position
             *}
-            function GetPos(): PQRVector3D; virtual;
+            function GetPos: PQRVector3D; virtual;
 
             {**
             * Sets position
@@ -606,7 +606,7 @@ type
             * Gets direction
             *@return direction
             *}
-            function GetDir(): PQRVector3D; virtual;
+            function GetDir: PQRVector3D; virtual;
 
             {**
             * Sets direction
@@ -618,13 +618,13 @@ type
             * Gets inverted direction
             *@return inverted direction
             *}
-            function GetInvDir(): PQRVector3D; virtual;
+            function GetInvDir: PQRVector3D; virtual;
 
         public
             {**
             * Constructor
             *}
-            constructor Create(); overload; virtual;
+            constructor Create; overload; virtual;
 
             {**
             * Constructor
@@ -693,7 +693,7 @@ type
             * Gets first polygon vertex
             *@return first polygon vertex
             *}
-            function GetVertex1(): PQRVector3D;
+            function GetVertex1: PQRVector3D;
 
             {**
             * Sets first polygon vertex
@@ -705,7 +705,7 @@ type
             * Gets second polygon vertex
             *@return second polygon vertex
             *}
-            function GetVertex2(): PQRVector3D;
+            function GetVertex2: PQRVector3D;
 
             {**
             * Sets second polygon vertex
@@ -717,7 +717,7 @@ type
             * Gets third polygon vertex
             *@return third polygon vertex
             *}
-            function GetVertex3(): PQRVector3D;
+            function GetVertex3: PQRVector3D;
 
             {**
             * Sets third polygon vertex
@@ -730,7 +730,7 @@ type
             *@return a clone of the polygon
             *@note The returned polygon should be deleted when useless
             *}
-            function GetClone(): TQRPolygon;
+            function GetClone: TQRPolygon;
 
             {**
             * Applies the given matrix to the polygon
@@ -744,13 +744,13 @@ type
             * Gets the polygon plane
             *@return the polygon plane
             *}
-            function GetPlane(): TQRPlane;
+            function GetPlane: TQRPlane;
 
             {**
             * Calculates and returns the center point of the polygon
             *@return the center point of the polygon
             *}
-            function GetCenter(): TQRVector3D;
+            function GetCenter: TQRVector3D;
 
             {**
             * Checks if a point is inside polygon
@@ -792,7 +792,7 @@ type
             * Gets circle center pos
             *@return sphere center pos
             *}
-            function GetPos(): PQRVector2D;
+            function GetPos: PQRVector2D;
 
             {**
             * Sets circle center pos
@@ -818,7 +818,7 @@ type
             * Gets sphere center pos
             *@return sphere center pos
             *}
-            function GetPos(): PQRVector3D;
+            function GetPos: PQRVector3D;
 
             {**
             * Sets sphere center pos
@@ -844,7 +844,7 @@ type
             * Gets rect min edge
             *@return box min edge
             *}
-            function GetMin(): PQRVector2D;
+            function GetMin: PQRVector2D;
 
             {**
             * Sets rect min edge
@@ -856,7 +856,7 @@ type
             * Gets rect max edge
             *@return box max edge
             *}
-            function GetMax(): PQRVector2D;
+            function GetMax: PQRVector2D;
 
             {**
             * Sets rect max edge
@@ -878,13 +878,13 @@ type
             * Gets width
             *@return width
             *}
-            function GetWidth(): Single;
+            function GetWidth: Single;
 
             {**
             * Gets height
             *@return height
             *}
-            function GetHeight(): Single;
+            function GetHeight: Single;
 
             { Properties }
             property Min:    PQRVector2D read GetMin write SetMin;
@@ -905,7 +905,7 @@ type
             * Gets box min edge
             *@return box min edge
             *}
-            function GetMin(): PQRVector3D;
+            function GetMin: PQRVector3D;
 
             {**
             * Sets box min edge
@@ -917,7 +917,7 @@ type
             * Gets box max edge
             *@return box max edge
             *}
-            function GetMax(): PQRVector3D;
+            function GetMax: PQRVector3D;
 
             {**
             * Sets box max edge
@@ -971,7 +971,7 @@ begin
     result := TQRVector2D.Create(m_X + other.m_X, m_Y + other.m_Y);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector2D.Invert(): TQRVector2D;
+function TQRVector2D.Invert: TQRVector2D;
 begin
     result := TQRVector2D.Create(-m_X, -m_Y);
 end;
@@ -1098,19 +1098,19 @@ begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector2D.Length(): Single;
+function TQRVector2D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector2D.Normalize(): TQRVector2D;
+function TQRVector2D.Normalize: TQRVector2D;
 var
     len: Single;
 begin
-    len := Length();
+    len := Length;
 
     if (len = 0.0) then
-        Result := TQRVector2D.Create(0.0, 0.0)
+        Result := Default(TQRVector2D)
     else
         Result := TQRVector2D.Create((m_X / len), (m_Y / len));
 end;
@@ -1177,7 +1177,7 @@ begin
     Result := TQRVector3D.Create(m_X + other.m_X, m_Y + other.m_Y, m_Z + other.m_Z);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector3D.Invert(): TQRVector3D;
+function TQRVector3D.Invert: TQRVector3D;
 begin
     Result := TQRVector3D.Create(-m_X, -m_Y, -m_Z);
 end;
@@ -1318,19 +1318,19 @@ begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector3D.Length(): Single;
+function TQRVector3D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y) + (m_Z * m_Z));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector3D.Normalize(): TQRVector3D;
+function TQRVector3D.Normalize: TQRVector3D;
 var
     len: Single;
 begin
-    len := Length();
+    len := Length;
 
     if (len = 0.0) then
-        Result := TQRVector3D.Create(0.0, 0.0, 0.0)
+        Result := default(TQRVector3D)
     else
         Result := TQRVector3D.Create((m_X / len), (m_Y / len), (m_Z / len));
 end;
@@ -1391,7 +1391,7 @@ begin
     m_D := other.m_D;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPlane.Invert(): TQRPlane;
+function TQRPlane.Invert: TQRPlane;
 begin
     Result := TQRPlane.Create(-m_A, -m_B, -m_C, -m_D);
 end;
@@ -1424,7 +1424,7 @@ begin
     // calculates the direction of the line
     direction := v2.Sub(v1);
 
-    Result := IntersectRay(v1, direction.Normalize(), p);
+    Result := IntersectRay(v1, direction.Normalize, p);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRPlane.IntersectRay(const rp, rd: TQRVector3D; out p: TQRVector3D): Boolean;
@@ -1478,7 +1478,7 @@ begin
     e2 := v3.Sub(v1);
 
     // calculate the normal of the plane
-    normal := e1.Cross(e2).Normalize();
+    normal := e1.Cross(e2).Normalize;
 
     // calculate and return the plane
     Result := FromPointNormal(v1, normal);
@@ -1596,12 +1596,12 @@ begin
     Result := not IsEqual(other);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.IsIdentity(): Boolean;
+function TQRMatrix4x4.IsIdentity: Boolean;
 begin
-    Result := IsEqual(Identity());
+    Result := IsEqual(Identity);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Determinant(): Single;
+function TQRMatrix4x4.Determinant: Single;
 var
     t: array [0..2] of Single;
     v: array [0..3] of Single;
@@ -1733,12 +1733,12 @@ var
     matrix:   TQRMatrix4x4;
 begin
     // calculate sinus, cosinus and inverted cosinus values
-    c  := cos(angle);
-    s  := sin(angle);
+    c  := Cos(angle);
+    s  := Sin(angle);
     ic := (1.0 - c);
 
     // create rotation matrix
-    matrix               := Identity();
+    matrix               := Identity;
     matrix.m_Table[0][0] := (ic * r.m_X * r.m_X) + c;
     matrix.m_Table[1][0] := (ic * r.m_X * r.m_Y) - (s * r.m_Z);
     matrix.m_Table[2][0] := (ic * r.m_X * r.m_Z) + (s * r.m_Y);
@@ -1765,7 +1765,7 @@ begin
     Result := Self;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Swap(): TQRMatrix4x4;
+function TQRMatrix4x4.Swap: TQRMatrix4x4;
 begin
     Result := TQRMatrix4x4.Create(m_Table[0][0], m_Table[1][0], m_Table[2][0], m_Table[3][0],
                                   m_Table[0][1], m_Table[1][1], m_Table[2][1], m_Table[3][1],
@@ -1791,12 +1791,12 @@ begin
                                   m_Table[3][2]));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.GetPtr(): PSingle;
+function TQRMatrix4x4.GetPtr: PSingle;
 begin
     Result := @m_Table[0][0];
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRMatrix4x4.Identity(): TQRMatrix4x4;
+class function TQRMatrix4x4.Identity: TQRMatrix4x4;
 begin
     Result := TQRMatrix4x4.Create(1.0, 0.0, 0.0, 0.0,
                                   0.0, 1.0, 0.0, 0.0,
@@ -1914,7 +1914,7 @@ begin
                                    m_W + other.m_W);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Invert(): TQRQuaternion;
+function TQRQuaternion.Invert: TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, -m_W);
 end;
@@ -2078,21 +2078,21 @@ begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z) or (m_W <> other.m_W));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Norm(): Single;
+function TQRQuaternion.Norm: Single;
 begin
     Result := ((m_X * m_X) + (m_Y * m_Y) + (m_Z * m_Z) + (m_W * m_W));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Length(): Single;
+function TQRQuaternion.Length: Single;
 begin
     Result := Sqrt(Norm);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Normalize(): TQRQuaternion;
+function TQRQuaternion.Normalize: TQRQuaternion;
 var
     len: Single;
 begin
-    len := Length();
+    len := Length;
 
     if (len = 0.0) then
     begin
@@ -2113,12 +2113,12 @@ begin
     Result := TQRQuaternion.Create(m_X * s, m_Y * s, m_Z * s, m_W * s);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Conjugate(): TQRQuaternion;
+function TQRQuaternion.Conjugate: TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, m_W);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Inverse(): TQRQuaternion;
+function TQRQuaternion.Inverse: TQRQuaternion;
 var
     quatNorm: Single;
 begin
@@ -2200,7 +2200,7 @@ begin
     Result.m_Z := qm.m_Z;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRQuaternion.GetMatrix(): TQRMatrix4x4;
+function TQRQuaternion.GetMatrix: TQRMatrix4x4;
 begin
     Result := TQRMAtrix4x4.Create(1.0 -  2.0 * (m_Y * m_Y + m_Z * m_Z), 2.0 * (m_X *  m_Y - m_W * m_Z),       2.0 * (m_X *  m_Z + m_W * m_Y),       0.0,
                                   2.0 * (m_X *  m_Y + m_W * m_Z),       1.0 -  2.0 * (m_X * m_X + m_Z * m_Z), 2.0 * (m_Y *  m_Z - m_W * m_X),       0.0,
@@ -2210,7 +2210,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRRay
 //--------------------------------------------------------------------------------------------------
-constructor TQRRay.Create();
+constructor TQRRay.Create;
 var
     dir: TQRVector3D;
 begin
@@ -2226,7 +2226,7 @@ begin
     m_InvDir.Assign(pOther.m_InvDir);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRay.GetPos(): PQRVector3D;
+function TQRRay.GetPos: PQRVector3D;
 begin
     Result := @m_Pos;
 end;
@@ -2236,7 +2236,7 @@ begin
     m_Pos := pPos^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRay.GetDir(): PQRVector3D;
+function TQRRay.GetDir: PQRVector3D;
 begin
     Result := @m_Dir;
 end;
@@ -2270,7 +2270,7 @@ begin
         m_InvDir.m_Z := (1.0 / m_Dir.m_Z);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRay.GetInvDir(): PQRVector3D;
+function TQRRay.GetInvDir: PQRVector3D;
 begin
     Result := @m_InvDir;
 end;
@@ -2303,14 +2303,9 @@ function TQRPolygon.GetVertex(index: Byte): TQRVector3D;
 begin
     // search for index to get
     case (index) of
-        0:
-            Result := m_Vertex[0];
-
-        1:
-            Result := m_Vertex[1];
-
-        2:
-            Result := m_Vertex[2];
+        0: Result := m_Vertex[0];
+        1: Result := m_Vertex[1];
+        2: Result := m_Vertex[2];
     end;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -2318,18 +2313,13 @@ procedure TQRPolygon.SetVertex(index: Byte; const vertex: TQRVector3D);
 begin
     // search for index to set
     case (index) of
-        0:
-            m_Vertex[0] := vertex;
-
-        1:
-            m_Vertex[1] := vertex;
-
-        2:
-            m_Vertex[2] := vertex;
+        0: m_Vertex[0] := vertex;
+        1: m_Vertex[1] := vertex;
+        2: m_Vertex[2] := vertex;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetVertex1(): PQRVector3D;
+function TQRPolygon.GetVertex1: PQRVector3D;
 begin
     Result := @m_Vertex[0];
 end;
@@ -2339,7 +2329,7 @@ begin
     m_Vertex[0] := pVertex^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetVertex2(): PQRVector3D;
+function TQRPolygon.GetVertex2: PQRVector3D;
 begin
     Result := @m_Vertex[1];
 end;
@@ -2349,7 +2339,7 @@ begin
     m_Vertex[1] := pVertex^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetVertex3(): PQRVector3D;
+function TQRPolygon.GetVertex3: PQRVector3D;
 begin
     Result := @m_Vertex[2];
 end;
@@ -2359,7 +2349,7 @@ begin
     m_Vertex[2] := pVertex^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetClone(): TQRPolygon;
+function TQRPolygon.GetClone: TQRPolygon;
 begin
     // copies the polygon, then returns the copy
     Result := TQRPolygon.Create(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
@@ -2374,13 +2364,13 @@ begin
                                 matrix.Transform(m_Vertex[2]));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetPlane(): TQRPlane;
+function TQRPolygon.GetPlane: TQRPlane;
 begin
     // calculates the plane from the values of the 3 vertices of the polygon
     Result := TQRPlane.FromPoints(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPolygon.GetCenter(): TQRVector3D;
+function TQRPolygon.GetCenter: TQRVector3D;
 begin
     // calculates then returns the value of the midpoint of the polygon
     Result := TQRVector3D.Create(((m_Vertex[0].X + m_Vertex[1].X + m_Vertex[2].X) / 3.0),
@@ -2398,25 +2388,23 @@ var
     nPToV1, nPToV2, nPToV3:  TQRVector3D;
     a1, a2, a3, angleResult: Single;
 begin
-    {*
-    * check if the point p is inside the polygon in the following manner:
-    *
-    *                  V1                         V1
-    *                  /\                         /\
-    *                 /  \                       /  \
-    *                / *p \                  *P /    \
-    *               /      \                   /      \
-    *            V2 -------- V3             V2 -------- V3
-    *
-    * calculate the vectors between the point p and each polygon vertex, then
-    * calculate the angle formed by each of these vectors. If the sum of the
-    * angles is equal to a complete circle, i.e. 2 * pi in radians, then the
-    * point p is inside the polygon limits, otherwise the point is outside. It
-    * is assumed that the point to check belongs to the polygon's plane
-    *}
-    nPToV1 := m_Vertex[0].Sub(point).Normalize();
-    nPToV2 := m_Vertex[1].Sub(point).Normalize();
-    nPToV3 := m_Vertex[2].Sub(point).Normalize();
+    { check if the point p is inside the polygon in the following manner:      }
+    {                                                                          }
+    {                  V1                         V1                           }
+    {                  /\                         /\                           }
+    {                 /  \                       /  \                          }
+    {                / *p \                  *P /    \                         }
+    {               /      \                   /      \                        }
+    {            V2 -------- V3             V2 -------- V3                     }
+    {                                                                          }
+    { calculate the vectors between the point p and each polygon vertex, then  }
+    { calculate the angle formed by each of these vectors. If the sum of the   }
+    { angles is equal to a complete circle, i.e. 2 * pi in radians, then the   }
+    { point p is inside the polygon limits, otherwise the point is outside. It }
+    { is assumed that the point to check belongs to the polygon's plane        }
+    nPToV1 := m_Vertex[0].Sub(point).Normalize;
+    nPToV2 := m_Vertex[1].Sub(point).Normalize;
+    nPToV3 := m_Vertex[2].Sub(point).Normalize;
 
     // calculate the angles using the dot product of each vectors. Limit range
     // to values between -1.0f and 1.0f
@@ -2434,7 +2422,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRCircle
 //--------------------------------------------------------------------------------------------------
-function TQRCircle.GetPos(): PQRVector2D;
+function TQRCircle.GetPos: PQRVector2D;
 begin
     Result := @m_Pos;
 end;
@@ -2446,7 +2434,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRSphere
 //--------------------------------------------------------------------------------------------------
-function TQRSphere.GetPos(): PQRVector3D;
+function TQRSphere.GetPos: PQRVector3D;
 begin
     Result := @m_Pos;
 end;
@@ -2464,7 +2452,7 @@ begin
     m_Max := TQRVector2D.Create(x + width, y + height);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRect.GetMin(): PQRVector2D;
+function TQRRect.GetMin: PQRVector2D;
 begin
     Result := @m_Min;
 end;
@@ -2474,7 +2462,7 @@ begin
     m_Min := pValue^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRect.GetMax(): PQRVector2D;
+function TQRRect.GetMax: PQRVector2D;
 begin
     Result := @m_Max;
 end;
@@ -2484,19 +2472,19 @@ begin
     m_Max := pValue^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRect.GetWidth(): Single;
+function TQRRect.GetWidth: Single;
 begin
     Result := (m_Max.m_X - m_Min.m_X);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRRect.GetHeight(): Single;
+function TQRRect.GetHeight: Single;
 begin
     Result := (m_Max.m_Y - m_Min.m_Y);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRBox
 //--------------------------------------------------------------------------------------------------
-function TQRBox.GetMin(): PQRVector3D;
+function TQRBox.GetMin: PQRVector3D;
 begin
     Result := @m_Min;
 end;
@@ -2506,7 +2494,7 @@ begin
     m_Min := pValue^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRBox.GetMax(): PQRVector3D;
+function TQRBox.GetMax: PQRVector3D;
 begin
     Result := @m_Max;
 end;
