@@ -231,7 +231,17 @@ type
     function Interpolate(const Other: TQRVector2D; const Position: Single): TQRVector2D; inline;
 
     { Properties }
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the vector x value</summary>
+    /// <value>The vector x value</value>
+    {$ENDREGION}
     property X: Single read FX write FX;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the vector y value</summary>
+    /// <value>The vector y value</value>
+    {$ENDREGION}
     property Y: Single read FY write FY;
   end;
 
@@ -434,8 +444,23 @@ type
     function Interpolate(const Other: TQRVector3D; const Position: Single): TQRVector3D; inline;
 
     { Properties }
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the vector x value</summary>
+    /// <value>The vector x value</value>
+    {$ENDREGION}
     property X: Single read FX write FX;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the vector y value</summary>
+    /// <value>The vector y value</value>
+    {$ENDREGION}
     property Y: Single read FY write FY;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the vector z value</summary>
+    /// <value>The vector z value</value>
+    {$ENDREGION}
     property Z: Single read FZ write FZ;
   end;
 
@@ -493,227 +518,285 @@ type
     {$ENDREGION}
     function Invert: TQRPlane; inline;
 
-    {**
-    * Calculates distance to plane
-    *@param point - point from which the distance must be calculated
-    *@return distance to plane
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Calculates distance to plane</summary>
+    /// <param name="Point">Point from which the distance must be calculated</param>
+    /// <returns>Distance to plane</returns>
+    {$ENDREGION}
     function DistanceTo(const Point: TQRVector3D): Single; inline;
 
-    {**
-    * Checks if plane intersects line and calculates intersection point
-    *@param V1 - line start
-    *@param V2 - line end
-    *@param[out] P - calculated point on plane
-    *@return true if plane intersects line, otherwise false
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Checks if plane intersects line and calculates intersection point</summary>
+    /// <param name="V1">Line start</param>
+    /// <param name="V2">Line end</param>
+    /// <param name="P">Calculated point on plane</param>
+    /// <returns>True if plane intersects line, otherwise False</returns>
+    {$ENDREGION}
     function IntersectLine(const V1, V2: TQRVector3D; out P: TQRVector3D): Boolean; inline;
 
-    {**
-    * Checks if plane intersects ray and calculates intersection point
-    *@param Rp - ray start point
-    *@param Rd - ray direction
-    *@param[out] P - calculated point on plane
-    *@return true if plane intersects ray, otherwise false
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Checks if plane intersects ray and calculates intersection point</summary>
+    /// <param name="Rp">Ray start point</param>
+    /// <param name="Rd">Ray direction</param>
+    /// <param name="P">Calculated point on plane</param>
+    /// <returns>True if plane intersects ray, otherwise False</returns>
+    {$ENDREGION}
     function IntersectRay(const Rp, Rd: TQRVector3D; out P: TQRVector3D): Boolean; inline;
 
-    {**
-    * Compare plane with the given plane using the given tolerance
-    *@param Other - other plane to compare
-    *@param Tolerance - tolerance for comparison
-    *@return true if planes are equals in the limits of the given tolerance, otherwise false
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Compares plane with the given plane using the given tolerance</summary>
+    /// <param name="Other">Other plane to compare</param>
+    /// <param name="Tolerance">Tolerance for comparison</param>
+    /// <returns>True if planes are equals in the limits of the given tolerance, otherwise False</returns>
+    {$ENDREGION}
     function Compare(const Other: TQRPlane; const Tolerance: Single): Boolean; inline;
 
-    {**
-    * Calculates a plane using 3 vertex
-    *@param V1 - value of the first vertex
-    *@param V2 - value of the second vertex
-    *@param V3 - value of the thrid vertex
-    *@return the built plane
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Calculates a plane using 3 vertex</summary>
+    /// <param name="V1">Value of the first vertex</param>
+    /// <param name="V2">Value of the second vertex</param>
+    /// <param name="V3">Value of the thrid vertex</param>
+    /// <returns>The built plane</returns>
+    {$ENDREGION}
     class function FromPoints(const V1, V2, V3: TQRVector3D): TQRPlane; static; inline;
 
-    {**
-    * Calculates a plane using a point and a normal
-    *@param Point - a point belongs to the plane
-    *@param Normal - normal of the plane
-    *@return the built plane
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Calculates a plane using a point and a normal</summary>
+    /// <param name="Point">A point belongs to the plane</param>
+    /// <param name="Normal">Normal of the plane</param>
+    /// <returns>The built plane</returns>
+    {$ENDREGION}
     class function FromPointNormal(const Point, Normal: TQRVector3D): TQRPlane; static; inline;
 
     { Properties }
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the plane a value</summary>
+    /// <value>The plane a value</value>
+    /// <remarks>According to the formula aX + bY + cZ + d = 0</remarks>
+    {$ENDREGION}
     property A: Single read FA write FA;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the plane b value</summary>
+    /// <value>The plane b value</value>
+    /// <remarks>According to the formula aX + bY + cZ + d = 0</remarks>
+    {$ENDREGION}
     property B: Single read FB write FB;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the plane c value</summary>
+    /// <value>The plane c value</value>
+    /// <remarks>According to the formula aX + bY + cZ + d = 0</remarks>
+    {$ENDREGION}
     property C: Single read FC write FC;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets the plane d value</summary>
+    /// <value>The plane d value</value>
+    /// <remarks>According to the formula aX + bY + cZ + d = 0</remarks>
+    {$ENDREGION}
     property D: Single read FD write FD;
   end;
 
   PQRPlane = ^TQRPlane;
 
-  {**
-  * 4x4 matrix
-  *}
+  {$REGION 'Documentation'}
+  /// <summary>4x4 matrix</summary>
+  {$ENDREGION}
   TQRMatrix4x4 = record
   private
     FTable: array[0..3] of array [0..3] of Single; // 4x4 matrix array
 
-    {**
-    * Gets matrix item at index
-    *@param Index - index
-    *@return item
-    *@throw exception if index is out of bounds
-    *}
-    function  GetItem(Index: NativeInt): Single; overload; inline;
+    {$REGION 'Documentation'}
+    /// <summary>Gets matrix item at index</summary>
+    /// <param name="Index">Item index</param>
+    /// <returns>The item</returns>
+    /// <exception cref="Exception">Raised if index is out of bounds</exception>
+    {$ENDREGION}
+    function GetItem(Index: NativeInt): Single; overload; inline;
 
-    {**
-    * Sets matrix item at index
-    *@param Index - index
-    *@param Value - value to set
-    *@throw exception if index is out of bounds
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Sets matrix item at index</summary>
+    /// <param name="Index">Item index</param>
+    /// <param name="Value">The value to set</param>
+    /// <exception cref="Exception">Raised if index is out of bounds</exception>
+    {$ENDREGION}
     procedure SetItem(Index: NativeInt; Value: Single); overload; inline;
 
-    {**
-    * Gets matrix item from table
-    *@param X - table x position
-    *@param Y - table y position
-    *@return item
-    *@throw exception if positions are out of bounds
-    *}
-    function  GetTableItem(X, Y: NativeInt): Single; overload; inline;
+    {$REGION 'Documentation'}
+    /// <summary>Gets matrix item from table</summary>
+    /// <param name="X">Table x position</param>
+    /// <param name="Y">Table y position</param>
+    /// <returns>The item</returns>
+    /// <exception cref="Exception">Raised if positions are out of bounds</exception>
+    {$ENDREGION}
+    function GetTableItem(X, Y: NativeInt): Single; overload; inline;
 
-    {**
-    * Sets matrix item to table
-    *@param X - table x position
-    *@param Y - table y position
-    *@param Value - value to set
-    *@throw exception if positions are out of bounds
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Sets matrix item to table</summary>
+    /// <param name="X">Table x position</param>
+    /// <param name="Y">Table y position</param>
+    /// <param name="Value">Value to set</param>
+    /// <exception cref="Exception">Raised if positions are out of bounds</exception>
+    {$ENDREGION}
     procedure SetTableItem(X, Y: NativeInt; Value: Single); overload; inline;
 
   public
-    {**
-    * Constructor
-    *@param _11 - [0][0] matrix table value
-    *@param _12 - [1][0] matrix table value
-    *@param _13 - [2][0] matrix table value
-    *@param _14 - [3][0] matrix table value
-    *@param _21 - [0][1] matrix table value
-    *@param _22 - [1][1] matrix table value
-    *@param _23 - [2][1] matrix table value
-    *@param _24 - [3][1] matrix table value
-    *@param _31 - [0][2] matrix table value
-    *@param _32 - [1][2] matrix table value
-    *@param _33 - [2][2] matrix table value
-    *@param _34 - [3][2] matrix table value
-    *@param _41 - [0][3] matrix table value
-    *@param _42 - [1][3] matrix table value
-    *@param _43 - [2][3] matrix table value
-    *@param _44 - [3][3] matrix table value
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Constructor</summary>
+    /// <param name="_11">[0][0] matrix table value</param>
+    /// <param name="_12">[1][0] matrix table value</param>
+    /// <param name="_13">[2][0] matrix table value</param>
+    /// <param name="_14">[3][0] matrix table value</param>
+    /// <param name="_21">[0][1] matrix table value</param>
+    /// <param name="_22">[1][1] matrix table value</param>
+    /// <param name="_23">[2][1] matrix table value</param>
+    /// <param name="_24">[3][1] matrix table value</param>
+    /// <param name="_31">[0][2] matrix table value</param>
+    /// <param name="_32">[1][2] matrix table value</param>
+    /// <param name="_33">[2][2] matrix table value</param>
+    /// <param name="_34">[3][2] matrix table value</param>
+    /// <param name="_41">[0][3] matrix table value</param>
+    /// <param name="_42">[1][3] matrix table value</param>
+    /// <param name="_43">[2][3] matrix table value</param>
+    /// <param name="_44">[3][3] matrix table value</param>
+    {$ENDREGION}
     constructor Create(const _11, _12, _13, _14,
                              _21, _22, _23, _24,
                              _31, _32, _33, _34,
                              _41, _42, _43, _44: Single); overload;
 
-    {**
-    * Constructor
-    *@param Other - other matrix to copy from
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Copy constructor</summary>
+    /// <param name="Other">Other matrix to copy from</param>
+    {$ENDREGION}
     constructor Create(const Other: TQRMatrix4x4); overload;
 
-    {**
-    * Gets record initialized with default values
-    *@return record initialized with default values
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Gets record initialized with default values</summary>
+    /// <returns>Record initialized with default values</returns>
+    {$ENDREGION}
     class function GetDefault: TQRMatrix4x4; inline; static;
 
-    { Basic functions }
+    {$REGION 'Documentation'}
+    /// <summary>Assigns (i.e. copies) the content from another matrix</summary>
+    /// <param name="Other">Other matrix to copy from</param>
+    {$ENDREGION}
     procedure Assign(const Other: TQRMatrix4x4);
-    function  IsEqual(const Other: TQRMatrix4x4): Boolean;
-    function  Differs(const Other: TQRMatrix4x4): Boolean; inline;
 
-    {**
-    * Checks if matrix is an identity matrix
-    *@return true if matrix is an identity matrix, otherwise false
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Compares the content of 2 matrices and determines if they are equal</summary>
+    /// <param name="Other">Other matrix to compare with</param>
+    /// <returns>True if matrices are equal, otherwise False</returns>
+    {$ENDREGION}
+    function IsEqual(const Other: TQRMatrix4x4): Boolean;
+
+    {$REGION 'Documentation'}
+    /// <summary>Compares the content of 2 matrices and determines if they are different</summary>
+    /// <param name="Other">Other matrix to compare with</param>
+    /// <returns>True if matrices differ, otherwise False</returns>
+    {$ENDREGION}
+    function Differs(const Other: TQRMatrix4x4): Boolean; inline;
+
+    {$REGION 'Documentation'}
+    /// <summary>Checks if matrix is an identity matrix</summary>
+    /// <returns>True if matrix is an identity matrix, otherwise False</returns>
+    {$ENDREGION}
     function IsIdentity: Boolean; inline;
 
-    {**
-    * Gets matrix determinant
-    *@return matrix determinant
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Gets matrix determinant</summary>
+    /// <returns>Matrix determinant</returns>
+    {$ENDREGION}
     function Determinant: Single; inline;
 
-    {**
-    * Inverses the matrix
-    *@param Determinant - determinant
-    *@return inverse of the matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Inverses the matrix</summary>
+    /// <param name="Determinant">Determinant</param>
+    /// <returns>Inverse of the matrix</returns>
+    {$ENDREGION}
     function Inverse(out Determinant: Single): TQRMatrix4x4;
 
-    {**
-    * Multiplies matrix by anOther matrix
-    *@param Other - other matrix to multiply with
-    *@return multiplied resulting matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Multiplies matrix by another matrix</summary>
+    /// <param name="Other">Other matrix to multiply with</param>
+    /// <returns>Multiplied resulting matrix</returns>
+    {$ENDREGION}
     function Multiply(const Other: TQRMatrix4x4): TQRMatrix4x4;
 
-    {**
-    * Translates matrix
-    *@param T - translation vector
-    *@return copy of translated matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Translates matrix</summary>
+    /// <param name="T">Translation vector</param>
+    /// <returns>Copy of translated matrix</returns>
+    {$ENDREGION}
     function Translate(const T: TQRVector3D): TQRMatrix4x4; inline;
 
-    {**
-    * Rotates matrix
-    *@param Angle - rotation angle in radians
-    *@param R - rotation direction (e.g. [0.0f, 0.0f, 1.0f] for a z-axis rotation)
-    *@return copy of rotated matrix
-    *@note rotation direction vector should be normalized before calling
-    *      this function
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Rotates matrix</summary>
+    /// <param name="Angle">Rotation angle in radians</param>
+    /// <param name="R">Rotation direction (e.g. [0.0f, 0.0f, 1.0f] for a z-axis rotation)</param>
+    /// <returns>Copy of rotated matrix</returns>
+    /// <note type="note">Rotation direction vector should be normalized before calling this function</note>
+    {$ENDREGION}
     function Rotate(const Angle: Single; const R: TQRVector3D): TQRMatrix4x4; inline;
 
-    {**
-    * Scales matrix
-    *@param S - scale vector
-    *@return copy of scaled matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Scales matrix</summary>
+    /// <param name="S">Scale vector</param>
+    /// <returns>Copy of scaled matrix</returns>
+    {$ENDREGION}
     function Scale(const S: TQRVector3D): TQRMatrix4x4; inline;
 
-    {**
-    * Swaps matrix lines and columns
-    *@return swapped matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Swaps matrix lines and columns</summary>
+    /// <returns>Swapped matrix</returns>
+    {$ENDREGION}
     function Swap: TQRMatrix4x4; inline;
 
-    {**
-    * Transform a vector by applying the matrix
-    *@param Vector - vector to transform
-    *@return transformed vector
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Transforms a vector by applying the matrix</summary>
+    /// <param name="Vector">Vector to transform</param>
+    /// <returns>Transformed vector</returns>
+    {$ENDREGION}
     function Transform(const Vector: TQRVector3D): TQRVector3D; inline;
 
-    {**
-    * Gets table pointer
-    *@return pointer
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Gets the matrix table pointer</summary>
+    /// <returns>The matrix table pointer</returns>
+    {$ENDREGION}
     function GetPtr: PSingle; inline;
 
-    {**
-    * Gets an identity matrix
-    *@return identity matrix
-    *}
+    {$REGION 'Documentation'}
+    /// <summary>Gets an identity matrix</summary>
+    /// <returns>Identity matrix</returns>
+    {$ENDREGION}
     class function Identity: TQRMatrix4x4; static; inline;
 
     { Properties }
-    property Item[Index: NativeInt]: Single read GetItem      write SetItem;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets a matrix item at index</summary>
+    /// <param name="Index">Item index</param>
+    /// <value>The matrix item value</value>
+    /// <exception cref="Exception">Raised if index is out of bounds</exception>
+    {$ENDREGION}
+    property Item[Index: NativeInt]: Single read GetItem write SetItem;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets or sets a matrix item in table</summary>
+    /// <param name="X">Table X position</param>
+    /// <param name="Y">Table Y position</param>
+    /// <value>The matrix item value</value>
+    /// <exception cref="Exception">Raised if positions are out of bounds</exception>
+    {$ENDREGION}
     property Table[X, Y: NativeInt]: Single read GetTableItem write SetTableItem;
-    property Ptr: PSingle                   read GetPtr;
+
+    {$REGION 'Documentation'}
+    /// <summary>Gets the matrix table pointer</summary>
+    /// <value>The matrix table pointer</value>
+    {$ENDREGION}
+    property Ptr: PSingle read GetPtr;
   end;
 
   PQRMatrix4x4 = ^TQRMatrix4x4;
