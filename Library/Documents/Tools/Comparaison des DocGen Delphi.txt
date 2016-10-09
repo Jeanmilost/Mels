@@ -1,0 +1,121 @@
+Dans les projets grand publics, il existe 2 grands styles de commentaires: Le style Java et le style XML
+
+Style Java
+Avantages:
+  - C'est la version "OpenSource" des commentaires, il y a beaucoup d'outils gratuits pour extraire la documentation
+  - Ils sont en général proche de ce que nous faisons en C++, avec les tags commençant par @. Après c'est selon les limitations de l'outil choisi
+Désavantages:
+  - Il n'y a pas vraiment de standard, bien que tout s'appuie sur le standard de Sun pour le Java. Après il faut tweaker au cas par cas
+  - On est vite dépendant d'un projet particulier, et à sa merci si ce projet cesse d'être développé
+
+Outils
+
+PasDoc
+NOTE Jusqu'à maintenant, c'est celui que je choisirais dans les outils gratuits, s'il n'y a vraiment aucun moyen de faire fonctionner Doxygen
+Exemple de commentaires
+{
+ Changes volume
+ @param(value volume value between 0.0f (lowest) and 1.0f (highest))
+ @return(@true on success, otherwise @false)
+}
+Paramètres disponibles: https://pasdoc.sipsolutions.net/SupportedTags
+Avantages:
+  - Gratuit, code source disponible
+  - Proche de la syntaxe actuelle
+  - Facile à prendre en main
+  - Beaucoup de tags disponibles, couvrant nos besoins
+  - Possibilité de configurer le style du texte généré directement depuis les tags (p.ex. il existe un tag pour mettre une partie du texte en gras, ou ajouter un lien sur une image, ...)
+Désavantages:
+  - Doit ajouter les fichiers à parser un par un (Très pénible)
+  - @param pas très clair parce-que pas possible d'ajouter un séparateur entre le nom et la description du paramètre
+  - Peu (voire pas) d'options pour configurer le style HTML
+
+Delphi CodeToDoc
+Exemple de commentaires:
+{**
+* Changes volume
+* @param value volume value between 0.0f (lowest) and 1.0f (highest)
+* @return true on success, otherwise false
+}
+Paramètres disponibles: http://dephicodetodoc.sourceforge.net/JavaDoc_Syntax.htm#List_of_TAGs
+Avantages:
+  - Gratuit, code source disponible
+  - Proche de la syntaxe actuelle
+  - Facile à prendre en main
+Désavantages:
+  - Peu de tags disponibles
+  - Beaucoup de bugs (parfois contraignants, comme p.ex. un access violation pendant le parsing)
+  - Doit ajouter les fichiers à parser un par un (Très pénible)
+  - @param pas très clair parce-que pas possible d'ajouter un séparateur entre le nom et la description du paramètre
+  - Doc générée en HTML pas très jolie, et pas d'options pour la configurer
+
+Doxygen + Pas2Dox
+NOTE Pas réussi à faire fonctionner Pas2Dox. Je sais que le plugin fonctionne en tout cas partiellement (J'ai vu le code formatté par le filtre), mais Doxygen ne semble pas capable de l'exploiter
+NOTE Si on peut le faire fonctionner, ce serait mon premier choix dans les outils gratuits: peu (voire pas) de travail pour mettre à jour le code, document de sortie très bien présenté, ...
+Exemple de commentaires (en théorie):
+{**
+* Changes volume
+*@param value - volume value between 0.0f (lowest) and 1.0f (highest)
+*@return true on success, otherwise false
+}
+Paramètres disponibles: IDEM à la version C++
+Avantages:
+  - Gratuit, code source disponible
+  - Proche de la syntaxe actuelle
+  - Facile à prendre en main (en tout cas la version c++)
+  - Système fort, très utilisé et largement supporté
+  - Documentation produite claire et bien présentée, offre beaucoup d'options de configuration
+Désavantages:
+  - La dernière version du plugin date de 2003 (je ne sais pas si le projet est encore supporté)
+  - Le plugin est très difficile à installer (pas réussi à le faire fonctionner)
+  - Peu de documentation expliquant comment utiliser Code2Dox, aucun exemple clair ou tuto disponible. Tous ceux que j'ai trouvé ne m'ont été d'aucun secours
+
+SynProject
+NOTE Trop compliqué, pas réussi à utiliser le projet. Il y a un millier d'options à utiliser avant de penser à pouvoir générer la moindre doc, et un tuto long comme le bras à se taper d'abord (mais au moins il y a un tuto). Je n'ai pas la patience pour cela
+Exemple de commentaires: Aucune idée
+Avantages:
+  - Gratuit, code source disponible
+  - Tutos disponibles sur le site
+Désavantages:
+  - Beaucoup, beaucoup, beaucoup, beaucoup, beaucoup trop compliqué
+
+JADD
+NOTE Pas testé
+
+Style XML
+Exemple de commentaires (exposé ici, car tous les outils utilisent le même)
+/// <summary>Compares the content of 2 vectors and determines if they are equal</summary>
+/// <param name="Other">Other vector to compare with</param>
+/// <returns>True if vectors are equal, otherwise False</returns>
+Avantages:
+  - Cette manière de commenter a tendance à devenir un standard pour la documentation Delphi
+  - Il y a de nombreux outils qui commencent à exister, qui vont au-delà de la documentation automatique, p.ex. les popups d'info sur l'IDE, qui sont compatibles avec ce style
+  - Possibilité de configurer le style du texte généré directement depuis les tags (p.ex. il existe un tag pour mettre une partie du texte en gras, ou ajouter un lien sur une image, ...)
+Désavantages:
+  - Beaucoup de monde trouve ce style confus et difficile à lire (et c'est vrai qu'il l'est)
+  - Je n'ai trouvé aucun outil gratuit pour générer une documentation à partir de ce style de commentaires, malheureusement
+
+Outils
+
+Code insight
+Avantages:
+  - Outil comlpètement intégré à l'IDE, il offre en plus d'autres fonctionnalités, p.ex. l'assistance lors de l'écriture du code (popups d'aide)
+  - La documentation générée est de très bonne qualité (elle a un aspect très professionel, et ressemble un peu à la documentation MSDN)
+Désavantages:
+  - License payante
+
+Autres outils
+Cette section regroupe d'autres outils, aussi décrits comme permettant l'extraction automatique de documentation à partir d'un code source. Ils sont toutefois payants et je ne les ai pas essayés
+
+Peganza Pascal Browser
+Site: http://www.peganza.com/products_pab.html
+
+Doc-O-Matic
+Site: http://www.doc-o-matic.com/
+NOTE pour cet outil, il existe une version express, qui peut être utilisée gratuitement pour des projets non commerciaux
+
+Help Scribbe
+Site: http://www.helpscribble.com/
+
+Help and Manuals
+Site: http://www.helpandmanual.com/products_hm_overview.html
