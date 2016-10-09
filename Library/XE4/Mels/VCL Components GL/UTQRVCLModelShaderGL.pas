@@ -147,9 +147,9 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRVCLModelShaderGL
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 constructor TQRVCLModelShaderGL.Create;
 begin
     inherited Create;
@@ -159,7 +159,7 @@ begin
     m_FragmentID       := 0;
     m_fOnBindAttribute := nil;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 destructor TQRVCLModelShaderGL.Destroy;
 begin
     // delete vertex shader, if needed
@@ -187,7 +187,7 @@ begin
 
     inherited Destroy;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.CompileFile(const fileName: TFileName; shaderType: GLenum): GLuint;
 var
     pShaderFile:   Text;
@@ -218,7 +218,7 @@ begin
 
     Result := Compile(AnsiString(shaderContent), shaderType);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.Compile(const source: AnsiString; shaderType: GLenum): GLuint;
 var
     shader:        GLuint;
@@ -265,7 +265,7 @@ begin
     // return shader index
     Result := shader;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelShaderGL.LogShaderError();
 {$IFDEF DEBUG}
     var
@@ -287,7 +287,7 @@ begin
         TQRLogHelper.LogToCompiler(UnicodeString(log));
     {$IFEND}
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelShaderGL.CreateProgram();
 begin
     // create new shader program
@@ -297,12 +297,12 @@ begin
     if (m_ProgramID = 0) then
         raise Exception.Create('Failed to create shader program');
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.GetProgramID(): NativeUInt;
 begin
     Result := m_ProgramID;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.AttachFile(pStream: TStream; shaderType: EQRShaderType): NativeUInt;
 var
     pStringList: TStringList;
@@ -327,7 +327,7 @@ begin
         pStringList.Free;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.AttachFile(const fileName: TFileName;
                                             shaderType: EQRShaderType): NativeUInt;
 var
@@ -360,7 +360,7 @@ begin
 
     Result := shaderID;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.Attach(const source: UnicodeString;
                                       shaderType: EQRShaderType): NativeUInt;
 var
@@ -393,7 +393,7 @@ begin
 
     Result := shaderID;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 function TQRVCLModelShaderGL.Link(useProgram: Boolean): Boolean;
 var
     linked: GLint;
@@ -421,7 +421,7 @@ var
 
     Result := True;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelShaderGL.Use(use: Boolean);
 begin
     // do use program and program exists?
@@ -432,7 +432,7 @@ begin
         // unbind program
         glUseProgram(0);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRVCLModelShaderGL.ShaderTypeToOpenGLShaderType(shaderType: EQRShaderType): GLenum;
 begin
     case (shaderType) of
@@ -442,7 +442,7 @@ begin
         raise Exception.Create('Unknown shader type');
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRVCLModelShaderGL.OpenGLTypeToShaderType(shaderType: GLenum): EQRShaderType;
 begin
     case (shaderType) of
@@ -452,11 +452,11 @@ begin
         raise Exception.Create('Unknown shader type');
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 procedure TQRVCLModelShaderGL.Set_OnBindAttribute(fHandler: TQRGLShaderBindAttributeEvent);
 begin
     m_fOnBindAttribute := fHandler;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.

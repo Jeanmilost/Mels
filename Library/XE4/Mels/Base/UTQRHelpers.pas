@@ -192,9 +192,9 @@ type
     end;
 
 implementation
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRStringHelper
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.AnsiCharArrayToStr(const chars: TQRAnsiCharArray): String;
 begin
     // is char array empty?
@@ -207,7 +207,7 @@ begin
 
     Result := '';
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.StrToByte(const str: String): TQRByteArray;
 var
     i:      NativeInt;
@@ -226,7 +226,7 @@ begin
         Dec(Result[i], 48);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.ByteToStr(const bytes: TQRByteArray): String;
 var
     i:         NativeInt;
@@ -246,17 +246,17 @@ begin
 
     Result := s;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.IsNumeric(digit: AnsiChar; isStrict: Boolean): Boolean;
 begin
     Result := (((digit >= '0') and (digit <= '9')) or ((not isStrict) and ((digit = '-') or (digit = '.'))));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.IsNumeric(digit: WideChar; isStrict: Boolean): Boolean;
 begin
     Result := (((digit >= '0') and (digit <= '9')) or ((not isStrict) and ((digit = '-') or (digit = '.'))));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.LastPos(const subStr, str: UnicodeString): Integer;
 begin
     Result := Pos(Reverse(subStr), Reverse(str));
@@ -264,7 +264,7 @@ begin
     if (Result <> 0) then
         Result := ((Length(str) - Length(subStr)) + 1) - Result + 1;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRStringHelper.Reverse(const str: UnicodeString): UnicodeString;
 var
     pCh1, pCh2: PWideChar;
@@ -281,9 +281,9 @@ begin
         Inc(pCh1);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRFileHelper
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRFileHelper.ExtractFileName(const fileName: TFileName;
                                             const delimiter: Char): UnicodeString;
 var
@@ -302,13 +302,13 @@ begin
     // extract file name
     Result := Copy(fileName, pos + 1);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRFileHelper.ExtractFileNameNoExt(const fileName: TFileName;
                                                  const delimiter: Char): UnicodeString;
 begin
     Result := ChangeFileExt(ExtractFileName(fileName, delimiter), '');
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class procedure TQRFileHelper.SaveBytesToFile(const fileName: TFileName; var pBytes: TQRByteArray);
 var
     pFileStream: TFileStream;
@@ -325,7 +325,7 @@ begin
         pFileStream.Free;
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRFileHelper.AppendDelimiter(const dirName: UnicodeString;
                                                  delimiter: Char): UnicodeString;
 begin
@@ -347,9 +347,9 @@ begin
     // append delimiter
     Result := dirName + delimiter;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMathsHelper
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMathsHelper.IsPowerOfTwo(value: NativeUInt): Boolean;
 begin
     // iterate while value is even and higher than 1
@@ -358,7 +358,7 @@ begin
 
     Result := (value = 1);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMathsHelper.RoundUpToNearestPowerOf2(value: TQRUInt32): TQRUInt32;
 begin
     if (value = 0) then
@@ -377,7 +377,7 @@ begin
 
     Result := value;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMathsHelper.GetClosestPowerOf2(value: NativeUInt): NativeUInt;
 var
     pos: NativeUInt;
@@ -392,19 +392,19 @@ begin
 
     Result := Round(Power(2, pos));
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMathsHelper.DegToRad(angle: Double): Double;
 begin
     Result := ((angle * PI) / 180.0);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMathsHelper.RadToDeg(angle: Double): Double;
 begin
     Result := ((angle * 180.0) / PI);
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 // TQRMemoryHelper
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class function TQRMemoryHelper.IsSystemBE(): Boolean;
 type
     // this record is more or less a transcription of an union type in c++
@@ -437,7 +437,7 @@ begin
             Dispose(bInt);
     end;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class procedure TQRMemoryHelper.Swap<T>(var left, right: T);
 var
     value: T;
@@ -446,6 +446,6 @@ begin
     left  := right;
     right := value;
 end;
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 end.
