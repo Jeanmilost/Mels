@@ -680,9 +680,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLBasicModelComponentPropertyGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLBasicModelComponentPropertyGL.Create;
 begin
     inherited Create;
@@ -691,7 +691,7 @@ begin
     m_pOwner             := nil;
     m_fOnNotifyPropOwner := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLBasicModelComponentPropertyGL.Create(pOwner: TControl;
                                            fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -701,12 +701,12 @@ begin
     m_pOwner             := pOwner;
     m_fOnNotifyPropOwner := fOnNotifyPropOwner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLBasicModelComponentPropertyGL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLBasicModelComponentPropertyGL.InvalidateDesigner;
 begin
     if (not (csDesigning in m_pOwner.ComponentState)) then
@@ -717,7 +717,7 @@ begin
 
     m_pOwner.Invalidate();
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLBasicModelComponentPropertyGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLBasicModelComponentPropertyGL;
@@ -738,9 +738,9 @@ begin
     m_pOwner             := pSrc.m_pOwner;
     m_fOnNotifyPropOwner := pSrc.m_fOnNotifyPropOwner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentVector3GL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentVector3GL.Create;
 begin
     inherited Create;
@@ -750,7 +750,7 @@ begin
     m_Y := 0.0;
     m_Z := 0.0;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentVector3GL.Create(pOwner: TControl;
                                       fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -761,12 +761,12 @@ begin
     m_Y := 0.0;
     m_Z := 0.0;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentVector3GL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentVector3GL.SetX(value: Single);
 begin
     // no changes?
@@ -777,7 +777,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentVector3GL.SetY(value: Single);
 begin
     // no changes?
@@ -788,7 +788,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentVector3GL.SetZ(value: Single);
 begin
     // no changes?
@@ -799,7 +799,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentVector3GL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLModelComponentVector3GL;
@@ -822,25 +822,25 @@ begin
     m_Y  := pSrc.m_Y;
     m_Z  := pSrc.m_Z;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentNotifiableVector3GL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableVector3GL.Create;
 begin
     inherited Create;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableVector3GL.Create(pOwner: TControl;
                                                fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
     inherited Create(pOwner, fOnNotifyPropOwner);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentNotifiableVector3GL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableVector3GL.SetX(value: Single);
 begin
     // no changes?
@@ -853,7 +853,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableVector3GL.SetY(value: Single);
 begin
     // no changes?
@@ -866,7 +866,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableVector3GL.SetZ(value: Single);
 begin
     // no changes?
@@ -879,9 +879,9 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentColorGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentColorGL.Create;
 begin
     inherited Create;
@@ -889,7 +889,7 @@ begin
     // create local variables
     m_pColor := TQRVCLColor.Create;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentColorGL.Create(pOwner: TControl;
                                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -898,7 +898,7 @@ begin
     // create local variables
     m_pColor := TQRVCLColor.Create;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentColorGL.Destroy;
 begin
     // clear memory
@@ -906,32 +906,32 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetRedF: Single;
 begin
     Result := m_pColor.GetRedF;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetGreenF: Single;
 begin
     Result := m_pColor.GetGreenF;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetBlueF: Single;
 begin
     Result := m_pColor.GetBlueF;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetAlphaF: Single;
 begin
     Result := m_pColor.GetAlphaF;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetRed: Byte;
 begin
     Result := m_pColor.R;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetRed(value: Byte);
 begin
     // no changes?
@@ -942,12 +942,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetGreen: Byte;
 begin
     Result := m_pColor.G;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetGreen(value: Byte);
 begin
     // no changes?
@@ -958,12 +958,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetBlue: Byte;
 begin
     Result := m_pColor.B;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetBlue(value: Byte);
 begin
     // no changes?
@@ -974,12 +974,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetAlpha: Byte;
 begin
     Result := m_pColor.A;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetAlpha(value: Byte);
 begin
     // no changes?
@@ -990,12 +990,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetVCLColor: TColor;
 begin
     Result := m_pColor.GetVCLColor;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetVCLColor(value: TColor);
 begin
     // no changes?
@@ -1006,12 +1006,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentColorGL.GetWinColor: COLORREF;
 begin
     Result := m_pColor.GetWinColor;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.SetWinColor(value: COLORREF);
 begin
     // no changes?
@@ -1022,7 +1022,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentColorGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLModelComponentColorGL;
@@ -1041,9 +1041,9 @@ begin
     pSrc := pSource as TQRVCLModelComponentColorGL;
     m_pColor.Assign(pSrc.m_pColor);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentNotifiableBlackColorGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableBlackColorGL.Create;
 begin
     inherited Create;
@@ -1051,7 +1051,7 @@ begin
     // by default, set the model color to Black opaque (thus eventual textures will be shown)
     m_pColor.SetVCLColor(clBlack, 255);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableBlackColorGL.Create(pOwner: TControl;
                                                   fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -1060,12 +1060,12 @@ begin
     // by default, set the model color to Black opaque (thus eventual textures will be shown)
     m_pColor.SetVCLColor(clBlack, 255);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentNotifiableBlackColorGL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetRed(value: Byte);
 begin
     // no changes?
@@ -1078,7 +1078,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetGreen(value: Byte);
 begin
     // no changes?
@@ -1091,7 +1091,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetBlue(value: Byte);
 begin
     // no changes?
@@ -1104,7 +1104,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetAlpha(value: Byte);
 begin
     // no changes?
@@ -1117,7 +1117,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetVCLColor(value: TColor);
 begin
     // no changes?
@@ -1130,7 +1130,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableBlackColorGL.SetWinColor(value: COLORREF);
 begin
     // no changes?
@@ -1143,9 +1143,9 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentNotifiableWhiteColorGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableWhiteColorGL.Create;
 begin
     inherited Create;
@@ -1153,7 +1153,7 @@ begin
     // by default, set the model color to white opaque (thus eventual textures will be shown)
     m_pColor.SetVCLColor(clWhite, 255);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentNotifiableWhiteColorGL.Create(pOwner: TControl;
                                                   fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -1162,12 +1162,12 @@ begin
     // by default, set the model color to white opaque (thus eventual textures will be shown)
     m_pColor.SetVCLColor(clWhite, 255);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentNotifiableWhiteColorGL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetRed(value: Byte);
 begin
     // no changes?
@@ -1180,7 +1180,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetGreen(value: Byte);
 begin
     // no changes?
@@ -1193,7 +1193,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetBlue(value: Byte);
 begin
     // no changes?
@@ -1206,7 +1206,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetAlpha(value: Byte);
 begin
     // no changes?
@@ -1219,7 +1219,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetVCLColor(value: TColor);
 begin
     // no changes?
@@ -1232,7 +1232,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentNotifiableWhiteColorGL.SetWinColor(value: COLORREF);
 begin
     // no changes?
@@ -1245,9 +1245,9 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentAlphaBlendingPropertyGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentAlphaBlendingPropertyGL.Create;
 begin
     inherited Create;
@@ -1256,7 +1256,7 @@ begin
     m_GlobalLevel := 255;
     m_Enabled     := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentAlphaBlendingPropertyGL.Create(pOwner: TControl;
                                                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -1266,17 +1266,17 @@ begin
     m_GlobalLevel := 255;
     m_Enabled     := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentAlphaBlendingPropertyGL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentAlphaBlendingPropertyGL.GetGlobalLevel: Byte;
 begin
     Result := m_GlobalLevel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentAlphaBlendingPropertyGL.SetGlobalLevel(value: Byte);
 begin
     // no changes?
@@ -1287,12 +1287,12 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentAlphaBlendingPropertyGL.GetEnabled: Boolean;
 begin
     Result := m_Enabled;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentAlphaBlendingPropertyGL.SetEnabled(value: Boolean);
 begin
     // no changes?
@@ -1307,7 +1307,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentAlphaBlendingPropertyGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLModelComponentAlphaBlendingPropertyGL;
@@ -1328,9 +1328,9 @@ begin
     m_GlobalLevel := pSrc.m_GlobalLevel;
     m_Enabled     := pSrc.m_Enabled;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentPropertyGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentPropertyGL.Create;
 begin
     inherited Create;
@@ -1352,7 +1352,7 @@ begin
     m_pTranslation.m_Y := 0.0;
     m_pTranslation.m_Z := 0.0;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentPropertyGL.Create(pOwner: TControl;
                                       fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -1374,7 +1374,7 @@ begin
     m_SwapYZ           := False;
     m_CombinationType  := EQR_CT_Scale_Rotate_Translate;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentPropertyGL.Destroy;
 begin
     // clear memory
@@ -1384,7 +1384,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.SetRotationX(const angle: Single);
 begin
     // no changes?
@@ -1395,7 +1395,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.SetRotationY(const angle: Single);
 begin
     // no changes?
@@ -1406,7 +1406,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.SetRotationZ(const angle: Single);
 begin
     // no changes?
@@ -1417,7 +1417,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.SetSwapYZ(value: Boolean);
 begin
     // no changes?
@@ -1428,7 +1428,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.SetCombinationType(value: EQRModelMatrixCombinationType);
 begin
     // no changes?
@@ -1439,7 +1439,7 @@ begin
 
     InvalidateDesigner;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.Apply(pModel: TQRModelGroup);
 begin
     // no model?
@@ -1489,7 +1489,7 @@ begin
         // update model matrix combination type
         pModel.MatrixCombinationType := m_CombinationType;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentPropertyGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLModelComponentPropertyGL;
@@ -1524,9 +1524,9 @@ begin
     m_pScaling.Assign(pSrc.m_pScaling);
     m_pTranslation.Assign(pSrc.m_pTranslation);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLPreCalculatedLightComponentPropertyGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLPreCalculatedLightComponentPropertyGL.Create;
 begin
     inherited Create;
@@ -1537,7 +1537,7 @@ begin
     m_pDirection := TQRVCLModelComponentNotifiableVector3GL.Create;
     m_Enabled    := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLPreCalculatedLightComponentPropertyGL.Create(pOwner: TControl;
                                                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent);
 begin
@@ -1549,7 +1549,7 @@ begin
     m_pDirection := TQRVCLModelComponentNotifiableVector3GL.Create(pOwner, fOnNotifyPropOwner);
     m_Enabled    := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLPreCalculatedLightComponentPropertyGL.Destroy;
 begin
     inherited Destroy;
@@ -1559,7 +1559,7 @@ begin
     m_pColor.Free;
     m_pAmbient.Free;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLPreCalculatedLightComponentPropertyGL.SetEnabled(value: Boolean);
 begin
     // no changes?
@@ -1572,7 +1572,7 @@ begin
     if (Assigned(m_fOnNotifyPropOwner)) then
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLPreCalculatedLightComponentPropertyGL.Apply(pLight: TQRMD2Light);
 begin
     // no light?
@@ -1600,7 +1600,7 @@ begin
     pLight.Direction.Z := m_pDirection.Z;
     pLight.Enabled     := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLPreCalculatedLightComponentPropertyGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLPreCalculatedLightComponentPropertyGL;
@@ -1627,6 +1627,6 @@ begin
     m_pColor.Assign(pSrc.m_pColor);
     m_pDirection.Assign(pSrc.m_pDirection);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

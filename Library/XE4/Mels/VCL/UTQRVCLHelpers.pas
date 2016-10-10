@@ -273,9 +273,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLStringHelper
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLStringHelper.FromResource(hInstance: NativeUInt; const resourceName: String): String;
 var
     pStream:       TResourceStream;
@@ -308,9 +308,9 @@ begin
         pStream.Free
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLPictureHelper
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRVCLPictureHelper.CopyPixel(const pSrc, pDst: Pointer);
 asm
     push ebx
@@ -324,7 +324,7 @@ asm
     mov [edx + 3], bh
     pop ebx
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRVCLPictureHelper.CopySwapPixel(const pSrc, pDst: Pointer);
 asm
     push ebx
@@ -338,7 +338,7 @@ asm
     mov [edx + 3], bh
     pop ebx
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
     ext:  String;
@@ -369,7 +369,7 @@ begin
         list.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.ToBitmap(const pPicture: TPicture; pBitmap: Vcl.Graphics.TBitmap): Boolean;
 begin
     // no source picture?
@@ -392,7 +392,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsBitmap(const pPicture: TPicture): Boolean;
 var
     pGraphic: TGraphic;
@@ -412,7 +412,7 @@ begin
     // picture contains a bitmap if the graphic is assigned and is a type of bitmap
     Result := (Assigned(pGraphic) and (pGraphic is Vcl.Graphics.TBitmap));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.GetPictureSize(const pPicture: TPicture; out width, height: Integer): Boolean;
 begin
     width  := 0;
@@ -447,7 +447,7 @@ begin
 
     Result := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.GetBitmapPixelFormat(const pBitmap: Vcl.Graphics.TBitmap): Integer;
 begin
     // no bitmap defined?
@@ -488,7 +488,7 @@ begin
         Result := 0;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.BytesFromBitmap(const pBitmap: Vcl.Graphics.TBitmap;
                                                      var pPixels: TQRByteArray;
                                                       flipY, bgr: Boolean): Boolean;
@@ -587,7 +587,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.BytesFromBitmap(const pBitmap: Vcl.Graphics.TBitmap): Pointer;
 var
     pixelFormat: Integer;
@@ -644,7 +644,7 @@ begin
             ReleaseDC(0, hDC);
     end;
 end ;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.BitmapFromBytes(const pPixels: Pointer;
                                               width, height, bpp: Cardinal;
                                                            flipY: Boolean;
@@ -741,7 +741,7 @@ begin
         Result := False;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.LoadTGA(const fileName: UnicodeString;
                                                   swapRGB: Boolean;
                                                   pBitmap: Vcl.Graphics.TBitmap): Boolean;
@@ -766,7 +766,7 @@ begin
         pStream.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.LoadTGA(const pStream: TStream;
                                               readLength: NativeUInt;
                                                  swapRGB: Boolean;
@@ -993,7 +993,7 @@ begin
 
     Result := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.LoadPCX(const fileName: UnicodeString;
                                                   pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -1017,7 +1017,7 @@ begin
         pStream.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.LoadPCX(const pStream: TStream;
                                               readLength: NativeUInt;
                                                  pBitmap: Vcl.Graphics.TBitmap): Boolean;
@@ -1265,9 +1265,9 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRGDIHelper
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRGDIHelper.ApplyAntialiasing(pSource, pDest: Vcl.Graphics.TBitmap;
                                                        factor: NativeInt);
 begin
@@ -1293,7 +1293,7 @@ begin
                                    pDest.Height,
                                    factor);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRGDIHelper.ApplyAntialiasing(hSrc, hDst: THandle;
                               x, y, width, height, factor: NativeInt);
 var
@@ -1328,6 +1328,6 @@ begin
         SetStretchBltMode(hDst, prevMode);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

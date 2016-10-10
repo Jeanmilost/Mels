@@ -941,61 +941,61 @@ type
     PQRBox = ^TQRBox;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVector2D
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVector2D.Create(const x, y: Single);
 begin
     m_X := x;
     m_Y := y;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVector2D.Create(const other: TQRVector2D);
 begin
     Assign(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVector2D.Assign(const other: TQRVector2D);
 begin
     m_X := other.m_X;
     m_Y := other.m_Y;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Add(const value: Single): TQRVector2D;
 begin
     result := TQRVector2D.Create(m_X + value, m_Y + value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Add(const other: TQRVector2D): TQRVector2D;
 begin
     result := TQRVector2D.Create(m_X + other.m_X, m_Y + other.m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Invert: TQRVector2D;
 begin
     result := TQRVector2D.Create(-m_X, -m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Sub(const value: Single): TQRVector2D;
 begin
     Result := TQRVector2D.Create(m_X - value, m_Y - value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Sub(const other: TQRVector2D): TQRVector2D;
 begin
     Result := TQRVector2D.Create(m_X - other.m_X, m_Y - other.m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Mul(const value: Single): TQRVector2D;
 begin
     Result := TQRVector2D.Create(m_X * value, m_Y * value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Mul(const other: TQRVector2D): TQRVector2D;
 begin
     Result := TQRVector2D.Create(m_X * other.m_X, m_Y * other.m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Divide(const value: Single): TQRVector2D;
 begin
     if (value = 0.0) then
@@ -1003,7 +1003,7 @@ begin
 
     Result := TQRVector2D.Create(m_X / value, m_Y / value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Divide(const other: TQRVector2D): TQRVector2D;
 begin
     if (other.m_X = 0.0) then
@@ -1014,7 +1014,7 @@ begin
 
     Result := TQRVector2D.Create(m_X / other.m_X, m_Y / other.m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.AddAndAssign(const value: Single): TQRVector2D;
 begin
     m_X := m_X + value;
@@ -1022,7 +1022,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.AddAndAssign(const other: TQRVector2D): TQRVector2D;
 begin
     m_X := m_X + other.m_X;
@@ -1030,7 +1030,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.SubAndAssign(const value: Single): TQRVector2D;
 begin
     m_X := m_X - value;
@@ -1038,7 +1038,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.SubAndAssign(const other: TQRVector2D): TQRVector2D;
 begin
     m_X := m_X - other.m_X;
@@ -1046,7 +1046,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.MulAndAssign(const value: Single): TQRVector2D;
 begin
     m_X := m_X * value;
@@ -1054,7 +1054,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.MulAndAssign(const other: TQRVector2D): TQRVector2D;
 begin
     m_X := m_X * other.m_X;
@@ -1062,7 +1062,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.DivAndAssign(const value: Single): TQRVector2D;
 begin
     if (value = 0.0) then
@@ -1073,7 +1073,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.DivAndAssign(const other: TQRVector2D): TQRVector2D;
 begin
     if (other.m_X = 0.0) then
@@ -1087,22 +1087,22 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.IsEqual(const other: TQRVector2D): Boolean;
 begin
     Result := ((m_X = other.m_X) and (m_Y = other.m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Differs(const other: TQRVector2D): Boolean;
 begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Normalize: TQRVector2D;
 var
     len: Single;
@@ -1114,18 +1114,18 @@ begin
     else
         Result := TQRVector2D.Create((m_X / len), (m_Y / len));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Cross(const vector: TQRVector2D): TQRVector2D;
 begin
     Result := TQRVector2D.Create((m_Y * vector.m_X) - (vector.m_Y * m_X),
                                  (m_X * vector.m_Y) - (vector.m_X * m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Dot(const vector: TQRVector2D): Single;
 begin
     Result := ((m_X * vector.m_X) + (m_Y * vector.m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Interpolate(const other: TQRVector2D; const position: Single): TQRVector2D;
 begin
     // is position out of bounds? Limit to min or max values in this case
@@ -1145,63 +1145,63 @@ begin
     Result.m_X := m_X + position * (other.m_X - m_X);
     Result.m_Y := m_Y + position * (other.m_Y - m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVector3D
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVector3D.Create(const x, y, z: Single);
 begin
     m_X := x;
     m_Y := y;
     m_Z := z;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVector3D.Create(const other: TQRVector3D);
 begin
     Assign(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVector3D.Assign(const other: TQRVector3D);
 begin
     m_X := other.m_X;
     m_Y := other.m_Y;
     m_Z := other.m_Z;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Add(const value: Single): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X + value, m_Y + value, m_Z + value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Add(const other: TQRVector3D): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X + other.m_X, m_Y + other.m_Y, m_Z + other.m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Invert: TQRVector3D;
 begin
     Result := TQRVector3D.Create(-m_X, -m_Y, -m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Sub(const value: Single): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X - value, m_Y - value, m_Z - value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Sub(const other: TQRVector3D): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X - other.m_X, m_Y - other.m_Y, m_Z - other.m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Mul(const value: Single): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X * value, m_Y * value, m_Z * value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Mul(const other: TQRVector3D): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X * other.m_X, m_Y * other.m_Y, m_Z * other.m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Divide(const value: Single): TQRVector3D;
 begin
     if (value = 0.0) then
@@ -1209,7 +1209,7 @@ begin
 
     Result := TQRVector3D.Create(m_X / value, m_Y / value, m_Z / value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Divide(const other: TQRVector3D): TQRVector3D;
 begin
     if (other.m_X = 0.0) then
@@ -1223,7 +1223,7 @@ begin
 
     Result := TQRVector3D.Create(m_X / other.m_X, m_Y / other.m_Y, m_Z / other.m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.AddAndAssign(const value: Single): TQRVector3D;
 begin
     m_X := m_X + value;
@@ -1232,7 +1232,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.AddAndAssign(const other: TQRVector3D): TQRVector3D;
 begin
     m_X := m_X + other.m_X;
@@ -1241,7 +1241,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.SubAndAssign(const value: Single): TQRVector3D;
 begin
     m_X := m_X - value;
@@ -1250,7 +1250,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.SubAndAssign(const other: TQRVector3D): TQRVector3D;
 begin
     m_X := m_X - other.m_X;
@@ -1259,7 +1259,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.MulAndAssign(const value: Single): TQRVector3D;
 begin
     m_X := m_X * value;
@@ -1268,7 +1268,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.MulAndAssign(const other: TQRVector3D): TQRVector3D;
 begin
     m_X := m_X * other.m_X;
@@ -1277,7 +1277,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.DivAndAssign(const value: Single): TQRVector3D;
 begin
     if (value = 0.0) then
@@ -1289,7 +1289,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.DivAndAssign(const other: TQRVector3D): TQRVector3D;
 begin
     if (other.m_X = 0.0) then
@@ -1307,22 +1307,22 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.IsEqual(const other: TQRVector3D): Boolean;
 begin
     Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Differs(const other: TQRVector3D): Boolean;
 begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y) + (m_Z * m_Z));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Normalize: TQRVector3D;
 var
     len: Single;
@@ -1334,19 +1334,19 @@ begin
     else
         Result := TQRVector3D.Create((m_X / len), (m_Y / len), (m_Z / len));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Cross(const vector: TQRVector3D): TQRVector3D;
 begin
     Result := TQRVector3D.Create((m_Y * vector.m_Z) - (vector.m_Y * m_Z),
                                  (m_Z * vector.m_X) - (vector.m_Z * m_X),
                                  (m_X * vector.m_Y) - (vector.m_X * m_Y));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Dot(const vector: TQRVector3D): Single;
 begin
     Result := ((m_X * vector.m_X) + (m_Y * vector.m_Y) + (m_Z * vector.m_Z));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Interpolate(const other: TQRVector3D; const position: Single): TQRVector3D;
 begin
     // is position out of bounds? Limit to min or max values in this case
@@ -1367,9 +1367,9 @@ begin
     Result.m_Y := m_Y + position * (other.m_Y - m_Y);
     Result.m_Z := m_Z + position * (other.m_Z - m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRPlane
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRPlane.Create(const a, b, c, d: Single);
 begin
     m_A := a;
@@ -1377,12 +1377,12 @@ begin
     m_C := c;
     m_D := d;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRPlane.Create(const other: TQRPlane);
 begin
     Assign(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlane.Assign(const other: TQRPlane);
 begin
     m_A := other.m_A;
@@ -1390,22 +1390,22 @@ begin
     m_C := other.m_C;
     m_D := other.m_D;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.Invert: TQRPlane;
 begin
     Result := TQRPlane.Create(-m_A, -m_B, -m_C, -m_D);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.IsEqual(const other: TQRPlane): Boolean;
 begin
     Result := ((m_A = other.m_A) and (m_B = other.m_B) and (m_C = other.m_C) and (m_D = other.m_D));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.Differs(const other: TQRPlane): Boolean;
 begin
     Result := ((m_A <> other.m_A) or (m_B <> other.m_B) or (m_C <> other.m_C) or (m_D <> other.m_D));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.DistanceTo(const point: TQRVector3D): Single;
 var
     n: TQRVector3D;
@@ -1416,7 +1416,7 @@ begin
     // calculate the distance between the plane and the point
     Result := n.Dot(point) + m_D;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.IntersectLine(const v1, v2: TQRVector3D; out p: TQRVector3D): Boolean;
 var
     direction: TQRVector3D;
@@ -1426,7 +1426,7 @@ begin
 
     Result := IntersectRay(v1, direction.Normalize, p);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.IntersectRay(const rp, rd: TQRVector3D; out p: TQRVector3D): Boolean;
 var
     normal:    TQRVector3D;
@@ -1456,7 +1456,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlane.Compare(const other: TQRPlane; const tolerance: Single): Boolean;
 begin
     Result := (((m_A >= (other.m_A - tolerance))  and
@@ -1468,7 +1468,7 @@ begin
                ((m_D >= (other.m_D - tolerance))  and
                 (m_D <= (other.m_D + tolerance))));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRPlane.FromPoints(const v1, v2, v3: TQRVector3D): TQRPlane;
 var
     e1, e2, normal: TQRVector3D;
@@ -1483,16 +1483,16 @@ begin
     // calculate and return the plane
     Result := FromPointNormal(v1, normal);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRPlane.FromPointNormal(const point, normal: TQRVector3D): TQRPlane;
 begin
     // the a, b, and c components are only the normal of the plane, and the D
     // component can be calculated using the aX + bY + cZ + d = 0 algorithm
     Result := TQRPlane.Create(normal.m_X, normal.m_Y, normal.m_Z, -(normal.Dot(point)));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRMatrix4x4
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRMatrix4x4.Create(const _11, _12, _13, _14,
                                       _21, _22, _23, _24,
                                       _31, _32, _33, _34,
@@ -1503,17 +1503,17 @@ begin
     m_Table[2][0] := _31; m_Table[2][1] := _32; m_Table[2][2] := _33; m_Table[2][3] := _34;
     m_Table[3][0] := _41; m_Table[3][1] := _42; m_Table[3][2] := _43; m_Table[3][3] := _44;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRMatrix4x4.Create(const other: TQRMatrix4x4);
 begin
     Assign(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRMatrix4x4.GetDefault: TQRMatrix4x4;
 begin
     Result := Identity;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.GetItem(i: NativeInt): Single;
 var
     x, y: NativeInt;
@@ -1527,7 +1527,7 @@ begin
 
     Result := m_Table[x][y];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMatrix4x4.SetItem(i: NativeInt; value: Single);
 var
     x, y: NativeInt;
@@ -1541,7 +1541,7 @@ begin
 
     m_Table[x][y] := value;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.GetTableItem(x, y: NativeInt): Single;
 begin
     if (x > 3) then
@@ -1552,7 +1552,7 @@ begin
 
     Result := m_Table[x][y];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMatrix4x4.SetTableItem(x, y: NativeInt; value: Single);
 begin
     if (x > 3) then
@@ -1563,7 +1563,7 @@ begin
 
     m_Table[x][y] := value;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMatrix4x4.Assign(const other: TQRMatrix4x4);
 var
     i, j: Byte;
@@ -1573,7 +1573,7 @@ begin
         for j := 0 to 3 do
             m_Table[i][j] := other.m_Table[i][j];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // FIXME MUST NOT BE INLINE!!!
 function TQRMatrix4x4.IsEqual(const other: TQRMatrix4x4): Boolean;
 var
@@ -1590,17 +1590,17 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Differs(const other: TQRMatrix4x4): Boolean;
 begin
     Result := not IsEqual(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.IsIdentity: Boolean;
 begin
     Result := IsEqual(Identity);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Determinant: Single;
 var
     t: array [0..2] of Single;
@@ -1625,7 +1625,7 @@ begin
               m_Table[0][2] * v[2] +
               m_Table[0][3] * v[3];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Inverse(out determinant: Single): TQRMatrix4x4;
 var
     invDet: Single;
@@ -1704,7 +1704,7 @@ begin
         for j := 0 to 3 do
             Result.m_Table[i][j] := v[4 * i + j] * invDet;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Multiply(const other: TQRMatrix4x4): TQRMatrix4x4;
 var
     i, j: Byte;
@@ -1716,7 +1716,7 @@ begin
                                     m_Table[i][2] * other.m_Table[2][j] +
                                     m_Table[i][3] * other.m_Table[3][j];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Translate(const t: TQRVector3D): TQRMatrix4x4;
 begin
     m_Table[3][0] := m_Table[3][0] + (m_Table[0][0] * t.m_X + m_Table[1][0] * t.m_Y + m_Table[2][0] * t.m_Z);
@@ -1726,7 +1726,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Rotate(const angle: Single; const r: TQRVector3D): TQRMatrix4x4;
 var
     c, s, ic: Single;
@@ -1754,7 +1754,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Scale(const s: TQRVector3D): TQRMatrix4x4;
 begin
     m_Table[0][0] := m_Table[0][0] * s.m_X; m_Table[1][0] := m_Table[1][0] * s.m_Y; m_Table[2][0] := m_Table[2][0] * s.m_Z;
@@ -1764,7 +1764,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Swap: TQRMatrix4x4;
 begin
     Result := TQRMatrix4x4.Create(m_Table[0][0], m_Table[1][0], m_Table[2][0], m_Table[3][0],
@@ -1772,7 +1772,7 @@ begin
                                   m_Table[0][2], m_Table[1][2], m_Table[2][2], m_Table[3][2],
                                   m_Table[0][3], m_Table[1][3], m_Table[2][3], m_Table[3][3]);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Transform(const vector: TQRVector3D): TQRVector3D;
 begin
     // calculates x, y and z coordinates (don't use w component), and returns
@@ -1790,12 +1790,12 @@ begin
                                   vector.m_Z * m_Table[2][2] +
                                   m_Table[3][2]));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.GetPtr: PSingle;
 begin
     Result := @m_Table[0][0];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRMatrix4x4.Identity: TQRMatrix4x4;
 begin
     Result := TQRMatrix4x4.Create(1.0, 0.0, 0.0, 0.0,
@@ -1803,9 +1803,9 @@ begin
                                   0.0, 0.0, 1.0, 0.0,
                                   0.0, 0.0, 0.0, 1.0);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRQuaternion
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRQuaternion.Create(x, y, z, w: Single);
 begin
     m_X := x;
@@ -1813,7 +1813,7 @@ begin
     m_Z := z;
     m_W := w;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRQuaternion.Create(const vector: TQRVector3D; angle: Single);
 var
     sinAngle: Single;
@@ -1825,7 +1825,7 @@ begin
     m_Z := (vector.m_Z * sinAngle);
     m_W :=  Cos(angle);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRQuaternion.Create(const matrix: TQRMatrix4x4);
 var
     diagonal, scale: Single;
@@ -1887,12 +1887,12 @@ begin
         m_W := (matrix.m_Table[0][1] - matrix.m_Table[1][0]) / scale;
     end
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRQuaternion.Create(const other: TQRQuaternion);
 begin
     Assign(other);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRQuaternion.Assign(const other: TQRQuaternion);
 begin
     m_X := other.m_X;
@@ -1900,12 +1900,12 @@ begin
     m_Z := other.m_Z;
     m_W := other.m_W;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Add(const value: Single): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X + value, m_Y + value, m_Z + value, m_W + value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Add(const other: TQRQuaternion): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X + other.m_X,
@@ -1913,17 +1913,17 @@ begin
                                    m_Z + other.m_Z,
                                    m_W + other.m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Invert: TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, -m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Sub(const value: Single): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X - value, m_Y - value, m_Z - value, m_W - value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Sub(const other: TQRQuaternion): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X - other.m_X,
@@ -1931,12 +1931,12 @@ begin
                                    m_Z - other.m_Z,
                                    m_W - other.m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Mul(const value: Single): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X * value, m_Y * value, m_Z * value, m_W * value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Mul(const other: TQRQuaternion): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X * other.m_X,
@@ -1944,7 +1944,7 @@ begin
                                    m_Z * other.m_Z,
                                    m_W * other.m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Divide(const value: Single): TQRQuaternion;
 begin
     if (value = 0.0) then
@@ -1952,7 +1952,7 @@ begin
 
     Result := TQRQuaternion.Create(m_X / value, m_Y / value, m_Z / value, m_W / value);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Divide(const other: TQRQuaternion): TQRQuaternion;
 begin
     if (other.m_X = 0.0) then
@@ -1972,7 +1972,7 @@ begin
                                    m_Z / other.m_Z,
                                    m_W / other.m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.AddAndAssign(const value: Single): TQRQuaternion;
 begin
     m_X := m_X + value;
@@ -1982,7 +1982,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.AddAndAssign(const other: TQRQuaternion): TQRQuaternion;
 begin
     m_X := m_X + other.m_X;
@@ -1992,7 +1992,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.SubAndAssign(const value: Single): TQRQuaternion;
 begin
     m_X := m_X - value;
@@ -2002,7 +2002,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.SubAndAssign(const other: TQRQuaternion): TQRQuaternion;
 begin
     m_X := m_X - other.m_X;
@@ -2012,7 +2012,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.MulAndAssign(const value: Single): TQRQuaternion;
 begin
     m_X := m_X * value;
@@ -2022,7 +2022,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.MulAndAssign(const other: TQRQuaternion): TQRQuaternion;
 begin
     m_X := m_X * other.m_X;
@@ -2032,7 +2032,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.DivAndAssign(const value: Single): TQRQuaternion;
 begin
     if (value = 0.0) then
@@ -2045,7 +2045,7 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.DivAndAssign(const other: TQRQuaternion): TQRQuaternion;
 begin
     if (other.m_X = 0.0) then
@@ -2067,27 +2067,27 @@ begin
 
     Result := Self;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.IsEqual(const other: TQRQuaternion): Boolean;
 begin
     Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z) and (m_W = other.m_W));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Differs(const other: TQRQuaternion): Boolean;
 begin
     Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z) or (m_W <> other.m_W));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Norm: Single;
 begin
     Result := ((m_X * m_X) + (m_Y * m_Y) + (m_Z * m_Z) + (m_W * m_W));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Length: Single;
 begin
     Result := Sqrt(Norm);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Normalize: TQRQuaternion;
 var
     len: Single;
@@ -2102,22 +2102,22 @@ begin
 
     Result := TQRQuaternion.Create((m_X / len), (m_Y / len), (m_Z / len), (m_W / len));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Dot(const q: TQRQuaternion): Single;
 begin
     Result := ((m_X * q.m_X) + (m_Y * q.m_Y) + (m_Z * q.m_Z) + (m_W * q.m_W));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Scale(s: Single): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X * s, m_Y * s, m_Z * s, m_W * s);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Conjugate: TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Inverse: TQRQuaternion;
 var
     quatNorm: Single;
@@ -2134,7 +2134,7 @@ begin
 
     Result := Conjugate.Scale(1.0 / quatNorm);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Slerp(const other: TQRQuaternion; p: Single): TQRQuaternion;
 var
     quatDot, scale0, scale1, theta, sinTheta: Single;
@@ -2186,7 +2186,7 @@ begin
     Result.m_Z := (scale0 * m_Z) + (scale1 * interpolateWith.m_Z);
     Result.m_W := (scale0 * m_W) + (scale1 * interpolateWith.m_W);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Rotate(const vector: TQRVector3D): TQRVector3D;
 var
     qv, qm: TQRQuaternion;
@@ -2199,7 +2199,7 @@ begin
     Result.m_Y := qm.m_Y;
     Result.m_Z := qm.m_Z;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.GetMatrix: TQRMatrix4x4;
 begin
     Result := TQRMAtrix4x4.Create(1.0 -  2.0 * (m_Y * m_Y + m_Z * m_Z), 2.0 * (m_X *  m_Y - m_W * m_Z),       2.0 * (m_X *  m_Z + m_W * m_Y),       0.0,
@@ -2207,9 +2207,9 @@ begin
                                   2.0 * (m_X *  m_Z - m_W * m_Y),       2.0 * (m_Y *  m_Z + m_W * m_X),       1.0 -  2.0 * (m_X * m_X + m_Y * m_Y), 0.0,
                                   0.0,                                  0.0,                                  0.0,                                  1.0);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRRay
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRRay.Create;
 var
     dir: TQRVector3D;
@@ -2218,29 +2218,29 @@ begin
     dir   := Default(TQRVector3D);
     SetDir(@dir);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRRay.Create(const pOther: TQRRay);
 begin
     m_Pos.Assign(pOther.m_Pos);
     m_Dir.Assign(pOther.m_Dir);
     m_InvDir.Assign(pOther.m_InvDir);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRay.GetPos: PQRVector3D;
 begin
     Result := @m_Pos;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRRay.SetPos(const pPos: PQRVector3D);
 begin
     m_Pos := pPos^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRay.GetDir: PQRVector3D;
 begin
     Result := @m_Dir;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRRay.SetDir(const pDir: PQRVector3D);
 begin
     m_Dir.Assign(pDir^);
@@ -2269,14 +2269,14 @@ begin
         // calculate invert direction on z axis
         m_InvDir.m_Z := (1.0 / m_Dir.m_Z);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRay.GetInvDir: PQRVector3D;
 begin
     Result := @m_InvDir;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRPolygon
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.IsBetween(const value, vStart, vEnd: TQRVector3D; tolerance: Single): Boolean;
 begin
     // check if each vector component is between start and end limits
@@ -2284,21 +2284,21 @@ begin
                IsBetween(value.Y, vStart.Y, vEnd.Y, tolerance) and
                IsBetween(value.Z, vStart.Z, vEnd.Z, tolerance));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.IsBetween(const value, lStart, lEnd, tolerance: Single): Boolean;
 begin
     // check if each value is between start and end limits considering tolerance
     Result := ((value >= Min(lStart, lEnd) - tolerance) and
                (value <= Max(lStart, lEnd) + tolerance));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRPolygon.Create(const vertex1, vertex2, vertex3: TQRVector3D);
 begin
     m_Vertex[0] := vertex1;
     m_Vertex[1] := vertex2;
     m_Vertex[2] := vertex3;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetVertex(index: Byte): TQRVector3D;
 begin
     // search for index to get
@@ -2308,7 +2308,7 @@ begin
         2: Result := m_Vertex[2];
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPolygon.SetVertex(index: Byte; const vertex: TQRVector3D);
 begin
     // search for index to set
@@ -2318,43 +2318,43 @@ begin
         2: m_Vertex[2] := vertex;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetVertex1: PQRVector3D;
 begin
     Result := @m_Vertex[0];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPolygon.SetVertex1(const pVertex: PQRVector3D);
 begin
     m_Vertex[0] := pVertex^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetVertex2: PQRVector3D;
 begin
     Result := @m_Vertex[1];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPolygon.SetVertex2(const pVertex: PQRVector3D);
 begin
     m_Vertex[1] := pVertex^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetVertex3: PQRVector3D;
 begin
     Result := @m_Vertex[2];
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPolygon.SetVertex3(const pVertex: PQRVector3D);
 begin
     m_Vertex[2] := pVertex^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetClone: TQRPolygon;
 begin
     // copies the polygon, then returns the copy
     Result := TQRPolygon.Create(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.ApplyMatrix(const matrix: TQRMatrix4x4): TQRPolygon;
 begin
     // build a new polygon transforming all vertices of the polygon using
@@ -2363,13 +2363,13 @@ begin
                                 matrix.Transform(m_Vertex[1]),
                                 matrix.Transform(m_Vertex[2]));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetPlane: TQRPlane;
 begin
     // calculates the plane from the values of the 3 vertices of the polygon
     Result := TQRPlane.FromPoints(m_Vertex[0], m_Vertex[1], m_Vertex[2]);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.GetCenter: TQRVector3D;
 begin
     // calculates then returns the value of the midpoint of the polygon
@@ -2377,12 +2377,12 @@ begin
                                  ((m_Vertex[0].Y + m_Vertex[1].Y + m_Vertex[2].Y) / 3.0),
                                  ((m_Vertex[0].Z + m_Vertex[1].Z + m_Vertex[2].Z) / 3.0));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.Inside(const x, y, z: Single): Boolean;
 begin
     Result := Inside(TQRVector3D.Create(x, y, z));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPolygon.Inside(const point: TQRVector3D): Boolean;
 var
     nPToV1, nPToV2, nPToV3:  TQRVector3D;
@@ -2419,91 +2419,91 @@ begin
     // be higher due to precision errors in calculations
     Result := (angleResult >= 6.28);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRCircle
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRCircle.GetPos: PQRVector2D;
 begin
     Result := @m_Pos;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRCircle.SetPos(const pPos: PQRVector2D);
 begin
     m_Pos := pPos^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRSphere
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRSphere.GetPos: PQRVector3D;
 begin
     Result := @m_Pos;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRSphere.SetPos(const pPos: PQRVector3D);
 begin
     m_Pos := pPos^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRRect
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRRect.Create(const x, y, width, height: Single);
 begin
     m_Min := TQRVector2D.Create(x,         y);
     m_Max := TQRVector2D.Create(x + width, y + height);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRect.GetMin: PQRVector2D;
 begin
     Result := @m_Min;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRRect.SetMin(const pValue: PQRVector2D);
 begin
     m_Min := pValue^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRect.GetMax: PQRVector2D;
 begin
     Result := @m_Max;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRRect.SetMax(const pValue: PQRVector2D);
 begin
     m_Max := pValue^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRect.GetWidth: Single;
 begin
     Result := (m_Max.m_X - m_Min.m_X);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRRect.GetHeight: Single;
 begin
     Result := (m_Max.m_Y - m_Min.m_Y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRBox
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRBox.GetMin: PQRVector3D;
 begin
     Result := @m_Min;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRBox.SetMin(const pValue: PQRVector3D);
 begin
     m_Min := pValue^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRBox.GetMax: PQRVector3D;
 begin
     Result := @m_Max;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRBox.SetMax(const pValue: PQRVector3D);
 begin
     m_Max := pValue^;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRBox.Cut(var leftBox: TQRBox; var rightBox: TQRBox);
 var
     x, y, z:     Single;
@@ -2562,6 +2562,6 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.
