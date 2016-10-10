@@ -79,22 +79,93 @@ type
   {$REGION 'Documentation'}
   {
    Simple player using OpenAL
-   @note(Here is the OpenAL official website: @link(http://www.openal.org/))
+   @note(Here is the OpenAL official website: http://www.openal.org/)
   }
   {$ENDREGION}
   TQRPlayerAL = class(TComponent, IQRPlayer)
   private
-    FPtDevice:         TALCdevice;
-    FPtContext:        TALCcontext;
-    FID:               TALuint;
-    FBufferID:         TALuint;
-    FSampling:         NativeUInt;
-    FWavName:          TFileName;
-    FPtWav:            TMemoryStream;
-    FAllowed:          Boolean;
-    FFnOnPlay:         TQROnPlayerPlayEvent;
-    FFnOnPause:        TQROnPlayerPauseEvent;
-    FFnOnStop:         TQROnPlayerStopEvent;
+    {$REGION 'Documentation'}
+    {
+     OpenAL device handle
+    }
+    {$ENDREGION}
+    FPtDevice: TALCdevice;
+
+    {$REGION 'Documentation'}
+    {
+     OpenAL device context handle
+    }
+    {$ENDREGION}
+    FPtContext: TALCcontext;
+
+    {$REGION 'Documentation'}
+    {
+     Sound identifier attributed by OpenAL
+    }
+    {$ENDREGION}
+    FID: TALuint;
+
+    {$REGION 'Documentation'}
+    {
+     Sound buffer identifier attributed by OpenAL
+    }
+    {$ENDREGION}
+    FBufferID: TALuint;
+
+    {$REGION 'Documentation'}
+    {
+     Sampling rate in Hertz
+    }
+    {$ENDREGION}
+    FSampling: NativeUInt;
+
+    {$REGION 'Documentation'}
+    {
+     WAV file name
+    }
+    {$ENDREGION}
+    FWavName: TFileName;
+
+    {$REGION 'Documentation'}
+    {
+     In-memory opened WAV file
+    }
+    {$ENDREGION}
+    FPtWav: TMemoryStream;
+
+    {$REGION 'Documentation'}
+    {
+     If @true, OpenAL is coorectly installed and player is allowed to run
+    }
+    {$ENDREGION}
+    FAllowed: Boolean;
+
+    {$REGION 'Documentation'}
+    {
+     OnPlay event function handler, see @link(TQROnPlayerPlayEvent)
+    }
+    {$ENDREGION}
+    FFnOnPlay: TQROnPlayerPlayEvent;
+
+    {$REGION 'Documentation'}
+    {
+     OnPause event function handler, see @link(TQROnPlayerPauseEvent)
+    }
+    {$ENDREGION}
+    FFnOnPause: TQROnPlayerPauseEvent;
+
+    {$REGION 'Documentation'}
+    {
+     OnStop event function handler, see @link(TQROnPlayerStopEvent)
+    }
+    {$ENDREGION}
+    FFnOnStop: TQROnPlayerStopEvent;
+
+    {$REGION 'Documentation'}
+    {
+     OnChangeVolume event function handler, see @link(TQROnPlayerChangeVolumeEvent)
+    }
+    {$ENDREGION}
     FFnOnChangeVolume: TQROnPlayerChangeVolumeEvent;
 
     {$REGION 'Documentation'}
