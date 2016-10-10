@@ -1,7 +1,7 @@
 [Main]
 StoreRelativePaths=1
 Language=en
-OutputDir=..\..\Output\XE4\PasDoc\Mels Player
+OutputDir=..\..\Output\XE4\Mels Player
 GenerateFormat=0
 ProjectName=
 Verbosity=2
@@ -63,7 +63,8 @@ Item_1=..\..\..\XE4\Mels Player\Player\UTQRPlayerAL.pas
 Count=0
 
 [SpecialMarkers]
-Count=0
+Count=1
+Item_0=**
 
 [IgnoreWords]
 Count=0

@@ -27,7 +27,7 @@ uses System.Classes,
      UTQRPlayerAL;
 
 {$REGION 'Documentation'}
-{
+{**
  Main register procedure
 }
 {$ENDREGION}

@@ -19,7 +19,7 @@
 // * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
 // *************************************************************************************************
 
-{
+{**
  @abstract(@name provides an interface to implement a sound or music player.)
  @image(Mels.svg)
  @author(Jean-Milost Reymond)
@@ -31,13 +31,13 @@ interface
 
 type
     {$REGION 'Documentation'}
-    {
+    {**
      Interface for sound or music player
     }
     {$ENDREGION}
     IQRPlayer = interface['{BC6EE76C-37C9-4565-947C-90F67E07CC83}']
         {$REGION 'Documentation'}
-        {
+        {**
          Plays sound
          @return(@true on success, otherwise @false)
         }
@@ -45,7 +45,7 @@ type
         function Play: Boolean;
 
         {$REGION 'Documentation'}
-        {
+        {**
          Pauses sound
          @return(@true on success, otherwise @false)
         }
@@ -53,7 +53,7 @@ type
         function Pause: Boolean;
 
         {$REGION 'Documentation'}
-        {
+        {**
          Stops sound
          @return(@true on success, otherwise @false)
         }
@@ -61,7 +61,7 @@ type
         function Stop: Boolean;
 
         {$REGION 'Documentation'}
-        {
+        {**
          Checks if playback is already playing
          @return(@true if playback is already playing, otherwise @false)
         }
@@ -69,7 +69,7 @@ type
         function IsPlaying: Boolean;
 
         {$REGION 'Documentation'}
-        {
+        {**
          Changes volume
          @param(value volume value between 0.0f (lowest) and 1.0f (highest))
          @return(@true on success, otherwise @false)
@@ -78,7 +78,7 @@ type
         function ChangeVolume(const value: Single): Boolean;
 
         {$REGION 'Documentation'}
-        {
+        {**
          Loops the music
          @param(value whether or not sound should loop)
         }
