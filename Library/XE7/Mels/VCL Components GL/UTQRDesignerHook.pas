@@ -114,9 +114,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRDesignerHook
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRDesignerHook.Create();
 begin
     // not really designed to be a component, so can set his owner to nil
@@ -127,7 +127,7 @@ begin
     m_pHookedControl := nil;
     m_hPrevWndProc   := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRDesignerHook.Destroy();
 var
     message: TQRMessage;
@@ -148,14 +148,14 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Free();
 begin
     // check if self is already deleted, delete itself if not
     if (Assigned(Self)) then
         Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.OnMessage(var message: TMessage);
 var
     hookMsg:  TQRMessage;
@@ -196,7 +196,7 @@ begin
     if (Assigned(m_hPrevWndProc)) then
         m_hPrevWndProc(message);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Notification(pComponent: TComponent; operation: TOperation);
 begin
     inherited Notification(pComponent, operation);
@@ -216,7 +216,7 @@ begin
         m_hPrevWndProc   := nil;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRDesignerHook.GetInstance(): TQRDesignerHook;
 var
     pInstance: TQRDesignerHook;
@@ -244,13 +244,13 @@ begin
     // get newly created instance
     Result := m_pInstance;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRDesignerHook.DeleteInstance();
 begin
     m_pInstance.Free;
     m_pInstance := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Attach(pObserver: IQRObserver);
 begin
     // observer already exists in observers list?
@@ -260,14 +260,14 @@ begin
     // add observer to observers list
     m_pObservers.Add(Pointer(pObserver));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Detach(pObserver: IQRObserver);
 begin
     // remove observer from observers list. NOTE observer list will check if observer exists before
     // trying to remove it, so this check isn't necessary here
     m_pObservers.Remove(Pointer(pObserver));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.SetHookedControl(pControl: TWinControl);
 begin
     // is control already hooked?
@@ -297,7 +297,7 @@ begin
     // register this control in hooked one to receive notifications when it will be deleted
     m_pHookedControl.FreeNotification(Self);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.AddFilter(filter: NativeUInt);
 var
     count, i: NativeInt;
@@ -313,7 +313,7 @@ begin
     SetLength(m_Filters, count + 1);
     m_Filters[count] := filter;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Notify(message: TQRMessage);
 var
     i:     NativeInt;
@@ -337,26 +337,26 @@ begin
         pItem.OnNotified(message);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 initialization
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLAnimationTimer
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 begin
     // initialize instance to default when application opens
     TQRDesignerHook.m_pInstance := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 finalization
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLAnimationTimer
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 begin
     // free instance when application closes
     TQRDesignerHook.DeleteInstance();
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

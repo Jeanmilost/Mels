@@ -177,16 +177,16 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRAABBTree
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRAABBTree.Create();
 begin
     inherited Create;
 
     m_pRoot := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor  TQRAABBTree.Destroy();
 begin
     // delete entire tree hierarchy
@@ -194,7 +194,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRAABBTree.Release(pNode: PQRAABBNode);
 begin
     // nothing to do?
@@ -219,7 +219,7 @@ begin
     // delete node
     Dispose(pNode);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.ValueIsBetween(const value, valueStart, valueEnd, epsilon: Single): Boolean;
 var
     minVal, maxVal: Single;
@@ -230,7 +230,7 @@ begin
     // check if each value is between start and end limits considering tolerance
     Result := ((value >= (minVal - epsilon)) and (value <= (maxVal + epsilon)));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.VectorIsBetween(const point, pointStart, pointEnd: TQRVector3D;
                                                          const epsilon: Single): Boolean;
 begin
@@ -239,7 +239,7 @@ begin
                ValueIsBetween(point.Y, pointStart.Y, pointEnd.Y, epsilon) and
                ValueIsBetween(point.Z, pointStart.Z, pointEnd.Z, epsilon));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRAABBTree.AddPolygonToBoundingBox(polygon: TQRPolygon;
                                                  pBox: PQRBox;
                                             var empty: Boolean);
@@ -274,7 +274,7 @@ begin
                                            Max(pBox.Max.Z, polygon.GetVertex(i).Z)));
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.Populate(pNode: PQRAABBNode;
                      const polygons: TQRPolygons;
                         hIsCanceled: TQRIsCanceledEvent): Boolean;
@@ -447,7 +447,7 @@ begin
         SetLength(rightPolygons, 0);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.Resolve(const pRay: TQRRay;
                             const pNode: PQRAABBNode;
                            var polygons: TQRPolygons): Boolean;
@@ -504,7 +504,7 @@ begin
 
     Result := (leftResolved or rightResolved);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.Populate(const polygons: TQRPolygons;
                                  hIsCanceled: TQRIsCanceledEvent): Boolean;
 begin
@@ -520,14 +520,14 @@ begin
     // populate tree
     Result := Populate(m_pRoot, polygons, hIsCanceled);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRAABBTree.Resolve(const pRay: TQRRay; var polygons: TQRPolygons): Boolean;
 begin
     Result := Resolve(pRay, m_pRoot, polygons);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRCollisionHelper
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class procedure TQRCollisionHelper.AddPolygon(const vb: TQRVertexBuffer;
                                             v1, v2, v3: NativeUInt;
                                           var polygons: TQRPolygons);
@@ -545,7 +545,7 @@ begin
     polygons[polygonIndex].SetVertex(1, TQRVector3D.Create(vb[v2], vb[v2 + 1], vb[v2 + 2]));
     polygons[polygonIndex].SetVertex(2, TQRVector3D.Create(vb[v3], vb[v3 + 1], vb[v3 + 2]));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRCollisionHelper.GetRayPolygonCollision(const pRay: TQRRay;
                                                       const polygon: TQRPolygon): Boolean;
 var
@@ -565,7 +565,7 @@ begin
     // check if calculated point is inside the polygon
     Result := polygon.Inside(pointOnPlane);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRCollisionHelper.GetRayBoxCollision(const pRay: TQRRay; const pBox: PQRBox): Boolean;
 var
     tx1, tx2, ty1, ty2, tz1, tz2, txn, txf, tyn, tyf, tzn, tzf, tnear, tfar: Single;
@@ -655,7 +655,7 @@ begin
     // check if ray intersects box
     Result := (tfar >= tnear);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRCollisionHelper.GetPolygons(const vertex: TQRVertex;
                                               var polygons: TQRPolygons;
                                                hIsCanceled: TQRIsCanceledEvent): Boolean;
@@ -843,6 +843,6 @@ begin
         Result := False;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

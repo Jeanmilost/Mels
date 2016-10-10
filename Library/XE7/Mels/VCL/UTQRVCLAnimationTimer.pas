@@ -83,9 +83,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLAnimationTimer
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLAnimationTimer.Create();
 begin
     // singleton was already initialized?
@@ -104,7 +104,7 @@ begin
     m_pTimer.OnTimer  := OnAnimate;
     m_pTimer.Enabled  := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLAnimationTimer.Destroy();
 var
     message: TQRMessage;
@@ -124,7 +124,7 @@ begin
 
     m_pInstance := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLAnimationTimer.OnAnimate(pSender: TObject);
 var
     now:     NativeUInt;
@@ -142,7 +142,7 @@ begin
     // notify all observers about animation
     Notify(message);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 class function TQRVCLAnimationTimer.GetInstance(): IQRSubject;
 begin
     // is singleton instance already initialized?
@@ -157,7 +157,7 @@ begin
     m_pInstance := TQRVCLAnimationTimer.Create;
     Result      := m_pInstance;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLAnimationTimer.Attach(pObserver: IQRObserver);
 begin
     // observer already exists in observers list?
@@ -167,14 +167,14 @@ begin
     // add observer to observers list
     m_pObservers.Add(Pointer(pObserver));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLAnimationTimer.Detach(pObserver: IQRObserver);
 begin
     // remove observer from observers list. NOTE observer list will check if observer exists before
     // trying to remove it, so this check isn't necessary here
     m_pObservers.Remove(Pointer(pObserver));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLAnimationTimer.Notify(message: TQRMessage);
 var
     i:     NativeInt;
@@ -198,6 +198,6 @@ begin
         pItem.OnNotified(message);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

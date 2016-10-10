@@ -627,9 +627,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRMD2AnimCfgFile
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRMD2AnimCfgFile.Create();
 begin
     inherited Create;
@@ -637,12 +637,12 @@ begin
     m_StartLine := 0;
     m_CurLine   := 0;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRMD2AnimCfgFile.Destroy();
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2AnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
 var
     i:       NativeUInt;
@@ -699,7 +699,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2AnimCfgFile.Clear();
 begin
     inherited Clear;
@@ -708,9 +708,9 @@ begin
     m_StartLine := 0;
     m_CurLine   := 0;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRMD2Job
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRMD2Job.Create(pGroup: TQRModelGroup;
                        const pColor: TQRColor;
                        const pLight: TQRMD2Light;
@@ -738,7 +738,7 @@ begin
     m_DefaultFrameIndex  := defaultFrameIndex;
     m_fOnLoadTexture     := fOnLoadTexture;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRMD2Job.Destroy();
 var
     i: NativeUInt;
@@ -768,14 +768,14 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetModel(): TQRMD2Model;
 begin
     m_pLock.Lock;
     Result := m_pModel;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetTexture(index: NativeInt): TQRTexture;
 begin
     m_pLock.Lock;
@@ -790,49 +790,49 @@ begin
 
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetTextureCount(): NativeInt;
 begin
     m_pLock.Lock;
     Result := Length(m_Textures);
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetColor(): TQRColor;
 begin
     m_pLock.Lock;
     Result := m_pColor;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetAnimations(): TQRMD2AnimCfgFile;
 begin
     m_pLock.Lock;
     Result := m_pAnimations;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetDefaultMesh(): PQRMesh;
 begin
     m_pLock.Lock;
     Result := m_pDefaultMesh;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.GetFramedModelOptions(): TQRFramedModelOptions;
 begin
     m_pLock.Lock;
     Result := m_FramedModelOptions;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Job.SetFramedModelOptions(options: TQRFramedModelOptions);
 begin
     m_pLock.Lock;
     m_FramedModelOptions := options;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Job.OnLoadTexture();
 var
     textureIndex:        NativeInt;
@@ -926,7 +926,7 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Job.OnCreateDefaultMesh();
 begin
     m_pLock.Lock;
@@ -947,23 +947,23 @@ begin
         m_pLock.Unlock;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Job.Cancel();
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Job.IsCanceled(): Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRLoadMD2FileJob
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRLoadMD2FileJob.Create(pGroup: TQRModelGroup;
                                   const dir: UnicodeString;
                                  const name: TFileName;
@@ -988,12 +988,12 @@ begin
     m_Dir  := dir;
     m_Name := name;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRLoadMD2FileJob.Destroy();
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRLoadMD2FileJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
@@ -1006,7 +1006,7 @@ begin
     else
         pTexture.FileName := m_Name;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2FileJob.LoadTexture(pTexture: TQRTexture;
                                         pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -1063,7 +1063,7 @@ begin
         pFileStream.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2FileJob.Process(): Boolean;
 var
     modelName, normalsName, animCfgName: TFileName;
@@ -1338,9 +1338,9 @@ begin
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRLoadMD2MemoryDirJob
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRLoadMD2MemoryDirJob.Create(pGroup: TQRModelGroup;
                                       const pDir: TQRMemoryDir;
                                       const name: TFileName;
@@ -1365,7 +1365,7 @@ begin
     m_pDir := pDir;
     m_Name := name;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRLoadMD2MemoryDirJob.Destroy();
 begin
     m_pLock.Lock;
@@ -1379,7 +1379,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRLoadMD2MemoryDirJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
@@ -1392,7 +1392,7 @@ begin
     else
         pTexture.FileName := m_Name;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2MemoryDirJob.LoadTexture(pTexture: TQRTexture;
                                              pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -1446,14 +1446,14 @@ begin
     // load texture
     Result := TQRModelGroupHelper.LoadTexture(pImageStream, fileExt, pBitmap);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2MemoryDirJob.GetMemoryDir(): TQRMemoryDir;
 begin
     m_pLock.Lock;
     Result := m_pDir;
     m_pLock.Unlock;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2MemoryDirJob.Process(): Boolean;
 var
     modelName, normalsName, animCfgName:          TFileName;
@@ -1759,9 +1759,9 @@ begin
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRLoadMD2PackageJob
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRLoadMD2PackageJob.Create(pGroup: TQRModelGroup;
                                 const pPackage: TStream;
                                   const pColor: TQRColor;
@@ -1789,7 +1789,7 @@ begin
     // copy values needed to load the model
     m_pPackage := pPackage;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRLoadMD2PackageJob.Destroy();
 begin
     m_pLock.Lock;
@@ -1803,7 +1803,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2PackageJob.Unpack(): Boolean;
 var
     pZipFile:     TZipFile;
@@ -1908,7 +1908,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMD2PackageJob.Process(): Boolean;
 begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
@@ -1933,9 +1933,9 @@ begin
 
     Result := inherited Process;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRMD2Group
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRMD2Group.Create();
 begin
     inherited Create;
@@ -1952,7 +1952,7 @@ begin
     m_EndNotified      :=  False;
     m_SwapYZ           :=  True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRMD2Group.Destroy();
 begin
     // delete model and his associated job, don't forget to unregister it from worker
@@ -1967,7 +1967,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.GetGesture: NativeInt;
 begin
     if (m_PostponedGesture > 0) then
@@ -1975,7 +1975,7 @@ begin
     else
         Result := m_Gesture;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.SetGesture(gesture: NativeInt);
 var
     pItem:                                       PQRModelAnimCfgItem;
@@ -2055,7 +2055,7 @@ begin
     m_pAnimation.InterpolationFrameIndex := m_StartFrame;
     m_pAnimation.Loop                    := Boolean(m_LoopFrame);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.SetGestureIfAvailable(gesture: NativeInt);
 var
     pItem:                                       PQRModelAnimCfgItem;
@@ -2138,7 +2138,7 @@ begin
     m_pAnimation.InterpolationFrameIndex := m_StartFrame;
     m_pAnimation.Loop                    := Boolean(m_LoopFrame);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.AnimateModel(const elapsedTime: Double);
 var
     frameIndex:          NativeUInt;
@@ -2180,7 +2180,7 @@ begin
         pAnim.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.GetDynamicMesh(index: NativeUInt; out mesh: TQRMesh);
 var
     frameCount: NativeUInt;
@@ -2211,7 +2211,7 @@ begin
         {$endif}
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.GetDynamicMeshUseCache(index: NativeUInt;
                                          out pMesh: PQRMesh;
                                          out pTree: TQRAABBTree);
@@ -2291,7 +2291,7 @@ begin
             pTree.Free;
         end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.DrawDynamicModel();
 var
     pMesh, pNextMesh: PQRMesh;
@@ -2399,7 +2399,7 @@ begin
                       pTree,
                       pNextTree);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.DrawCachedModel();
 var
     interpolatedMesh: TQRMesh;
@@ -2484,7 +2484,7 @@ begin
                       m_pJob.AABBTree[m_pAnimation.FrameIndex],
                       m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex]);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.GetMemoryDir(): TQRMemoryDir;
 begin
     // model not created?
@@ -2511,7 +2511,7 @@ begin
 
     Result := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.Clear();
 begin
     // previous job was created?
@@ -2537,12 +2537,12 @@ begin
     m_pAnimation.InterpolationFactor     := 0.0;
     m_pAnimation.Loop                    := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.IsEmpty(): Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const dir: UnicodeString;
                          const name: TFileName;
                        const pColor: TQRColor;
@@ -2572,7 +2572,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const pDir: TQRMemoryDir;
                           const name: TFileName;
                         const pColor: TQRColor;
@@ -2613,7 +2613,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const fileName: TFileName;
                             const pColor: TQRColor;
                             const pLight: TQRMD2Light;
@@ -2650,7 +2650,7 @@ begin
                    framedModelOptions,
                    defaultFrameIndex);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const pPackage: TStream;
                             const pColor: TQRColor;
                             const pLight: TQRMD2Light;
@@ -2696,7 +2696,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Loaded(): Boolean;
 begin
     // model not created?
@@ -2715,7 +2715,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRMD2Group.QueryJobStatus(): TQRModelJobStatus;
 begin
     // model not created?
@@ -2734,7 +2734,7 @@ begin
 
     Result := m_pJobStatus;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.Draw(const elapsedTime: Double);
 begin
     // model not created?
@@ -2812,6 +2812,6 @@ begin
                             m_pAnimation.InterpolationFrameIndex,
                             m_pAnimation.InterpolationFactor);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

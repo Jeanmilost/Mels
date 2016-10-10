@@ -469,9 +469,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponent
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLModelComponentGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -510,7 +510,7 @@ begin
     Width            := 100;
     Height           := 100;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentGL.Destroy;
 begin
     // detach from animation timer and stop to receive time notifications (runtime only)
@@ -537,7 +537,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.WndProc(var message: TMessage);
 var
     hDC: THandle;
@@ -605,7 +605,7 @@ begin
 
     inherited WndProc(message);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.SetAntialiasingMode(mode: EQRAntialiasingMode);
 begin
     // nothing to do?
@@ -616,7 +616,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.GetAntialiasingFactor: NativeInt;
 begin
     case (m_antialiasingMode) of
@@ -628,7 +628,7 @@ begin
         raise Exception.CreateFmt('Unknown antialiasing mode - %d', [Integer(m_AntialiasingMode)]);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Loaded;
 var
     pControlToHook: TWinControl;
@@ -671,7 +671,7 @@ begin
         end;
     end
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Resize;
 begin
     inherited Resize;
@@ -679,7 +679,7 @@ begin
     // resize viewport
     CreateViewport(ClientWidth, ClientHeight);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.CreateParams(var params: TCreateParams);
 begin
     inherited CreateParams(params);
@@ -687,7 +687,7 @@ begin
     // update Windows class to update automatically the paint every time the control is resized
     params.WindowClass.Style := params.WindowClass.style or CS_HREDRAW or CS_VREDRAW;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.CreateWindowHandle(const params: TCreateParams);
 var
     hDC:    THandle;
@@ -756,7 +756,7 @@ begin
         ReleaseDC(WindowHandle, hDC);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DestroyWindowHandle;
 begin
     // delete background brush
@@ -771,7 +771,7 @@ begin
 
     inherited DestroyWindowHandle;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.ReleaseDrawContext;
 var
     hDC: THandle;
@@ -802,7 +802,7 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.CreateViewport(width, height: NativeUInt);
 var
     factor:                  NativeInt;
@@ -887,7 +887,7 @@ begin
         ReleaseDC(WindowHandle, hDC);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.BuildShader(pVertexPrg, pFragmentPrg: TStream): Boolean;
 begin
     // OpenGL was not initialized correctly?
@@ -905,7 +905,7 @@ begin
     // try to link shader
     Result := m_pShader.Link(False);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.DrawDefaultImage(hDC: THandle): Boolean;
 var
     hPackageInstance: NativeUInt;
@@ -1001,7 +1001,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DrawScene(hDC: THandle);
 var
     bf:                                            _BLENDFUNCTION;
@@ -1153,7 +1153,7 @@ begin
             m_fOnFinalizeScene(Self, hDC);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.DrawSceneTo(var message: TMessage): Boolean;
 var
     hDC:              THandle;
@@ -1209,7 +1209,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DrawSceneTo(hDC: THandle; x, y: Integer);
 var
     bf:         _BLENDFUNCTION;
@@ -1303,7 +1303,7 @@ begin
         pOverlay.Free;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.OnReceivePropNotification(pSender: TObject;
                                                           message: EQRPropMessages): Boolean;
 begin
@@ -1314,7 +1314,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.OnNotified(message: TQRMessage);
 var
     info: TQRDesignerHookMsgInfo;
@@ -1334,12 +1334,12 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.PaintTo(dc: HDC; x, y: Integer);
 begin
     DrawSceneTo(dc, x, y);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLModelComponentGL;
@@ -1380,9 +1380,9 @@ begin
     m_pColor.Assign(pSrc.m_pColor);
     m_pAlphaBlending.Assign(pSrc.m_pAlphaBlending);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLStaticModelComponentGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLStaticModelComponentGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1390,12 +1390,12 @@ begin
     // initialize variables
     m_fDrawSceneStaticModelItemEvent := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLStaticModelComponentGL.Destroy;
 begin
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLStaticModelComponentGL.OnConfigOpenGL;
 var
     hDC: THandle;
@@ -1439,7 +1439,7 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLStaticModelComponentGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLStaticModelComponentGL;
@@ -1458,9 +1458,9 @@ begin
     pSrc                             := pSource as TQRVCLStaticModelComponentGL;
     m_fDrawSceneStaticModelItemEvent := pSrc.m_fDrawSceneStaticModelItemEvent;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLAnimatedModelComponentGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLFramedModelComponentGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -1474,7 +1474,7 @@ begin
     if (not(csDesigning in ComponentState)) then
         TQRVCLAnimationTimer.GetInstance().Attach(Self);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLFramedModelComponentGL.Destroy;
 begin
     // detach from animation timer and stop to receive time notifications (runtime only)
@@ -1483,7 +1483,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLFramedModelComponentGL.OnConfigOpenGL;
 var
     hDC: THandle;
@@ -1527,7 +1527,7 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLFramedModelComponentGL.OnNotified(message: TQRMessage);
 var
     info: TQRVCLAnimationTimerMsgInfo;
@@ -1570,7 +1570,7 @@ begin
         end;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLFramedModelComponentGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLFramedModelComponentGL;
@@ -1591,6 +1591,6 @@ begin
     pSrc                             := pSource as TQRVCLFramedModelComponentGL;
     m_fDrawSceneFramedModelItemEvent := pSrc.m_fDrawSceneFramedModelItemEvent;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

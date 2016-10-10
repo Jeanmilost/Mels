@@ -325,9 +325,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLMD3ModelGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLMD3ModelGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -354,7 +354,7 @@ begin
     m_pMD3.OnCustomDrawItem      := OnCustomDrawModelItem;
     m_pMD3.OnDrawItem            := OnDrawModelItem;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLMD3ModelGL.Destroy;
 begin
     // clear memory
@@ -371,7 +371,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetPackageName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -418,7 +418,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetVertexName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -464,7 +464,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetFragmentName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -510,7 +510,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetTorsoGesture(gesture: EQRMD3AnimationTorsoGesture);
 begin
     // no changes?
@@ -521,7 +521,7 @@ begin
 
     SetTorsoGestureToModel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetLegsGesture(gesture: EQRMD3AnimationLegsGesture);
 begin
     // no changes?
@@ -532,7 +532,7 @@ begin
 
     SetLegsGestureToModel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetModelOptions(options: TQRModelOptions);
 begin
     // no changes?
@@ -543,7 +543,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetFramedModelOptions(options: TQRFramedModelOptions);
 begin
     // no changes?
@@ -554,7 +554,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetTorsoGestureToModel;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -579,7 +579,7 @@ begin
         EQR_AT_MD3_Stand2:  m_pMD3.SetAnimation('upper', EQR_AG_MD3_Torso_Stand2);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.SetLegsGestureToModel;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
@@ -609,7 +609,7 @@ begin
         EQR_AL_MD3_Turn:           m_pMD3.SetAnimation('lower', EQR_AG_MD3_Legs_Turn);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.DefineProperties(pFiler: TFiler);
     function DoWritePackage: Boolean;
     begin
@@ -642,7 +642,7 @@ begin
     pFiler.DefineBinaryProperty('VertexShader',   ReadVertexShader,   WriteVertexShader,   DoWriteVertexShader);
     pFiler.DefineBinaryProperty('FragmentShader', ReadFragmentShader, WriteFragmentShader, DoWriteFragmentShader);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.ReadPackage(pStream: TStream);
 begin
     // previous package was loaded?
@@ -653,7 +653,7 @@ begin
     // read model package from DFM stream
     m_pPackage.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.WritePackage(pStream: TStream);
 begin
     // reset stream position to start
@@ -662,7 +662,7 @@ begin
     // write model package to DFM stream
     pStream.CopyFrom(m_pPackage, m_pPackage.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.ReadVertexShader(pStream: TStream);
 begin
     // previous vertex shader was loaded?
@@ -673,7 +673,7 @@ begin
     // read vertex shader from DFM stream
     m_pVertexShader.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.WriteVertexShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -682,7 +682,7 @@ begin
     // write vertex shader to DFM stream
     pStream.CopyFrom(m_pVertexShader, m_pVertexShader.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.ReadFragmentShader(pStream: TStream);
 begin
     // previous fragment shader was loaded?
@@ -693,7 +693,7 @@ begin
     // read fragment shader from DFM stream
     m_pFragmentShader.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.WriteFragmentShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -702,7 +702,7 @@ begin
     // write fragment shader to DFM stream
     pStream.CopyFrom(m_pFragmentShader, m_pFragmentShader.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.Loaded;
 begin
     inherited Loaded;
@@ -720,7 +720,7 @@ begin
         RecreateWnd;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.CreateWindowHandle(const params: TCreateParams);
 begin
     inherited CreateWindowHandle(params);
@@ -733,7 +733,7 @@ begin
     // correctly
     LoadModel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.DestroyWindowHandle;
 begin
     // as model is linked to the current context, clears it if context is shutting down
@@ -742,7 +742,7 @@ begin
 
     inherited DestroyWindowHandle;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.CreateViewport(width, height: NativeUInt);
 var
     factor:                  NativeInt;
@@ -827,7 +827,7 @@ begin
         ReleaseDC(WindowHandle, hDC);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD3ModelGL.LoadModel: Boolean;
 var
     pPackage: TMemoryStream;
@@ -915,7 +915,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD3ModelGL.PrepareShaderToDrawModel(const textures: TQRTextures): Boolean;
 var
     uniform: GLint;
@@ -963,7 +963,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
     // no animation is running or component is in design time?
@@ -971,7 +971,7 @@ begin
         // invalidate model to repaint it
         Invalidate();
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD3ModelGL.OnLoadMeshTexture(const pGroup: TQRModelGroup;
                                             const pModel: TQRModel;
                                                  pBitmap: Vcl.Graphics.TBitmap;
@@ -1060,7 +1060,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.OnDrawSceneContent(hDC: THandle);
 begin
     // apply basic changes to model before drawing it
@@ -1075,7 +1075,7 @@ begin
         m_hSceneDC := 0;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                                        pModel: TQRModel;
                                                const textures: TQRTextures;
@@ -1103,7 +1103,7 @@ begin
                                      nil,
                                      nil);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.OnDrawModelItem(const pGroup: TQRModelGroup;
                                            const pModel: TQRModel;
                                          const textures: TQRTextures;
@@ -1201,7 +1201,7 @@ begin
     if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
         m_fOnDetectCollisions(Self, matrix, pAABBTree);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLMD3ModelGL;
@@ -1250,6 +1250,6 @@ begin
     SetTorsoGestureToModel;
     SetLegsGestureToModel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

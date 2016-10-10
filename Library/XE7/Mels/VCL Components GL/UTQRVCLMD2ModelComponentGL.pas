@@ -264,9 +264,9 @@ type
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRVCLMD2ModelGL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRVCLMD2ModelGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -293,7 +293,7 @@ begin
     m_pMD2.OnCustomDrawItem      := OnCustomDrawModelItem;
     m_pMD2.OnDrawItem            := OnDrawModelItem;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRVCLMD2ModelGL.Destroy;
 begin
     // clear memory
@@ -311,7 +311,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetPackageName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -358,7 +358,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetVertexName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -404,7 +404,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetFragmentName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -450,7 +450,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetGesture(gesture: EQRMD2AnimationGesture);
 begin
     // no changes?
@@ -462,7 +462,7 @@ begin
     // set gesture to run
     m_pMD2.Gesture := NativeUInt(m_Gesture);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetModelOptions(options: TQRModelOptions);
 begin
     // no changes?
@@ -473,7 +473,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.SetFramedModelOptions(options: TQRFramedModelOptions);
 begin
     // no changes?
@@ -484,7 +484,7 @@ begin
 
     RecreateWnd;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.DefineProperties(pFiler: TFiler);
     function DoWritePackage: Boolean;
     begin
@@ -517,7 +517,7 @@ begin
     pFiler.DefineBinaryProperty('VertexShader',   ReadVertexShader,   WriteVertexShader,   DoWriteVertexShader);
     pFiler.DefineBinaryProperty('FragmentShader', ReadFragmentShader, WriteFragmentShader, DoWriteFragmentShader);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.ReadPackage(pStream: TStream);
 begin
     // previous package was loaded?
@@ -528,7 +528,7 @@ begin
     // read model package from DFM stream
     m_pPackage.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.WritePackage(pStream: TStream);
 begin
     // reset stream position to start
@@ -537,7 +537,7 @@ begin
     // write model package to DFM stream
     pStream.CopyFrom(m_pPackage, m_pPackage.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.ReadVertexShader(pStream: TStream);
 begin
     // previous vertex shader was loaded?
@@ -548,7 +548,7 @@ begin
     // read vertex shader from DFM stream
     m_pVertexShader.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.WriteVertexShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -557,7 +557,7 @@ begin
     // write vertex shader to DFM stream
     pStream.CopyFrom(m_pVertexShader, m_pVertexShader.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.ReadFragmentShader(pStream: TStream);
 begin
     // previous fragment shader was loaded?
@@ -568,7 +568,7 @@ begin
     // read fragment shader from DFM stream
     m_pFragmentShader.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.WriteFragmentShader(pStream: TStream);
 begin
     // reset stream position to start
@@ -577,7 +577,7 @@ begin
     // write fragment shader to DFM stream
     pStream.CopyFrom(m_pFragmentShader, m_pFragmentShader.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Loaded;
 begin
     inherited Loaded;
@@ -595,7 +595,7 @@ begin
         RecreateWnd;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.CreateWindowHandle(const params: TCreateParams);
 begin
     inherited CreateWindowHandle(params);
@@ -608,7 +608,7 @@ begin
     // correctly
     LoadModel;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.DestroyWindowHandle;
 begin
     // as model is linked to the current context, clears it if context is shutting down
@@ -617,7 +617,7 @@ begin
 
     inherited DestroyWindowHandle;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.CreateViewport(width, height: NativeUInt);
 var
     factor:                  NativeInt;
@@ -702,7 +702,7 @@ begin
         ReleaseDC(WindowHandle, hDC);
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD2ModelGL.LoadModel: Boolean;
 var
     pPackage:  TMemoryStream;
@@ -801,7 +801,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD2ModelGL.PrepareShaderToDrawModel(const textures: TQRTextures): Boolean;
 var
     uniform: GLint;
@@ -849,7 +849,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
     // no animation is running or component is in design time?
@@ -857,7 +857,7 @@ begin
         // invalidate model to repaint it
         Invalidate();
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRVCLMD2ModelGL.OnLoadMeshTexture(const pGroup: TQRModelGroup;
                                             const pModel: TQRModel;
                                                  pBitmap: Vcl.Graphics.TBitmap;
@@ -946,7 +946,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnDrawSceneContent(hDC: THandle);
 begin
     // apply basic changes to model before drawing it
@@ -961,7 +961,7 @@ begin
         m_hSceneDC := 0;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                                        pModel: TQRModel;
                                                const textures: TQRTextures;
@@ -989,7 +989,7 @@ begin
                                      nil,
                                      nil);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnDrawModelItem(const pGroup: TQRModelGroup;
                                            const pModel: TQRModel;
                                          const textures: TQRTextures;
@@ -1087,7 +1087,7 @@ begin
     if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
         m_fOnDetectCollisions(Self, matrix, pAABBTree);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLMD2ModelGL;
@@ -1134,6 +1134,6 @@ begin
 
     m_pMD2.Gesture := NativeUInt(m_Gesture);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.

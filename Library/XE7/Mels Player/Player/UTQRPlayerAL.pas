@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRPlayerAL ------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module implements a sound and music player using OpenAL.                    *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRPlayerAL -----------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name is a WAV sound player component using OpenAL.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRPlayerAL;
 
 interface
@@ -16,41 +35,47 @@ uses System.Classes,
      UTQRPlayer;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Called when music player is playing
-    *}
+     Called when music player is playing
+     @param(pSender event sender)
+    }
+    {$ENDREGION}
     TQROnPlayerPlayEvent = procedure (pSender: TObject) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when music player is pausing
-    *}
+     Called when music player is pausing
+     @param(pSender event sender)
+    }
+    {$ENDREGION}
     TQROnPlayerPauseEvent = procedure (pSender: TObject) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when music player is stopping
-    *}
+     Called when music player is stopping
+     @param(pSender event sender)
+    }
+    {$ENDREGION}
     TQROnPlayerStopEvent = procedure (pSender: TObject) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when volume is changed on music player
-    *}
+     Called when volume is changed on music player
+     @param(pSender event sender)
+     @param(value new volume value between 0.0f (lowest) and 1.0f (highest))
+    }
+    {$ENDREGION}
     TQROnPlayerChangeVolumeEvent = procedure (pSender: TObject; value: Single) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Simple player using OpenAL
-    *@note Here is the OpenAL official website: http://www.openal.org/
-    *}
+     Simple player using OpenAL
+     @br @bold(NOTE) Here is the OpenAL official website: http://www.openal.org/
+    }
+    {$ENDREGION}
     TQRPlayerAL = class(TComponent, IQRPlayer)
         private
-            {**
-            * Release OpenAL resources
-            *}
-            procedure Release;
-
-        protected const
-            CQR_ErrorID: NativeUInt = $FFFFFFFF;
-
-        protected
             m_pDevice:         TALCdevice;
             m_pContext:        TALCcontext;
             m_ID:              TALuint;
@@ -59,125 +84,209 @@ type
             m_WavName:         TFileName;
             m_pWav:            TMemoryStream;
             m_Allowed:         Boolean;
-            m_fOnPlay:         TQROnPlayerPlayEvent;
+            m_FOnPlay:         TQROnPlayerPlayEvent;
             m_fOnPause:        TQROnPlayerPauseEvent;
             m_fOnStop:         TQROnPlayerStopEvent;
             m_fOnChangeVolume: TQROnPlayerChangeVolumeEvent;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets sampling rate
-            *@param sampling - sampling rate
-            *}
+             Release OpenAL resources
+            }
+            {$ENDREGION}
+            procedure Release;
+
+        protected const
+            {$REGION 'Documentation'}
+            {**
+             Error identifier
+            }
+            {$ENDREGION}
+            CQR_ErrorID: NativeUInt = $FFFFFFFF;
+
+        protected
+            {$REGION 'Documentation'}
+            {**
+             Sets sampling rate
+             @param(sampling sampling rate)
+            }
+            {$ENDREGION}
             procedure SetSampling(sampling: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets wave file name to load
-            *@param fileName - wav file name
-            *}
-            procedure SetWavName(fileName: TFileName); virtual;
+             Sets wave file name to load
+             @param(FileName wav file name)
+            }
+            {$ENDREGION}
+            procedure SetWavName(FileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Declares properties that will deal with DFM files
-            *@param pFiler - DFM file manager
-            *}
+             Declares properties that will deal with DFM files
+             @param(pFiler DFM file manager)
+            }
+            {$ENDREGION}
             procedure DefineProperties(pFiler: TFiler); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads WAV content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads WAV content from DFM file
+             @param(pStream stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadWav(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes WAV content to DFM file
-            *@param pStream - DFM stream in which package should be written
-            *}
+             Writes WAV content to DFM file
+             @param(pStream DFM stream in which package should be written)
+            }
+            {$ENDREGION}
             procedure WriteWav(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called after control was fully loaded from DFM stream
-            *}
+             Called after control was fully loaded from DFM stream
+            }
+            {$ENDREGION}
             procedure Loaded; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the wav file from memory stream
-            *}
+             Loads the wav file from memory stream
+            }
+            {$ENDREGION}
             procedure LoadWav; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Opens sound file
-            *@param pFileBuffer - file buffer
-            *@param fileSize - file size
-            *@return true on success, otherwise false
-            *@note buffer content must be wav format or uncompressed
-            *}
+             Opens sound file
+             @param(pFileBuffer file buffer)
+             @param(FileSize file size)
+             @param(sampling sampling rate, default value is 44'100 Hertz)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Buffer content must be wav format or uncompressed
+            }
+            {$ENDREGION}
             function Open(const pFileBuffer: PByte;
-                                   fileSize: NativeUInt;
+                                   FileSize: NativeUInt;
                                    sampling: NativeUInt = 44100): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Plays sound
-            *@return true on success, otherwise false
-            *}
+             Plays sound
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Play: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Pauses sound
-            *@return true on success, otherwise false
-            *}
+             Pauses sound
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Pause: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Stops sound
-            *@return true on success, otherwise false
-            *}
+             Stops sound
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Stop: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if playback is already playing
-            *@return true if playback is already playing, otherwise false
-            *}
+             Checks if playback is already playing
+             @return(@true if playback is already playing, otherwise @false)
+            }
+            {$ENDREGION}
             function IsPlaying: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Changes volume
-            *@param value - volume value between 0.0f (lowest) and 1.0f (highest)
-            *@return true on success, otherwise false
-            *}
+             Changes volume
+             @param(value volume value between 0.0f (lowest) and 1.0f (highest))
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function ChangeVolume(const value: Single): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loops the music
-            *@param value - whether or not sound should loop
-            *}
+             Loops the music
+             @param(value whether or not sound should loop)
+            }
+            {$ENDREGION}
             procedure Loop(value: Boolean); virtual;
 
+        // properties
         published
-            property Sampling:       NativeUInt                   read m_Sampling        write SetSampling default 44100;
-            property WavName:        TFileName                    read m_WavName         write SetWavName;
-            property OnPlay:         TQROnPlayerPlayEvent         read m_fOnPlay         write m_fOnPlay;
+            {$REGION 'Documentation'}
+            {**
+             Sampling rate, default value is 44'100 Hertz
+            }
+            {$ENDREGION}
+            property Sampling: NativeUInt read m_Sampling write SetSampling default 44100;
 
-            property OnPause:        TQROnPlayerPauseEvent        read m_fOnPause        write m_fOnPause;
-            property OnStop:         TQROnPlayerStopEvent         read m_fOnStop         write m_fOnStop;
+            {$REGION 'Documentation'}
+            {**
+             WAV file name
+            }
+            {$ENDREGION}
+            property WavName: TFileName read m_WavName write SetWavName;
+
+            {$REGION 'Documentation'}
+            {**
+             OnPlay event
+            }
+            {$ENDREGION}
+            property OnPlay: TQROnPlayerPlayEvent read m_fOnPlay write m_fOnPlay;
+
+            {$REGION 'Documentation'}
+            {**
+             OnPause event
+            }
+            {$ENDREGION}
+            property OnPause: TQROnPlayerPauseEvent read m_fOnPause write m_fOnPause;
+
+            {$REGION 'Documentation'}
+            {**
+             OnStop event
+            }
+            {$ENDREGION}
+            property OnStop: TQROnPlayerStopEvent read m_fOnStop write m_fOnStop;
+
+            {$REGION 'Documentation'}
+            {**
+             OnChangeVolume event
+            }
+            {$ENDREGION}
             property OnChangeVolume: TQROnPlayerChangeVolumeEvent read m_fOnChangeVolume write m_fOnChangeVolume;
     end;
 
 implementation
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 // TQRPlayerAL
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 constructor TQRPlayerAL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
@@ -194,7 +303,7 @@ begin
     m_fOnStop         := nil;
     m_fOnChangeVolume := nil;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 destructor TQRPlayerAL.Destroy;
 begin
     // stop music before closing it
@@ -208,7 +317,7 @@ begin
 
     inherited Destroy;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.Release;
 begin
     // allowed to use OpenAL?
@@ -244,7 +353,7 @@ begin
         m_pDevice := nil;
     end;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.SetSampling(sampling: NativeUInt);
 begin
     // nothing to do?
@@ -261,7 +370,7 @@ begin
 
     LoadWav;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.SetWavName(fileName: TFileName);
 var
     fileStream: TFileStream;
@@ -312,7 +421,7 @@ begin
 
     LoadWav;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.DefineProperties(pFiler: TFiler);
     function DoWriteWav: Boolean;
     begin
@@ -327,7 +436,7 @@ begin
     // register the properties that will load and save a binary data in DFM files
     pFiler.DefineBinaryProperty('Package', ReadWav, WriteWav, DoWriteWav);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.ReadWav(pStream: TStream);
 begin
     // previous package was loaded?
@@ -338,7 +447,7 @@ begin
     // read model package from DFM stream
     m_pWav.CopyFrom(pStream, pStream.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.WriteWav(pStream: TStream);
 begin
     // reset stream position to start
@@ -347,14 +456,14 @@ begin
     // write model package to DFM stream
     pStream.CopyFrom(m_pWav, m_pWav.Size);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.Loaded;
 begin
     inherited Loaded;
 
     LoadWav;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.LoadWav;
 begin
     // is component in desing time?
@@ -370,10 +479,10 @@ begin
     // open wav file
     Open(PByte(m_pWav.Memory), m_pWav.Size, m_Sampling);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.Open(const pFileBuffer: PByte;
-                                        fileSize: NativeUInt;
-                                        sampling: NativeUInt): Boolean;
+                                   fileSize: NativeUInt;
+                                   sampling: NativeUInt): Boolean;
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
@@ -444,7 +553,7 @@ begin
 
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.Play: Boolean;
 begin
     // allowed to use OpenAL?
@@ -466,7 +575,7 @@ begin
     alSourcePlay(m_ID);
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.Pause: Boolean;
 begin
     // allowed to use OpenAL?
@@ -488,7 +597,7 @@ begin
     alSourcePause(m_ID);
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.Stop: Boolean;
 begin
     // allowed to use OpenAL?
@@ -510,7 +619,7 @@ begin
     alSourceStop(m_ID);
     Result := True;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.IsPlaying: Boolean;
 var
     state: TALenum;
@@ -532,7 +641,7 @@ begin
 
     Result := (state = AL_PLAYING);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 function TQRPlayerAL.ChangeVolume(const value: Single): Boolean;
 begin
     if (m_ID = CQR_ErrorID) then
@@ -561,7 +670,7 @@ begin
 
     Result := False;
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 procedure TQRPlayerAL.Loop(value: Boolean);
 begin
     // allowed to use OpenAL?
@@ -573,6 +682,6 @@ begin
 
     alSourcei(m_ID, AL_LOOPING, AL_TRUE);
 end;
-//------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 end.
