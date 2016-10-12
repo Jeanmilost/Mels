@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRCache ---------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a ready-to-use cache system                                 *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRCache --------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a ready-to-use cache system.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRCache;
 
 interface
@@ -13,80 +32,124 @@ interface
 uses System.Generics.Collections;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Called when new value is added to cache
-    *@param key - newly added key
-    *@param value - newly added avlue
-    *}
+     Called when new value is added to cache
+     @param(key Newly added key)
+     @param(value Newly added value)
+    }
+    {$ENDREGION}
     TQRCacheAddEvent<T, U> = procedure(const key: T; const value: U) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when value is deleted from cache
-    *@param[in, out] key - deleting key
-    *@param[in, out] value - deleting value
-    *@return true if value can be deleted from cache, otherwise false
-    *}
+     Called when value is deleted from cache
+     @param(key @bold([in, out]) Deleting key)
+     @param(value @bold([in, out]) Deleting value)
+     @return(@true if value can be deleted from cache, otherwise @false)
+    }
+    {$ENDREGION}
     TQRCacheDeleteEvent<T, U> = function(const key: T; var value: U): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic data caching class
-    *@author Jean-Milost Reymond
-    *}
+     Generic data caching class
+    }
+    {$ENDREGION}
     TQRCache<T, U> = class
-        protected
+        private
             m_pCache:             TDictionary<T, U>;
             m_fOnAddToCache:      TQRCacheAddEvent<T, U>;
             m_fOnDeleteFromCache: TQRCacheDeleteEvent<T, U>;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets cached item count
-            *@return cached item count
-            *}
-            function GetCount(): NativeUInt; virtual;
+             Gets cached item count
+             @return(Cached item count)
+            }
+            {$ENDREGION}
+            function GetCount: NativeUInt; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears cache
-            *}
-            procedure Clear(); virtual;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds value to cache
-            *@param key - key
-            *@param value - value to add
-            *@return true on success, otherwise false
-            *}
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Clears cache
+            }
+            {$ENDREGION}
+            procedure Clear; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds value to cache
+             @param(key Key)
+             @param(value Value to add)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Add(const key: T; const value: U): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Deletes value from cache
-            *@param key - key
-            *}
+             Deletes value from cache
+             @param(key Key)
+            }
+            {$ENDREGION}
             procedure Delete(key: T); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets value from cache
-            *@param key - key
-            *@param[out] value - value to get
-            *@return true if value exists, otherwise false
-            *}
+             Gets value from cache
+             @param(key Key)
+             @param(value @bold([out]) Value to get)
+             @return(@true if value exists, otherwise @false)
+            }
+            {$ENDREGION}
             function Get(const key: T; out value: U): Boolean; virtual;
 
-            { Properties }
-            property OnAddToCache:      TQRCacheAddEvent<T, U>    read m_fOnAddToCache      write m_fOnAddToCache;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnAddToCache event
+            }
+            {$ENDREGION}
+            property OnAddToCache: TQRCacheAddEvent<T, U> read m_fOnAddToCache write m_fOnAddToCache;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDeleteFromCache event
+            }
+            {$ENDREGION}
             property OnDeleteFromCache: TQRCacheDeleteEvent<T, U> read m_fOnDeleteFromCache write m_fOnDeleteFromCache;
-            property Count:             NativeUInt                read GetCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cache item count
+            }
+            {$ENDREGION}
+            property Count: NativeUInt read GetCount;
     end;
 
 implementation
 //--------------------------------------------------------------------------------------------------
 // TQRCache
 //--------------------------------------------------------------------------------------------------
-constructor TQRCache<T, U>.Create();
+constructor TQRCache<T, U>.Create;
 begin
     inherited Create;
 
@@ -95,7 +158,7 @@ begin
     m_fOnDeleteFromCache := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRCache<T, U>.Destroy();
+destructor TQRCache<T, U>.Destroy;
 var
     item:  TPair<T, U>;
     key:   T;
@@ -117,12 +180,12 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRCache<T, U>.GetCount(): NativeUInt;
+function TQRCache<T, U>.GetCount: NativeUInt;
 begin
     Result := m_pCache.Count;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRCache<T, U>.Clear();
+procedure TQRCache<T, U>.Clear;
 var
     item:  TPair<T, U>;
     key:   T;

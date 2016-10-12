@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRCollisions ----------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides classes and fuctions for collision detection                *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRCollisions ---------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the classes and fuctions for collision detection.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRCollision;
 
 interface
@@ -16,17 +35,26 @@ uses System.Math,
      UTQR3D;
 
 const
-    QR_Epsilon = 1.0E-3; // epsilon value used for tolerance
+    {$REGION 'Documentation'}
+    {**
+     Epsilon value used for tolerance
+    }
+    {$ENDREGION}
+    QR_Epsilon = 1.0E-3;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Aligned-axis bounding box tree node pointer (needed to be declared before record itself)
-    *}
+     Aligned-axis bounding box tree node pointer (needed to be declared before record itself)
+    }
+    {$ENDREGION}
     PQRAABBNode = ^TQRAABBNode;
 
+    {$REGION 'Documentation'}
     {**
-    * Aligned-axis bounding box tree node
-    *}
+     Aligned-axis bounding box tree node
+    }
+    {$ENDREGION}
     TQRAABBNode = record
         m_pParent:  PQRAABBNode;
         m_pLeft:    PQRAABBNode;
@@ -35,142 +63,181 @@ type
         m_Polygons: TQRPolygons;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Aligned-axis bounding box tree
-    *}
+     Aligned-axis bounding box tree
+    }
+    {$ENDREGION}
     TQRAABBTree = class
-        protected
+        private
             m_pRoot: PQRAABBNode;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Releases tree content
-            *@param pNode - root node from which content should be released
-            *}
+             Releases tree content
+             @param(pNode Root node from which content should be released)
+            }
+            {$ENDREGION}
             procedure Release(pNode: PQRAABBNode); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a value is between 2 values
-            *@param value - value to test
-            *@param valueStart - start value
-            *@param valueEnd - end value
-            *@param epsilon - epsilon value for tolerance
-            *@return true if value is between values, otherwise false
-            *}
+             Checks if a value is between 2 values
+             @param(value Value to test)
+             @param(valueStart Start value)
+             @param(valueEnd End value)
+             @param(epsilon Epsilon value for tolerance)
+             @return(@true if value is between values, otherwise @false)
+            }
+            {$ENDREGION}
             function ValueIsBetween(const value, valueStart, valueEnd, epsilon: Single): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a point is between 2 vertices
-            *@param point - point to test
-            *@param pointStart - start vertex
-            *@param pointEnd - End vertex
-            *@param epsilon - epsilon value for tolerance
-            *@return true if value is between points, otherwise false
-            *}
+             Checks if a point is between 2 vertices
+             @param(point Point to test)
+             @param(pointStart Start vertex)
+             @param(pointEnd End vertex)
+             @param(epsilon Epsilon value for tolerance)
+             @return(@true if value is between points, otherwise @false)
+            }
+            {$ENDREGION}
             function VectorIsBetween(const point, pointStart, pointEnd: TQRVector3D;
                                                          const epsilon: Single): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds a polygon inside an existing bounding box
-            *@param polygon - polygon to add
-            *@param box - bounding box in which polygon should be added
-            *@param empty[in, out] - if true, box is empty an still no contains any polygon
-            *}
+             Adds a polygon inside an existing bounding box
+             @param(polygon Polygon to add)
+             @param(box Bounding box in which polygon should be added)
+             @param(empty @bold([in, out]) If @true, box is empty an still no contains any polygon)
+            }
+            {$ENDREGION}
             procedure AddPolygonToBoundingBox(polygon: TQRPolygon;
                                                  pBox: PQRBox;
                                             var empty: Boolean); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Populates AABB tree
-            *@param pNode - root or parent node to create from
-            *@param pPolygons - source polygon array
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *}
+             Populates AABB tree
+             @param(pNode Root or parent node to create from)
+             @param(pPolygons Source polygon array)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Populate(pNode: PQRAABBNode;
                      const polygons: TQRPolygons;
                         hIsCanceled: TQRIsCanceledEvent): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Resolves AABB tree
-            *@param pRay - ray against which tree boxes will be tested
-            *@param pNode - root or parent node to resolve
-            *@param[in, out] pPolygons - polygons belonging to boxes hit by ray
-            *@return true on success, otherwise false
-            *@note Polygon list content should be deleted when useless
-            *}
+             Resolves AABB tree
+             @param(pRay Ray against which tree boxes will be tested)
+             @param(pNode Root or parent node to resolve)
+             @param(pPolygons @bold([in, out]) Polygons belonging to boxes hit by ray)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Polygon list content should be deleted when useless
+            }
+            {$ENDREGION}
             function Resolve(const pRay: TQRRay;
                             const pNode: PQRAABBNode;
                            var polygons: TQRPolygons): Boolean; overload; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Populates AABB tree
-            *@param pPolygons - source polygon array
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Populates AABB tree
+             @param(pPolygons Source polygon array)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Populate(const polygons: TQRPolygons;
                                  hIsCanceled: TQRIsCanceledEvent = nil): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Resolves AABB tree
-            *@param pRay - ray against which tree boxes will be tested
-            *@param[in, out] pPolygons - polygons belonging to boxes hit by ray
-            *@return true on success, otherwise false
-            *@note Polygon list content should be deleted when useless
-            *}
+             Resolves AABB tree
+             @param(pRay Ray against which tree boxes will be tested)
+             @param(pPolygons @bold([in, out]) Polygons belonging to boxes hit by ray)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Polygon list content should be deleted when useless
+            }
+            {$ENDREGION}
             function Resolve(const pRay: TQRRay;
                            var polygons: TQRPolygons): Boolean; overload; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D collision detection helper
-    *}
+     3D collision detection helper
+    }
+    {$ENDREGION}
     TQRCollisionHelper = class
         protected
+            {$REGION 'Documentation'}
             {**
-            * Adds polygon to array
-            *@param vb - source vertex buffer
-            *@param v1 - first polygon vertex index in vertex buffer
-            *@param v2 - second polygon vertex index in vertex buffer
-            *@param v3 - third polygon vertex index in vertex buffer
-            *@param[in, out] polygons - polygon array that contains generated polygons
-            *@note Generated polygons should be deleted when useless
-            *}
+             Adds polygon to array
+             @param(vb Source vertex buffer)
+             @param(v1 First polygon vertex index in vertex buffer)
+             @param(v2 Second polygon vertex index in vertex buffer)
+             @param(v3 Third polygon vertex index in vertex buffer)
+             @param(polygons @bold([in, out]) Polygon array that contains generated polygons)
+             @br @bold(NOTE) Generated polygons should be deleted when useless
+            }
+            {$ENDREGION}
             class procedure AddPolygon(const vb: TQRVertexBuffer;
                                      v1, v2, v3: NativeUInt;
                                    var polygons: TQRPolygons); static;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Tests collision between a ray and a polygon
-            *@param pRay - ray
-            *@param polygon - polygon to check
-            *@return true if ray intersects polygon, otherwise false
-            *}
+             Tests collision between a ray and a polygon
+             @param(pRay Ray)
+             @param(polygon Polygon to check)
+             @return(@true if ray intersects polygon, otherwise @false)
+            }
+            {$ENDREGION}
             class function GetRayPolygonCollision(const pRay: TQRRay;
                                                const polygon: TQRPolygon): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Tests collision between a ray and a box
-            *@param pRay - ray
-            *@param pBox - box
-            *@return true if ray intersects box, otherwise false
-            *}
+             Tests collision between a ray and a box
+             @param(pRay Ray)
+             @param(pBox Box)
+             @return(@true if ray intersects box, otherwise @false)
+            }
+            {$ENDREGION}
             class function GetRayBoxCollision(const pRay: TQRRay; const pBox: PQRBox): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets polygons from vertex
-            *@param vertex - source vertex descriptor, contains buffer to get from
-            *@param[in, out] polygons - polygon list to populate
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note Polygon list content should be deleted when useless
-            *}
+             Gets polygons from vertex
+             @param(vertex Source vertex descriptor, contains buffer to get from)
+             @param(polygons @bold([in, out]) Polygon list to populate)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Polygon list content should be deleted when useless
+            }
+            {$ENDREGION}
             class function GetPolygons(const vertex: TQRVertex;
                                        var polygons: TQRPolygons;
                                         hIsCanceled: TQRIsCanceledEvent = nil): Boolean; static;
@@ -180,14 +247,14 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRAABBTree
 //--------------------------------------------------------------------------------------------------
-constructor TQRAABBTree.Create();
+constructor TQRAABBTree.Create;
 begin
     inherited Create;
 
     m_pRoot := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor  TQRAABBTree.Destroy();
+destructor  TQRAABBTree.Destroy;
 begin
     // delete entire tree hierarchy
     Release(m_pRoot);
@@ -301,7 +368,7 @@ begin
     SetLength(pNode.m_Polygons, 0);
 
     // is canceled?
-    if (Assigned(hIsCanceled) and hIsCanceled()) then
+    if (Assigned(hIsCanceled) and hIsCanceled) then
         Exit;
 
     // create a collision box
@@ -316,7 +383,7 @@ begin
         for i := 0 to polygonCount - 1 do
         begin
             // is canceled?
-            if (Assigned(hIsCanceled) and hIsCanceled()) then
+            if (Assigned(hIsCanceled) and hIsCanceled) then
                 Exit;
 
             // calculate bounding box
@@ -339,7 +406,7 @@ begin
             for j := 0 to 2 do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                     Exit;
 
                 // check if first polygon vertice belongs to left or right sub-box
@@ -553,7 +620,7 @@ var
     pointOnPlane: TQRVector3D;
 begin
     // create a plane using the 3 vertices of the polygon
-    polygonPlane := polygon.GetPlane();
+    polygonPlane := polygon.GetPlane;
 
     // calculate the intersection point
     if (not polygonPlane.IntersectRay(pRay.Pos^, pRay.Dir^, pointOnPlane)) then
@@ -683,7 +750,7 @@ begin
             while (i < vbLength) do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                 begin
                     Result := False;
                     Exit;
@@ -713,7 +780,7 @@ begin
             while (i < stripLength) do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                 begin
                     Result := False;
                     Exit;
@@ -751,7 +818,7 @@ begin
             while (i < fanLength) do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                 begin
                     Result := False;
                     Exit;
@@ -781,7 +848,7 @@ begin
             while (i < vbLength) do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                 begin
                     Result := False;
                     Exit;
@@ -817,7 +884,7 @@ begin
             while (i < stripLength) do
             begin
                 // is canceled?
-                if (Assigned(hIsCanceled) and hIsCanceled()) then
+                if (Assigned(hIsCanceled) and hIsCanceled) then
                 begin
                     Result := False;
                     Exit;

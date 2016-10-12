@@ -242,42 +242,42 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Sampling rate, default value is 44'100 Hertz
+             Gets or sets the sampling rate, default value is 44'100 Hertz
             }
             {$ENDREGION}
             property Sampling: NativeUInt read m_Sampling write SetSampling default 44100;
 
             {$REGION 'Documentation'}
             {**
-             WAV file name
+             Gets or sets the WAV file name
             }
             {$ENDREGION}
             property WavName: TFileName read m_WavName write SetWavName;
 
             {$REGION 'Documentation'}
             {**
-             OnPlay event
+             Gets or sets the OnPlay event
             }
             {$ENDREGION}
             property OnPlay: TQROnPlayerPlayEvent read m_fOnPlay write m_fOnPlay;
 
             {$REGION 'Documentation'}
             {**
-             OnPause event
+             Gets or sets then OnPause event
             }
             {$ENDREGION}
             property OnPause: TQROnPlayerPauseEvent read m_fOnPause write m_fOnPause;
 
             {$REGION 'Documentation'}
             {**
-             OnStop event
+             Gets or sets the OnStop event
             }
             {$ENDREGION}
             property OnStop: TQROnPlayerStopEvent read m_fOnStop write m_fOnStop;
 
             {$REGION 'Documentation'}
             {**
-             OnChangeVolume event
+             Gets or sets OnChangeVolume event
             }
             {$ENDREGION}
             property OnChangeVolume: TQROnPlayerChangeVolumeEvent read m_fOnChangeVolume write m_fOnChangeVolume;
