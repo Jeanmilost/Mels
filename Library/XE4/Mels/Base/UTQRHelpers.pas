@@ -69,9 +69,26 @@ const
         {$MESSAGE FATAL 'Unknown platform type'}
     {$IFEND}
 type
-    TQRByteArray     = array of Byte;
+    {$REGION 'Documentation'}
+    {**
+     Byte array
+    }
+    {$ENDREGION}
+    TQRByteArray = array of Byte;
+
+    {$REGION 'Documentation'}
+    {**
+     Ansi char array
+    }
+    {$ENDREGION}
     TQRAnsiCharArray = array of AnsiChar;
-    TQRCharArray     = Array of Char;
+
+    {$REGION 'Documentation'}
+    {**
+     Unicode char array
+    }
+    {$ENDREGION}
+    TQRCharArray = Array of Char;
 
     {$REGION 'Documentation'}
     {**

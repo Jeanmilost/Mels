@@ -659,11 +659,40 @@ type
     }
     {$ENDREGION}
     TQRDepthTest = record
-        m_Enabled:          Boolean;
+        {$REGION 'Documentation'}
+        {**
+         Indicates whether the depth test is enabled or not
+        }
+        {$ENDREGION}
+        m_Enabled: Boolean;
+
+        {$REGION 'Documentation'}
+        {**
+         Indicates whether the depth mask test is enabled or not
+        }
+        {$ENDREGION}
         m_DepthMaskEnabled: Boolean;
-        m_DepthFunction:    EQRDepthFunc;
-        m_DepthRangeMin:    Single;
-        m_DepthRangeMax:    Single;
+
+        {$REGION 'Documentation'}
+        {**
+         Depth test function to use
+        }
+        {$ENDREGION}
+        m_DepthFunction: EQRDepthFunc;
+
+        {$REGION 'Documentation'}
+        {**
+         Indicates the minimum value (between 0.0 and 1.0) where depth will be tested
+        }
+        {$ENDREGION}
+        m_DepthRangeMin: Single;
+
+        {$REGION 'Documentation'}
+        {**
+         Indicates the maximum value (between 0.0 and 1.0) where depth will be tested
+        }
+        {$ENDREGION}
+        m_DepthRangeMax: Single;
     end;
 
     PQRDepthTest = ^TQRDepthTest;
