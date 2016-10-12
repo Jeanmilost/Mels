@@ -1284,7 +1284,7 @@ type
             {$REGION 'Documentation'}
             {**
              Rotates a vector by the quaternion
-             @param(Vector vector to rotate)
+             @param(vector Vector to rotate)
              @return(Rotated vector)
             }
             {$ENDREGION}
@@ -1432,296 +1432,448 @@ type
         private
             m_Vertex: array[0..2] of TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a vector is between start and end limits
-            *@param value - value to check
-            *@param vStart - start limit
-            *@param vEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if value is between limits, otherwise false
-            *}
+             Checks if a vector is between start and end limits
+             @param(value Value to check)
+             @param(vStart Start limit)
+             @param(vEnd End limit)
+             @param(tolerance Tolerance to apply during calculation)
+             @return(@true if value is between limits, otherwise @false)
+            }
+            {$ENDREGION}
             function IsBetween(const value, vStart, vEnd: TQRVector3D;
                                                tolerance: Single): Boolean; overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a value is between start and end limits
-            *@param value - value to check
-            *@param lStart - start limit
-            *@param lEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if value is between limits, otherwise false
-            *}
+             Checks if a value is between start and end limits
+             @param(value Value to check)
+             @param(lStart Start limit)
+             @param(lEnd End limit)
+             @param(tolerance Tolerance to apply during calculation)
+             @return(@true if value is between limits, otherwise @false)
+            }
+            {$ENDREGION}
             function IsBetween(const value, lStart, lEnd, tolerance: Single): Boolean; overload;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param vertex1 - first vertex of the polygon
-            *@param vertex2 - second vertex of the polygon
-            *@param vertex3 - third vertex of the polygon
-            *}
+             Constructor
+             @param(vertex1 First vertex of the polygon)
+             @param(vertex2 Second vertex of the polygon)
+             @param(vertex3 Third vertex of the polygon)
+            }
+            {$ENDREGION}
             constructor Create(const vertex1, vertex2, vertex3: TQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex at index
-            *@param index - vertex index
-            *@return corresponding vertex, nil if not found
-            *}
-             function GetVertex(index: Byte): TQRVector3D;
+             Gets vertex at index
+             @param(index Vertex index)
+             @return(corresponding vertex, @nil if not found)
+            }
+            {$ENDREGION}
+            function GetVertex(index: Byte): TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets vertex
-            *@param index - vertex index to set
-            *@param vertex - vertex value
-            *}
+             Sets vertex
+             @param(index Vertex index to set)
+             @param(vertex Vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex(index: Byte; const vertex: TQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets first polygon vertex
-            *@return first polygon vertex
-            *}
+             Gets first polygon vertex
+             @return(First polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex1: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets first polygon vertex
-            *@param pVertex - first polygon vertex value
-            *}
+             Sets first polygon vertex
+             @param(pVertex First polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex1(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets second polygon vertex
-            *@return second polygon vertex
-            *}
+             Gets second polygon vertex
+             @return(Second polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex2: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets second polygon vertex
-            *@param pVertex - second polygon vertex value
-            *}
+             Sets second polygon vertex
+             @param(pVertex Second polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex2(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets third polygon vertex
-            *@return third polygon vertex
-            *}
+             Gets third polygon vertex
+             @return(Third polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex3: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets third polygon vertex
-            *@param pVertex - third polygon vertex value
-            *}
+             Sets third polygon vertex
+             @param(pVertex Third polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex3(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Creates and returns a clone of the polygon
-            *@return a clone of the polygon
-            *@note The returned polygon should be deleted when useless
-            *}
+             Creates and returns a clone of the polygon
+             @return(A clone of the polygon)
+             @br @blod(NOTE) The returned polygon should be deleted when useless
+            }
+            {$ENDREGION}
             function GetClone: TQRPolygon;
 
+            {$REGION 'Documentation'}
             {**
-            * Applies the given matrix to the polygon
-            *@param matrix - matrix to apply
-            *@return transformed polygon
-            *@note The returned polygon should be deleted when useless
-            *}
+             Applies the given matrix to the polygon
+             @param(matrix Matrix to apply)
+             @return(Transformed polygon)
+             @br @bold(NOTE) The returned polygon should be deleted when useless
+            }
+            {$ENDREGION}
             function ApplyMatrix(const matrix: TQRMatrix4x4): TQRPolygon;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the polygon plane
-            *@return the polygon plane
-            *}
+             Gets the polygon plane
+             @return(The polygon plane)
+            }
+            {$ENDREGION}
             function GetPlane: TQRPlane;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates and returns the center point of the polygon
-            *@return the center point of the polygon
-            *}
+             Calculates and returns the center point of the polygon
+             @return(The center point of the polygon)
+            }
+            {$ENDREGION}
             function GetCenter: TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a point is inside polygon
-            *@param x - point x coordinate
-            *@param y - point y coordinate
-            *@param z - point z coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
+             Checks if a point is inside polygon
+             @param(x Point x coordinate)
+             @param(y Point y coordinate)
+             @param(z Point z coordinate)
+             @return(@true if point is inside polygon, otherwise @false)
+            }
+            {$ENDREGION}
             function Inside(const x, y, z: Single): Boolean; overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a point is inside polygon
-            *@param point - point coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
+             Checks if a point is inside polygon
+             @param(point Point coordinate)
+             @return(@true if point is inside polygon, otherwise @false)
+            }
+            {$ENDREGION}
             function Inside(const point: TQRVector3D): Boolean; overload;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the first polygon vertex
+            }
+            {$ENDREGION}
             property Vertex1: PQRVector3D read GetVertex1 write SetVertex1;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the second polygon vertex
+            }
+            {$ENDREGION}
             property Vertex2: PQRVector3D read GetVertex2 write SetVertex2;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the third polygon vertex
+            }
+            {$ENDREGION}
             property Vertex3: PQRVector3D read GetVertex3 write SetVertex3;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Polygon list
-    *}
+     Polygon list
+    }
+    {$ENDREGION}
     TQRPolygons = array of TQRPolygon;
     PQRPolygons = ^TQRPolygons;
 
+    {$REGION 'Documentation'}
     {**
-    * 2D circle
-    *}
+     2D circle
+    }
+    {$ENDREGION}
     TQRCircle = record
         private
             m_Pos:    TQRVector2D;
             m_Radius: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets circle center pos
-            *@return sphere center pos
-            *}
+             Gets the circle center position
+             @return(The circle center position)
+            }
+            {$ENDREGION}
             function GetPos: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets circle center pos
-            *@param pPos - sphere center pos
-            *}
+             Sets the circle center position
+             @param(pPos The circle center position)
+            }
+            {$ENDREGION}
             procedure SetPos(const pPos: PQRVector2D);
 
+        // Properties
         public
-            { Properties }
-            property Pos:    PQRVector2D read GetPos   write SetPos;
-            property Radius: Single      read m_Radius write m_Radius;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the circle center position
+            }
+            {$ENDREGION}
+            property Pos: PQRVector2D read GetPos write SetPos;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the circle radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D sphere
-    *}
+     3D sphere
+    }
+    {$ENDREGION}
     TQRSphere = record
         private
             m_Pos:    TQRVector3D;
             m_Radius: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets sphere center pos
-            *@return sphere center pos
-            *}
+             Gets the sphere center position
+             @return(The sphere center position)
+            }
+            {$ENDREGION}
             function GetPos: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets sphere center pos
-            *@param pPos - sphere center pos
-            *}
+             Sets the sphere center position
+             @param(pPos The sphere center position)
+            }
+            {$ENDREGION}
             procedure SetPos(const pPos: PQRVector3D);
 
+        // Properties
         public
-            { Properties }
-            property Pos:    PQRVector3D read GetPos   write SetPos;
-            property Radius: Single      read m_Radius write m_Radius;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere center position
+            }
+            {$ENDREGION}
+            property Pos: PQRVector3D read GetPos write SetPos;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 2D rectangle
-    *}
+     2D rectangle
+    }
+    {$ENDREGION}
     TQRRect = record
         private
             m_Min: TQRVector2D;
             m_Max: TQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets rect min edge
-            *@return box min edge
-            *}
+             Gets the rectangle min edge
+             @return(The rectangle min edge)
+            }
+            {$ENDREGION}
             function GetMin: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rect min edge
-            *@param pValue - box min edge
-            *}
+             Sets the rectangle min edge
+             @param(pValue The rectangle min edge)
+            }
+            {$ENDREGION}
             procedure SetMin(const pValue: PQRVector2D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets rect max edge
-            *@return box max edge
-            *}
+             Gets the rectangle max edge
+             @return(The rectangle maximum edge)
+            }
+            {$ENDREGION}
             function GetMax: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rect max edge
-            *@param pValue - box max edge
-            *}
+             Sets the rectangle max edge
+             @param(pValue The rectangle max edge)
+            }
+            {$ENDREGION}
             procedure SetMax(const pValue: PQRVector2D);
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param x - rect x position, i.e. the position of the left edge
-            *@param y - rect y position, i.e. the position of the top edge
-            *@param width - width
-            *@param height - height
-            *}
+             Constructor
+             @param(x Rect x position, i.e. the position of the left edge)
+             @param(y Rect y position, i.e. the position of the top edge)
+             @param(width Width)
+             @param(height Height)
+            }
+            {$ENDREGION}
             constructor Create(const x, y, width, height: Single);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets width
-            *@return width
-            *}
+             Gets width
+             @return(Width)
+            }
+            {$ENDREGION}
             function GetWidth: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets height
-            *@return height
-            *}
+             Gets height
+             @return(Height)
+            }
+            {$ENDREGION}
             function GetHeight: Single;
 
-            { Properties }
-            property Min:    PQRVector2D read GetMin write SetMin;
-            property Max:    PQRVector2D read GetMax write SetMax;
-            property Width:  Single      read GetWidth;
-            property Height: Single      read GetHeight;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rectangle min edge
+            }
+            {$ENDREGION}
+            property Min: PQRVector2D read GetMin write SetMin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rectangle max edge
+            }
+            {$ENDREGION}
+            property Max: PQRVector2D read GetMax write SetMax;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the rectangle width
+            }
+            {$ENDREGION}
+            property Width: Single read GetWidth;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the rectangle height
+            }
+            {$ENDREGION}
+            property Height: Single read GetHeight;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D aligned-axis box
-    *}
+     3D aligned-axis box
+    }
+    {$ENDREGION}
     TQRBox = record
         private
             m_Min: TQRVector3D;
             m_Max: TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets box min edge
-            *@return box min edge
-            *}
+             Gets box min edge
+             @return(The box min edge)
+            }
+            {$ENDREGION}
             function GetMin: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets box min edge
-            *@param pValue - box min edge
-            *}
+             Sets box min edge
+             @param(pValue The box min edge)
+            }
+            {$ENDREGION}
             procedure SetMin(const pValue: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets box max edge
-            *@return box max edge
-            *}
+             Gets box max edge
+             @return(The box max edge)
+            }
+            {$ENDREGION}
             function GetMax: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets box max edge
-            *@param pValue - box max edge
-            *}
+             Sets box max edge
+             @param(pValue The box max edge)
+            }
+            {$ENDREGION}
             procedure SetMax(const pValue: PQRVector3D);
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Cuts box on the longest axis
-            *@param[in, out] leftBox - resulting left box
-            *@param[in, out] rightBox - resulting right box
-            *}
+             Cuts the box on the longest axis
+             @param(leftBox @bold([in, out]) Resulting left box)
+             @param(rightBox @bold([in, out]) Resulting right box)
+            }
+            {$ENDREGION}
             procedure Cut(var leftBox: TQRBox; var rightBox: TQRBox);
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box min edge
+            }
+            {$ENDREGION}
             property Min: PQRVector3D read GetMin write SetMin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box max edge
+            }
+            {$ENDREGION}
             property Max: PQRVector3D read GetMax write SetMax;
     end;
 

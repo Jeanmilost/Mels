@@ -20,7 +20,7 @@
 // *************************************************************************************************
 
 {**
- @abstract(@name provides the basic classes to work with 3D.)
+ @abstract(@name provides the basic features to work with 3D.)
  @image(Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
@@ -37,6 +37,9 @@ type
     {$REGION 'Documentation'}
     {**
      Vertex formats enumeration
+     @value(EQR_VF_Normals Indicates that the vertex buffer contains normals)
+     @value(EQR_VF_TexCoords Indicates that the vertex buffer contains texture coordinates)
+     @value(EQR_VF_Colors Indicates that the vertex buffer contains colors)
     }
     {$ENDREGION}
     EQRVertexFormats =
@@ -56,6 +59,26 @@ type
     {$REGION 'Documentation'}
     {**
      Vertex buffer type enumeration
+     @value(EQR_VT_Unknown Indicates that the vertex buffer organization is unknown)
+     @value(EQR_VT_Triangles Indicates that the vertex buffer is organized as a list of individual
+                             triangles)
+     @value(EQR_VT_TriangleStrip Indicates that the vertex buffer is organized as a list of
+                                 connected triangles, where each triangle share a part of his
+                                 coordinate with the next triangle, in a such manner that all
+                                 triangles compose a strip)
+     @value(EQR_VT_TriangleFan Indicates that the vertex buffer is organized as a list of
+                               connected triangles, where each triangle share a common vertex, in a
+                               such manner that all triangles are distributed around this vertex)
+     @value(EQR_VT_Quads Indicates that the vertex buffer is organized as a list of individual
+                         quadrilater. This means that polygons are composed of 4 vertices, instead
+                         of 3, and so the vertice count in the list should be a multiple of 4.@br
+                         @bold(NOTE) This option may be unsupported by OpenGL ES version)
+     @value(EQR_VT_QuadStrip Indicates that the vertex buffer is organized as a list of
+                             connected quadrilater, where each quadrilater share a part of his
+                             coordinate with the next quadrilater, in a such manner that all
+                             quadrilater compose a strip. This means that polygons are composed of 4
+                             vertices, instead of 3.@br @bold(NOTE) This option may be unsupported
+                             by OpenGL ES version)
     }
     {$ENDREGION}
     EQRVertexType =
@@ -71,6 +94,9 @@ type
     {$REGION 'Documentation'}
     {**
      Vertex coordinate type
+     @value(EQR_VC_Unknown Indicates that the info about vertex buffer coordinates are unknown)
+     @value(EQR_VC_XY Indicates that the vertex buffer coordinates contains values for x and y)
+     @value(EQR_VC_XYZ Indicates that the vertex buffer coordinates contains values for x, y and z)
     }
     {$ENDREGION}
     EQRVertexCoordType =
@@ -187,6 +213,8 @@ type
     {$REGION 'Documentation'}
     {**
      Shader type enumeration
+     @value(EQR_ST_Vertex Indicates that the vertex shader program is currently manipulated)
+     @value(EQR_ST_Fragment Indicates that the fragment shader program is currently manipulated)
     }
     {$ENDREGION}
     EQRShaderType =
@@ -437,6 +465,21 @@ type
     {$REGION 'Documentation'}
     {**
      Model texture wrap mode enumeration
+     @value(EQR_WM_CLAMP_TO_EDGE Indicates that the texture edge texels should be stretched out to
+            infinity)
+     @value(EQR_WM_CLAMP_TO_BORDER Indicates that the texture borders should be stretched out to
+            infinity. Here only the border color at the edge of the texture are considered, rather
+            than the average of the border color and texture edge texels, as it's the case when
+            EQR_WM_CLAMP_TO_EDGE is used)
+     @value(EQR_WM_MIRRORED_REPEAT Indicates that the texture will be mirrored then repeated to
+            infinity on each edge)
+     @value(EQR_WM_REPEAT Indicates that the texture will be repeated to infinity on each edge)
+     @value(EQR_WM_MIRROR_CLAMP_TO_EDGE Indicates that the texture coordinates should be mirrored
+                                        and clamped to edge, where mirroring and clamping to edge a
+                                        value f computes the formula:@br
+                                        mirrorClampToEdge(f) = min(1-1/(2*N), max(1/(2*N), abs(f)))@br
+                                        where N is the size of the one-, two-, or three-dimensional
+                                        texture image in the direction of wrapping)
     }
     {$ENDREGION}
     EQRTextureWrapMode =
@@ -483,7 +526,7 @@ type
     }
     {$ENDREGION}
     TQRTexture = class
-        protected
+        private
             m_Index:       NativeUInt;
             m_Name:        UnicodeString;
             m_Dir:         UnicodeString;
@@ -565,6 +608,10 @@ type
     {$REGION 'Documentation'}
     {**
      Cull mode enumeration
+     @value(EQR_CM_None Indicates that culling is not applied at all)
+     @value(EQR_CM_Front Indicates that culling is applied on the polygon front face)
+     @value(EQR_CM_Back Indicates that culling is applied on the polygon back face)
+     @value(EQR_CM_Both Indicates that culling is applied on the both polygon front and back faces)
     }
     {$ENDREGION}
     EQRCullMode =
@@ -578,6 +625,20 @@ type
     {$REGION 'Documentation'}
     {**
      Depth function enumeration
+     @value(EQR_DF_Never Indicates that the depth test function never passes)
+     @value(EQR_DF_Less Indicates that the depth test function passes if the incoming depth value is
+                        less than the stored depth value)
+     @value(EQR_DF_Equal Indicates that the depth test function passes if the incoming depth value
+                         is equal to the stored depth value)
+     @value(EQR_DF_LessEqual Indicates that the depth test function passes if the incoming depth
+                             value is less than or equal to the stored depth value)
+     @value(EQR_DF_Greater Indicates that the depth test function passes if the incoming depth value
+                           is greater than the stored depth value)
+     @value(EQR_DF_NotEqual Indicates that the depth test function passes if the incoming depth
+                            value is not equal to the stored depth value)
+     @value(EQR_DF_GreaterEqual Indicates that the depth test function passes if the incoming depth
+                                value is greater than or equal to the stored depth value)
+     @value(EQR_DF_Always Indicates that the depth test function always passes)
     }
     {$ENDREGION}
     EQRDepthFunc =

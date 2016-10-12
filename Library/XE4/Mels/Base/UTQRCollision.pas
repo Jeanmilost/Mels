@@ -56,10 +56,41 @@ type
     }
     {$ENDREGION}
     TQRAABBNode = record
-        m_pParent:  PQRAABBNode;
-        m_pLeft:    PQRAABBNode;
-        m_pRight:   PQRAABBNode;
-        m_pBox:     PQRBox;
+        {$REGION 'Documentation'}
+        {**
+         Parent of this node in the AABB tree
+        }
+        {$ENDREGION}
+        m_pParent: PQRAABBNode;
+
+        {$REGION 'Documentation'}
+        {**
+         Left child node, contains the collision data that were detected inside the left child box
+         after the division
+        }
+        {$ENDREGION}
+        m_pLeft: PQRAABBNode;
+
+        {$REGION 'Documentation'}
+        {**
+         Right child node, contains the collision data that were detected inside the right child box
+         after the division
+        }
+        {$ENDREGION}
+        m_pRight: PQRAABBNode;
+
+        {$REGION 'Documentation'}
+        {**
+         Bounding box matching with this node
+        }
+        {$ENDREGION}
+        m_pBox: PQRBox;
+
+        {$REGION 'Documentation'}
+        {**
+         Subdivided polygons that the bounding box surrounds
+        }
+        {$ENDREGION}
         m_Polygons: TQRPolygons;
     end;
 

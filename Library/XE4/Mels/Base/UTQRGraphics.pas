@@ -1,182 +1,369 @@
-{**************************************************************************************************
- * ==> UTQRGraphics ------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module includes some tools that facilitates common graphics manipulations.  *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRGraphics -----------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides features to facilitate the work with colors and graphics.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRGraphics;
 
 interface
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Universal color class
-    *}
+     Universal color class
+    }
+    {$ENDREGION}
     TQRColor = class
-        protected
+        private
             m_R: Byte;
             m_G: Byte;
             m_B: Byte;
             m_A: Byte;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
-            constructor Create(); overload; virtual;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param r - color red component intensity, from 0 (darkest) to 255 (lightest)
-            *@param g - color green component intensity, from 0 (darkest) to 255 (lightest)
-            *@param b - color blue component intensity, from 0 (darkest) to 255 (lightest)
-            *}
+             Constructor
+             @param(r Color red component intensity, from 0 (darkest) to 255 (lightest))
+             @param(g Color green component intensity, from 0 (darkest) to 255 (lightest))
+             @param(b Color blue component intensity, from 0 (darkest) to 255 (lightest))
+            }
+            {$ENDREGION}
             constructor Create(r, g, b: Byte); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param r - color red component intensity, from 0 (darkest) to 255 (lightest)
-            *@param g - color green component intensity, from 0 (darkest) to 255 (lightest)
-            *@param b - color blue component intensity, from 0 (darkest) to 255 (lightest)
-            *@param a - color alpha component intensity, from 0 (smallest) to 255 (highest)
-            *}
+             Constructor
+             @param(r Color red component intensity, from 0 (darkest) to 255 (lightest))
+             @param(g Color green component intensity, from 0 (darkest) to 255 (lightest))
+             @param(b Color blue component intensity, from 0 (darkest) to 255 (lightest))
+             @param(a Color alpha component intensity, from 0 (smallest) to 255 (highest))
+            }
+            {$ENDREGION}
             constructor Create(r, g, b, a: Byte); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOther - other color to copy from
-            *}
+             Copy constructor
+             @param(pOther Other color to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const pOther: TQRColor); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
-            destructor Destroy(); override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
-            { Basic functions }
-            function  IsEqual(const pOther: TQRColor): Boolean; virtual;
-            function  Differs(const pOther: TQRColor): Boolean; virtual;
-            procedure Assign(const pOther: TQRColor);          virtual;
-
+            {$REGION 'Documentation'}
             {**
-            * Sets color
-            *@param r - color red component
-            *@param g - color green component
-            *@param b - color blue component
-            *@param a - color alpha component
-            *}
-            procedure SetColor(r, g, b: Byte);    overload; virtual;
+             Assigns (i.e. copies) the content from another color
+             @param(other Other color to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const pOther: TQRColor); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 colors and determines if they are equal
+             @param(other Other color to compare with)
+             @return(@true if colors are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const pOther: TQRColor): Boolean; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 colors and determines if they are different
+             @param(other Other color to compare with)
+             @return(@true if colors differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const pOther: TQRColor): Boolean; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color
+             @param(r Color red component)
+             @param(g Color green component)
+             @param(b Color blue component)
+            }
+            {$ENDREGION}
+            procedure SetColor(r, g, b: Byte); overload; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color
+             @param(r Color red component)
+             @param(g Color green component)
+             @param(b Color blue component)
+             @param(a Color alpha component)
+            }
+            {$ENDREGION}
             procedure SetColor(r, g, b, a: Byte); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets color as 32 bit value
-            *@return color as 32 bit value
-            *}
-            function GetRGB():  Cardinal; virtual;
-            function GetBGR():  Cardinal; virtual;
-            function GetARGB(): Cardinal; virtual;
-            function GetRGBA(): Cardinal; virtual;
-            function GetABGR(): Cardinal; virtual;
-            function GetBGRA(): Cardinal; virtual;
+             Gets color as RGB 32 bit value
+             @return(Color as RGB 32 bit value)
+            }
+            {$ENDREGION}
+            function GetRGB: Cardinal; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets color from 32 bit value
-            *@return color as 32 bit value
-            *}
+             Gets color as BGR 32 bit value
+             @return(Color as BGR 32 bit value)
+            }
+            {$ENDREGION}
+            function GetBGR: Cardinal; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets color as ARGB 32 bit value
+             @return(Color as ARGB 32 bit value)
+            }
+            {$ENDREGION}
+            function GetARGB: Cardinal; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets color as RGBA 32 bit value
+             @return(Color as RGBA 32 bit value)
+            }
+            {$ENDREGION}
+            function GetRGBA: Cardinal; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets color as ABGR 32 bit value
+             @return(Color as ABGR 32 bit value)
+            }
+            {$ENDREGION}
+            function GetABGR: Cardinal; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets color as BGRA 32 bit value
+             @return(Color as BGRA 32 bit value)
+            }
+            {$ENDREGION}
+            function GetBGRA: Cardinal; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from RGB 32 bit value
+             @param(value RGB 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetRGB(value: Cardinal);  virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from BGR 32 bit value
+             @param(value BGR 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetBGR(value: Cardinal);  virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from ARGB 32 bit value
+             @param(value ARGB 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetARGB(value: Cardinal); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from RGBA 32 bit value
+             @param(value RGBA 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetRGBA(value: Cardinal); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from ABGR 32 bit value
+             @param(value ABGR 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetABGR(value: Cardinal); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets color from BGRA 32 bit value
+             @param(value BGRA 32 bit color value)
+            }
+            {$ENDREGION}
             procedure SetBGRA(value: Cardinal); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets red component
-            *@return red component
-            *}
-            function GetRed(): Byte; virtual;
+             Gets red component
+             @return(Red component)
+            }
+            {$ENDREGION}
+            function GetRed: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets green component
-            *@return green component
-            *}
-            function GetGreen(): Byte; virtual;
+             Gets green component
+             @return(Green component)
+            }
+            {$ENDREGION}
+            function GetGreen: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets blue component
-            *@return blue component
-            *}
-            function GetBlue(): Byte; virtual;
+             Gets blue component
+             @return(Blue component)
+            }
+            {$ENDREGION}
+            function GetBlue: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets alpha component
-            *@return alpha component
-            *}
-            function GetAlpha(): Byte; virtual;
+             Gets alpha component
+             @return(Alpha component)
+            }
+            {$ENDREGION}
+            function GetAlpha: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets red component
-            *@param value - component value
-            *}
+             Sets red component
+             @param(Value Component value)
+            }
+            {$ENDREGION}
             procedure SetRed(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets green component
-            *@param value - component value
-            *}
+             Sets green component
+             @param(Value Component value)
+            }
+            {$ENDREGION}
             procedure SetGreen(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets blue component
-            *@param value - component value
-            *}
+             Sets blue component
+             @param(Value Component value)
+            }
+            {$ENDREGION}
             procedure SetBlue(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets alpha component
-            *@param value - component value
-            *}
+             Sets alpha component
+             @param(Value Component value)
+            }
+            {$ENDREGION}
             procedure SetAlpha(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets red component as float (between 0.0f and 1.0f)
-            *@return red component
-            *}
-            function GetRedF(): Single; virtual;
+             Gets red component as float (between 0.0f and 1.0f)
+             @return(Red component as float value)
+            }
+            {$ENDREGION}
+            function GetRedF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets green component as float (between 0.0f and 1.0f)
-            *@return green component
-            *}
-            function GetGreenF(): Single; virtual;
+             Gets green component as float (between 0.0f and 1.0f)
+             @return(Green component as float value)
+            }
+            {$ENDREGION}
+            function GetGreenF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets blue component as float (between 0.0f and 1.0f)
-            *@return blue component
-            *}
-            function GetBlueF(): Single; virtual;
+             Gets blue component as float (between 0.0f and 1.0f)
+             @return(Blue component as float value)
+            }
+            {$ENDREGION}
+            function GetBlueF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets alpha component as float (between 0.0f and 1.0f)
-            *@return alpha component
-            *}
-            function GetAlphaF(): Single; virtual;
+             Gets alpha component as float (between 0.0f and 1.0f)
+             @return(Alpha component as float value)
+            }
+            {$ENDREGION}
+            function GetAlphaF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Blend color with another color
-            *@param pOther - other color to blend with
-            *@param offset - blend offset (from 0.0f to 1.0f)
-            *@return blended color
-            *@note The blended color should be deleted when useless
-            *}
+             Blends a color with another color
+             @param(pOther Other color to blend with)
+             @param(offset Blend offset (from 0.0f to 1.0f))
+             @return(Blended color)
+             @br @bold(NOTE) The blended color should be deleted when useless
+            }
+            {$ENDREGION}
             function Blend(const pOther: TQRColor; const offset: Single): TQRColor; virtual;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color red component value
+            }
+            {$ENDREGION}
             property R: Byte read m_R write m_R;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color green component value
+            }
+            {$ENDREGION}
             property G: Byte read m_G write m_G;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color blue component value
+            }
+            {$ENDREGION}
             property B: Byte read m_B write m_B;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color alpha component value
+            }
+            {$ENDREGION}
             property A: Byte read m_A write m_A;
     end;
 
@@ -226,16 +413,6 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.IsEqual(const pOther: TQRColor): Boolean;
-begin
-    Result := ((m_R = pOther.m_R) and (m_G = pOther.m_G) and (m_B = pOther.m_B) and (m_A = pOther.m_A));
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRColor.Differs(const pOther: TQRColor): Boolean;
-begin
-    Result := ((m_R <> pOther.m_R) or (m_G <> pOther.m_G) or (m_B <> pOther.m_B) or (m_A <> pOther.m_A));
-end;
-//--------------------------------------------------------------------------------------------------
 procedure TQRColor.Assign(const pOther: TQRColor);
 begin
     if (not Assigned(pOther)) then
@@ -251,6 +428,16 @@ begin
     m_G := pOther.G;
     m_B := pOther.B;
     m_A := pOther.A;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRColor.IsEqual(const pOther: TQRColor): Boolean;
+begin
+    Result := ((m_R = pOther.m_R) and (m_G = pOther.m_G) and (m_B = pOther.m_B) and (m_A = pOther.m_A));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRColor.Differs(const pOther: TQRColor): Boolean;
+begin
+    Result := ((m_R <> pOther.m_R) or (m_G <> pOther.m_G) or (m_B <> pOther.m_B) or (m_A <> pOther.m_A));
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRColor.SetColor(r, g, b: Byte);
@@ -269,32 +456,32 @@ begin
     m_A := a;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetRGB(): Cardinal;
+function TQRColor.GetRGB: Cardinal;
 begin
     Result := ((m_R shl 16) + (m_G shl 8) + m_B);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetBGR(): Cardinal;
+function TQRColor.GetBGR: Cardinal;
 begin
     Result := ((m_B shl 16) + (m_G shl 8) + m_R);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetARGB(): Cardinal;
+function TQRColor.GetARGB: Cardinal;
 begin
     Result := ((m_A shl 24) + (m_R shl 16) + (m_G shl 8) + m_B);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetRGBA(): Cardinal;
+function TQRColor.GetRGBA: Cardinal;
 begin
     Result := ((m_R shl 24) + (m_G shl 16) + (m_B shl 8) + m_A);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetABGR(): Cardinal;
+function TQRColor.GetABGR: Cardinal;
 begin
     Result := ((m_A shl 24) + (m_B shl 16) + (m_G shl 8) + m_R);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetBGRA(): Cardinal;
+function TQRColor.GetBGRA: Cardinal;
 begin
     Result := ((m_B shl 24) + (m_G shl 16) + (m_R shl 8) + m_A);
 end;
@@ -347,22 +534,22 @@ begin
     m_A :=   value         and $FF;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetRed(): Byte;
+function TQRColor.GetRed: Byte;
 begin
     Result := m_R;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetGreen(): Byte;
+function TQRColor.GetGreen: Byte;
 begin
     Result := m_G;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetBlue(): Byte;
+function TQRColor.GetBlue: Byte;
 begin
     Result := m_B;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetAlpha(): Byte;
+function TQRColor.GetAlpha: Byte;
 begin
     Result := m_A;
 end;
@@ -387,22 +574,22 @@ begin
     m_A := value;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetRedF(): Single;
+function TQRColor.GetRedF: Single;
 begin
     Result := m_R / 255.0;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetGreenF(): Single;
+function TQRColor.GetGreenF: Single;
 begin
     Result := m_G / 255.0;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetBlueF(): Single;
+function TQRColor.GetBlueF: Single;
 begin
     Result := m_B / 255.0;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRColor.GetAlphaF(): Single;
+function TQRColor.GetAlphaF: Single;
 begin
     Result := m_A / 255.0;
 end;
