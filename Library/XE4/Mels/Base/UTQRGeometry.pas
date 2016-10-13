@@ -336,7 +336,7 @@ type
              @param(other Other vector to copy from)
             }
             {$ENDREGION}
-            procedure Assign(const other: TQRVector2D); inline;
+            procedure Assign(const other: TQRVector3D); inline;
 
             {$REGION 'Documentation'}
             {**
@@ -345,7 +345,7 @@ type
              @return(@true if vectors are equal, otherwise @false)
             }
             {$ENDREGION}
-            function IsEqual(const other: TQRVector2D): Boolean; inline;
+            function IsEqual(const other: TQRVector3D): Boolean; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -354,7 +354,7 @@ type
              @return(@true if vectors differ, otherwise @false)
             }
             {$ENDREGION}
-            function Differs(const other: TQRVector2D): Boolean; inline;
+            function Differs(const other: TQRVector3D): Boolean; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -362,7 +362,7 @@ type
              @return(Inverted vector)
             }
             {$ENDREGION}
-            function Invert: TQRVector2D; overload; inline;
+            function Invert: TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -371,7 +371,7 @@ type
              @return(Added vector)
             }
             {$ENDREGION}
-            function Add(const value: Single): TQRVector2D; overload; inline;
+            function Add(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -380,7 +380,7 @@ type
              @return(Added vector)
             }
             {$ENDREGION}
-            function Add(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function Add(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -389,7 +389,7 @@ type
              @return(Subtracted vector)
             }
             {$ENDREGION}
-            function Sub(const value: Single): TQRVector2D; overload; inline;
+            function Sub(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -398,7 +398,7 @@ type
              @return(Subtracted vector)
             }
             {$ENDREGION}
-            function Sub(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function Sub(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -407,7 +407,7 @@ type
              @return(Multiplied vector)
             }
             {$ENDREGION}
-            function Mul(const value: Single): TQRVector2D; overload; inline;
+            function Mul(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -416,7 +416,7 @@ type
              @return(Multiplied vector)
             }
             {$ENDREGION}
-            function Mul(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function Mul(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -425,7 +425,7 @@ type
              @return(Divided vector)
             }
             {$ENDREGION}
-            function Divide(const value: Single): TQRVector2D; overload; inline;
+            function Divide(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -434,7 +434,7 @@ type
              @return(Divided vector)
             }
             {$ENDREGION}
-            function Divide(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function Divide(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -443,7 +443,7 @@ type
              @return(Added vector)
             }
             {$ENDREGION}
-            function AddAndAssign(const value: Single): TQRVector2D; overload; inline;
+            function AddAndAssign(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -452,7 +452,7 @@ type
              @return(Added vector)
             }
             {$ENDREGION}
-            function AddAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function AddAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -461,7 +461,7 @@ type
              @return(Subtracted vector)
             }
             {$ENDREGION}
-            function SubAndAssign(const value: Single): TQRVector2D; overload; inline;
+            function SubAndAssign(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -470,7 +470,7 @@ type
              @return(Subtracted vector)
             }
             {$ENDREGION}
-            function SubAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function SubAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -479,7 +479,7 @@ type
              @return(Multiplied vector)
             }
             {$ENDREGION}
-            function MulAndAssign(const value: Single): TQRVector2D; overload; inline;
+            function MulAndAssign(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -488,7 +488,7 @@ type
              @return(Multiplied vector)
             }
             {$ENDREGION}
-            function MulAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function MulAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -497,7 +497,7 @@ type
              @return(Divided vector)
             }
             {$ENDREGION}
-            function DivAndAssign(const value: Single): TQRVector2D; overload; inline;
+            function DivAndAssign(const value: Single): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -506,7 +506,7 @@ type
              @return(Divided vector)
             }
             {$ENDREGION}
-            function DivAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+            function DivAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -2453,30 +2453,30 @@ begin
     Result := Identity;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.GetItem(i: NativeInt): Single;
+function TQRMatrix4x4.GetItem(index: NativeInt): Single;
 var
     x, y: NativeInt;
 begin
-    if (i > 15) then
+    if (index > 15) then
         raise Exception.Create('Index is out of bounds');
 
     // calculate x and y position from index
-    x := i mod 4;
-    y := i div 4;
+    x := index mod 4;
+    y := index div 4;
 
     Result := m_Table[x][y];
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMatrix4x4.SetItem(i: NativeInt; value: Single);
+procedure TQRMatrix4x4.SetItem(index: NativeInt; value: Single);
 var
     x, y: NativeInt;
 begin
-    if (i > 15) then
+    if (index > 15) then
         raise Exception.Create('Index is out of bounds');
 
     // calculate x and y position from index
-    x := i mod 4;
-    y := i div 4;
+    x := index mod 4;
+    y := index div 4;
 
     m_Table[x][y] := value;
 end;
