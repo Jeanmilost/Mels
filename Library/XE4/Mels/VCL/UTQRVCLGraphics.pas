@@ -126,7 +126,7 @@ end;
 function TQRVCLColor.GetVCLColor(): TColor;
 begin
     // build and return color
-    Result := TColor((m_B shl 16) + (m_G shl 8) + m_R);
+    Result := TColor((B shl 16) + (G shl 8) + R);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLColor.SetVCLColor(color: TColor; alpha: Byte);
@@ -137,24 +137,24 @@ begin
     rgbColor := ColorToRGB(color);
 
     // convert from TColor
-    m_R :=  (rgbColor         and $ff);
-    m_G := ((rgbColor shr 8)  and $ff);
-    m_B := ((rgbColor shr 16) and $ff);
-    m_A :=   alpha;
+    R :=  (rgbColor         and $ff);
+    G := ((rgbColor shr 8)  and $ff);
+    B := ((rgbColor shr 16) and $ff);
+    A :=   alpha;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLColor.GetWinColor(): COLORREF;
 begin
-    Result := RGB(m_R, m_G, m_B);
+    Result := RGB(R, G, B);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLColor.SetWinColor(color: COLORREF; alpha: Byte);
 begin
     // convert from Windows color
-    m_R :=  (color         and $ff);
-    m_G := ((color shr 8)  and $ff);
-    m_B := ((color shr 16) and $ff);
-    m_A :=   alpha;
+    R :=  (color         and $ff);
+    G := ((color shr 8)  and $ff);
+    B := ((color shr 16) and $ff);
+    A :=   alpha;
 end;
 //--------------------------------------------------------------------------------------------------
 

@@ -41,6 +41,9 @@ uses System.Classes,
      UTQRModel;
 
 const
+    //----------------------------------------------------------------------------------------------
+    // Global constants
+    //----------------------------------------------------------------------------------------------
     {$REGION 'Documentation'}
     {**
      The MD2 file version
@@ -68,6 +71,7 @@ const
     }
     {$ENDREGION}
     CQR_MD2_Invalid_Index: NativeUInt = NativeUInt(-1);
+    //----------------------------------------------------------------------------------------------
 
 type
     {$REGION 'Documentation'}
@@ -78,7 +82,7 @@ type
     TQRMD2Header = record
         {$REGION 'Documentation'}
         {**
-         MD2 magic number identifier, should be equal to 'IDP2'
+         MD2 magic number identifier, should be equal to CQR_MD2_ID
         }
         {$ENDREGION}
         m_ID: TQRUInt32;
