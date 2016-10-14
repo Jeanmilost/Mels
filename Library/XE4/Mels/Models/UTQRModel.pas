@@ -21,7 +21,7 @@
 
 {**
  @abstract(@name provides the features to load a model and build his vertex buffer.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }

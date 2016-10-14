@@ -21,7 +21,7 @@
 
 {**
  @abstract(@name provides the basic features to work with 3D.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }
@@ -59,26 +59,25 @@ type
     {$REGION 'Documentation'}
     {**
      Vertex buffer type enumeration
-     @value(EQR_VT_Unknown Indicates that the vertex buffer organization is unknown)
-     @value(EQR_VT_Triangles Indicates that the vertex buffer is organized as a list of individual
+     @value(EQR_VT_Unknown Indicates that the vertex buffer structure is unknown)
+     @value(EQR_VT_Triangles Indicates that the vertex buffer is structured as a list of individual
                              triangles)
-     @value(EQR_VT_TriangleStrip Indicates that the vertex buffer is organized as a list of
+     @value(EQR_VT_TriangleStrip Indicates that the vertex buffer is structured as a list of
                                  connected triangles, where each triangle share a part of his
                                  coordinate with the next triangle, in a such manner that all
                                  triangles compose a strip)
-     @value(EQR_VT_TriangleFan Indicates that the vertex buffer is organized as a list of
+     @value(EQR_VT_TriangleFan Indicates that the vertex buffer is structured as a list of
                                connected triangles, where each triangle share a common vertex, in a
                                such manner that all triangles are distributed around this vertex)
-     @value(EQR_VT_Quads Indicates that the vertex buffer is organized as a list of individual
+     @value(EQR_VT_Quads Indicates that the vertex buffer is structured as a list of individual
                          quadrilater. This means that polygons are composed of 4 vertices, instead
                          of 3, and so the vertice count in the list should be a multiple of 4.@br
                          @bold(NOTE) This option may be unsupported by OpenGL ES version)
-     @value(EQR_VT_QuadStrip Indicates that the vertex buffer is organized as a list of
-                             connected quadrilater, where each quadrilater share a part of his
-                             coordinate with the next quadrilater, in a such manner that all
-                             quadrilater compose a strip. This means that polygons are composed of 4
-                             vertices, instead of 3.@br @bold(NOTE) This option may be unsupported
-                             by OpenGL ES version)
+     @value(EQR_VT_QuadStrip Indicates that the vertex buffer is structured as a list of connected
+                             quadrilater, where each quadrilater share a part of his coordinate with
+                             the next quadrilater, in a such manner that all quadrilater compose a
+                             strip. This means that polygons are composed of 4 vertices, instead of
+                             3.@br @bold(NOTE) This option may be unsupported by OpenGL ES version)
     }
     {$ENDREGION}
     EQRVertexType =
@@ -131,7 +130,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Vertex type (i.e. how vertex is organized: triangle list, triangle fan, ...)
+             Vertex type (i.e. how vertex is structured: triangle list, triangle fan, ...)
             }
             {$ENDREGION}
             m_Type: EQRVertexType;

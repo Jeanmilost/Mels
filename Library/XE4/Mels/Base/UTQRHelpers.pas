@@ -21,7 +21,7 @@
 
 {**
  @abstract(@name provides helpers to support some common low level tasks that Delphi don't care.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }

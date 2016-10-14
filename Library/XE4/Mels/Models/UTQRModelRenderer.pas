@@ -21,7 +21,7 @@
 
 {**
  @abstract(@name provides a basic interface to implement a model renderer.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }

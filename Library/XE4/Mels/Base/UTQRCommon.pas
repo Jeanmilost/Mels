@@ -24,7 +24,7 @@
            the type size should remain constant on any target platform. A good example is the
            MD2/MD3 file reading, where data are written and should always be read as 32 bit values,
            even on 64 bit systems.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }

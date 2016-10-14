@@ -22,7 +22,7 @@
 {**
  @abstract(@name provides the features to create models based on shapes, as e.g. a sphere, a cube or
                  a pyramid, and build their vertex buffer.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }
@@ -55,16 +55,16 @@ type
              @return(Normal)
              @br @bold(NOTE) Normal is calculated as follow:
              @longcode(#
-                normal
-                   |
-                   |
-                   |
-              pPt1 |__________ pPt2
-                  /
-                 /
-                /
-             pPt3
-             #)
+                          normal
+                             |
+                             |
+                             |
+                        pPt1 |__________ pPt2
+                            /
+                           /
+                          /
+                       pPt3
+                       #)
             }
             {$ENDREGION}
             class function NormalFromPoints(const pPt1, pPt2, pPt3: PQRVector3D): TQRVector3D; static;
@@ -100,14 +100,14 @@ type
              Constructor
             }
             {$ENDREGION}
-            constructor Create(); override;
+            constructor Create; override;
 
             {$REGION 'Documentation'}
             {**
              Destructor
             }
             {$ENDREGION}
-            destructor Destroy(); override;
+            destructor Destroy; override;
     end;
 
     {$REGION 'Documentation'}
@@ -127,14 +127,14 @@ type
              Constructor
             }
             {$ENDREGION}
-            constructor Create(); override;
+            constructor Create; override;
 
             {$REGION 'Documentation'}
             {**
              Destructor
             }
             {$ENDREGION}
-            destructor Destroy(); override;
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
@@ -143,13 +143,13 @@ type
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
             {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
@@ -160,103 +160,205 @@ type
         public
             {$REGION 'Documentation'}
             {**
-             Gets or sets length on x axis
+             Gets or sets the surface length on the x axis
             }
             {$ENDREGION}
             property LengthX: Single read m_LengthX write m_LengthX;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets length on y axis
+             Gets or sets the surface length on the y axis
             }
             {$ENDREGION}
             property LengthY: Single read m_LengthY write m_LengthY;
     end;
 
+    {$REGION 'Documentation'}
     {**
      3D box
      @br @bold(NOTE) This shape may also be used to build a cube
      @br @bold(NOTE) Position is measured from the center of the shape
     }
+    {$ENDREGION}
     TQRBoxModel = class(TQRShapeModel)
-        protected
+        private
             m_LengthX:             Single;
             m_LengthY:             Single;
             m_LengthZ:             Single;
             m_RepeatTexOnEachFace: Boolean;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
             {**
              Gets mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
-            property LengthX:             Single  read m_LengthX             write m_LengthX;
-            property LengthY:             Single  read m_LengthY             write m_LengthY;
-            property LengthZ:             Single  read m_LengthZ             write m_LengthZ;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box length on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube width.svg)
+            }
+            {$ENDREGION}
+            property LengthX: Single  read m_LengthX write m_LengthX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box length on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube height.svg)
+            }
+            {$ENDREGION}
+            property LengthY: Single  read m_LengthY write m_LengthY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box length on the z axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube depth.svg)
+            }
+            {$ENDREGION}
+            property LengthZ: Single  read m_LengthZ write m_LengthZ;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the texture should be repeated on each face of the box (@true), or if
+             the texture should wrap the entire box (@false)
+             @br @bold(NOTE) A part of the texture surface will be wasted if the texture wraps the
+                             entire box, a shown on the following scheme:
+             @longcode(#
+                       ----------------------------
+                       |        |        |        |
+                       | Face 1 | Face 2 | Face 3 |
+                       |        |        |        |
+                       ----------------------------
+                       |        |        |        |
+                       | Face 4 | Face 5 | Face 6 |
+                       |        |        |        |
+                       ----------------------------
+                       |////////|////////|////////|
+                       |/Wasted/|/Wasted/|/Wasted/|
+                       |////////|////////|////////|
+                       ----------------------------
+                       #)
+            }
+            {$ENDREGION}
             property RepeatTexOnEachFace: Boolean read m_RepeatTexOnEachFace write m_RepeatTexOnEachFace;
     end;
 
+    {$REGION 'Documentation'}
     {**
      3D sphere
      @br @bold(NOTE) Position is measured from the center of the shape
     }
+    {$ENDREGION}
     TQRSphereModel = class(TQRShapeModel)
-        protected
+        private
             m_Slices: NativeUInt;
             m_Stacks: NativeUInt;
             m_Radius: Single;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
             {**
              Gets mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the slices count that will be used to divide the sphere while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
             property Slices: NativeUInt read m_Slices write m_Slices;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the stacks count that will be used to divide the sphere while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
             property Stacks: NativeUInt read m_Stacks write m_Stacks;
-            property Radius: Single     read m_Radius write m_Radius;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
+    {$REGION 'Documentation'}
     {**
      Cone closing type
+     @value(EQR_CC_None Indicates that the cone is opened on the both top and bottom)
+     @value(EQR_CC_Top Indicates that the cone is closed on the top and opened on the bottom)
+     @value(EQR_CC_Bottom Indicates that the cone is opened on the top and closed on the bottom)
+     @value(EQR_CC_Both Indicates that the cone is closed on the both top and bottom)
     }
+    {$ENDREGION}
     EQR_Cone_Closing =
     (
         EQR_CC_None = 0,
@@ -265,6 +367,7 @@ type
         EQR_CC_Both
     );
 
+    {$REGION 'Documentation'}
     {**
      3D cone
      @br @bold(NOTE) This shape may also be used to build a truncated cone (where top radius is
@@ -273,8 +376,9 @@ type
                      where either top or bottom radius is negative)
      @br @bold(NOTE) Position is measured from the center of the base
     }
+    {$ENDREGION}
     TQRConeModel = class(TQRShapeModel)
-        protected
+        private
             m_FaceCount:     NativeUInt;
             m_Height:        Single;
             m_TopRadiusX:    Single;
@@ -284,44 +388,100 @@ type
             m_Closing:       EQR_Cone_Closing;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
             {**
              Gets mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
-            property FaceCount:     NativeUInt       read m_FaceCount    write m_FaceCount;
-            property Height:        Single           read m_Height        write m_Height;
-            property TopRadiusX:    Single           read m_TopRadiusX    write m_TopRadiusX;
-            property TopRadiusY:    Single           read m_TopRadiusY    write m_TopRadiusY;
-            property BottomRadiusX: Single           read m_BottomRadiusX write m_BottomRadiusX;
-            property BottomRadiusY: Single           read m_BottomRadiusY write m_BottomRadiusY;
-            property Closing:       EQR_Cone_Closing read m_Closing       write m_Closing;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the number of faces to generate while cone vertex buffer will be created
+            }
+            {$ENDREGION}
+            property FaceCount: NativeUInt read m_FaceCount write m_FaceCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone height
+            }
+            {$ENDREGION}
+            property Height: Single read m_Height write m_Height;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone top radius on the x axis
+            }
+            {$ENDREGION}
+            property TopRadiusX: Single read m_TopRadiusX write m_TopRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone top radius on the y axis
+            }
+            {$ENDREGION}
+            property TopRadiusY: Single read m_TopRadiusY write m_TopRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone bottom radius on the x axis
+            }
+            {$ENDREGION}
+            property BottomRadiusX: Single read m_BottomRadiusX write m_BottomRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone bottom radius on the y axis
+            }
+            {$ENDREGION}
+            property BottomRadiusY: Single read m_BottomRadiusY write m_BottomRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone closing mode
+            }
+            {$ENDREGION}
+            property Closing: EQR_Cone_Closing read m_Closing write m_Closing;
     end;
 
+    {$REGION 'Documentation'}
     {**
      3D torus
      @br @bold(NOTE) Position is measured from the center of the shape
     }
+    {$ENDREGION}
     TQRTorusModel = class(TQRShapeModel)
-        protected
+        private
             m_Slices:         NativeUInt;
             m_FacesPerSlices: NativeUInt;
             m_OuterRadiusX:   Single;
@@ -330,76 +490,167 @@ type
             m_InnerRadiusY:   Single;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
             {**
              Gets mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
-            property Slices:         NativeUInt read m_Slices         write m_Slices;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the slices count that will be used to divide the torus while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
+            property Slices: NativeUInt read m_Slices write m_Slices;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the number of faces per slices to apply to the torus while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write m_FacesPerSlices;
-            property OuterRadiusX:   Single     read m_OuterRadiusX   write m_OuterRadiusX;
-            property OuterRadiusY:   Single     read m_OuterRadiusY   write m_OuterRadiusY;
-            property InnerRadiusX:   Single     read m_InnerRadiusX   write m_InnerRadiusX;
-            property InnerRadiusY:   Single     read m_InnerRadiusY   write m_InnerRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus outer radius on the x axis
+            }
+            {$ENDREGION}
+            property OuterRadiusX: Single read m_OuterRadiusX write m_OuterRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus outer radius on the y axis
+            }
+            {$ENDREGION}
+            property OuterRadiusY: Single read m_OuterRadiusY write m_OuterRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus inner radius on the x axis
+            }
+            {$ENDREGION}
+            property InnerRadiusX: Single read m_InnerRadiusX write m_InnerRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus inner radius on the y axis
+            }
+            {$ENDREGION}
+            property InnerRadiusY: Single read m_InnerRadiusY write m_InnerRadiusY;
     end;
 
+    {$REGION 'Documentation'}
     {**
      3D parabola
-     @note Position is measured from the center of the shape
+     @note Position is measured from the point where the parabola climaxed. This also means that the
+           rotation axis may be eccentric
     }
+    {$ENDREGION}
     TQRParabolaModel = class(TQRShapeModel)
-        protected
+        private
             m_Slices:         NativeUInt;
             m_FacesPerSlices: NativeUInt;
             m_Height:         Single;
             m_Radius:         Single;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
             {**
              Gets mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Vertex buffer content is organized as follow:
+             @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
-            property Slices:         NativeUInt read m_Slices         write m_Slices;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the slices count that will be used to divide the parabola while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
+            property Slices: NativeUInt read m_Slices write m_Slices;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the number of faces per slices to apply to the parabola while his vertex
+             buffer is built
+            }
+            {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write m_FacesPerSlices;
-            property Height:         Single     read m_Height         write m_Height;
-            property Radius:         Single     read m_Radius         write m_Radius;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola height
+            }
+            {$ENDREGION}
+            property Height: Single read m_Height write m_Height;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
 implementation
@@ -464,19 +715,19 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRShapeModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRShapeModel.Create();
+constructor TQRShapeModel.Create;
 begin
-    inherited Create();
+    inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRShapeModel.Destroy();
+destructor TQRShapeModel.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRSurfaceModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRSurfaceModel.Create();
+constructor TQRSurfaceModel.Create;
 begin
     inherited Create;
 
@@ -484,7 +735,7 @@ begin
     m_LengthY := 0.0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSurfaceModel.Destroy();
+destructor TQRSurfaceModel.Destroy;
 begin
     inherited Destroy;
 end;
@@ -585,7 +836,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRBoxModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRBoxModel.Create();
+constructor TQRBoxModel.Create;
 begin
     inherited Create;
 
@@ -595,7 +846,7 @@ begin
     m_RepeatTexOnEachFace := False;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRBoxModel.Destroy();
+destructor TQRBoxModel.Destroy;
 begin
     inherited Destroy;
 end;
@@ -828,7 +1079,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRSphereModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRSphereModel.Create();
+constructor TQRSphereModel.Create;
 begin
     inherited Create;
 
@@ -837,7 +1088,7 @@ begin
     m_Radius := 0.0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSphereModel.Destroy();
+destructor TQRSphereModel.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1055,7 +1306,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRConeModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRConeModel.Create();
+constructor TQRConeModel.Create;
 begin
     inherited Create;
 
@@ -1068,7 +1319,7 @@ begin
     m_Closing       := EQR_CC_None;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRConeModel.Destroy();
+destructor TQRConeModel.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1301,7 +1552,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRTorusModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRTorusModel.Create();
+constructor TQRTorusModel.Create;
 begin
     inherited Create;
 
@@ -1313,7 +1564,7 @@ begin
     m_InnerRadiusY   := 0.0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRTorusModel.Destroy();
+destructor TQRTorusModel.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1475,7 +1726,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRParabolaModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRParabolaModel.Create();
+constructor TQRParabolaModel.Create;
 begin
     inherited Create;
 
@@ -1484,7 +1735,7 @@ begin
     m_Radius         := 0.0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRParabolaModel.Destroy();
+destructor TQRParabolaModel.Destroy;
 begin
     inherited Destroy;
 end;

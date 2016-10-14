@@ -21,7 +21,7 @@
 
 {**
  @abstract(@name provides the features to load a md2 model and build his vertex buffer.)
- @image(Mels.svg)
+ @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }
@@ -147,8 +147,8 @@ type
         {**
          Number of OpenGL commands
          @br @bold(NOTE) An openGL command is an information used to determine the kind of vertex
-                         buffer to build, especially if vertex buffer is organized as triangle strip
-                         or triangle fan)
+                         buffer to build, especially if vertex buffer is structured as triangle
+                         strip or triangle fan)
         }
         {$ENDREGION}
         m_GlCmdsCount: TQRUInt32;
@@ -192,8 +192,8 @@ type
         {**
          Offset to OpenGL commands
          @br @bold(NOTE) An openGL command is an information used to determine the kind of vertex
-                         buffer to build, especially if vertex buffer is organized as triangle strip
-                         or triangle fan)
+                         buffer to build, especially if vertex buffer is structured as triangle
+                         strip or triangle fan)
         }
         {$ENDREGION}
         m_GlCmdsOffset: TQRUInt32;
@@ -911,13 +911,13 @@ type
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) vertex buffer content is organized as follow:
+             @br @bold(NOTE) vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
             {$ENDREGION}
             function GetMesh(index: NativeUInt;
@@ -934,13 +934,13 @@ type
              @param(mesh @bold([out]) Frame mesh)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) vertex buffer content is organized as follow:
+             @br @bold(NOTE) vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
                              @br where:
-                             @br x/y/z    - vertex coordinates
-                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
-                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
-                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
             }
             {$ENDREGION}
             function GetMesh(index, nextIndex: NativeUInt;
