@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRModel ---------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides the tools to load a model and build his vertex buffer       *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRModel --------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to load a model and build his vertex buffer.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRModel;
 
 interface
@@ -20,254 +39,396 @@ uses System.Classes,
      UTQRCollision;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Model helper
-    *}
+     Model helper
+    }
+    {$ENDREGION}
     TQRModelHelper = class
         public
+            {$REGION 'Documentation'}
             {**
-            * Checks if there is enough remaining space in buffer to read next data
-            *@param pBuffer - buffer in which data should be read
-            *@param lengthToRead - data length to read in buffer
-            *@param[out] errorMsg - on error, contains an error message to show
-            *@return true if next data can be read in buffer, otherwise false
-            *}
+             Checks if there is enough remaining space in buffer to read next data
+             @param(pBuffer Buffer in which data should be read)
+             @param(lengthToRead Data length to read in buffer)
+             @param(errorMsg @bold([out]) On error, contains an error message to show)
+             @return(@true if next data can be read in buffer, otherwise @false)
+            }
+            {$ENDREGION}
             class function ValidateNextRead(pBuffer: TStream;
                                        lengthToRead: NativeUInt;
                                        out errorMsg: UnicodeString): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Populate aligned-axis bounding box tree
-            *@param mesh - source mesh from which aligned-axis bounding box tree should be populated
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - is canceled callback function to use, ignored if nil
-            *@return true on success, otherwise false
-            *}
+             Populate aligned-axis bounding box tree
+             @param(mesh Source mesh from which aligned-axis bounding box tree should be populated)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Is canceled callback function to use, ignored if @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function PopulateAABBTree(const mesh: TQRMesh;
                                              pAABBTree: TQRAABBTree;
                                            hIsCanceled: TQRIsCanceledEvent = nil): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Interpolates mesh
-            *@param position - interpolation position, in percent (between 0.0f and 1.0f)
-            *@param mesh1 - first mesh to interpolate
-            *@param mesh2 - second mesh to interpolate
-            *@param[out] mesh -resulting interpolated mesh
-            *@return true on success, otherwise false
-            *@note This function should only be used for compatibility with old OpenGL 1.x versions,
-            *      as normally interpolation should be done in vertex shader
-            *}
+             Interpolates mesh
+             @param(position Interpolation position, in percent (between 0.0f and 1.0f))
+             @param(mesh1 First mesh to interpolate)
+             @param(mesh2 Second mesh to interpolate)
+             @param(mesh @bold([out]) Resulting interpolated mesh)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) This function should only be used for compatibility with old OpenGL 1.x
+                             versions, as normally interpolation should be done in vertex shader
+            }
+            {$ENDREGION}
             class function Interpolate(const position: Single;
                                    const mesh1, mesh2: TQRMesh;
                                              out mesh: TQRMesh): Boolean; static;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Model cache item, cache all data needed to render a model, detect model collisions, ...
-    *}
+     Model cache item, cache all data needed to render a model, detect model collisions, ...
+    }
+    {$ENDREGION}
     TQRModelCache = class
-        protected
+        private
             m_pMeshCache:     TQRCache<NativeUInt, PQRMesh>;
             m_pAABBTreeCache: TQRCache<NativeUInt, TQRAABBTree>;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called when mesh is deleted from cache
-            *@param[in, out] key - deleting key
-            *@param[in, out] pMesh - deleting value
-            *@return true if value can be deleted from cache, otherwise false
-            *}
+             Called when mesh is deleted from cache
+             @param(key @bold([in, out]) Deleting key)
+             @param(pMesh @bold([in, out]) Deleting value)
+             @return(@true if value can be deleted from cache, otherwise @false)
+            }
+            {$ENDREGION}
             function OnDeleteMesh(const key: NativeUInt; var pMesh: PQRMesh): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when aligned-axis bounding box tree is deleted from cache
-            *@param[in, out] key - deleting key
-            *@param[in, out] pTree - deleting value
-            *@return true if value can be deleted from cache, otherwise false
-            *}
+             Called when aligned-axis bounding box tree is deleted from cache
+             @param(key @bold([in, out]) Deleting key)
+             @param(pTree @bold([in, out]) Deleting value)
+             @return(@true if value can be deleted from cache, otherwise @false)
+            }
+            {$ENDREGION}
             function OnDeleteAABBTree(const key: NativeUInt; var pTree: TQRAABBTree): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets mesh
-            *@return mesh
-            *}
-            function GetMesh(i: NativeUInt): PQRMesh; virtual;
+             Gets mesh at index
+             @param(index Index)
+             @return(Mesh)
+            }
+            {$ENDREGION}
+            function GetMesh(index: NativeUInt): PQRMesh; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets mesh
-            *@param pMesh - mesh
-            *@note Be careful, the internal cache will take the mesh ownership, so don't try to
-            *      delete it externally
-            *}
-            procedure SetMesh(i: NativeUInt; pMesh: PQRMesh); virtual;
+             Sets mesh at index
+             @param(index Index)
+             @param(pMesh Mesh to set)
+             @br @bold(NOTE) Be careful, the internal cache will take the mesh ownership, so don't
+                             try to delete it externally
+             }
+            {$ENDREGION}
+            procedure SetMesh(index: NativeUInt; pMesh: PQRMesh); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets aligned-axis bounding box tree
-            *@return tree
-            *}
-            function GetTree(i: NativeUInt): TQRAABBTree; virtual;
+             Gets aligned-axis bounding box tree at index
+             @param(index Index)
+             @return(Tree)
+            }
+            {$ENDREGION}
+            function GetTree(index: NativeUInt): TQRAABBTree; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets aligned-axis bounding box tree
-            *@param pTree - tree
-            *@note Be careful, the internal cache will take the tree ownership, so don't try to
-            *      delete it externally
-            *}
-            procedure SetTree(i: NativeUInt; pTree: TQRAABBTree); virtual;
+             Sets aligned-axis bounding box tree at index
+             @param(index Index)
+             @param(pTree Tree to set)
+             @br @bold(NOTE) Be careful, the internal cache will take the tree ownership, so don't
+                             try to delete it externally
+            }
+            {$ENDREGION}
+            procedure SetTree(index: NativeUInt; pTree: TQRAABBTree); virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
 
-            { Properties }
-            property Mesh[i: NativeUInt]:     PQRMesh     read GetMesh write SetMesh;
-            property AABBTree[i: NativeUInt]: TQRAABBTree read GetTree write SetTree;
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the mesh at index
+            }
+            {$ENDREGION}
+            property Mesh[index: NativeUInt]: PQRMesh read GetMesh write SetMesh;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the aligned-axis bounding box at index
+            }
+            {$ENDREGION}
+            property AABBTree[index: NativeUInt]: TQRAABBTree read GetTree write SetTree;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic model parser
-    *}
+     Basic model parser
+    }
+    {$ENDREGION}
     TQRModelParser = class
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads model from file
-            *@param fileName - file name
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads model from file
+             @param(fileName File name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName): Boolean; overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads model from buffer
-            *@param pBuffer - buffer
-            *@param length - length to read in buffer, in bytes
-            *@return true on success, otherwise false
-            *@note Read will begin from current offset
-            *}
+             Loads model from buffer
+             @param(pBuffer Buffer)
+             @param(length Length to read in buffer, in bytes)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will begin from current offset
+            }
+            {$ENDREGION}
             function Load(const pBuffer: TStream;
                                  length: NativeUInt): Boolean; overload; virtual; abstract;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic 3D model
-    *}
+     Basic 3D model
+    }
+    {$ENDREGION}
     TQRModel = class
-        protected
+        private
             m_pColor:       TQRColor;
             m_VertexFormat: TQRVertexFormat;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets model color
-            *@return model color
-            *}
-            function GetColor(): TQRColor; virtual;
+             Gets model color
+             @return(Model color)
+            }
+            {$ENDREGION}
+            function GetColor: TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model color
-            *@param pColor - model color to set
-            *}
+             Sets model color
+             @param(pColor Model color to set)
+            }
+            {$ENDREGION}
             procedure SetColor(const pColor: TQRColor); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex format
-            *@return vertex format
-            *}
-            function GetVertexFormat(): TQRVertexFormat; virtual;
+             Gets vertex format
+             @return(Vertex format)
+            }
+            {$ENDREGION}
+            function GetVertexFormat: TQRVertexFormat; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex format
-            *@param value - vertex format to set
-            *}
+             Gets vertex format
+             @param(value Vertex format to set)
+            }
+            {$ENDREGION}
             procedure SetVertexFormat(value: TQRVertexFormat); virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
 
-            { Properties }
-            property Color:        TQRColor        read GetColor        write SetColor;
+            {$REGION 'Documentation'}
+            {**
+            * Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model color
+            }
+            {$ENDREGION}
+            property Color: TQRColor read GetColor write SetColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vertex format to use
+            }
+            {$ENDREGION}
             property VertexFormat: TQRVertexFormat read GetVertexFormat write SetVertexFormat;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic 3D static model. A static model is a simple model without animation, as e.g. a sphere,
-    * or a frontwave model
-    *}
+     Basic 3D static model. A static model is a simple model without animation, as e.g. a sphere,
+     or a frontwave model
+    }
+    {$ENDREGION}
     TQRStaticModel = class(TQRModel)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Gets model mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets model mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent): Boolean; virtual; abstract;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic 3D framed model. A framed model is a model in which the animation is done frame by frame,
-    * as e.g. a md2 model
-    *}
+     Basic 3D framed model. A framed model is a model in which the animation is done frame by frame,
+     as e.g. a md2 model
+    }
+    {$ENDREGION}
     TQRFramedModel = class(TQRModel)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to create
-            *@param[out] mesh - frame mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets model frame mesh
+             @param(index Frame mesh index to create)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function GetMesh(index: NativeUInt;
                           out mesh: TQRMesh;
                          pAABBTree: TQRAABBTree;
                        hIsCanceled: TQRIsCanceledEvent): Boolean; overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to get
-            *@param nextIndex - frame mesh index to interpolate with
-            *@param interpolationFactor - interpolation factor to apply
-            *@param[out] mesh - frame mesh
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *}
+             Gets model frame mesh
+             @param(index Frame mesh index to get)
+             @param(nextIndex Frame mesh index to interpolate with)
+             @param(interpolationFactor Interpolation factor to apply)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function GetMesh(index, nextIndex: NativeUInt;
                           interpolationFactor: Double;
                                      out mesh: TQRMesh;
                                   hIsCanceled: TQRIsCanceledEvent): Boolean; overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets mesh count
-            *@return mesh count
-            *}
-            function GetMeshCount(): NativeUInt; virtual; abstract;
+             Gets mesh count
+             @return(Mesh count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; virtual; abstract;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic 3D articulated model. An articulated model is a model in which animation is based on
-    * bones, or any kind of articulable structure, as e.g. 3ds models, x models or md5 models
-    *}
+     Basic 3D articulated model. An articulated model is a model in which animation is based on
+     bones, or any kind of articulable structure, as e.g. 3ds models, x models or md5 models
+    }
+    {$ENDREGION}
     TQRArticulatedModel = class(TQRModel)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor  Destroy; override;
     end;
 
 implementation
@@ -466,7 +627,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelCache
 //--------------------------------------------------------------------------------------------------
-constructor TQRModelCache.Create();
+constructor TQRModelCache.Create;
 begin
     inherited Create;
 
@@ -478,7 +639,7 @@ begin
     m_pAABBTreeCache.OnDeleteFromCache := OnDeleteAABBTree;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelCache.Destroy();
+destructor TQRModelCache.Destroy;
 begin
     // clear memory
     m_pAABBTreeCache.Free;
@@ -501,63 +662,63 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelCache.GetMesh(i: NativeUInt): PQRMesh;
+function TQRModelCache.GetMesh(index: NativeUInt): PQRMesh;
 begin
     // get mesh from cache if exists, otherwise returns nil
-    if (not m_pMeshCache.Get(i, Result)) then
+    if (not m_pMeshCache.Get(index, Result)) then
         Result := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRModelCache.SetMesh(i: NativeUInt; pMesh: PQRMesh);
+procedure TQRModelCache.SetMesh(index: NativeUInt; pMesh: PQRMesh);
 begin
     // cache mesh, clear the previous entry if exists. Be careful, the cache will take the ownership
     // of the received mesh, so don't try to delete it externally
-    m_pMeshCache.Add(i, pMesh);
+    m_pMeshCache.Add(index, pMesh);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelCache.GetTree(i: NativeUInt): TQRAABBTree;
+function TQRModelCache.GetTree(index: NativeUInt): TQRAABBTree;
 begin
     // get tree from cache if exists, otherwise returns nil
-    if (not m_pAABBTreeCache.Get(i, Result)) then
+    if (not m_pAABBTreeCache.Get(index, Result)) then
         Result := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRModelCache.SetTree(i: NativeUInt; pTree: TQRAABBTree);
+procedure TQRModelCache.SetTree(index: NativeUInt; pTree: TQRAABBTree);
 begin
     // cache tree, clear the previous entry if exists. Be careful, the cache will take the ownership
     // of the received tree, so don't try to delete it externally
-    m_pAABBTreeCache.Add(i, pTree);
+    m_pAABBTreeCache.Add(index, pTree);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelParser
 //--------------------------------------------------------------------------------------------------
-constructor TQRModelParser.Create();
+constructor TQRModelParser.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelParser.Destroy();
+destructor TQRModelParser.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRModel.Create();
+constructor TQRModel.Create;
 begin
     inherited Create;
 
     m_pColor := TQRColor.Create(255, 255, 255, 255);
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModel.Destroy();
+destructor TQRModel.Destroy;
 begin
     m_pColor.Free;
 
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModel.GetColor(): TQRColor;
+function TQRModel.GetColor: TQRColor;
 begin
     Result := m_pColor;
 end;
@@ -567,7 +728,7 @@ begin
     m_pColor.Assign(pColor);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModel.GetVertexFormat(): TQRVertexFormat;
+function TQRModel.GetVertexFormat: TQRVertexFormat;
 begin
     Result := m_VertexFormat;
 end;
@@ -579,36 +740,36 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRStaticModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRStaticModel.Create();
+constructor TQRStaticModel.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRStaticModel.Destroy();
+destructor TQRStaticModel.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRFramedModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRFramedModel.Create();
+constructor TQRFramedModel.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRFramedModel.Destroy();
+destructor TQRFramedModel.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRArticulatedModel
 //--------------------------------------------------------------------------------------------------
-constructor TQRArticulatedModel.Create();
+constructor TQRArticulatedModel.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRArticulatedModel.Destroy();
+destructor TQRArticulatedModel.Destroy;
 begin
     inherited Destroy;
 end;

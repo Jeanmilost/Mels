@@ -1673,7 +1673,7 @@ begin
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
-    if ((EQR_VF_Normals in m_VertexFormat) and (normalCount = 0)) then
+    if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
     begin
         Result := False;
         Exit;
@@ -1686,15 +1686,15 @@ begin
     stride := 3;
 
     // do include m_Normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     i      := 0;
@@ -1721,7 +1721,7 @@ begin
         // create and populate new vertex for the current command
         mesh[meshIndex].m_Name      := 'qr_md2';
         mesh[meshIndex].m_Stride    := stride;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // search for OpenGL command type
@@ -1764,7 +1764,7 @@ begin
             Inc(j, 3);
 
             // do include m_Normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1789,7 +1789,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // reinterpret OpenGL commands array as an array of single
                 glCmdsSingle := TQRSingleArray(m_pParser.m_GLCmds);
@@ -1805,7 +1805,7 @@ begin
             end;
 
             // do include colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 doFreeColor := False;
 
@@ -1816,7 +1816,7 @@ begin
                     foundNormal := True;
 
                     // are normals also included?
-                    if (not(EQR_VF_Normals in m_VertexFormat)) then
+                    if (not(EQR_VF_Normals in VertexFormat)) then
                     begin
                         // is normal index out of bounds?
                         if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1850,7 +1850,7 @@ begin
                 else
                 begin
                     // use default color
-                    pMeshColor := m_pColor;
+                    pMeshColor := Color;
                 end;
 
                 SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 4);
@@ -1917,7 +1917,7 @@ begin
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
-    if ((EQR_VF_Normals in m_VertexFormat) and (normalCount = 0)) then
+    if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
     begin
         Result := False;
         Exit;
@@ -1931,15 +1931,15 @@ begin
     stride := 3;
 
     // do include m_Normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     i      := 0;
@@ -1966,7 +1966,7 @@ begin
         // create and populate new vertex for the current command
         mesh[meshIndex].m_Name      := 'qr_md2';
         mesh[meshIndex].m_Stride    := stride;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // search for OpenGL command type
@@ -2017,7 +2017,7 @@ begin
             Inc(j, 3);
 
             // do include m_Normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
@@ -2049,7 +2049,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // reinterpret OpenGL commands array as an array of single
                 glCmdsSingle := TQRSingleArray(m_pParser.m_GLCmds);
@@ -2065,7 +2065,7 @@ begin
             end;
 
             // do include colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 doFreeColor := False;
 
@@ -2076,7 +2076,7 @@ begin
                     foundNormal := True;
 
                     // are normals also included?
-                    if (not(EQR_VF_Normals in m_VertexFormat)) then
+                    if (not(EQR_VF_Normals in VertexFormat)) then
                     begin
                         // is normal index out of bounds?
                         if (srcVertex.m_NormalIndex >= normalCount) then
@@ -2110,7 +2110,7 @@ begin
                 else
                 begin
                     // use default color
-                    pMeshColor := m_pColor;
+                    pMeshColor := Color;
                 end;
 
                 SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 4);

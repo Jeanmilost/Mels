@@ -1,12 +1,31 @@
-{**************************************************************************************************
- * ==> UTQRShapes --------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides the tools to create models based on standard geometrical    *
- *               shapes, as e.g. a sphere, a cube or a pyramid                                    *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRShapes -------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to create models based on shapes, as e.g. a sphere, a cube or
+                 a pyramid, and build their vertex buffer.)
+ @image(Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRShapes;
 
 interface
@@ -20,40 +39,47 @@ uses System.Math,
      UTQRModel;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Shape helper
-    *}
+     Shape helper
+    }
+    {$ENDREGION}
     TQRShapeHelper = class
         public
+            {$REGION 'Documentation'}
             {**
-            * Calculates normal from points
-            *@param pPt1 - first point
-            *@param pPt2 - second point
-            *@param pPt3 - third point
-            *@return normal
-            *@note Normal is calculated as follow:
-            *
-            *                       normal
-            *                          |
-            *                          |
-            *                          |
-            *                     pPt1 |__________ pPt2
-            *                         /
-            *                        /
-                                    /
-            *                     pPt3
-            *}
+             Calculates normal from points
+             @param(pPt1 First point)
+             @param(pPt2 Second point)
+             @param(pPt3 Third point)
+             @return(Normal)
+             @br @bold(NOTE) Normal is calculated as follow:
+             @longcode(#
+                normal
+                   |
+                   |
+                   |
+              pPt1 |__________ pPt2
+                  /
+                 /
+                /
+             pPt3
+             #)
+            }
+            {$ENDREGION}
             class function NormalFromPoints(const pPt1, pPt2, pPt3: PQRVector3D): TQRVector3D; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds vertex to a vertex buffer
-            *@param pPosition - vertex possition in space 3D coordinates
-            *@param pNormal - vertex normal
-            *@param pTexCoord - vertex texture coordinates
-            *@param pColor - vertex color
-            *@param[in, out] index - vertex index in the buffer
-            *@param[in, out] vertex - vertex info containing buffer in which vertex should be added
-            *}
+             Adds vertex to a vertex buffer
+             @param(pPosition Vertex possition in space 3D coordinates)
+             @param(pNormal Vertex normal)
+             @param(pTexCoord Vertex texture coordinates)
+             @param(pColor Vertex color)
+             @param(index @bold([in, out]) Vertex index in the buffer)
+             @param(vertex @bold([in, out]) Vertex info containing buffer in which vertex should be added)
+            }
+            {$ENDREGION}
             class procedure AddVertex(const pPosition: PQRVector3D;
                                         const pNormal: PQRVector3D;
                                       const pTexCoord: PQRVector2D;
@@ -62,58 +88,96 @@ type
                                            var vertex: TQRVertex); static;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic 3D shape
-    *}
+     Generic 3D shape
+    }
+    {$ENDREGION}
     TQRShapeModel = class(TQRStaticModel)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create(); override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy(); override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D surface
-    *@note Position is measured from the center of the shape
-    *}
+     3D surface
+     @br @bold(NOTE) Position is measured from the center of the shape
+    }
+    {$ENDREGION}
     TQRSurfaceModel = class(TQRShapeModel)
-        protected
+        private
             m_LengthX: Single;
             m_LengthY: Single;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create(); override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy(); override;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
+            {$ENDREGION}
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
 
-            { Properties }
-            property LengthX: Single  read m_LengthX write m_LengthX;
-            property LengthY: Single  read m_LengthY write m_LengthY;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets length on x axis
+            }
+            {$ENDREGION}
+            property LengthX: Single read m_LengthX write m_LengthX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets length on y axis
+            }
+            {$ENDREGION}
+            property LengthY: Single read m_LengthY write m_LengthY;
     end;
 
     {**
-    * 3D box
-    *@note This shape may also be used to build a cube
-    *@note Position is measured from the center of the shape
-    *}
+     3D box
+     @br @bold(NOTE) This shape may also be used to build a cube
+     @br @bold(NOTE) Position is measured from the center of the shape
+    }
     TQRBoxModel = class(TQRShapeModel)
         protected
             m_LengthX:             Single;
@@ -127,19 +191,19 @@ type
             destructor  Destroy(); override;
 
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
@@ -152,9 +216,9 @@ type
     end;
 
     {**
-    * 3D sphere
-    *@note Position is measured from the center of the shape
-    *}
+     3D sphere
+     @br @bold(NOTE) Position is measured from the center of the shape
+    }
     TQRSphereModel = class(TQRShapeModel)
         protected
             m_Slices: NativeUInt;
@@ -167,19 +231,19 @@ type
             destructor  Destroy(); override;
 
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
@@ -191,8 +255,8 @@ type
     end;
 
     {**
-    * Cone closing type
-    *}
+     Cone closing type
+    }
     EQR_Cone_Closing =
     (
         EQR_CC_None = 0,
@@ -202,13 +266,13 @@ type
     );
 
     {**
-    * 3D cone
-    *@note This shape may also be used to build a truncated cone (where top radius is higher than
-    *      0), a pyramid (a cone with 3 or 4 faces), a cylinder (a truncated cone where top and
-    *      bottom radius are equals), or a diabolo (a truncated cone where either top or bottom
-    *      radius is negative)
-    *@note Position is measured from the center of the base
-    *}
+     3D cone
+     @br @bold(NOTE) This shape may also be used to build a truncated cone (where top radius is
+                     higher than 0), a pyramid (a cone with 3 or 4 faces), a cylinder (a truncated
+                     cone where top and bottom radius are equals), or a diabolo (a truncated cone
+                     where either top or bottom radius is negative)
+     @br @bold(NOTE) Position is measured from the center of the base
+    }
     TQRConeModel = class(TQRShapeModel)
         protected
             m_FaceCount:     NativeUInt;
@@ -225,19 +289,19 @@ type
             destructor  Destroy(); override;
 
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
@@ -253,9 +317,9 @@ type
     end;
 
     {**
-    * 3D torus
-    *@note Position is measured from the center of the shape
-    *}
+     3D torus
+     @br @bold(NOTE) Position is measured from the center of the shape
+    }
     TQRTorusModel = class(TQRShapeModel)
         protected
             m_Slices:         NativeUInt;
@@ -271,19 +335,19 @@ type
             destructor  Destroy(); override;
 
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
@@ -298,9 +362,9 @@ type
     end;
 
     {**
-    * 3D parabola
-    *@note Position is measured from the center of the shape
-    *}
+     3D parabola
+     @note Position is measured from the center of the shape
+    }
     TQRParabolaModel = class(TQRShapeModel)
         protected
             m_Slices:         NativeUInt;
@@ -314,19 +378,19 @@ type
             destructor  Destroy(); override;
 
             {**
-            * Gets mesh
-            *@param[out] mesh - mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets mesh
+             @param(mesh @bold([out]) Mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
             function GetMesh(out mesh: TQRMesh;
                             pAABBTree: TQRAABBTree;
                           hIsCanceled: TQRIsCanceledEvent = nil): Boolean; override;
@@ -439,15 +503,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // calculate half values
@@ -467,7 +531,7 @@ begin
     mesh[0].m_Name      := 'qr_surface';
     mesh[0].m_Stride    := stride;
     mesh[0].m_Type      := EQR_VT_TriangleStrip;
-    mesh[0].m_Format    := m_VertexFormat;
+    mesh[0].m_Format    := VertexFormat;
     mesh[0].m_CoordType := EQR_VC_XYZ;
 
     // is canceled?
@@ -478,7 +542,7 @@ begin
     end;
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
     begin
         // calculate vertices and texture coordinates
         vertices[0].X := -halfX; vertices[0].Y := -halfY; vertices[0].Z := 0.0; texCoords[0].X := 0.0; texCoords[0].Y := 1.0;
@@ -496,7 +560,7 @@ begin
     end;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         // calculate normal
         normal := TQRVector3D.Create(0.0, 0.0, 1.0);
 
@@ -513,7 +577,7 @@ begin
         end;
 
         // add left bottom vertex
-        TQRShapeHelper.AddVertex(@vertices[i], @normal, @texCoords[i], m_pColor, index, mesh[0]);
+        TQRShapeHelper.AddVertex(@vertices[i], @normal, @texCoords[i], Color, index, mesh[0]);
     end;
 
     Result := TQRModelHelper.PopulateAABBTree(mesh, pAABBTree, hIsCanceled);
@@ -550,15 +614,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // calculate half values
@@ -618,7 +682,7 @@ begin
         mesh[i].m_Name      := 'qr_box';
         mesh[i].m_Stride    := stride;
         mesh[i].m_Type      := EQR_VT_TriangleStrip;
-        mesh[i].m_Format    := m_VertexFormat;
+        mesh[i].m_Format    := VertexFormat;
         mesh[i].m_CoordType := EQR_VC_XYZ;
     end;
 
@@ -714,50 +778,50 @@ begin
     index := 0;
 
     // create box edge 1
-    TQRShapeHelper.AddVertex(@vertices[1], @normals[0], @texCoords[4], m_pColor, index, mesh[0]);
-    TQRShapeHelper.AddVertex(@vertices[0], @normals[0], @texCoords[5], m_pColor, index, mesh[0]);
-    TQRShapeHelper.AddVertex(@vertices[3], @normals[0], @texCoords[6], m_pColor, index, mesh[0]);
-    TQRShapeHelper.AddVertex(@vertices[2], @normals[0], @texCoords[7], m_pColor, index, mesh[0]);
+    TQRShapeHelper.AddVertex(@vertices[1], @normals[0], @texCoords[4], Color, index, mesh[0]);
+    TQRShapeHelper.AddVertex(@vertices[0], @normals[0], @texCoords[5], Color, index, mesh[0]);
+    TQRShapeHelper.AddVertex(@vertices[3], @normals[0], @texCoords[6], Color, index, mesh[0]);
+    TQRShapeHelper.AddVertex(@vertices[2], @normals[0], @texCoords[7], Color, index, mesh[0]);
 
     index := 0;
 
     // create box edge 2
-    TQRShapeHelper.AddVertex(@vertices[3], @normals[5], @texCoords[8],  m_pColor, index, mesh[1]);
-    TQRShapeHelper.AddVertex(@vertices[2], @normals[5], @texCoords[9],  m_pColor, index, mesh[1]);
-    TQRShapeHelper.AddVertex(@vertices[7], @normals[5], @texCoords[10], m_pColor, index, mesh[1]);
-    TQRShapeHelper.AddVertex(@vertices[6], @normals[5], @texCoords[11], m_pColor, index, mesh[1]);
+    TQRShapeHelper.AddVertex(@vertices[3], @normals[5], @texCoords[8],  Color, index, mesh[1]);
+    TQRShapeHelper.AddVertex(@vertices[2], @normals[5], @texCoords[9],  Color, index, mesh[1]);
+    TQRShapeHelper.AddVertex(@vertices[7], @normals[5], @texCoords[10], Color, index, mesh[1]);
+    TQRShapeHelper.AddVertex(@vertices[6], @normals[5], @texCoords[11], Color, index, mesh[1]);
 
     index := 0;
 
     // create box edge 3
-    TQRShapeHelper.AddVertex(@vertices[7], @normals[1], @texCoords[12], m_pColor, index, mesh[2]);
-    TQRShapeHelper.AddVertex(@vertices[6], @normals[1], @texCoords[13], m_pColor, index, mesh[2]);
-    TQRShapeHelper.AddVertex(@vertices[5], @normals[1], @texCoords[14], m_pColor, index, mesh[2]);
-    TQRShapeHelper.AddVertex(@vertices[4], @normals[1], @texCoords[15], m_pColor, index, mesh[2]);
+    TQRShapeHelper.AddVertex(@vertices[7], @normals[1], @texCoords[12], Color, index, mesh[2]);
+    TQRShapeHelper.AddVertex(@vertices[6], @normals[1], @texCoords[13], Color, index, mesh[2]);
+    TQRShapeHelper.AddVertex(@vertices[5], @normals[1], @texCoords[14], Color, index, mesh[2]);
+    TQRShapeHelper.AddVertex(@vertices[4], @normals[1], @texCoords[15], Color, index, mesh[2]);
 
     index := 0;
 
     // create box edge 4
-    TQRShapeHelper.AddVertex(@vertices[5], @normals[4], @texCoords[16], m_pColor, index, mesh[3]);
-    TQRShapeHelper.AddVertex(@vertices[4], @normals[4], @texCoords[17], m_pColor, index, mesh[3]);
-    TQRShapeHelper.AddVertex(@vertices[1], @normals[4], @texCoords[18], m_pColor, index, mesh[3]);
-    TQRShapeHelper.AddVertex(@vertices[0], @normals[4], @texCoords[19], m_pColor, index, mesh[3]);
+    TQRShapeHelper.AddVertex(@vertices[5], @normals[4], @texCoords[16], Color, index, mesh[3]);
+    TQRShapeHelper.AddVertex(@vertices[4], @normals[4], @texCoords[17], Color, index, mesh[3]);
+    TQRShapeHelper.AddVertex(@vertices[1], @normals[4], @texCoords[18], Color, index, mesh[3]);
+    TQRShapeHelper.AddVertex(@vertices[0], @normals[4], @texCoords[19], Color, index, mesh[3]);
 
     index := 0;
 
     // create box edge 5
-    TQRShapeHelper.AddVertex(@vertices[1], @normals[3], @texCoords[0], m_pColor, index, mesh[4]);
-    TQRShapeHelper.AddVertex(@vertices[3], @normals[3], @texCoords[1], m_pColor, index, mesh[4]);
-    TQRShapeHelper.AddVertex(@vertices[5], @normals[3], @texCoords[2], m_pColor, index, mesh[4]);
-    TQRShapeHelper.AddVertex(@vertices[7], @normals[3], @texCoords[3], m_pColor, index, mesh[4]);
+    TQRShapeHelper.AddVertex(@vertices[1], @normals[3], @texCoords[0], Color, index, mesh[4]);
+    TQRShapeHelper.AddVertex(@vertices[3], @normals[3], @texCoords[1], Color, index, mesh[4]);
+    TQRShapeHelper.AddVertex(@vertices[5], @normals[3], @texCoords[2], Color, index, mesh[4]);
+    TQRShapeHelper.AddVertex(@vertices[7], @normals[3], @texCoords[3], Color, index, mesh[4]);
 
     index := 0;
 
     // create box edge 6
-    TQRShapeHelper.AddVertex(@vertices[2], @normals[2], @texCoords[20], m_pColor, index, mesh[5]);
-    TQRShapeHelper.AddVertex(@vertices[0], @normals[2], @texCoords[21], m_pColor, index, mesh[5]);
-    TQRShapeHelper.AddVertex(@vertices[6], @normals[2], @texCoords[22], m_pColor, index, mesh[5]);
-    TQRShapeHelper.AddVertex(@vertices[4], @normals[2], @texCoords[23], m_pColor, index, mesh[5]);
+    TQRShapeHelper.AddVertex(@vertices[2], @normals[2], @texCoords[20], Color, index, mesh[5]);
+    TQRShapeHelper.AddVertex(@vertices[0], @normals[2], @texCoords[21], Color, index, mesh[5]);
+    TQRShapeHelper.AddVertex(@vertices[6], @normals[2], @texCoords[22], Color, index, mesh[5]);
+    TQRShapeHelper.AddVertex(@vertices[4], @normals[2], @texCoords[23], Color, index, mesh[5]);
 
     Result := TQRModelHelper.PopulateAABBTree(mesh, pAABBTree, hIsCanceled);
 end;
@@ -829,15 +893,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // initialize basic values
@@ -873,7 +937,7 @@ begin
         mesh[meshIndex].m_Name      := 'qr_sphere';
         mesh[meshIndex].m_Stride    := stride;
         mesh[meshIndex].m_Type      := EQR_VT_TriangleStrip;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
         SetLength(mesh[meshIndex].m_Buffer, fanLength);
 
@@ -901,7 +965,7 @@ begin
             Inc(index, 3);
 
             // do generate normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // set normals
                 mesh[meshIndex].m_Buffer[index]     := (x * r0) / m_Radius;
@@ -912,7 +976,7 @@ begin
             end;
 
             // do generate texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // convert cardinal values to single to avoid rounding error while dividing values
                 si      := i;
@@ -928,13 +992,13 @@ begin
             end;
 
             // do generate colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 // set color data
-                mesh[meshIndex].m_Buffer[index]     := m_pColor.GetRedF;
-                mesh[meshIndex].m_Buffer[index + 1] := m_pColor.GetGreenF;
-                mesh[meshIndex].m_Buffer[index + 2] := m_pColor.GetBlueF;
-                mesh[meshIndex].m_Buffer[index + 3] := m_pColor.GetAlphaF;
+                mesh[meshIndex].m_Buffer[index]     := Color.GetRedF;
+                mesh[meshIndex].m_Buffer[index + 1] := Color.GetGreenF;
+                mesh[meshIndex].m_Buffer[index + 2] := Color.GetBlueF;
+                mesh[meshIndex].m_Buffer[index + 3] := Color.GetAlphaF;
 
                 Inc(index, 4);
             end;
@@ -946,7 +1010,7 @@ begin
             Inc(index, 3);
 
             // do generate normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // set normals
                 mesh[meshIndex].m_Buffer[index]     := (x * r1) / m_Radius;
@@ -957,7 +1021,7 @@ begin
             end;
 
             // do generate texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // convert cardinal values to single to avoid rounding error while dividing values
                 si      := i;
@@ -973,13 +1037,13 @@ begin
             end;
 
             // do generate colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 // set color data
-                mesh[meshIndex].m_Buffer[index]     := m_pColor.GetRedF;
-                mesh[meshIndex].m_Buffer[index + 1] := m_pColor.GetGreenF;
-                mesh[meshIndex].m_Buffer[index + 2] := m_pColor.GetBlueF;
-                mesh[meshIndex].m_Buffer[index + 3] := m_pColor.GetAlphaF;
+                mesh[meshIndex].m_Buffer[index]     := Color.GetRedF;
+                mesh[meshIndex].m_Buffer[index + 1] := Color.GetGreenF;
+                mesh[meshIndex].m_Buffer[index + 2] := Color.GetBlueF;
+                mesh[meshIndex].m_Buffer[index + 3] := Color.GetAlphaF;
 
                 Inc(index, 4);
             end;
@@ -1049,15 +1113,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // check if top closing surface should be applied
@@ -1097,7 +1161,7 @@ begin
         mesh[i].m_Name      := 'qr_cone';
         mesh[i].m_Stride    := stride;
         mesh[i].m_Type      := EQR_VT_TriangleStrip;
-        mesh[i].m_Format    := m_VertexFormat;
+        mesh[i].m_Format    := VertexFormat;
         mesh[i].m_CoordType := EQR_VC_XYZ;
     end;
 
@@ -1134,7 +1198,7 @@ begin
                                    m_BottomRadiusY * Sin(angle * i));
 
         // do include normals?
-        if (EQR_VF_Normals in m_VertexFormat) then
+        if (EQR_VF_Normals in VertexFormat) then
         begin
             // calculate next apex position
             nextApex := TQRVector3D.Create(m_TopRadiusX * Cos(angle * (i + 1)),
@@ -1154,15 +1218,15 @@ begin
         texXPos := texXOffset * (m_FaceCount - i);
 
         // do include texture coordinates?
-        if (EQR_VF_TexCoords in m_VertexFormat) then
+        if (EQR_VF_TexCoords in VertexFormat) then
         begin
             texStartCoord := TQRVector2D.Create(texXPos, texYTopOffset);
             texEndCoord   := TQRVector2D.Create(texXPos, texYBottomOffset);
         end;
 
         // build cone vertices
-        TQRShapeHelper.AddVertex(@base, @normal, @texEndCoord,   m_pColor, index, mesh[meshIndex]);
-        TQRShapeHelper.AddVertex(@apex, @normal, @texStartCoord, m_pColor, index, mesh[meshIndex]);
+        TQRShapeHelper.AddVertex(@base, @normal, @texEndCoord,   Color, index, mesh[meshIndex]);
+        TQRShapeHelper.AddVertex(@apex, @normal, @texStartCoord, Color, index, mesh[meshIndex]);
         Inc(meshIndex);
 
         // do create top closing surface?
@@ -1176,7 +1240,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 texStartCoord := TQRVector2D.Create(texXPos, texYTopOffset);
                 texEndCoord   := TQRVector2D.Create(texXPos, 0.0);
@@ -1186,13 +1250,13 @@ begin
             TQRShapeHelper.AddVertex(@apex,
                                      @apexNormal,
                                      @texStartCoord,
-                                     m_pColor,
+                                     Color,
                                      topIndex,
                                      mesh[meshIndex]);
             TQRShapeHelper.AddVertex(@apexCenter,
                                      @apexNormal,
                                      @texEndCoord,
-                                     m_pColor,
+                                     Color,
                                      topIndex,
                                      mesh[meshIndex]);
 
@@ -1210,7 +1274,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 texStartCoord := TQRVector2D.Create(texXPos, 1.0);
                 texEndCoord   := TQRVector2D.Create(texXPos, texYBottomOffset);
@@ -1220,13 +1284,13 @@ begin
             TQRShapeHelper.AddVertex(@baseCenter,
                                      @baseNormal,
                                      @texStartCoord,
-                                     m_pColor,
+                                     Color,
                                      bottomIndex,
                                      mesh[meshIndex]);
             TQRShapeHelper.AddVertex(@base,
                                      @baseNormal,
                                      @texEndCoord,
-                                     m_pColor,
+                                     Color,
                                      bottomIndex,
                                      mesh[meshIndex]);
         end;
@@ -1281,15 +1345,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     meshCount := m_Slices;
@@ -1310,7 +1374,7 @@ begin
         mesh[i].m_Name      := 'qr_torus';
         mesh[i].m_Stride    := stride;
         mesh[i].m_Type      := EQR_VT_TriangleStrip;
-        mesh[i].m_Format    := m_VertexFormat;
+        mesh[i].m_Format    := VertexFormat;
         mesh[i].m_CoordType := EQR_VC_XYZ;
     end;
 
@@ -1352,7 +1416,7 @@ begin
             vertex.Z :=                                m_InnerRadiusY * Sin(phi);
 
             // do include normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // calculate normal
                 normal.X := Cos(theta) * Cos(phi);
@@ -1361,7 +1425,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 texCoord.X := v * vTexStep;
                 texCoord.Y := u * uTexStep;
@@ -1371,7 +1435,7 @@ begin
             TQRShapeHelper.AddVertex(@vertex,
                                      @normal,
                                      @texCoord,
-                                     m_pColor,
+                                     Color,
                                      index,
                                      mesh[u]);
 
@@ -1381,7 +1445,7 @@ begin
             vertex.Z :=                                    m_InnerRadiusY * Sin(phi);
 
             // do include normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // calculate next normal
                 normal.X := Cos(nextTheta) * Cos(phi);
@@ -1390,7 +1454,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 texCoord.X :=  v *      vTexStep;
                 texCoord.Y := (u + 1) * uTexStep;
@@ -1400,7 +1464,7 @@ begin
             TQRShapeHelper.AddVertex(@vertex,
                                      @normal,
                                      @texCoord,
-                                     m_pColor,
+                                     Color,
                                      index,
                                      mesh[u]);
         end;
@@ -1478,15 +1542,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     meshCount := m_Slices * 2;
@@ -1507,7 +1571,7 @@ begin
         mesh[i].m_Name      := 'qr_parabola';
         mesh[i].m_Stride    := stride;
         mesh[i].m_Type      := EQR_VT_TriangleStrip;
-        mesh[i].m_Format    := m_VertexFormat;
+        mesh[i].m_Format    := VertexFormat;
         mesh[i].m_CoordType := EQR_VC_XYZ;
     end;
 
@@ -1557,7 +1621,7 @@ begin
             nextVertex.Z := (u + 1) * uStep;
 
             // do include normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 nextTheta := ((v + 1) * vStep);
 
@@ -1572,7 +1636,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 texCoord.X     := 0.5 + (((u       * texStep) / 2.0) * Cos(theta));
                 texCoord.Y     := 0.5 + (((u       * texStep) / 2.0) * Sin(theta));
@@ -1584,7 +1648,7 @@ begin
             TQRShapeHelper.AddVertex(@nextVertex,
                                      @extNormal,
                                      @texCoord,
-                                     m_pColor,
+                                     Color,
                                      extIndex,
                                      mesh[u * 2]);
 
@@ -1592,7 +1656,7 @@ begin
             TQRShapeHelper.AddVertex(@vertex,
                                      @extNormal,
                                      @nextTexCoord,
-                                     m_pColor,
+                                     Color,
                                      extIndex,
                                      mesh[u * 2]);
 
@@ -1600,7 +1664,7 @@ begin
             TQRShapeHelper.AddVertex(@vertex,
                                      @intNormal,
                                      @texCoord,
-                                     m_pColor,
+                                     Color,
                                      intIndex,
                                      mesh[(u * 2) + 1]);
 
@@ -1608,7 +1672,7 @@ begin
             TQRShapeHelper.AddVertex(@nextVertex,
                                      @intNormal,
                                      @nextTexCoord,
-                                     m_pColor,
+                                     Color,
                                      intIndex,
                                      mesh[(u * 2) + 1]);
         end;

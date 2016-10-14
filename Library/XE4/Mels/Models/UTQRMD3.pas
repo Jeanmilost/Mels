@@ -604,7 +604,7 @@ type
              @return(Header, @nil if not found or on error)
             }
             {$ENDREGION}
-            function GetHeader(): PQRMD3Header; virtual;
+            function GetHeader: PQRMD3Header; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -639,7 +639,7 @@ type
              @return(The frame count)
             }
             {$ENDREGION}
-            function GetFrameCount(): NativeInt; virtual;
+            function GetFrameCount: NativeInt; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -647,7 +647,7 @@ type
              @return(The tag count)
             }
             {$ENDREGION}
-            function GetTagCount(): NativeInt; virtual;
+            function GetTagCount: NativeInt; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -655,7 +655,7 @@ type
              @return(The mesh count)
             }
             {$ENDREGION}
-            function GetMeshCount(): NativeInt; virtual;
+            function GetMeshCount: NativeInt; virtual;
 
         public
             {$REGION 'Documentation'}
@@ -663,14 +663,14 @@ type
              Constructor
             }
             {$ENDREGION}
-            constructor Create(); override;
+            constructor Create; override;
 
             {$REGION 'Documentation'}
             {**
              Destructor
             }
             {$ENDREGION}
-            destructor Destroy(); override;
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
@@ -818,68 +818,75 @@ type
 
             {$REGION 'Documentation'}
             {**
-            * Uncompresses normal
-            *@param latitude - normal latitude as written if md3 file
-            *@param longitude - normal longitude as written if md3 file
-            *@return uncompressed normal
-            *}
+             Uncompresses normal
+             @param(latitude Normal latitude as written if md3 file)
+             @param(longitude Normal longitude as written if md3 file)
+             @return(Uncompressed normal)
+            }
+            {$ENDREGION}
             function UncompressNormal(latitude, longitude: Byte): TQRVector3D; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets MD3 parser
-            *@return MD3 parser
-            *}
-            function GetParser(): TQRMD3Parser; virtual;
+             Gets MD3 parser
+             @return(MD3 parser)
+            }
+            {$ENDREGION}
+            function GetParser: TQRMD3Parser; virtual;
 
         public
             {$REGION 'Documentation'}
             {**
              Constructor
             }
-            constructor Create(); override;
+            {$ENDREGION}
+            constructor Create; override;
 
             {$REGION 'Documentation'}
             {**
              Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
-            * Loads MD3 from file
-            *@param fileName - file name
-            *@return true on success, otherwise false
-            *}
+             Loads MD3 from file
+             @param(fileName File name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName): Boolean; overload; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Loads MD3 from buffer
-            *@param pBuffer - buffer
-            *@param readLength - length to read in buffer, in bytes
-            *@return true on success, otherwise false
-            *@note Read will begin from current offset
-            *}
+             Loads MD3 from buffer
+             @param(pBuffer Buffer)
+             @param(readLength Length to read in buffer, in bytes)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will begin from current offset
+            }
+            {$ENDREGION}
             function Load(const pBuffer: TStream;
                              readLength: NativeUInt): Boolean; overload; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to create
-            *@param[out] mesh - frame mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets model frame mesh
+             @param(index Frame mesh index to create)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
+            {$ENDREGION}
             function GetMesh(index: NativeUInt;
                           out mesh: TQRMesh;
                          pAABBTree: TQRAABBTree;
@@ -887,21 +894,22 @@ type
 
             {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to get
-            *@param nextIndex - frame mesh index to interpolate with
-            *@param interpolationFactor - interpolation factor to apply
-            *@param[out] mesh - frame mesh
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets model frame mesh
+             @param(index Frame mesh index to get)
+             @param(nextIndex Frame mesh index to interpolate with)
+             @param(interpolationFactor Interpolation factor to apply)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Vertex buffer content is organized as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br where:
+                             @br x/y/z    - vertex coordinates
+                             @br nx/ny/nz - vertex normal (if the mesh contains the EQR_VF_Normals option)
+                             @br tu/tv    - vertex texture coordinates (if the mesh contains the EQR_VF_TexCoords option)
+                             @br r/g/b/a  - vertex color (if the mesh contains the EQR_VF_Colors option)
+            }
+            {$ENDREGION}
             function GetMesh(index, nextIndex: NativeUInt;
                           interpolationFactor: Double;
                                      out mesh: TQRMesh;
@@ -909,16 +917,19 @@ type
 
             {$REGION 'Documentation'}
             {**
-            * Gets mesh count
-            *@return mesh count
-            *}
-            function GetMeshCount(): NativeUInt; override;
+             Gets mesh count
+             @return(Mesh count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; override;
 
         // Properties
         public
             {$REGION 'Documentation'}
             {**
+             Gets the MD3 parser
             }
+            {$ENDREGION}
             property Parser: TQRMD3Parser read GetParser;
     end;
 
@@ -1068,17 +1079,17 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Parser
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD3Parser.Create();
+constructor TQRMD3Parser.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3Parser.Destroy();
+destructor TQRMD3Parser.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.GetHeader(): PQRMD3Header;
+function TQRMD3Parser.GetHeader: PQRMD3Header;
 begin
     Result := @m_Header;
 end;
@@ -1119,17 +1130,17 @@ begin
     Result := @m_Meshes[index];
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.GetFrameCount(): NativeInt;
+function TQRMD3Parser.GetFrameCount: NativeInt;
 begin
     Result := Length(m_Frames);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.GetTagCount(): NativeInt;
+function TQRMD3Parser.GetTagCount: NativeInt;
 begin
     Result := Length(m_Tags);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.GetMeshCount(): NativeInt;
+function TQRMD3Parser.GetMeshCount: NativeInt;
 begin
     Result := Length(m_Meshes);
 end;
@@ -1273,17 +1284,17 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Model
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD3Model.Create();
+constructor TQRMD3Model.Create;
 begin
     inherited Create;
 
-    m_pParser    := TQRMD3Parser.Create();
-    m_pVertices  := TQRMD3VerticesDictionary.Create();
-    m_pNormals   := TQRMD3NormalDictionary.Create();
-    m_pTexCoords := TQRMD3TextureDictionary.Create();
+    m_pParser    := TQRMD3Parser.Create;
+    m_pVertices  := TQRMD3VerticesDictionary.Create;
+    m_pNormals   := TQRMD3NormalDictionary.Create;
+    m_pTexCoords := TQRMD3TextureDictionary.Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3Model.Destroy();
+destructor TQRMD3Model.Destroy;
 begin
     // clear memory
     m_pParser.Free;
@@ -1402,7 +1413,7 @@ begin
     Inc(offset, 3);
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
     begin
         // is indice out of bounds?
         if (frameIndex >= Length(normals)) then
@@ -1421,7 +1432,7 @@ begin
     end;
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
     begin
         // is indice out of bounds?
         if (indice >= Length(texCoords)) then
@@ -1438,15 +1449,15 @@ begin
     end;
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
     begin
         // add memory for texture coordinates
         SetLength(vertex.m_Buffer, offset + 4);
 
-        vertex.m_Buffer[offset]     := color.GetRedF();
-        vertex.m_Buffer[offset + 1] := color.GetGreenF();
-        vertex.m_Buffer[offset + 2] := color.GetBlueF();
-        vertex.m_Buffer[offset + 3] := color.GetAlphaF();
+        vertex.m_Buffer[offset]     := color.GetRedF;
+        vertex.m_Buffer[offset + 1] := color.GetGreenF;
+        vertex.m_Buffer[offset + 2] := color.GetBlueF;
+        vertex.m_Buffer[offset + 3] := color.GetAlphaF;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -1490,7 +1501,7 @@ begin
     Inc(offset, 3);
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
     begin
         // is indice out of bounds?
         if ((frameIndex >= Length(normals))  or (nextFrameIndex >= Length(normals))) then
@@ -1512,7 +1523,7 @@ begin
     end;
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
     begin
         // is indice out of bounds?
         if (indice >= Length(texCoords)) then
@@ -1529,12 +1540,12 @@ begin
     end;
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
     begin
-        vertex.m_Buffer[offset]     := color.GetRedF();
-        vertex.m_Buffer[offset + 1] := color.GetGreenF();
-        vertex.m_Buffer[offset + 2] := color.GetBlueF();
-        vertex.m_Buffer[offset + 3] := color.GetAlphaF();
+        vertex.m_Buffer[offset]     := color.GetRedF;
+        vertex.m_Buffer[offset + 1] := color.GetGreenF;
+        vertex.m_Buffer[offset + 2] := color.GetBlueF;
+        vertex.m_Buffer[offset + 3] := color.GetAlphaF;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -1553,7 +1564,7 @@ begin
     Result := TQRVector3D.Create(Cos(lat) * Sin(lng), Sin(lat) * Sin(lng), Cos(lng));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Model.GetParser(): TQRMD3Parser;
+function TQRMD3Model.GetParser: TQRMD3Parser;
 begin
     Result := m_pParser;
 end;
@@ -1563,7 +1574,7 @@ begin
     Result := m_pParser.Load(fileName);
 
     if (Result) then
-        PrepareMesh();
+        PrepareMesh;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3Model.Load(const pBuffer: TStream; readLength: NativeUInt): Boolean;
@@ -1571,7 +1582,7 @@ begin
     Result := m_pParser.Load(pBuffer, readLength);
 
     if (Result) then
-        PrepareMesh();
+        PrepareMesh;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3Model.GetMesh(index: NativeUInt;
@@ -1590,7 +1601,7 @@ begin
     end;
 
     // is frame index out of bounds?
-    if (index >= GetMeshCount()) then
+    if (index >= GetMeshCount) then
     begin
         Result := False;
         Exit;
@@ -1600,15 +1611,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // iterate through meshes to get
@@ -1670,7 +1681,7 @@ begin
         mesh[meshIndex].m_Name      := UnicodeString(AnsiString(m_pParser.m_Meshes[i].m_Info.m_Name));
         mesh[meshIndex].m_Stride    := stride;
         mesh[meshIndex].m_Type      := EQR_VT_Triangles;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // get indice count
@@ -1691,11 +1702,11 @@ begin
             for k := 0 to 2 do
                 AddVertex((index * m_pParser.m_Meshes[i].m_Info.m_VertexCount),
                           m_pParser.m_Meshes[i].m_Faces[j].m_Indices[k],
-                          m_VertexFormat,
+                          VertexFormat,
                           m_pVertices.Items[i],
                           m_pNormals.Items[i],
                           m_pTexCoords.Items[i],
-                          m_pColor,
+                          Color,
                           mesh[meshIndex]);
     end;
 
@@ -1719,7 +1730,7 @@ begin
     end;
 
     // is frame index out of bounds?
-    if (index >= GetMeshCount()) then
+    if (index >= GetMeshCount) then
     begin
         Result := False;
         Exit;
@@ -1729,15 +1740,15 @@ begin
     stride := 3;
 
     // do include normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     // iterate through meshes to get
@@ -1799,7 +1810,7 @@ begin
         mesh[meshIndex].m_Name      := UnicodeString(AnsiString(m_pParser.m_Meshes[i].m_Info.m_Name));
         mesh[meshIndex].m_Stride    := stride;
         mesh[meshIndex].m_Type      := EQR_VT_Triangles;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // get indice count
@@ -1822,18 +1833,18 @@ begin
                           (nextIndex * m_pParser.m_Meshes[i].m_Info.m_VertexCount),
                           m_pParser.m_Meshes[i].m_Faces[j].m_Indices[k],
                           interpolationFactor,
-                          m_VertexFormat,
+                          VertexFormat,
                           m_pVertices.Items[i],
                           m_pNormals.Items[i],
                           m_pTexCoords.Items[i],
-                          m_pColor,
+                          Color,
                           mesh[meshIndex]);
     end;
 
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Model.GetMeshCount(): NativeUInt;
+function TQRMD3Model.GetMeshCount: NativeUInt;
 begin
     Result := m_pParser.m_Header.m_FrameCount;
 end;
