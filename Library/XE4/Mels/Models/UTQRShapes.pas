@@ -138,13 +138,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -161,6 +162,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the surface length on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Surface width.svg)
             }
             {$ENDREGION}
             property LengthX: Single read m_LengthX write m_LengthX;
@@ -168,6 +171,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the surface length on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Surface height.svg)
             }
             {$ENDREGION}
             property LengthY: Single read m_LengthY write m_LengthY;
@@ -204,13 +209,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -306,13 +312,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -330,6 +337,8 @@ type
             {**
              Gets or sets the slices count that will be used to divide the sphere while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write m_Slices;
@@ -338,6 +347,8 @@ type
             {**
              Gets or sets the stacks count that will be used to divide the sphere while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Stacks.svg)
             }
             {$ENDREGION}
             property Stacks: NativeUInt read m_Stacks write m_Stacks;
@@ -345,6 +356,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the sphere radius
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Radius.svg)
             }
             {$ENDREGION}
             property Radius: Single read m_Radius write m_Radius;
@@ -404,13 +417,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -427,6 +441,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the number of faces to generate while cone vertex buffer will be created
+             @br @br
+             @image(Resources/Images/Documentation/Cone Face Count.svg)
             }
             {$ENDREGION}
             property FaceCount: NativeUInt read m_FaceCount write m_FaceCount;
@@ -434,6 +450,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone height
+             @br @br
+             @image(Resources/Images/Documentation/Cone Height.svg)
             }
             {$ENDREGION}
             property Height: Single read m_Height write m_Height;
@@ -506,13 +524,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -602,13 +621,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets mesh
+             Gets the mesh
              @param(mesh @bold([out]) Mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)

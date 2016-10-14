@@ -905,7 +905,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets model frame mesh
+             Gets the model frame mesh
              @param(index Frame mesh index to create)
              @param(mesh @bold([out]) Frame mesh)
              @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
@@ -913,6 +913,7 @@ type
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
@@ -927,7 +928,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets model frame mesh
+             Gets the model frame mesh
              @param(index Frame mesh index to get)
              @param(nextIndex Frame mesh index to interpolate with)
              @param(interpolationFactor Interpolation factor to apply)
@@ -936,6 +937,7 @@ type
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) vertex buffer content is structured as follow:
                              @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
                              @br where:
                              @br @bold(x/y/z)    - vertex coordinates
                              @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
