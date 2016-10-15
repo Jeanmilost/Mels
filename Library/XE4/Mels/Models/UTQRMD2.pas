@@ -228,7 +228,7 @@ type
          Texture name
         }
         {$ENDREGION}
-        m_Name: String;
+        m_Name: string;
 
         {$REGION 'Documentation'}
         {**
@@ -317,7 +317,7 @@ type
          Frame name
         }
         {$ENDREGION}
-        m_Name: String;
+        m_Name: string;
 
         {$REGION 'Documentation'}
         {**

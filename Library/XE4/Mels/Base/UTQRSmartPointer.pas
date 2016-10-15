@@ -97,7 +97,7 @@ type
 
         {$REGION 'Documentation'}
         {**
-         Reset the current instance of owned class and replace by a new one
+         Resets the current instance of owned class and replace by a new one
          @param(pNewInstance New instance to own)
         }
         {$ENDREGION}

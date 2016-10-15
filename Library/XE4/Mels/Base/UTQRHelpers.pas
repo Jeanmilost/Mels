@@ -95,7 +95,7 @@ type
      Some helper functions to manipulate strings
     }
     {$ENDREGION}
-    TQRStringHelper = Record
+    TQRStringHelper = record
         public
             {$REGION 'Documentation'}
             {**
@@ -104,7 +104,7 @@ type
              @return(String)
             }
             {$ENDREGION}
-            class function AnsiCharArrayToStr(const chars: TQRAnsiCharArray): String; static;
+            class function AnsiCharArrayToStr(const chars: TQRAnsiCharArray): string; static;
 
             {$REGION 'Documentation'}
             {**
@@ -122,7 +122,7 @@ type
              @return(String)
             }
             {$ENDREGION}
-            class function ByteToStr(const bytes: TQRByteArray): String; static;
+            class function ByteToStr(const bytes: TQRByteArray): string; static;
 
             {$REGION 'Documentation'}
             {**
@@ -311,7 +311,7 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRStringHelper
 //--------------------------------------------------------------------------------------------------
-class function TQRStringHelper.AnsiCharArrayToStr(const chars: TQRAnsiCharArray): String;
+class function TQRStringHelper.AnsiCharArrayToStr(const chars: TQRAnsiCharArray): string;
 begin
     // is char array empty?
     if (Length(chars) > 0) then
@@ -324,7 +324,7 @@ begin
     Result := '';
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRStringHelper.StrToByte(const str: String): TQRByteArray;
+class function TQRStringHelper.StrToByte(const str: string): TQRByteArray;
 var
     i:      NativeInt;
     strLen: NativeUInt;
@@ -343,11 +343,11 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRStringHelper.ByteToStr(const bytes: TQRByteArray): String;
+class function TQRStringHelper.ByteToStr(const bytes: TQRByteArray): string;
 var
     i:         NativeInt;
     strLen:    NativeUInt;
-    s:         String;
+    s:         string;
     character: Char;
 begin
     s      := '';

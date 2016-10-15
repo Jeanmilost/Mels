@@ -33,7 +33,7 @@ type
             *@return text, empty string on error or if not found
             *}
             class function FromResource(hInstance: NativeUInt;
-                               const resourceName: String): String; static;
+                               const resourceName: string): string; static;
     end;
 
     PQRVCLStringHelper = ^TQRVCLStringHelper;
@@ -276,7 +276,7 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRVCLStringHelper
 //--------------------------------------------------------------------------------------------------
-class function TQRVCLStringHelper.FromResource(hInstance: NativeUInt; const resourceName: String): String;
+class function TQRVCLStringHelper.FromResource(hInstance: NativeUInt; const resourceName: string): string;
 var
     pStream:       TResourceStream;
     pStringStream: TStringStream;
@@ -300,7 +300,7 @@ begin
 
             // convert resource file to text
             pStringStream.CopyFrom(pStream, 0);
-            Result := String(pStringStream.DataString);
+            Result := string(pStringStream.DataString);
         end;
     finally
         // clear memory
@@ -341,7 +341,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
-    ext:  String;
+    ext:  string;
     list: TStringList;
     i:    Integer;
 begin
