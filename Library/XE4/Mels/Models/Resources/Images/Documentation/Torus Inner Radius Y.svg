@@ -15,9 +15,23 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="Cone Height.svg">
+   sodipodi:docname="Torus Inner Radius Y.svg">
   <defs
      id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path8285"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#ff0000;stroke-width:1pt;stroke-opacity:1;fill:#ff0000;fill-opacity:1"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
     <marker
        inkscape:stockid="Arrow2Mend"
        orient="auto"
@@ -151,9 +165,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="23.383502"
-     inkscape:cy="52.275228"
+     inkscape:zoom="16"
+     inkscape:cx="82.167534"
+     inkscape:cy="62.46311"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -163,7 +177,8 @@
      inkscape:window-height="1004"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -172,7 +187,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -182,34 +197,31 @@
      id="layer1"
      transform="translate(0,-952.3622)">
     <g
-       id="g4499"
-       transform="translate(0.67313686,-1.3582764)">
+       id="g9629">
       <path
-         sodipodi:nodetypes="cczcc"
-         inkscape:connector-curvature="0"
-         id="path6221"
-         d="m 54.036382,961.55464 36.955084,74.25956 c 0,0 -8.560705,10.2058 -37.130288,10.1684 -28.569582,-0.037 -37.129399,-10.4009 -37.129399,-10.4009 z"
-         inkscape:transform-center-y="-12.2991"
-         inkscape:transform-center-x="0.058252906"
-         style="fill:#0000ff;fill-opacity:1;stroke:#0000ff;stroke-width:0.35382131;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+         id="path9538"
+         transform="translate(0,952.3622)"
+         d="M 25.074219 30.199219 L 75 30.199219 L 25.074219 30.199219 z M 24.880859 30.259766 L 10.957031 36.125 L 5.2597656 50.119141 L 11.125 64.042969 L 25.119141 69.740234 L 39.042969 63.875 L 44.740234 49.880859 L 38.875 35.957031 L 24.880859 30.259766 z M 74.880859 30.259766 L 60.957031 36.125 L 55.259766 50.119141 L 61.125 64.042969 L 75.119141 69.740234 L 89.042969 63.875 L 94.740234 49.880859 L 88.875 35.957031 L 74.880859 30.259766 z M 25.037109 69.8125 L 74.962891 69.8125 L 25.037109 69.8125 z "
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#0000ff;stroke-width:0.47856674;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
-         sodipodi:nodetypes="cccc"
-         inkscape:connector-curvature="0"
-         id="path10542"
-         d="m 91.012546,1035.8303 c -17.579882,16.0094 -65.544157,11.3994 -74.577518,-0.2518 m -0.0625,-0.047 -7.859456,-0.011"
-         style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path10544"
-         d="m 53.786536,961.28438 -45.8080453,0.0659"
-         style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path4227"
-         d="m 9.7500001,1035.081 0.03125,-72.68755"
-         style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)" />
+         sodipodi:nodetypes="ccccccccccccccccc"
+         id="path9538-6"
+         d="m 25.231547,1022.1689 49.925782,0 -49.925782,0 0.08203,-0.072 13.923828,-5.8652 5.697265,-13.9941 -5.865234,-13.92381 -13.994141,-5.6973 0,0 0.193362,-0.061 49.925781,0 -0.119141,0.061 -13.923828,5.8652 -5.697265,13.99421 5.865234,13.9238 13.994141,5.6972 z"
+         style="fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:#0000ff;stroke-width:0.47856674;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
     </g>
+    <path
+       style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 75.020854,1002.2599 0.10421,-18.88153"
+       id="path9633-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <ellipse
+       style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:0.47377717;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path11197"
+       cx="75.30687"
+       cy="1002.3344"
+       rx="19.988876"
+       ry="20.077265" />
   </g>
 </svg>

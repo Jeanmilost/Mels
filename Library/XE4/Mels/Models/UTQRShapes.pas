@@ -459,6 +459,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone top radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Top X.svg)
             }
             {$ENDREGION}
             property TopRadiusX: Single read m_TopRadiusX write m_TopRadiusX;
@@ -466,6 +468,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone top radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Top Y.svg)
             }
             {$ENDREGION}
             property TopRadiusY: Single read m_TopRadiusY write m_TopRadiusY;
@@ -473,6 +477,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone bottom radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Bottom X.svg)
             }
             {$ENDREGION}
             property BottomRadiusX: Single read m_BottomRadiusX write m_BottomRadiusX;
@@ -480,6 +486,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone bottom radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Bottom Y.svg)
             }
             {$ENDREGION}
             property BottomRadiusY: Single read m_BottomRadiusY write m_BottomRadiusY;
@@ -549,6 +557,8 @@ type
             {**
              Gets or sets the slices count that will be used to divide the torus while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Torus Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write m_Slices;
@@ -557,6 +567,8 @@ type
             {**
              Gets or sets the number of faces per slices to apply to the torus while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Torus Faces Per Slices.svg)
             }
             {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write m_FacesPerSlices;
@@ -564,6 +576,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus outer radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Outer Radius X.svg)
             }
             {$ENDREGION}
             property OuterRadiusX: Single read m_OuterRadiusX write m_OuterRadiusX;
@@ -571,6 +585,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus outer radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Outer Radius Y.svg)
             }
             {$ENDREGION}
             property OuterRadiusY: Single read m_OuterRadiusY write m_OuterRadiusY;
@@ -578,6 +594,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus inner radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus inner Radius X.svg)
             }
             {$ENDREGION}
             property InnerRadiusX: Single read m_InnerRadiusX write m_InnerRadiusX;
@@ -585,6 +603,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus inner radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Inner Radius Y.svg)
             }
             {$ENDREGION}
             property InnerRadiusY: Single read m_InnerRadiusY write m_InnerRadiusY;
