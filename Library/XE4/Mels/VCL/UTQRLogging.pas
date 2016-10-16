@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRLogging -------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : Some useful functions and classes to log messages                                *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRLogging ------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to log runtime messages to output like e.g. compiler console.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRLogging;
 
 interface
@@ -17,41 +36,61 @@ uses System.SysUtils,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Helper class for message logging
-    *}
+     Helper class for message logging
+    }
+    {$ENDREGION}
     TQRLogHelper = class
         private
             class var m_LastTime: NativeUInt;
 
         public
-            { Construction/Destruction }
-            constructor Create;  virtual;
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
             destructor  Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Logs a message to the compiler console
-            *@param msg - message to log
-            *}
+             Logs a message to the compiler console
+             @param(msg Message to log)
+            }
+            {$ENDREGION}
             class procedure LogToCompiler(const msg: UnicodeString); static;
 
+            {$REGION 'Documentation'}
             {**
-            * Begins an elapsed time measurement
-            *}
-            class procedure BeginElapsedTimeLog(); static;
+             Begins an elapsed time measurement
+            }
+            {$ENDREGION}
+            class procedure BeginElapsedTimeLog; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Logs an elapsed time value to the compiler console
-            *@param name - name that will describe the measurement
-            *}
+             Logs an elapsed time value to the compiler console
+             @param(name Name that will describe the measurement)
+            }
+            {$ENDREGION}
             class procedure LogElapsedTimeToCompiler(const name: UnicodeString); static;
 
+            {$REGION 'Documentation'}
             {**
-            * Convert Windows message as string
-            *@param pOwner - component that owns the message
-            *@param message - Windows message to convert
-            *@return Windows message as string
-            *}
+             Convert Windows message as string
+             @param(pOwner Component that owns the message)
+             @param(message Windows message to convert)
+             @return(Windows message as string)
+            }
+            {$ENDREGION}
             class function WinMsgToStr(pOwner: TComponent;
                                 const message: TMessage): UnicodeString; static;
     end;
@@ -75,9 +114,9 @@ begin
     OutputDebugString(PWideChar(msg));
 end;
 //--------------------------------------------------------------------------------------------------
-class procedure TQRLogHelper.BeginElapsedTimeLog();
+class procedure TQRLogHelper.BeginElapsedTimeLog;
 begin
-    m_LastTime := GetTickCount();
+    m_LastTime := GetTickCount;
 end;
 //--------------------------------------------------------------------------------------------------
 class procedure TQRLogHelper.LogElapsedTimeToCompiler(const name: UnicodeString);

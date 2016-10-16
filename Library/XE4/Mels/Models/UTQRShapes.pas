@@ -666,6 +666,8 @@ type
             {**
              Gets or sets the slices count that will be used to divide the parabola while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write m_Slices;
@@ -674,6 +676,8 @@ type
             {**
              Gets or sets the number of faces per slices to apply to the parabola while his vertex
              buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Faces Per Slices.svg)
             }
             {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write m_FacesPerSlices;
@@ -681,6 +685,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the parabola height
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Height.svg)
             }
             {$ENDREGION}
             property Height: Single read m_Height write m_Height;
@@ -688,6 +694,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the parabola radius
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Radius.svg)
             }
             {$ENDREGION}
             property Radius: Single read m_Radius write m_Radius;
