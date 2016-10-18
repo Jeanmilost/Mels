@@ -613,8 +613,8 @@ type
     {$REGION 'Documentation'}
     {**
      3D parabola
-     @note Position is measured from the point where the parabola climaxed. This also means that the
-           rotation axis may be eccentric
+     @br @bold(NOTE) Position is measured from the point where the parabola climaxed. This also
+                     means that the rotation axis may be eccentric
     }
     {$ENDREGION}
     TQRParabolaModel = class(TQRShapeModel)
