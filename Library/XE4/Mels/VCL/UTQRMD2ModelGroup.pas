@@ -58,9 +58,9 @@ type
      @value(EQR_AG_MD2_Stand Selects the stand gesture to be played by the model)
      @value(EQR_AG_MD2_Run Selects the run gesture to be played by the model)
      @value(EQR_AG_MD2_Attack Selects the attack gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain1 Selects the pain no.1 gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain2 Selects the pain no.2 gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain3 Selects the pain no.3 gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain1 Selects the pain nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain2 Selects the pain nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain3 Selects the pain nb. 3 gesture to be played by the model)
      @value(EQR_AG_MD2_Jump Selects the jump gesture to be played by the model)
      @value(EQR_AG_MD2_Flip Selects the flip gesture to be played by the model)
      @value(EQR_AG_MD2_Salute Selects the salute gesture to be played by the model)
@@ -71,11 +71,13 @@ type
      @value(EQR_AG_MD2_CRWalk Selects the crouching walk gesture to be played by the model)
      @value(EQR_AG_MD2_CRAttack Selects the crouching attack gesture to be played by the model)
      @value(EQR_AG_MD2_CRPain Selects the crouching pain gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath Selects the death no.1 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath2 Selects the death no.2 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath3 Selects the death no.3 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath4 Selects the death no.4 gesture to be played by the model)
-     @br @bold(NOTE) These gestures are given for convenience, you are free to define your own gestures
+     @value(EQR_AG_MD2_CRDeath Selects the death nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath2 Selects the death nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath3 Selects the death nb. 3 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath4 Selects the death nb. 4 gesture to be played by the model)
+     @br @bold(NOTE) These gestures are given for convenience, you are free to define your own
+                     gestures. However these gestures must match with those defined in the model.cfg
+                     file
     }
     {$ENDREGION}
     EQRMD2AnimationGesture =
@@ -257,7 +259,7 @@ type
              @param(pGroup Group that owns the job)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
-             @param(rhToLh If @true, right hand coordinated will be transformed to left hand)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
              @param(modelOptions Model options to apply)
              @param(framedModelOptions Framed model options to apply)
              @param(defaultFrameIndex Index of the default frame to show while model is loaded)
@@ -556,7 +558,7 @@ type
              @param(pPackage Stream containing package model to load)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
-             @param(rhToLh If @true, right hand coordinated will be transformed to left hand)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
              @param(modelOptions Model options to apply)
              @param(framedModelOptions Framed model options to apply)
              @param(fOnLoadTexture Load texture callback function)

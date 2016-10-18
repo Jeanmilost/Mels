@@ -1,12 +1,31 @@
-{**************************************************************************************************
- * ==> UTQRModelGroup ----------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module contains the classes used to load and link all model files together. *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRModelGroup ---------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
- unit UTQRModelGroup;
+{**
+ @abstract(@name provides the features to load and link all model files together.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
+unit UTQRModelGroup;
 
 interface
 
@@ -32,17 +51,34 @@ uses System.Classes,
 type
     // TODO clear model parser when fully cached, also clear in-memory normals table
 
+    {$REGION 'Documentation'}
     {**
-    * Messages a property can use to notify his owner
-    *}
+     Model group notification messages
+     @value(EQR_MM_Loaded Sent after a model is completely loaded)
+    }
+    {$ENDREGION}
     EQRModelMessages =
     (
         EQR_MM_Loaded
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Model matrix combination type enumeration
-    *}
+     Model matrix combination types
+     @value(EQR_CT_Scale_Rotate_Translate Indicates that the scale matrix should be applied first,
+                                          then the rotate matrices, and finally the translate matrix)
+     @value(EQR_CT_Scale_Translate_Rotate Indicates that the scale matrix should be applied first,
+                                          then the translate matrix, and finally the rotate matrices)
+     @value(EQR_CT_Rotate_Translate_Scale Indicates that the rotate matrices should be applied first,
+                                          then the translate matrix, and finally the scale matrix)
+     @value(EQR_CT_Rotate_Scale_Translate Indicates that the rotate matrices should be applied first,
+                                          then the scale matrix, and finally the translate matrix)
+     @value(EQR_CT_Translate_Rotate_Scale Indicates that the translate matrix should be applied first,
+                                          then the rotate matrices, and finally the scale matrix)
+     @value(EQR_CT_Translate_Scale_Rotate Indicates that the translate matrix should be applied first,
+                                          then the scale matrix, and finally the rotate matrices)
+    }
+    {$ENDREGION}
     EQRModelMatrixCombinationType =
     (
         EQR_CT_Scale_Rotate_Translate,
@@ -53,71 +89,126 @@ type
         EQR_CT_Translate_Scale_Rotate
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Model option enumeration
-    *}
+     Model option enumeration
+     @value(EQR_MO_Create_Cache If the model contains this option, all the required vertex buffers
+                                (and the collision trees if the collisions are also enabled) will be
+                                added to an internal cache during the opening. This improves the
+                                execution speed, but increases the used memory and the opening time)
+     @value(EQR_MO_No_Collision If the model contains this option, no collision data (as e.g. the
+                                collision trees) will be generated while the vertex buffers will be
+                                calculated)
+     @value(EQR_MO_Dynamic_Frames If the model contains this option, the frames will be generated
+                                  dynamically (i.e. on the fly) on each draw. However the already
+                                  generated frames will be added to internal cache, and reused
+                                  whenever possible. This options is the best compromise to preserve
+                                  the runtime performance without consuming a large amount of memory
+                                  or impacting on the opening time. However the first drawings may
+                                  be slow and jerky. @bold(NOTE) This option cannot be used on the
+                                  same time the EQR_MO_Dynamic_Frames_No_Cache option is used)
+     @value(EQR_MO_Dynamic_Frames_No_Cache If the model contains this option, the frames will be
+                                           generated dynamically (i.e. on the fly) on each draw. The
+                                           generated frames are not added to the internal cache, and
+                                           are generated again on the next draw process. This
+                                           improves the memory usage and opening time, but may
+                                           impact on the runtime performances. For that, this option
+                                           is only recommended for small models, without collision
+                                           detection. @bold(NOTE) This option cannot be used on the
+                                           same time the EQR_MO_Dynamic_Frames option is used)
+     @value(EQR_MO_Without_Normals If the model contains this option, the normals will be omitted
+                                   while the vertex buffer is generated)
+     @value(EQR_MO_Without_Textures If the model contains this option, the texture coordinates will
+                                    be omitted while the vertex buffer is generated)
+     @value(EQR_MO_Without_Colors If the model contains this option, the vertex colors will be
+                                  omitted while the vertex buffer is generated)
+    }
+    {$ENDREGION}
     EQRModelOptions =
     (
-        EQR_MO_Create_Cache,            // create cache in a thread while model is loaded
-        EQR_MO_No_Collision,            // don't create data related to collisions, as e.g. AABB trees
-        EQR_MO_Dynamic_Frames,          // frames are calculated dynamically while rendering
-        EQR_MO_Dynamic_Frames_No_Cache, // dynamically calculated frames will not be cached
-        EQR_MO_Without_Normals,         // do not generate normals while meshes are created
-        EQR_MO_Without_Textures,        // do not generate textures while meshes are created
-        EQR_MO_Without_Colors           // do not generate colors while meshes are created
+        EQR_MO_Create_Cache,
+        EQR_MO_No_Collision,
+        EQR_MO_Dynamic_Frames,
+        EQR_MO_Dynamic_Frames_No_Cache,
+        EQR_MO_Without_Normals,
+        EQR_MO_Without_Textures,
+        EQR_MO_Without_Colors
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Model options set
-    *}
+     Model options set
+    }
+    {$ENDREGION}
     TQRModelOptions = set of EQRModelOptions;
 
+    {$REGION 'Documentation'}
     {**
-    * Framed model option enumeration
-    *}
+     Framed model option enumeration
+     @value(EQR_FO_Start_Anim_When_Gesture_Is_Ready If the model contains this option, the selected
+                                                    animation will run as soon as all the required
+                                                    data will be available, even if the model is not
+                                                    fully loaded)
+     @value(EQR_FO_Show_Default_Frame If the model contains this option, the frame designed as the
+                                      default frame will be drawn as soon as all the required data
+                                      will be available, even if the model is not fully loaded)
+     @value(EQR_FO_Interpolate If the model contains this option, the frame interpolation will be
+                               processed internally before calling the draw function, thus the
+                               received vertex buffer will be ready to draw)
+    }
+    {$ENDREGION}
     EQRFramedModelOptions =
     (
-        EQR_FO_Start_Anim_When_Gesture_Is_Ready, // start anim when all frames belonging to selected gesture are loaded in cache
-        EQR_FO_Show_Default_Frame,               // show default frame while cache is built
-        EQR_FO_Interpolate                       // apply mesh interpolation internally
+        EQR_FO_Start_Anim_When_Gesture_Is_Ready,
+        EQR_FO_Show_Default_Frame,
+        EQR_FO_Interpolate
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Framed model options set
-    *}
+     Framed model options set
+    }
+    {$ENDREGION}
     TQRFramedModelOptions = set of EQRFramedModelOptions;
 
     TQRModelGroup = class;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when texture should be loaded
-    *@param pGroup - group at which model belongs
-    *@param pModel - model for which texture is required
-    *@param pBitmap - whenever possible, the bitmap containing the texture, nil if not available
-    *@param[in, out] pTexture - texture info, contains loaded index when function ends
-    *@param [out] loadNext - if true, event will be called again with a new item to load next texture
-    *@return true on success, otherwise false
-    *}
+     Called when texture should be loaded
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model for which texture is required)
+     @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not available)
+     @param(pTexture @bold([in, out]) Texture info, contains loaded index when function ends)
+     @param(loadNext @bold([out]) If @true, event will be called again with a new item to load next texture)
+     @return(@true on success, otherwise @false)
+    }
+    {$ENDREGION}
     TQRLoadMeshTextureEvent = function(const pGroup: TQRModelGroup;
                                        const pModel: TQRModel;
                                             pBitmap: Vcl.Graphics.TBitmap;
                                            pTexture: TQRTexture;
                                        out loadNext: Boolean): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called after model was completely loaded
-    *@param pGroup - group that finished to load the model
-    *}
+     Called after model was completely loaded
+     @param(pGroup Group that finished to load the model)
+    }
+    {$ENDREGION}
     TQRAfterLoadModelEvent = procedure(const pGroup: TQRModelGroup) of object;
 
     // model job status class prototype
     TQRModelJobStatus = class;
 
+    {$REGION 'Documentation'}
     {**
-    * Model group helper, contains some common function used by models
-    *}
+     Model group helper, contains some common function used by models
+    }
+    {$ENDREGION}
     TQRModelGroupHelper = class
         public
+            {$REGION 'Documentation'}
             {**
             * Loads a texture from a stream
             *@param pStream - stream containing texture to load
@@ -129,6 +220,7 @@ type
                                      const extension: UnicodeString;
                                              pBitmap: Vcl.Graphics.TBitmap): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
             * Makes a texture power of 2
             *@param pSrcBitmap - source bitmap to transform
@@ -139,11 +231,12 @@ type
                                                      pDstBitmap: Vcl.Graphics.TBitmap): Boolean; static;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Model group, contains all items and functions needed to manage a complete model
-    *}
+     Model group, contains all items and functions needed to manage a complete model
+    }
     TQRModelGroup = class
-        protected
+        private
             m_pJobStatus:             TQRModelJobStatus;
             m_Scaling:                TQRVector3D;
             m_Translation:            TQRVector3D;
@@ -156,90 +249,106 @@ type
             m_fOnLoadTexture:         TQRLoadMeshTextureEvent;
             m_fOnAfterLoadModelEvent: TQRAfterLoadModelEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
             * Gets scaling
             *@return scaling
             *}
             function GetScaling(): PQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets scaling
             *@param scaling - scaling
             *}
             procedure SetScaling(const pScaling: PQRVector3D); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets translation
             *@return Translation
             *}
             function GetTranslation(): PQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets translation
             *@param Translation - Translation
             *}
             procedure SetTranslation(const pTranslation: PQRVector3D); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets rotation on X axis
             *@return rotation angle on X axis in radians
             *}
             function GetRotationX(): Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets rotation on X axis
             *@param angle - rotation angle in radians
             *}
             procedure SetRotationX(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets rotation on Y axis
             *@return rotation angle on Y axis in radians
             *}
             function GetRotationY(): Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets rotation on Y axis
             *@param angle - rotation angle in radians
             *}
             procedure SetRotationY(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets rotation on Z axis
             *@return rotation angle on Z axis in radians
             *}
             function GetRotationZ(): Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets rotation on Z axis
             *@param angle - rotation angle in radians
             *}
             procedure SetRotationZ(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets combination type
             *@return combination type
             *}
             function GetCombinationType(): EQRModelMatrixCombinationType; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets file name
             *@param value - combination type to set
             *}
             procedure SetCombinationType(value: EQRModelMatrixCombinationType); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets initial model matrix
             *@return matrix
             *}
             function GetInitialMatrix(): PQRMatrix4x4;
 
+            {$REGION 'Documentation'}
             {**
             * Sets initial model matrix
             *@param matrix - matrix
             *}
             procedure SetInitialMatrix(const pMatrix: PQRMatrix4x4);
 
+            {$REGION 'Documentation'}
             {**
             * Gets model matrix
             *@return matrix
@@ -247,52 +356,81 @@ type
             function GetMatrix(): TQRMatrix4x4; virtual;
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
+            constructor Create(); virtual;
 
+            {$REGION 'Documentation'}
+            destructor Destroy(); override;
+
+            {$REGION 'Documentation'}
             {**
             * Clears group
             *}
             procedure Clear(); virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Checks if group is empty
             *@return true if model is empty, otherwise false
             *}
             function IsEmpty(): Boolean; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Queries the job status
             *@return job status
             *}
             function QueryJobStatus(): TQRModelJobStatus; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Draws group
             *@param elapsedTime - elapsed time since last draw
             *}
             procedure Draw(const elapsedTime: Double); virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Called when subject send a notification to the observer
             *@param message - notification message
             *}
             procedure OnNotified(message: TQRMessage); virtual;
 
-            { Properties }
-            property Scaling:               PQRVector3D                   read GetScaling               write SetScaling;
-            property Translation:           PQRVector3D                   read GetTranslation           write SetTranslation;
-            property RotationX:             Single                        read GetRotationX             write SetRotationX;
-            property RotationY:             Single                        read GetRotationY             write SetRotationY;
-            property RotationZ:             Single                        read GetRotationZ             write SetRotationZ;
-            property SwapYZ:                Boolean                       read m_SwapYZ                 write m_SwapYZ;
-            property MatrixCombinationType: EQRModelMatrixCombinationType read GetCombinationType       write SetCombinationType default EQR_CT_Scale_Rotate_Translate;
-            property InitialMatrix:         PQRMatrix4x4                  read GetInitialMatrix         write SetInitialMatrix   default nil;
-            property OnLoadMeshTexture:     TQRLoadMeshTextureEvent       read m_fOnLoadTexture         write m_fOnLoadTexture;
-            property OnAfterLoadModelEvent: TQRAfterLoadModelEvent        read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property Scaling: PQRVector3D read GetScaling write SetScaling;
+
+            {$REGION 'Documentation'}
+            property Translation: PQRVector3D read GetTranslation write SetTranslation;
+
+            {$REGION 'Documentation'}
+            property RotationX: Single read GetRotationX write SetRotationX;
+
+            {$REGION 'Documentation'}
+            property RotationY: Single read GetRotationY write SetRotationY;
+
+            {$REGION 'Documentation'}
+            property RotationZ: Single read GetRotationZ write SetRotationZ;
+
+            {$REGION 'Documentation'}
+            property SwapYZ: Boolean read m_SwapYZ write m_SwapYZ;
+
+            {$REGION 'Documentation'}
+            property MatrixCombinationType: EQRModelMatrixCombinationType read GetCombinationType write SetCombinationType default EQR_CT_Scale_Rotate_Translate;
+
+            {$REGION 'Documentation'}
+            property InitialMatrix: PQRMatrix4x4 read GetInitialMatrix write SetInitialMatrix default nil;
+
+            {$REGION 'Documentation'}
+            property OnLoadMeshTexture: TQRLoadMeshTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
+
+            {$REGION 'Documentation'}
+            property OnAfterLoadModelEvent: TQRAfterLoadModelEvent read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Called when static model item should be drawn
     *@param pGroup - group at which model belongs
@@ -309,6 +447,7 @@ type
                                               const pMesh: PQRMesh;
                                           const pAABBTree: TQRAABBTree) of object;
 
+    {$REGION 'Documentation'}
     {**
     * Called when static model item should be drawn
     *@param pGroup - group at which model belongs
@@ -321,50 +460,70 @@ type
                                                  const textures: TQRTextures;
                                                    const matrix: TQRMatrix4x4) of object;
 
+    {$REGION 'Documentation'}
     {**
     * Static model group, contains all items and functions needed to manage a complete static model
     *}
     TQRStaticModelGroup = class(TQRModelGroup)
-        protected
+        private
             m_fOnDrawItem:       TQRDrawStaticModelItemEvent;
             m_fOnCustomDrawItem: TQRDrawCustomStaticModelItemEvent;
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  override;
+            constructor Create(); override;
+
+            {$REGION 'Documentation'}
             destructor  Destroy(); override;
 
-            { Properties }
-            property OnDrawItem:       TQRDrawStaticModelItemEvent       read m_fOnDrawItem       write m_fOnDrawItem;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property OnDrawItem: TQRDrawStaticModelItemEvent read m_fOnDrawItem write m_fOnDrawItem;
+
+            {$REGION 'Documentation'}
             property OnCustomDrawItem: TQRDrawCustomStaticModelItemEvent read m_fOnCustomDrawItem write m_fOnCustomDrawItem;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Model animation item, contains important animation info, as e.g. start frame, frame count,
     * FPS, ...
     *}
     TQRModelAnimCfgItem = record
-        m_Gesture:         NativeInt;
-        m_StartFrame:      NativeUInt;
-        m_FrameCount:      NativeUInt;
-        m_LoopingFrames:   NativeUInt;
+        {$REGION 'Documentation'}
+        m_Gesture: NativeInt;
+
+        {$REGION 'Documentation'}
+        m_StartFrame: NativeUInt;
+
+        {$REGION 'Documentation'}
+        m_FrameCount: NativeUInt;
+
+        {$REGION 'Documentation'}
+        m_LoopingFrames: NativeUInt;
+
+        {$REGION 'Documentation'}
         m_FramesPerSecond: NativeUInt;
     end;
 
     PQRModelAnimCfgItem  = ^TQRModelAnimCfgItem;
     TQRModelAnimCfgItems = array of TQRModelAnimCfgItem;
 
+    {$REGION 'Documentation'}
     {**
     * Framed model Animation data structure
     *}
     TQRFramedModelAnimation = class
-        protected
+        private
             m_FrameIndex:              NativeUInt;
             m_InterpolationFrameIndex: NativeUInt;
             m_InterpolationFactor:     Double;
             m_Loop:                    Boolean;
 
         public
+            {$REGION 'Documentation'}
             {**
             * Constructor
             *@param frameIndex - frame index to render
@@ -376,34 +535,49 @@ type
                                                interpolationFactor: Double;
                                                               loop: Boolean); overload; virtual;
 
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  overload; virtual;
+            constructor Create(); overload; virtual;
+
+            {$REGION 'Documentation'}
             destructor  Destroy(); override;
 
-            { Properties }
-            property FrameIndex:              NativeUInt read m_FrameIndex              write m_FrameIndex;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property FrameIndex: NativeUInt read m_FrameIndex write m_FrameIndex;
+
+            {$REGION 'Documentation'}
             property InterpolationFrameIndex: NativeUInt read m_InterpolationFrameIndex write m_InterpolationFrameIndex;
-            property InterpolationFactor:     Double     read m_InterpolationFactor     write m_InterpolationFactor;
-            property Loop:                    Boolean    read m_Loop                    write m_Loop                    default True;
+
+            {$REGION 'Documentation'}
+            property InterpolationFactor: Double read m_InterpolationFactor write m_InterpolationFactor;
+
+            {$REGION 'Documentation'}
+            property Loop: Boolean read m_Loop write m_Loop default True;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Framed model animation configuration file parser
     *}
     TQRFramedModelAnimCfgFile = class(TQRScript)
-        protected
+        private
             m_Items:       TQRModelAnimCfgItems;
             m_Column:      NativeUInt;
             m_LongComment: Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
             * Called when script line should be parsed
             *@param line - line to parse
             *@param linbeNb - line number
-            *@return ture on success, otherwise false
+            *@return true on success, otherwise false
             *}
             function OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
             * Parses a word found in script line
             *@param word - word to parse
@@ -414,32 +588,43 @@ type
                                    lineNb: NativeUInt): Boolean; virtual; abstract;
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            constructor Create(); override;
 
+            {$REGION 'Documentation'}
+            destructor Destroy(); override;
+
+            {$REGION 'Documentation'}
             {**
             * Clears script
             *}
             procedure Clear(); override;
 
+            {$REGION 'Documentation'}
             {**
             * Gets animation item at index
             *@return animation item at index, nil if not found or on error
             *}
             function GetItem(index: NativeInt): PQRModelAnimCfgItem; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets animation item count
             *@return animation item count
             *}
             function GetItemCount(): NativeInt; virtual;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
             property Items[index: NativeInt]: PQRModelAnimCfgItem read GetItem;
-            property ItemCount:               NativeInt           read GetItemCount;
+
+            {$REGION 'Documentation'}
+            property ItemCount: NativeInt read GetItemCount;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Called when framed model item should be drawn
     *@param pGroup - group at which model belongs
@@ -463,6 +648,7 @@ type
                                    const pMesh, pNextMesh: PQRMesh;
                            const pAABBTree, pNextAABBTree: TQRAABBTree) of object;
 
+    {$REGION 'Documentation'}
     {**
     * Called when framed model item should be drawn
     *@param pGroup - group at which model belongs
@@ -480,6 +666,7 @@ type
                                                index, nextIndex: NativeInt;
                                       const interpolationFactor: Double) of object;
 
+    {$REGION 'Documentation'}
     {**
     * Called when a framed model animation ends
     *@param pGroup - group at which model belongs
@@ -490,17 +677,20 @@ type
                                             const pModel: TQRModel;
                                                  gesture: NativeInt) of object;
 
+    {$REGION 'Documentation'}
     {**
     * Framed model group, contains all items and functions needed to manage a complete framed model
     *}
     TQRFramedModelGroup = class(TQRModelGroup)
-        protected
+        private
             m_Paused:            Boolean;
             m_ForceLoop:         Boolean;
             m_fOnDrawItem:       TQRDrawFramedModelItemEvent;
             m_fOnCustomDrawItem: TQRDrawCustomFramedModelItemEvent;
             m_fOnAnimEnd:        TQRFramedModelAnimEndEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
             * Gets animation
             *@param pModel - model or sub-model on which animation is applied
@@ -524,6 +714,7 @@ type
                        var interpolationFactor: Double;
                                var endNotified: Boolean): TQRFramedModelAnimation; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Checks and returns an index that is always within the range delimited by start and end
             *@param index - index to check
@@ -535,26 +726,42 @@ type
             function ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt; virtual;
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
+            constructor Create(); override;
 
-            { Properties }
-            property Pause:            Boolean                           read m_Paused            write m_Paused;
-            property ForceLoop:        Boolean                           read m_ForceLoop         write m_ForceLoop   default True;
-            property OnDrawItem:       TQRDrawFramedModelItemEvent       read m_fOnDrawItem       write m_fOnDrawItem;
+            {$REGION 'Documentation'}
+            destructor Destroy(); override;
+
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property Pause: Boolean read m_Paused write m_Paused;
+
+            {$REGION 'Documentation'}
+            property ForceLoop: Boolean read m_ForceLoop write m_ForceLoop default True;
+
+            {$REGION 'Documentation'}
+            property OnDrawItem: TQRDrawFramedModelItemEvent read m_fOnDrawItem write m_fOnDrawItem;
+
+            {$REGION 'Documentation'}
             property OnCustomDrawItem: TQRDrawCustomFramedModelItemEvent read m_fOnCustomDrawItem write m_fOnCustomDrawItem;
-            property OnAnimEnd:        TQRFramedModelAnimEndEvent        read m_fOnAnimEnd        write m_fOnAnimEnd;
+
+            {$REGION 'Documentation'}
+            property OnAnimEnd: TQRFramedModelAnimEndEvent read m_fOnAnimEnd write m_fOnAnimEnd;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Model job status, allows to query the job status
     *}
     TQRModelJobStatus = class
-        protected
+        private
             m_JobStatus: EQRThreadJobStatus;
             m_Progress:  NativeUInt;
 
+        protected
+            {$REGION 'Documentation'}
             {**
             * Sets progress
             *@param value - progress value (between 0 and 100)
@@ -562,20 +769,28 @@ type
             procedure SetProgress(value: NativeUInt); virtual;
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
-            constructor Create();  reintroduce;
-            destructor  Destroy(); reintroduce;
+            constructor Create; virtual;
 
-            { Properties }
-            property Status:   EQRThreadJobStatus read m_JobStatus write m_JobStatus;
-            property Progress: NativeUInt         read m_Progress  write SetProgress;
+            {$REGION 'Documentation'}
+            destructor Destroy; override;
+
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property Status: EQRThreadJobStatus read m_JobStatus write m_JobStatus;
+
+            {$REGION 'Documentation'}
+            property Progress: NativeUInt read m_Progress write SetProgress;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Model job, allows to execute a heavy task, as e.g. load the model, in a separate thread
     *}
     TQRModelJob = class(TQRVCLThreadWorkerJob)
-        protected
+        private
             m_pGroup:                 TQRModelGroup;
             m_pCache:                 TQRModelCache;
             m_ModelOptions:           TQRModelOptions;
@@ -584,12 +799,15 @@ type
             m_TextureExt:             array [0..6] of UnicodeString;
             m_fOnAfterLoadModelEvent: TQRAfterLoadModelEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
             * Gets mesh
             *@return mesh, nil if not found or on error
             *}
             function GetMesh(i: NativeUInt): PQRMesh; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets mesh
             *@param pMesh - mesh
@@ -598,12 +816,14 @@ type
             *}
             procedure SetMesh(i: NativeUInt; pMesh: PQRMesh); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets aligned-axis bounding box tree
             *@return tree, nil if not found or on error
             *}
             function GetTree(i: NativeUInt): TQRAABBTree; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets aligned-axis bounding box tree
             *@param pTree - tree
@@ -612,30 +832,35 @@ type
             *}
             procedure SetTree(i: NativeUInt; pTree: TQRAABBTree); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets job progress
             *@return job progress in percent (between 0 and 100)
             *}
             function GetProgress(): Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets job progress
             *@param value - job progress value (between 0 and 100)
             *}
             procedure SetProgress(value: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Gets model options
             *@return model options
             *}
             function GetModelOptions(): TQRModelOptions; virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Sets model options
             *@param options - model options
             *}
             procedure SetModelOptions(options: TQRModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
@@ -644,6 +869,7 @@ type
             procedure BeforeLoadTexture(pTexture: TQRTexture;
                                           custom: Boolean); virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Called when a known texture should be loaded
             *@param pTexture - texture to load
@@ -653,12 +879,14 @@ type
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
             * Called after model is loaded
             *}
             procedure OnAfterLoadModel(); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
             * Construction
             *@param pGroup - group that owns the job
@@ -667,30 +895,44 @@ type
             *}
             constructor Create(pGroup: TQRModelGroup; modelOptions: TQRModelOptions); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
             * Destructor
             }
             destructor Destroy(); override;
 
+            {$REGION 'Documentation'}
             {**
             * Gets group that started the job
             *@return group that started the job
             *}
             function GetGroup(): TQRModelGroup; virtual;
 
-            { Properties }
-            property Mesh[i: NativeUInt]:     PQRMesh                read GetMesh                  write SetMesh;
-            property AABBTree[i: NativeUInt]: TQRAABBTree            read GetTree                  write SetTree;
-            property Progress:                Single                 read GetProgress              write SetProgress;
-            property ModelOptions:            TQRModelOptions        read GetModelOptions          write SetModelOptions;
-            property OnAfterLoadModelEvent:   TQRAfterLoadModelEvent read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            property Mesh[i: NativeUInt]: PQRMesh read GetMesh write SetMesh;
+
+            {$REGION 'Documentation'}
+            property AABBTree[i: NativeUInt]: TQRAABBTree read GetTree write SetTree;
+
+            {$REGION 'Documentation'}
+            property Progress: Single read GetProgress write SetProgress;
+
+            {$REGION 'Documentation'}
+            property ModelOptions: TQRModelOptions read GetModelOptions write SetModelOptions;
+
+            {$REGION 'Documentation'}
+            property OnAfterLoadModelEvent: TQRAfterLoadModelEvent read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
     end;
 
+    {$REGION 'Documentation'}
     {**
     * Model job list
     *}
     TQRModelJobs = TList<TQRModelJob>;
 
+    {$REGION 'Documentation'}
     {**
     * Model worker, it's a specialized class whose role is to carry out model jobs, as e.g. load a
     * model in memory and prepare his cache
@@ -701,6 +943,7 @@ type
                       m_pWorker:   TQRVCLThreadWorker;
                       m_pGarbage:  TList<TQRThreadJob>;
 
+            {$REGION 'Documentation'}
             {**
             * Called when a job is done
             *@param pJob - done job
@@ -708,22 +951,28 @@ type
             procedure OnThreadJobDone(pJob: TQRThreadJob);
 
         public
+            {$REGION 'Documentation'}
             { Construction/Destruction }
             constructor Create();
-            destructor  Destroy(); override;
 
+            {$REGION 'Documentation'}
+            destructor Destroy(); override;
+
+            {$REGION 'Documentation'}
             {**
             * Gets model cache instance, creates one if still not created
             *@return model cache instance
             *}
             class function GetInstance(): TQRModelWorker; static;
 
+            {$REGION 'Documentation'}
             {**
             * Deletes model cache instance
             *@note This function is automatically called when unit is released
             *}
             class procedure DeleteInstance(); static;
 
+            {$REGION 'Documentation'}
             {**
             * Starts the job
             *@param pJob - job to execute
@@ -731,6 +980,7 @@ type
             *}
             function StartJob(pJob: TQRModelJob): Boolean;
 
+            {$REGION 'Documentation'}
             {**
             * Cancels the job execution
             *@param pJob - job to cancel

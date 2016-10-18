@@ -131,7 +131,7 @@ type
              Parses a script line
              @param(line Line to parse)
              @param(linbeNb Line number)
-             @return(@ture on success, otherwise @false)
+             @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
             function ParseLine(const line: UnicodeString;
@@ -142,7 +142,7 @@ type
              Called when script line should be parsed
              @param(line Line to parse)
              @param(linbeNb Line number)
-             @return(@ture on success, otherwise @false)
+             @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
             function OnParseLine(const line: UnicodeString;
