@@ -210,23 +210,25 @@ type
         public
             {$REGION 'Documentation'}
             {**
-            * Loads a texture from a stream
-            *@param pStream - stream containing texture to load
-            *@param extension - texture image extension
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Loads a texture from a stream
+             @param(pStream Stream containing texture to load)
+             @param(extension Texture image extension)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function LoadTexture(const pStream: TStream;
                                      const extension: UnicodeString;
                                              pBitmap: Vcl.Graphics.TBitmap): Boolean; static;
 
             {$REGION 'Documentation'}
             {**
-            * Makes a texture power of 2
-            *@param pSrcBitmap - source bitmap to transform
-            *@param pDstBitmap - transformed destination bitmap
-            *@return true on success, otherwise false
-            *}
+             Makes a texture power of 2
+             @param(pSrcBitmap Source bitmap to transform)
+             @param(pDstBitmap Transformed destination bitmap)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function MakeTexturePowerOf2(const pSrcBitmap: Vcl.Graphics.TBitmap;
                                                      pDstBitmap: Vcl.Graphics.TBitmap): Boolean; static;
     end;
@@ -235,6 +237,7 @@ type
     {**
      Model group, contains all items and functions needed to manage a complete model
     }
+    {$ENDREGION}
     TQRModelGroup = class
         private
             m_pJobStatus:             TQRModelJobStatus;
@@ -252,194 +255,272 @@ type
         protected
             {$REGION 'Documentation'}
             {**
-            * Gets scaling
-            *@return scaling
-            *}
-            function GetScaling(): PQRVector3D; virtual;
+             Gets scaling
+             @return(Scaling)
+            }
+            {$ENDREGION}
+            function GetScaling: PQRVector3D; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets scaling
-            *@param scaling - scaling
-            *}
+             Sets scaling
+             @param(scaling Scaling)
+            }
+            {$ENDREGION}
             procedure SetScaling(const pScaling: PQRVector3D); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets translation
-            *@return Translation
-            *}
-            function GetTranslation(): PQRVector3D; virtual;
+             Gets translation
+             @return(Translation)
+            }
+            {$ENDREGION}
+            function GetTranslation: PQRVector3D; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets translation
-            *@param Translation - Translation
-            *}
+             Sets translation
+             @param(translation Translation)
+            }
+            {$ENDREGION}
             procedure SetTranslation(const pTranslation: PQRVector3D); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets rotation on X axis
-            *@return rotation angle on X axis in radians
-            *}
-            function GetRotationX(): Single; virtual;
+             Gets rotation on X axis
+             @return(Rotation angle on X axis in radians)
+            }
+            {$ENDREGION}
+            function GetRotationX: Single; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets rotation on X axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on X axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationX(const angle: Single); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets rotation on Y axis
-            *@return rotation angle on Y axis in radians
-            *}
-            function GetRotationY(): Single; virtual;
+             Gets rotation on Y axis
+             @return(Rotation angle on Y axis in radians)
+            }
+            {$ENDREGION}
+            function GetRotationY: Single; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets rotation on Y axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on Y axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationY(const angle: Single); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets rotation on Z axis
-            *@return rotation angle on Z axis in radians
-            *}
-            function GetRotationZ(): Single; virtual;
+             Gets rotation on Z axis
+             @return(Rotation angle on Z axis in radians)
+            }
+            {$ENDREGION}
+            function GetRotationZ: Single; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets rotation on Z axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on Z axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationZ(const angle: Single); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets combination type
-            *@return combination type
-            *}
-            function GetCombinationType(): EQRModelMatrixCombinationType; virtual;
+             Gets combination type
+             @return(Combination type)
+            }
+            {$ENDREGION}
+            function GetCombinationType: EQRModelMatrixCombinationType; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets file name
-            *@param value - combination type to set
-            *}
+             Sets file name
+             @param(value Combination type to set)
+            }
+            {$ENDREGION}
             procedure SetCombinationType(value: EQRModelMatrixCombinationType); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets initial model matrix
-            *@return matrix
-            *}
-            function GetInitialMatrix(): PQRMatrix4x4;
+             Gets initial model matrix
+             @return(Matrix)
+            }
+            {$ENDREGION}
+            function GetInitialMatrix: PQRMatrix4x4;
 
             {$REGION 'Documentation'}
             {**
-            * Sets initial model matrix
-            *@param matrix - matrix
-            *}
+             Sets initial model matrix
+             @param(matrix Matrix)
+            }
+            {$ENDREGION}
             procedure SetInitialMatrix(const pMatrix: PQRMatrix4x4);
 
             {$REGION 'Documentation'}
             {**
-            * Gets model matrix
-            *@return matrix
-            *}
-            function GetMatrix(): TQRMatrix4x4; virtual;
+             Gets model matrix
+             @return(Matrix)
+            }
+            {$ENDREGION}
+            function GetMatrix: TQRMatrix4x4; virtual;
+
+        // Properties
+        protected
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the job status
+            }
+            {$ENDREGION}
+            property JobStatus: TQRModelJobStatus read m_pJobStatus write m_pJobStatus;
 
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create(); virtual;
-
-            {$REGION 'Documentation'}
-            destructor Destroy(); override;
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Clears group
-            *}
-            procedure Clear(); virtual; abstract;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
-            * Checks if group is empty
-            *@return true if model is empty, otherwise false
-            *}
-            function IsEmpty(): Boolean; virtual; abstract;
+             Clears group
+            }
+            {$ENDREGION}
+            procedure Clear; virtual; abstract;
 
             {$REGION 'Documentation'}
             {**
-            * Queries the job status
-            *@return job status
-            *}
-            function QueryJobStatus(): TQRModelJobStatus; virtual; abstract;
+             Checks if group is empty
+             @return(@true if group is empty, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEmpty: Boolean; virtual; abstract;
 
             {$REGION 'Documentation'}
             {**
-            * Draws group
-            *@param elapsedTime - elapsed time since last draw
-            *}
+             Queries the job status
+             @return(Job status)
+            }
+            {$ENDREGION}
+            function QueryJobStatus: TQRModelJobStatus; virtual; abstract;
+
+            {$REGION 'Documentation'}
+            {**
+             Draws group
+             @param(elapsedTime Elapsed time since last draw)
+            }
+            {$ENDREGION}
             procedure Draw(const elapsedTime: Double); virtual; abstract;
 
             {$REGION 'Documentation'}
             {**
-            * Called when subject send a notification to the observer
-            *@param message - notification message
-            *}
+             Called when subject send a notification to the observer
+             @param(message Notification message)
+            }
+            {$ENDREGION}
             procedure OnNotified(message: TQRMessage); virtual;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the scaling vector
+            }
+            {$ENDREGION}
             property Scaling: PQRVector3D read GetScaling write SetScaling;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the translation vector
+            }
+            {$ENDREGION}
             property Translation: PQRVector3D read GetTranslation write SetTranslation;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the x axis, in radians
+            }
+            {$ENDREGION}
             property RotationX: Single read GetRotationX write SetRotationX;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the y axis, in radians
+            }
+            {$ENDREGION}
             property RotationY: Single read GetRotationY write SetRotationY;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the z axis, in radians
+            }
+            {$ENDREGION}
             property RotationZ: Single read GetRotationZ write SetRotationZ;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets if the y and z axis should be swapped
+            }
+            {$ENDREGION}
             property SwapYZ: Boolean read m_SwapYZ write m_SwapYZ;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the matrix combination type to apply
+            }
+            {$ENDREGION}
             property MatrixCombinationType: EQRModelMatrixCombinationType read GetCombinationType write SetCombinationType default EQR_CT_Scale_Rotate_Translate;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the initial matrix. The initial matrix is the start matrix on which the
+             model matrix will be built. If @nil, no initial matrix is used (it's the default value)
+            }
+            {$ENDREGION}
             property InitialMatrix: PQRMatrix4x4 read GetInitialMatrix write SetInitialMatrix default nil;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnLoadMeshTexture event
+            }
+            {$ENDREGION}
             property OnLoadMeshTexture: TQRLoadMeshTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnAfterLoadModelEvent event
+            }
+            {$ENDREGION}
             property OnAfterLoadModelEvent: TQRAfterLoadModelEvent read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Called when static model item should be drawn
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *@param pMesh - mesh to draw, can be nil (depends on selected options)
-    *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be nil (depends on selected options)
-    *}
+     Called when static model item should be drawn
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+     @param(pMesh Mesh to draw, can be @nil (depends on selected options))
+     @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil (depends on selected options))
+    }
+    {$ENDREGION}
     TQRDrawStaticModelItemEvent = procedure (const pGroup: TQRModelGroup;
                                              const pModel: TQRModel;
                                            const textures: TQRTextures;
@@ -449,12 +530,13 @@ type
 
     {$REGION 'Documentation'}
     {**
-    * Called when static model item should be drawn
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *}
+     Called when static model item should be drawn
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+    }
+    {$ENDREGION}
     TQRDrawCustomStaticModelItemEvent = procedure (const pGroup: TQRModelGroup;
                                                          pModel: TQRModel;
                                                  const textures: TQRTextures;
@@ -462,8 +544,9 @@ type
 
     {$REGION 'Documentation'}
     {**
-    * Static model group, contains all items and functions needed to manage a complete static model
-    *}
+     Static model group, contains all items and functions needed to manage a complete static model
+    }
+    {$ENDREGION}
     TQRStaticModelGroup = class(TQRModelGroup)
         private
             m_fOnDrawItem:       TQRDrawStaticModelItemEvent;
@@ -471,40 +554,76 @@ type
 
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create(); override;
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
             {$REGION 'Documentation'}
-            destructor  Destroy(); override;
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDrawItem event
+            }
+            {$ENDREGION}
             property OnDrawItem: TQRDrawStaticModelItemEvent read m_fOnDrawItem write m_fOnDrawItem;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCustomDrawItem callback
+            }
+            {$ENDREGION}
             property OnCustomDrawItem: TQRDrawCustomStaticModelItemEvent read m_fOnCustomDrawItem write m_fOnCustomDrawItem;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Model animation item, contains important animation info, as e.g. start frame, frame count,
-    * FPS, ...
-    *}
+     Model animation item, contains important animation info, as e.g. start frame, frame count,
+     FPS, ...
+    }
+    {$ENDREGION}
     TQRModelAnimCfgItem = record
         {$REGION 'Documentation'}
+        {**
+         Animation gesture
+        }
+        {$ENDREGION}
         m_Gesture: NativeInt;
 
         {$REGION 'Documentation'}
+        {**
+         Frame index where the animation begins
+        }
+        {$ENDREGION}
         m_StartFrame: NativeUInt;
 
         {$REGION 'Documentation'}
+        {**
+         Number of frames the animation contains
+        }
+        {$ENDREGION}
         m_FrameCount: NativeUInt;
 
         {$REGION 'Documentation'}
+        {**
+         Frame count after which the animation should loop
+        }
+        {$ENDREGION}
         m_LoopingFrames: NativeUInt;
 
         {$REGION 'Documentation'}
+        {**
+         Number of frames per seconds
+        }
+        {$ENDREGION}
         m_FramesPerSecond: NativeUInt;
     end;
 
@@ -513,8 +632,9 @@ type
 
     {$REGION 'Documentation'}
     {**
-    * Framed model Animation data structure
-    *}
+     Framed model Animation data structure
+    }
+    {$ENDREGION}
     TQRFramedModelAnimation = class
         private
             m_FrameIndex:              NativeUInt;
@@ -525,42 +645,67 @@ type
         public
             {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param frameIndex - frame index to render
-            *@param interpolationFrameIndex - frame index to use for interpolation
-            *@param interpolationFactor - interpolation factor in percent (between 0.0f and 1.0f)
-            *@param loop - if true, animation should loop at end
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; overload; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+             @param(frameIndex Frame index to render)
+             @param(interpolationFrameIndex Frame index to use for interpolation)
+             @param(interpolationFactor Interpolation factor in percent (between 0.0 and 1.0))
+             @param(loop If @true, animation should loop at end)
+            }
+            {$ENDREGION}
             constructor Create(frameIndex, interpolationFrameIndex: NativeUInt;
                                                interpolationFactor: Double;
                                                               loop: Boolean); overload; virtual;
 
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create(); overload; virtual;
-
-            {$REGION 'Documentation'}
-            destructor  Destroy(); override;
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the frame index
+            }
+            {$ENDREGION}
             property FrameIndex: NativeUInt read m_FrameIndex write m_FrameIndex;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the frame index to interpolate with the current frame
+            }
+            {$ENDREGION}
             property InterpolationFrameIndex: NativeUInt read m_InterpolationFrameIndex write m_InterpolationFrameIndex;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the interpolation factor
+            }
+            {$ENDREGION}
             property InterpolationFactor: Double read m_InterpolationFactor write m_InterpolationFactor;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets if the animation should loop. Default value is @true
+            }
+            {$ENDREGION}
             property Loop: Boolean read m_Loop write m_Loop default True;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Framed model animation configuration file parser
-    *}
+     Framed model animation configuration file parser
+    }
+    {$ENDREGION}
     TQRFramedModelAnimCfgFile = class(TQRScript)
         private
             m_Items:       TQRModelAnimCfgItems;
@@ -570,75 +715,120 @@ type
         protected
             {$REGION 'Documentation'}
             {**
-            * Called when script line should be parsed
-            *@param line - line to parse
-            *@param linbeNb - line number
-            *@return true on success, otherwise false
-            *}
+             Increments the column by 1
+            }
+            {$ENDREGION}
+            procedure IncColumn; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets the item count
+             @param(count Item count)
+            }
+            {$ENDREGION}
+            procedure SetItemCount(count: NativeUInt); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Called when script line should be parsed
+             @param(line Line to parse)
+             @param(linbeNb Line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
             {$REGION 'Documentation'}
             {**
-            * Parses a word found in script line
-            *@param word - word to parse
-            *@param lineNb - current parsing line number
-            *@return true on success, otherwise false
-            *}
+             Parses a word found in script line
+             @param(word Word to parse)
+             @param(lineNb Current parsing line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function ParseWord(const word: UnicodeString;
                                    lineNb: NativeUInt): Boolean; virtual; abstract;
 
+        // Properties
+        protected
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the column index
+            }
+            {$ENDREGION}
+            property Column: NativeUInt read m_Column write m_Column;
+
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create(); override;
-
-            {$REGION 'Documentation'}
-            destructor Destroy(); override;
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
             {$REGION 'Documentation'}
             {**
-            * Clears script
-            *}
-            procedure Clear(); override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
-            * Gets animation item at index
-            *@return animation item at index, nil if not found or on error
-            *}
+             Clears script
+            }
+            {$ENDREGION}
+            procedure Clear; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets animation item at index
+             @return(Animation item at index, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetItem(index: NativeInt): PQRModelAnimCfgItem; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets animation item count
-            *@return animation item count
-            *}
-            function GetItemCount(): NativeInt; virtual;
+             Gets animation item count
+             @return(Animation item count)
+            }
+            {$ENDREGION}
+            function GetItemCount: NativeInt; virtual;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets item at index
+            }
+            {$ENDREGION}
             property Items[index: NativeInt]: PQRModelAnimCfgItem read GetItem;
 
             {$REGION 'Documentation'}
+            {**
+             Gets the item count
+            }
+            {$ENDREGION}
             property ItemCount: NativeInt read GetItemCount;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Called when framed model item should be drawn
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *@param index - model mesh index
-    *@param nextIndex - model mesh index to interpolate with
-    *@param interpolationFactor - interpolation factor
-    *@param pMesh - mesh to draw, can be nil (depends on selected options)
-    *@param pNextMesh - next mesh to interpolate with, can be nil (depends on selected options)
-    *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be nil (depends on selected options)
-    *@param pNextAABBTree - aligned-axis bounding box tree matching with next mesh, can be nil (depends on selected options)
-    *}
+     Called when framed model item should be drawn
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+     @param(index Model mesh index)
+     @param(nextIndex Model mesh index to interpolate with)
+     @param(interpolationFactor Interpolation factor)
+     @param(pMesh Mesh to draw, can be @nil (depends on selected options))
+     @param(pNextMesh Next mesh to interpolate with, can be @nil (depends on selected options))
+     @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil (depends on selected options))
+     @param(pNextAABBTree Aligned-axis bounding box tree matching with next mesh, can be @nil (depends on selected options))
+    }
+    {$ENDREGION}
     TQRDrawFramedModelItemEvent = procedure (const pGroup: TQRModelGroup;
                                              const pModel: TQRModel;
                                            const textures: TQRTextures;
@@ -650,15 +840,16 @@ type
 
     {$REGION 'Documentation'}
     {**
-    * Called when framed model item should be drawn
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *@param index - model mesh index
-    *@param nextIndex - model mesh index to interpolate with
-    *@param interpolationFactor - interpolation factor
-    *}
+     Called when framed model item should be drawn
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+     @param(index Model mesh index)
+     @param(nextIndex Model mesh index to interpolate with)
+     @param(interpolationFactor Interpolation factor)
+    }
+    {$ENDREGION}
     TQRDrawCustomFramedModelItemEvent = procedure (const pGroup: TQRModelGroup;
                                                          pModel: TQRModel;
                                                  const textures: TQRTextures;
@@ -668,19 +859,21 @@ type
 
     {$REGION 'Documentation'}
     {**
-    * Called when a framed model animation ends
-    *@param pGroup - group at which model belongs
-    *@param pModel - model or sub-model for which animation ended
-    *@param gesture - animation gesture that ended
-    *}
+     Called when a framed model animation ends
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model or sub-model for which animation ended)
+     @param(gesture Animation gesture that ended)
+    }
+    {$ENDREGION}
     TQRFramedModelAnimEndEvent = procedure (const pGroup: TQRModelGroup;
                                             const pModel: TQRModel;
                                                  gesture: NativeInt) of object;
 
     {$REGION 'Documentation'}
     {**
-    * Framed model group, contains all items and functions needed to manage a complete framed model
-    *}
+     Framed model group, contains all items and functions needed to manage a complete framed model
+    }
+    {$ENDREGION}
     TQRFramedModelGroup = class(TQRModelGroup)
         private
             m_Paused:            Boolean;
@@ -692,19 +885,20 @@ type
         protected
             {$REGION 'Documentation'}
             {**
-            * Gets animation
-            *@param pModel - model or sub-model on which animation is applied
-            *@param gesture - current running gesture
-            *@param elapsedTime - elapsed time since last frame was drawn
-            *@param fps - number of frames per seconds
-            *@param startIndex - animation start index
-            *@param endIndex - animation end index
-            *@param loop - if true, animation should loop at end
-            *@param[in, out] frameIndex - frame index, next frame index to draw when function ends
-            *@param[in, out] interpolationFactor - interpolation factor between 2 frames
-            *@param[in, out] endNotified - if true, animation end was already notified
-            *@return animation
-            *}
+             Gets animation
+             @param(pModel Model or sub-model on which animation is applied)
+             @param(gesture Current running gesture)
+             @param(elapsedTime Elapsed time since last frame was drawn)
+             @param(fps Number of frames per seconds)
+             @param(startIndex Animation start index)
+             @param(endIndex Animation end index)
+             @param(loop If @true, animation should loop at end)
+             @param(frameIndex @bold([in, out]) Frame index, next frame index to draw when function ends)
+             @param(interpolationFactor @bold([in, out]) Interpolation factor between 2 frames)
+             @param(endNotified @bold([in, out]) If @true, animation end was already notified)
+             @return(Animation)
+            }
+            {$ENDREGION}
             function GetAnimation(const pModel: TQRModel;
                                        gesture: NativeInt;
                              const elapsedTime: Double;
@@ -716,45 +910,74 @@ type
 
             {$REGION 'Documentation'}
             {**
-            * Checks and returns an index that is always within the range delimited by start and end
-            *@param index - index to check
-            *@param startIndex - range start
-            *@param endIndex - range end
-            *@return an index that is always within the range delimited by start and end
-            *@throw Exception if end index is smaller than start index
-            *}
+             Checks and returns an index that is always within the range delimited by start and end
+             @param(index Index to check)
+             @param(startIndex Range start)
+             @param(endIndex Range end)
+             @return(An index that is always within the range delimited by start and end)
+             @raises(Exception if end index is smaller than start index)
+            }
+            {$ENDREGION}
             function ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt; virtual;
 
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create(); override;
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
             {$REGION 'Documentation'}
-            destructor Destroy(); override;
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation on pause
+            }
+            {$ENDREGION}
             property Pause: Boolean read m_Paused write m_Paused;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets if the animation should be forced to loop at end
+            }
+            {$ENDREGION}
             property ForceLoop: Boolean read m_ForceLoop write m_ForceLoop default True;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDrawItem event
+            }
+            {$ENDREGION}
             property OnDrawItem: TQRDrawFramedModelItemEvent read m_fOnDrawItem write m_fOnDrawItem;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCustomDrawItem event
+            }
+            {$ENDREGION}
             property OnCustomDrawItem: TQRDrawCustomFramedModelItemEvent read m_fOnCustomDrawItem write m_fOnCustomDrawItem;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnAnimEnd event
+            }
+            {$ENDREGION}
             property OnAnimEnd: TQRFramedModelAnimEndEvent read m_fOnAnimEnd write m_fOnAnimEnd;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Model job status, allows to query the job status
-    *}
+     Model job status, allows to query the job status
+    }
+    {$ENDREGION}
     TQRModelJobStatus = class
         private
             m_JobStatus: EQRThreadJobStatus;
@@ -763,32 +986,49 @@ type
         protected
             {$REGION 'Documentation'}
             {**
-            * Sets progress
-            *@param value - progress value (between 0 and 100)
-            *}
+             Sets progress
+             @param(value Progress value (between 0 and 100))
+            }
+            {$ENDREGION}
             procedure SetProgress(value: NativeUInt); virtual;
 
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
+            {¨**
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; virtual;
 
             {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
         // Properties
         public
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the job status
+            }
+            {$ENDREGION}
             property Status: EQRThreadJobStatus read m_JobStatus write m_JobStatus;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the job progress status (between 0 and 100)
+            }
+            {$ENDREGION}
             property Progress: NativeUInt read m_Progress write SetProgress;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Model job, allows to execute a heavy task, as e.g. load the model, in a separate thread
-    *}
+     Model job, allows to execute a heavy task, as e.g. load the model, in a separate thread
+    }
+    {$ENDREGION}
     TQRModelJob = class(TQRVCLThreadWorkerJob)
         private
             m_pGroup:                 TQRModelGroup;
@@ -802,141 +1042,222 @@ type
         protected
             {$REGION 'Documentation'}
             {**
-            * Gets mesh
-            *@return mesh, nil if not found or on error
-            *}
-            function GetMesh(i: NativeUInt): PQRMesh; virtual;
+             Gets the texture extension at index
+             @param(index Index)
+             @return(Texture extension)
+            }
+            {$ENDREGION}
+            function GetTextureExt(index: NativeUInt): UnicodeString; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets mesh
-            *@param pMesh - mesh
-            *@note Be careful, the internal cache will take the mesh ownership, so don't try to
-            *      delete it externally
-            *}
-            procedure SetMesh(i: NativeUInt; pMesh: PQRMesh); virtual;
+             Gets the texture extension count
+             @return(Texture extension count)
+            }
+            {$ENDREGION}
+            function GetTextureExtCount(): NativeInt; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets aligned-axis bounding box tree
-            *@return tree, nil if not found or on error
-            *}
-            function GetTree(i: NativeUInt): TQRAABBTree; virtual;
+             Gets mesh at index
+             @param(index Index)
+             @return(Mesh, @nil if not found or on error)
+            }
+            {$ENDREGION}
+            function GetMesh(index: NativeUInt): PQRMesh; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets aligned-axis bounding box tree
-            *@param pTree - tree
-            *@note Be careful, the internal cache will take the tree ownership, so don't try to
-            *      delete it externally
-            *}
-            procedure SetTree(i: NativeUInt; pTree: TQRAABBTree); virtual;
+             Sets mesh at index
+             @param(index Index)
+             @param(pMesh Mesh)
+             @br @bold(NOTE) Be careful, the internal cache will take the mesh ownership, so don't
+                             try to delete it externally
+            }
+            {$ENDREGION}
+            procedure SetMesh(index: NativeUInt; pMesh: PQRMesh); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets job progress
-            *@return job progress in percent (between 0 and 100)
-            *}
-            function GetProgress(): Single; virtual;
+             Gets aligned-axis bounding box tree at index
+             @param(index Index)
+             @return(Tree, @nil if not found or on error)
+            }
+            {$ENDREGION}
+            function GetTree(index: NativeUInt): TQRAABBTree; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets job progress
-            *@param value - job progress value (between 0 and 100)
-            *}
+             Sets aligned-axis bounding box tree at index
+             @param(index Index)
+             @param(pTree Tree)
+             @br @bold(NOTE) Be careful, the internal cache will take the tree ownership, so don't
+                             try to delete it externally
+            }
+            {$ENDREGION}
+            procedure SetTree(index: NativeUInt; pTree: TQRAABBTree); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets job progress
+             @return(Job progress in percent (between 0 and 100))
+            }
+            {$ENDREGION}
+            function GetProgress: Single; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets job progress
+             @param(value Job progress value (between 0 and 100))
+            }
+            {$ENDREGION}
             procedure SetProgress(value: Single); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Gets model options
-            *@return model options
-            *}
-            function GetModelOptions(): TQRModelOptions; virtual;
+             Gets model options
+             @return(Model options)
+            }
+            {$ENDREGION}
+            function GetModelOptions: TQRModelOptions; virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Sets model options
-            *@param options - model options
-            *}
+             Sets model options
+             @param(options Model options)
+            }
+            {$ENDREGION}
             procedure SetModelOptions(options: TQRModelOptions); virtual;
 
             {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
-            *}
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture;
                                           custom: Boolean); virtual; abstract;
 
             {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; virtual; abstract;
 
             {$REGION 'Documentation'}
             {**
-            * Called after model is loaded
-            *}
-            procedure OnAfterLoadModel(); virtual;
+             Called after model is loaded
+            }
+            {$ENDREGION}
+            procedure OnAfterLoadModel; virtual;
+
+        // Properties
+        protected
+            {$REGION 'Documentation'}
+            {**
+             Gets the texture extension at index
+            }
+            {$ENDREGION}
+            property TextureExt[index: NativeUInt]: UnicodeString read GetTextureExt;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the texture extension count
+            }
+            {$ENDREGION}
+            property TextureExtCount: NativeInt read GetTextureExtCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the job is loaded
+            }
+            {$ENDREGION}
+            property IsLoaded: Boolean read m_IsLoaded write m_IsLoaded;
 
         public
             {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param modelOptions - model options
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(modelOptions Model options)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup; modelOptions: TQRModelOptions); reintroduce;
 
             {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
-            * Gets group that started the job
-            *@return group that started the job
-            *}
-            function GetGroup(): TQRModelGroup; virtual;
+             Gets group that started the job
+             @return(Group that started the job)
+            }
+            {$ENDREGION}
+            function GetGroup: TQRModelGroup; virtual;
 
         // Properties
         public
             {$REGION 'Documentation'}
-            property Mesh[i: NativeUInt]: PQRMesh read GetMesh write SetMesh;
+            {**
+             Gets or sets the mesh at index
+            }
+            {$ENDREGION}
+            property Mesh[index: NativeUInt]: PQRMesh read GetMesh write SetMesh;
 
             {$REGION 'Documentation'}
-            property AABBTree[i: NativeUInt]: TQRAABBTree read GetTree write SetTree;
+            {**
+             Gets or sets the aligned-axis bounding box tree at index
+            }
+            {$ENDREGION}
+            property AABBTree[index: NativeUInt]: TQRAABBTree read GetTree write SetTree;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the progress status (between 0 and 100)
+            }
+            {$ENDREGION}
             property Progress: Single read GetProgress write SetProgress;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the model options
+            }
+            {$ENDREGION}
             property ModelOptions: TQRModelOptions read GetModelOptions write SetModelOptions;
 
             {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnAfterLoadModelEvent event
+            }
+            {$ENDREGION}
             property OnAfterLoadModelEvent: TQRAfterLoadModelEvent read m_fOnAfterLoadModelEvent write m_fOnAfterLoadModelEvent;
     end;
 
     {$REGION 'Documentation'}
     {**
-    * Model job list
-    *}
+     Model job list
+    }
+    {$ENDREGION}
     TQRModelJobs = TList<TQRModelJob>;
 
     {$REGION 'Documentation'}
     {**
-    * Model worker, it's a specialized class whose role is to carry out model jobs, as e.g. load a
-    * model in memory and prepare his cache
-    *}
+     Model worker, it's a specialized class whose role is to carry out model jobs, as e.g. load a
+     model in memory and prepare his cache
+    }
+    {$ENDREGION}
     TQRModelWorker = class sealed (TObject)
         private
             class var m_pInstance: TQRModelWorker;
@@ -945,46 +1266,58 @@ type
 
             {$REGION 'Documentation'}
             {**
-            * Called when a job is done
-            *@param pJob - done job
-            *}
+             Called when a job is done
+             @param(pJob Done job)
+            }
+            {$ENDREGION}
             procedure OnThreadJobDone(pJob: TQRThreadJob);
 
         public
             {$REGION 'Documentation'}
-            { Construction/Destruction }
-            constructor Create();
-
-            {$REGION 'Documentation'}
-            destructor Destroy(); override;
+            {**
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create;
 
             {$REGION 'Documentation'}
             {**
-            * Gets model cache instance, creates one if still not created
-            *@return model cache instance
-            *}
-            class function GetInstance(): TQRModelWorker; static;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
-            * Deletes model cache instance
-            *@note This function is automatically called when unit is released
-            *}
-            class procedure DeleteInstance(); static;
+             Gets model cache instance, creates one if still not created
+             @return(Model cache instance)
+            }
+            {$ENDREGION}
+            class function GetInstance: TQRModelWorker; static;
 
             {$REGION 'Documentation'}
             {**
-            * Starts the job
-            *@param pJob - job to execute
-            *@return true on success, otherwise false
-            *}
+             Deletes model cache instance
+             @br @bold(NOTE) This function is automatically called when unit is released
+            }
+            {$ENDREGION}
+            class procedure DeleteInstance; static;
+
+            {$REGION 'Documentation'}
+            {**
+             Starts the job
+             @param(pJob Job to execute)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function StartJob(pJob: TQRModelJob): Boolean;
 
             {$REGION 'Documentation'}
             {**
-            * Cancels the job execution
-            *@param pJob - job to cancel
-            *}
+             Cancels the job execution
+             @param(pJob Job to cancel)
+            }
+            {$ENDREGION}
             procedure CancelJob(pJob: TQRModelJob);
     end;
 
@@ -1173,7 +1506,7 @@ begin
     end;
 
     // create a bitmap that will contain the texture rounded to the nearest power of 2 values
-    pPoweredBmp := Vcl.Graphics.TBitmap.Create();
+    pPoweredBmp := Vcl.Graphics.TBitmap.Create;
 
     try
         pPoweredBmp.PixelFormat := pSrcBitmap.PixelFormat;
@@ -1214,7 +1547,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRModelGroup.Create();
+constructor TQRModelGroup.Create;
 begin
     inherited Create;
 
@@ -1231,7 +1564,7 @@ begin
     m_fOnAfterLoadModelEvent := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelGroup.Destroy();
+destructor TQRModelGroup.Destroy;
 begin
     // delete initial matrix, if exists
     if (Assigned(m_pInitialMatrix)) then
@@ -1248,7 +1581,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetScaling(): PQRVector3D;
+function TQRModelGroup.GetScaling: PQRVector3D;
 begin
     Result := @m_Scaling;
 end;
@@ -1258,7 +1591,7 @@ begin
     m_Scaling := pScaling^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetTranslation(): PQRVector3D;
+function TQRModelGroup.GetTranslation: PQRVector3D;
 begin
     Result := @m_Translation;
 end;
@@ -1268,7 +1601,7 @@ begin
     m_Translation := pTranslation^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetRotationX(): Single;
+function TQRModelGroup.GetRotationX: Single;
 begin
     Result := m_RotationX.Angle;
 end;
@@ -1278,7 +1611,7 @@ begin
     m_RotationX.Angle := angle;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetRotationY(): Single;
+function TQRModelGroup.GetRotationY: Single;
 begin
     Result := m_RotationY.Angle;
 end;
@@ -1288,7 +1621,7 @@ begin
     m_RotationY.Angle := angle;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetRotationZ(): Single;
+function TQRModelGroup.GetRotationZ: Single;
 begin
     Result := m_RotationZ.Angle;
 end;
@@ -1298,7 +1631,7 @@ begin
     m_RotationZ.Angle := angle;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetCombinationType(): EQRModelMatrixCombinationType;
+function TQRModelGroup.GetCombinationType: EQRModelMatrixCombinationType;
 begin
     Result := m_CombinationType;
 end;
@@ -1308,7 +1641,7 @@ begin
     m_CombinationType := value;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetInitialMatrix(): PQRMatrix4x4;
+function TQRModelGroup.GetInitialMatrix: PQRMatrix4x4;
 begin
     Result := m_pInitialMatrix;
 end;
@@ -1335,7 +1668,7 @@ begin
     m_pInitialMatrix.Assign(pMatrix^);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelGroup.GetMatrix(): TQRMatrix4x4;
+function TQRModelGroup.GetMatrix: TQRMatrix4x4;
 var
     scaleMatrix,
     rotateXMatrix,
@@ -1345,16 +1678,16 @@ var
     modelMatrix:     TQRMatrix4x4;
 begin
     // initialize matrix
-    scaleMatrix     := TQRMatrix4x4.Identity();
-    rotateXMatrix   := TQRMatrix4x4.Identity();
-    rotateYMatrix   := TQRMatrix4x4.Identity();
-    rotateZMatrix   := TQRMatrix4x4.Identity();
-    translateMatrix := TQRMatrix4x4.Identity();
+    scaleMatrix     := TQRMatrix4x4.Identity;
+    rotateXMatrix   := TQRMatrix4x4.Identity;
+    rotateYMatrix   := TQRMatrix4x4.Identity;
+    rotateZMatrix   := TQRMatrix4x4.Identity;
+    translateMatrix := TQRMatrix4x4.Identity;
 
     if (Assigned(m_pInitialMatrix)) then
         modelMatrix := m_pInitialMatrix^
     else
-        modelMatrix := TQRMatrix4x4.Identity();
+        modelMatrix := TQRMatrix4x4.Identity;
 
     // do swap y and z axis?
     if (m_SwapYZ) then
@@ -1463,7 +1796,7 @@ begin
     m_Loop                    := loop;
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRFramedModelAnimation.Create();
+constructor TQRFramedModelAnimation.Create;
 begin
     inherited Create;
 
@@ -1473,14 +1806,14 @@ begin
     m_Loop                    := True;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRFramedModelAnimation.Destroy();
+destructor TQRFramedModelAnimation.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRStaticModelGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRStaticModelGroup.Create();
+constructor TQRStaticModelGroup.Create;
 begin
     inherited Create;
 
@@ -1488,14 +1821,14 @@ begin
     m_fOnCustomDrawItem := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRStaticModelGroup.Destroy();
+destructor TQRStaticModelGroup.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRFramedModelAnimCfgFile
 //--------------------------------------------------------------------------------------------------
-constructor TQRFramedModelAnimCfgFile.Create();
+constructor TQRFramedModelAnimCfgFile.Create;
 begin
     inherited Create;
 
@@ -1503,9 +1836,19 @@ begin
     m_LongComment := False;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRFramedModelAnimCfgFile.Destroy();
+destructor TQRFramedModelAnimCfgFile.Destroy;
 begin
     inherited Destroy;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRFramedModelAnimCfgFile.IncColumn;
+begin
+    Inc(m_Column);
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRFramedModelAnimCfgFile.SetItemCount(count: NativeUInt);
+begin
+    SetLength(m_Items, count);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRFramedModelAnimCfgFile.OnParseLine(const line: UnicodeString;
@@ -1635,7 +1978,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRFramedModelAnimCfgFile.Clear();
+procedure TQRFramedModelAnimCfgFile.Clear;
 begin
     // clear items
     SetLength(m_Items, 0);
@@ -1656,14 +1999,14 @@ begin
     Result := @m_Items[index];
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRFramedModelAnimCfgFile.GetItemCount(): NativeInt;
+function TQRFramedModelAnimCfgFile.GetItemCount: NativeInt;
 begin
     Result := Length(m_Items);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRFramedModelGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRFramedModelGroup.Create();
+constructor TQRFramedModelGroup.Create;
 begin
     inherited Create;
 
@@ -1674,7 +2017,7 @@ begin
     m_fOnAnimEnd        := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRFramedModelGroup.Destroy();
+destructor TQRFramedModelGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1794,12 +2137,12 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelJobStatus
 //--------------------------------------------------------------------------------------------------
-constructor TQRModelJobStatus.Create();
+constructor TQRModelJobStatus.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelJobStatus.Destroy();
+destructor TQRModelJobStatus.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1840,7 +2183,7 @@ begin
     m_TextureExt[6] := '.pcx';
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelJob.Destroy();
+destructor TQRModelJob.Destroy;
 begin
     // clear memory
     m_pLock.Lock;
@@ -1850,42 +2193,54 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetMesh(i: NativeUInt): PQRMesh;
+function TQRModelJob.GetTextureExt(index: NativeUInt): UnicodeString;
 begin
     m_pLock.Lock;
-    Result := m_pCache.Mesh[i];
+    Result := m_TextureExt[index];
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRModelJob.SetMesh(i: NativeUInt; pMesh: PQRMesh);
+function TQRModelJob.GetTextureExtCount(): NativeInt;
+begin
+    REsult := Length(m_TextureExt);
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetMesh(index: NativeUInt): PQRMesh;
 begin
     m_pLock.Lock;
-    m_pCache.Mesh[i] := pMesh;
+    Result := m_pCache.Mesh[index];
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetTree(i: NativeUInt): TQRAABBTree;
+procedure TQRModelJob.SetMesh(index: NativeUInt; pMesh: PQRMesh);
 begin
     m_pLock.Lock;
-    Result := m_pCache.AABBTree[i];
+    m_pCache.Mesh[index] := pMesh;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRModelJob.SetTree(i: NativeUInt; pTree: TQRAABBTree);
+function TQRModelJob.GetTree(index: NativeUInt): TQRAABBTree;
 begin
     m_pLock.Lock;
-    m_pCache.AABBTree[i] := pTree;
+    Result := m_pCache.AABBTree[index];
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetGroup(): TQRModelGroup;
+procedure TQRModelJob.SetTree(index: NativeUInt; pTree: TQRAABBTree);
+begin
+    m_pLock.Lock;
+    m_pCache.AABBTree[index] := pTree;
+    m_pLock.Unlock;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetGroup: TQRModelGroup;
 begin
     m_pLock.Lock;
     Result := m_pGroup;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetProgress(): Single;
+function TQRModelJob.GetProgress: Single;
 begin
     m_pLock.Lock;
     Result := m_Progress;
@@ -1905,7 +2260,7 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetModelOptions(): TQRModelOptions;
+function TQRModelJob.GetModelOptions: TQRModelOptions;
 begin
     m_pLock.Lock;
     Result := m_ModelOptions;
@@ -1919,7 +2274,7 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRModelJob.OnAfterLoadModel();
+procedure TQRModelJob.OnAfterLoadModel;
 var
     msg: TQRMessage;
 begin
@@ -1942,7 +2297,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelWorker
 //--------------------------------------------------------------------------------------------------
-constructor TQRModelWorker.Create();
+constructor TQRModelWorker.Create;
 begin
     // singleton was already initialized?
     if (Assigned(m_pInstance)) then
@@ -1958,7 +2313,7 @@ begin
     m_pWorker.OnDone := OnThreadJobDone;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRModelWorker.Destroy();
+destructor TQRModelWorker.Destroy;
 var
     i: NativeInt;
 begin
@@ -1996,7 +2351,7 @@ begin
             end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRModelWorker.GetInstance(): TQRModelWorker;
+class function TQRModelWorker.GetInstance: TQRModelWorker;
 begin
     // is singleton instance already initialized?
     if (Assigned(m_pInstance)) then
@@ -2011,7 +2366,7 @@ begin
     Result      := m_pInstance;
 end;
 //--------------------------------------------------------------------------------------------------
-class procedure TQRModelWorker.DeleteInstance();
+class procedure TQRModelWorker.DeleteInstance;
 begin
     m_pInstance.Free;
 end;
@@ -2055,7 +2410,7 @@ finalization
 //--------------------------------------------------------------------------------------------------
 begin
     // free instance when application closes
-    TQRModelWorker.DeleteInstance();
+    TQRModelWorker.DeleteInstance;
 end;
 //--------------------------------------------------------------------------------------------------
 

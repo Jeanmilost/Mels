@@ -910,7 +910,7 @@ type
             {**
              Rotates matrix
              @param(angle Rotation angle in radians)
-             @param(r Rotation direction (e.g. [0.0f, 0.0f, 1.0f] for a z-axis rotation))
+             @param(r Rotation direction (e.g. [0.0, 0.0, 1.0] for a z-axis rotation))
              @return(Copy of rotated matrix)
              @br @bold(NOTE) Rotation direction vector should be normalized before calling this
                              function
@@ -1275,7 +1275,7 @@ type
             {**
             * Gets the spherical linear interpolated quaternion between 2 quaternions
              @param(other Other quaternion to interpolate with)
-             @param(p Interpolation position, in percent (between 0.0f and 1.0f))
+             @param(p Interpolation position, in percent (between 0.0 and 1.0))
              @return(The spherical linear interpolated quaternion)
             }
             {$ENDREGION}
@@ -3346,7 +3346,7 @@ begin
     nPToV3 := m_Vertex[2].Sub(point).Normalize;
 
     // calculate the angles using the dot product of each vectors. Limit range
-    // to values between -1.0f and 1.0f
+    // to values between -1.0 and 1.0
     a1 := Max(Min(nPToV1.Dot(nPToV2), 1.0), -1.0);
     a2 := Max(Min(nPToV2.Dot(nPToV3), 1.0), -1.0);
     a3 := Max(Min(nPToV3.Dot(nPToV1), 1.0), -1.0);

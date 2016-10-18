@@ -200,7 +200,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -266,7 +267,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -338,7 +340,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -408,7 +411,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -500,7 +504,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -584,7 +589,8 @@ type
             {**
             * Called before a texture is loaded
             *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
             *}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
@@ -812,7 +818,7 @@ begin
                 loadNext := False;
 
                 // load texture
-                if (not m_fOnLoadTexture(m_pGroup,
+                if (not m_fOnLoadTexture(GetGroup,
                                          m_pModel,
                                          nil,
                                          m_Textures[textureIndex],
@@ -846,7 +852,7 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
@@ -854,8 +860,8 @@ begin
 
     try
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // do create cache?
         if (doCreateCache) then
@@ -875,37 +881,37 @@ begin
         TThread.Synchronize(nil, OnLoadTexture);
 
         // textures are loaded, add one step to progress
-        m_Progress := m_Progress + progressStep;
+        Progress := Progress + progressStep;
 
         m_pLock.Lock;
         textureLoaded := m_TextureLoaded;
         m_pLock.Unlock;
 
         // do include colors?
-        if (EQR_MO_Without_Colors in m_ModelOptions) then
+        if (EQR_MO_Without_Colors in ModelOptions) then
             vertexFormat := []
         else
             vertexFormat := [EQR_VF_Colors];
 
         // normals loaded?
-        if (not(EQR_MO_Without_Normals in m_ModelOptions)) then
+        if (not(EQR_MO_Without_Normals in ModelOptions)) then
             Include(vertexFormat, EQR_VF_Normals);
 
         // texture loaded?
-        if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+        if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
             Include(vertexFormat, EQR_VF_TexCoords);
 
         // set vertex format
         m_pModel.VertexFormat := vertexFormat;
 
         // model is configured, add one step to progress
-        m_Progress := m_Progress + progressStep;
+        Progress := Progress + progressStep;
 
         // do not create cache?
         if (not doCreateCache) then
         begin
-            m_IsLoaded := True;
-            Result     := True;
+            IsLoaded := True;
+            Result   := True;
             Exit;
         end;
 
@@ -913,7 +919,7 @@ begin
         New(pMesh);
 
         // do ignore collisions?
-        if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+        if (not(EQR_MO_No_Collision in ModelOptions)) then
             // create AABB tree
             pTree := TQRAABBTree.Create
         else
@@ -936,25 +942,25 @@ begin
 
         // add mesh to cache, note that from now cache will take care of the pointer
         try
-            m_pCache.Mesh[0] := pMesh;
+            SetMesh(0, pMesh);
         except
             Dispose(pMesh);
         end;
 
         // do ignore collisions?
-        if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+        if (not(EQR_MO_No_Collision in ModelOptions)) then
             // add tree to cache, note that from now cache will take care of the pointer
             try
-                m_pCache.AABBTree[0] := pTree;
+                SetTree(0, pTree);
             except
                 pTree.Free;
             end;
 
         // cache was created, add one step to progress
-        m_Progress := m_Progress + progressStep;
+        Progress := Progress + progressStep;
 
-        m_IsLoaded := True;
-        Result     := True;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -1087,7 +1093,7 @@ var
     pTree: TQRAABBTree;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // can use dynamic cache?
@@ -1101,7 +1107,7 @@ begin
             GetDynamicMesh(pMesh^);
 
             // draw mesh
-            m_fOnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), pMesh, nil);
+            OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), pMesh, nil);
         finally
             // clear memory
             Dispose(pMesh);
@@ -1114,27 +1120,27 @@ begin
     GetDynamicMeshUseCache(pMesh, pTree);
 
     // draw mesh
-    m_fOnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), pMesh, pTree);
+    OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix, pMesh, pTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRShapeGroup.DrawCachedModel();
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // collision buffers were created?
     if (EQR_MO_No_Collision in m_pJob.ModelOptions) then
         // draw mesh, ignore collisions
-        m_fOnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), m_pJob.Mesh[0], nil)
+        OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), m_pJob.Mesh[0], nil)
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      m_pJob.Model,
-                      m_pJob.m_Textures,
-                      GetMatrix(),
-                      m_pJob.Mesh[0],
-                      m_pJob.AABBTree[0]);
+        OnDrawItem(Self,
+                   m_pJob.Model,
+                   m_pJob.m_Textures,
+                   GetMatrix(),
+                   m_pJob.Mesh[0],
+                   m_pJob.AABBTree[0]);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRShapeGroup.QueryJobStatus(): TQRModelJobStatus;
@@ -1143,17 +1149,17 @@ begin
     if (not Assigned(m_pJob)) then
     begin
         // set default values
-        m_pJobStatus.Status   := EQR_JS_NotStarted;
-        m_pJobStatus.Progress := 0;
+        JobStatus.Status   := EQR_JS_NotStarted;
+        JobStatus.Progress := 0;
     end
     else
     begin
         // get status from running job
-        m_pJobStatus.Status   := m_pJob.GetStatus;
-        m_pJobStatus.Progress := Floor(m_pJob.Progress);
+        JobStatus.Status   := m_pJob.GetStatus;
+        JobStatus.Progress := Floor(m_pJob.Progress);
     end;
 
-    Result := m_pJobStatus;
+    Result := JobStatus;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRShapeGroup.Draw(const elapsedTime: Double);
@@ -1176,13 +1182,13 @@ begin
     then
         DrawDynamicModel()
     else
-    if (Assigned(m_fOnCustomDrawItem))
+    if (Assigned(OnCustomDrawItem))
     then
         // let user take care of drawing model
-        m_fOnCustomDrawItem(Self,
-                            m_pJob.Model,
-                            m_pJob.m_Textures,
-                            GetMatrix());
+        OnCustomDrawItem(Self,
+                         m_pJob.Model,
+                         m_pJob.m_Textures,
+                         GetMatrix());
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRSurfaceJob
@@ -1247,7 +1253,7 @@ begin
                                    lengthY,
                                    pColor,
                                    modelOptions,
-                                   m_fOnLoadTexture);
+                                   OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -1323,7 +1329,7 @@ begin
                                pColor,
                                repeatTexOnEachFace,
                                modelOptions,
-                               m_fOnLoadTexture);
+                               OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -1397,7 +1403,7 @@ begin
                                   radius,
                                   pColor,
                                   modelOptions,
-                                  m_fOnLoadTexture);
+                                  OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -1489,7 +1495,7 @@ begin
                                 closing,
                                 pColor,
                                 modelOptions,
-                                m_fOnLoadTexture);
+                                OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -1577,7 +1583,7 @@ begin
                                  innerRadiusY,
                                  pColor,
                                  modelOptions,
-                                 m_fOnLoadTexture);
+                                 OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -1654,7 +1660,7 @@ begin
                                     radius,
                                     pColor,
                                     modelOptions,
-                                    m_fOnLoadTexture);
+                                    OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);

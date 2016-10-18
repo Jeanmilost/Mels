@@ -1954,7 +1954,7 @@ begin
             end;
 
         // search for head offset value to set
-        case (m_Column) of
+        case (Column) of
             0: m_HeadOffset.m_UnknownOffset1 := StrToInt(word);
             1: m_HeadOffset.m_UnknownOffset2 := StrToInt(word);
             2: m_HeadOffset.m_UnknownOffset3 := StrToInt(word);
@@ -1963,7 +1963,7 @@ begin
             Exit;
         end;
 
-        Inc(m_Column);
+        IncColumn;
     end
     else
     if (word = 'footsteps') then
@@ -1993,7 +1993,7 @@ begin
             end;
 
         // first item to parse?
-        if (Length(m_Items) = 0) then
+        if (GetItemCount = 0) then
         begin
             // store the start line, it will be used later to find the animation type
             m_StartLine := lineNb;
@@ -2001,10 +2001,10 @@ begin
         end;
 
         // get current item index
-        index := Length(m_Items);
+        index := GetItemCount;
 
         // first animation value?
-        if (m_Column = 0) then
+        if (Column = 0) then
         begin
             // get animation gesture (each line pos in file matchs with the IEGesture enumerator)
             gesture := (m_CurLine - m_StartLine);
@@ -2017,8 +2017,8 @@ begin
             end;
 
             // create and populate new item, and add it to list
-            SetLength(m_Items, index + 1);
-            m_Items[index].m_Gesture := gesture;
+            SetItemCount(index + 1);
+            Items[index].m_Gesture := gesture;
 
             Inc(m_CurLine);
         end
@@ -2026,17 +2026,17 @@ begin
             Dec(index);
 
         // search for animation item value to set
-        case (m_Column) of
-            0: m_Items[index].m_StartFrame      := StrToInt(word);
-            1: m_Items[index].m_FrameCount      := StrToInt(word);
-            2: m_Items[index].m_LoopingFrames   := StrToInt(word);
-            3: m_Items[index].m_FramesPerSecond := StrToInt(word);
+        case (Column) of
+            0: Items[index].m_StartFrame      := StrToInt(word);
+            1: Items[index].m_FrameCount      := StrToInt(word);
+            2: Items[index].m_LoopingFrames   := StrToInt(word);
+            3: Items[index].m_FramesPerSecond := StrToInt(word);
         else
             Result := False;
             Exit;
         end;
 
-        Inc(m_Column);
+        IncColumn;
     end;
 
     Result := True;
@@ -3040,7 +3040,7 @@ begin
                         begin
                             // notify that a texture is loading
                             if (Assigned(m_fOnLoadTexture)) then
-                                if (not m_fOnLoadTexture(m_pGroup,
+                                if (not m_fOnLoadTexture(GetGroup,
                                                          pItem.m_pModel,
                                                          pTexture,
                                                          pModelTexture,
@@ -3051,7 +3051,7 @@ begin
                         else
                         // notify that a texture is loading
                         if (Assigned(m_fOnLoadTexture)) then
-                            if (not m_fOnLoadTexture(m_pGroup,
+                            if (not m_fOnLoadTexture(GetGroup,
                                                      pItem.m_pModel,
                                                      nil,
                                                      pModelTexture,
@@ -3068,7 +3068,7 @@ begin
                 begin
                     // notify that a texture is loading
                     if (Assigned(m_fOnLoadTexture)) then
-                        if (not m_fOnLoadTexture(m_pGroup,
+                        if (not m_fOnLoadTexture(GetGroup,
                                                  pItem.m_pModel,
                                                  nil,
                                                  pModelTexture,
@@ -3246,20 +3246,18 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // get sub-model group count. A sub-model group is usually composed of a model (.md3 file), a
         // skin (.skin file), and optional shader and texture files. All files belonging to sub-model
@@ -3351,9 +3349,7 @@ begin
             progressStep := (totalItemStep / totalStep);
 
             // model is loaded, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // set model color
             m_Items[i].m_pModel.Color := m_pColor;
@@ -3397,25 +3393,25 @@ begin
 
             try
                 textureLoaded := m_TextureLoaded;
-
-                // skin is loaded, add one step to progress
-                m_Progress := m_Progress + progressStep;
             finally
                 m_pLock.Unlock;
             end;
 
+            // skin is loaded, add one step to progress
+            Progress := Progress + progressStep;
+
             // do include colors?
-            if (EQR_MO_Without_Colors in m_ModelOptions) then
+            if (EQR_MO_Without_Colors in ModelOptions) then
                 vertexFormat := []
             else
                 vertexFormat := [EQR_VF_Colors];
 
             // normals loaded?
-            if (not(EQR_MO_Without_Normals in m_ModelOptions)) then
+            if (not(EQR_MO_Without_Normals in ModelOptions)) then
                 Include(vertexFormat, EQR_VF_Normals);
 
             // texture loaded?
-            if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+            if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
                 Include(vertexFormat, EQR_VF_TexCoords);
 
             // set vertex format
@@ -3425,9 +3421,7 @@ begin
             m_pItemDictionary.AddOrSetValue(modelName, @m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // do not create cache?
             if (not doCreateCache) then
@@ -3451,7 +3445,7 @@ begin
                     New(pMesh);
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // create AABB tree
                         pTree := TQRAABBTree.Create
                     else
@@ -3478,16 +3472,16 @@ begin
 
                     // add mesh to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.Mesh[m_Items[i].m_CacheIndex + j] := pMesh;
+                        SetMesh(m_Items[i].m_CacheIndex + j, pMesh);
                     except
                         Dispose(pMesh);
                     end;
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // add tree to cache, note that from now cache will take care of the pointer
                         try
-                            m_pCache.AABBTree[m_Items[i].m_CacheIndex + j] := pTree;
+                            SetTree(m_Items[i].m_CacheIndex + j, pTree);
                         except
                             pTree.Free;
                         end;
@@ -3496,9 +3490,7 @@ begin
                     Inc(cacheIndex);
 
                     // a new frame was cached, add one step to progress
-                    m_pLock.Lock;
-                    m_Progress := m_Progress + progressStep;
-                    m_pLock.Unlock;
+                    Progress := Progress + progressStep;
                 end;
             end;
         end;
@@ -3509,9 +3501,7 @@ begin
         progressStep := (totalItemStep / 2.0);
 
         // model was linked, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animation file name
         animFileName :=
@@ -3536,12 +3526,9 @@ begin
         end;
 
         // model is fully loaded
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -3689,20 +3676,18 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // get sub-model group count. A sub-model group is usually composed of a model (.md3 file), a
         // skin (.skin file), and optional shader and texture files. All files belonging to sub-model
@@ -3811,9 +3796,7 @@ begin
             progressStep := (totalItemStep / totalStep);
 
             // model is loaded, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // set model color
             m_Items[i].m_pModel.Color := m_pColor;
@@ -3872,25 +3855,25 @@ begin
 
             try
                 textureLoaded := m_TextureLoaded;
-
-                // skin is loaded, add one step to progress
-                m_Progress := m_Progress + progressStep;
             finally
                 m_pLock.Unlock;
             end;
 
+            // skin is loaded, add one step to progress
+            Progress := Progress + progressStep;
+
             // do include colors?
-            if (EQR_MO_Without_Colors in m_ModelOptions) then
+            if (EQR_MO_Without_Colors in ModelOptions) then
                 vertexFormat := []
             else
                 vertexFormat := [EQR_VF_Colors];
 
             // normals loaded?
-            if (not(EQR_MO_Without_Normals in m_ModelOptions)) then
+            if (not(EQR_MO_Without_Normals in ModelOptions)) then
                 Include(vertexFormat, EQR_VF_Normals);
 
             // texture loaded?
-            if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+            if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
                 Include(vertexFormat, EQR_VF_TexCoords);
 
             // set vertex format
@@ -3900,9 +3883,7 @@ begin
             m_pItemDictionary.AddOrSetValue(modelName, @m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // do not create cache?
             if (not doCreateCache) then
@@ -3926,7 +3907,7 @@ begin
                     New(pMesh);
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // create AABB tree
                         pTree := TQRAABBTree.Create
                     else
@@ -3953,16 +3934,16 @@ begin
 
                     // add mesh to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.Mesh[m_Items[i].m_CacheIndex + j] := pMesh;
+                        SetMesh(m_Items[i].m_CacheIndex + j, pMesh);
                     except
                         Dispose(pMesh);
                     end;
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // add tree to cache, note that from now cache will take care of the pointer
                         try
-                            m_pCache.AABBTree[m_Items[i].m_CacheIndex + j] := pTree;
+                            SetTree(m_Items[i].m_CacheIndex + j, pTree);
                         except
                             pTree.Free;
                         end;
@@ -3971,9 +3952,7 @@ begin
                     Inc(cacheIndex);
 
                     // a new frame was cached, add one step to progress
-                    m_pLock.Lock;
-                    m_Progress := m_Progress + progressStep;
-                    m_pLock.Unlock;
+                    Progress := Progress + progressStep;
                 end;
             end;
         end;
@@ -3984,9 +3963,7 @@ begin
         progressStep := (totalItemStep / 2.0);
 
         // model was linked, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animation file name
         animFileName := TQRMD3Helper.BuildName(m_pInfo.m_AnimTemplate,
@@ -4039,12 +4016,9 @@ begin
         end;
 
         // model is fully loaded
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -4276,7 +4250,7 @@ begin
 
         repeat
             // get next image extension to load
-            extension := m_TextureExt[index];
+            extension := TextureExt[index];
 
             // build icon file name
             fileName := TQRMD3Helper.BuildName(m_pInfo.m_SkinTemplate,
@@ -4287,7 +4261,7 @@ begin
             iconExists := m_pDir.FileExists(fileName);
 
             Inc(index);
-        until (iconExists or (index >= Length(m_TextureExt)));
+        until (iconExists or (index >= TextureExtCount));
 
         // found a icon file to load?
         if (not iconExists) then
@@ -4420,7 +4394,7 @@ begin
 
         // call event
         m_ExternalUnpackHandled   := True;
-        m_ExternalUnpackSucceeded := m_fOnUnpackModel(m_pGroup,
+        m_ExternalUnpackSucceeded := m_fOnUnpackModel(GetGroup,
                                                       m_pPackage,
                                                       m_pDir,
                                                       m_ExternalUnpackHandled);
@@ -4435,15 +4409,13 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
-    m_pLock.Lock;
-    m_Progress := 0.0;
-    m_pLock.Unlock;
+    Progress := 0.0;
 
     // unpack model package
     if (not Unpack) then
@@ -4676,7 +4648,7 @@ var
     pTree, pNextTree: TQRAABBTree;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // no sub-model item?
@@ -4701,17 +4673,17 @@ begin
                                    TQRIsCanceledEvent(nil));
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             try
@@ -4724,17 +4696,17 @@ begin
                 GetDynamicMesh(pItem, pItem.m_pAnimation.InterpolationFrameIndex, pNextMesh^);
 
                 // draw mesh
-                m_fOnDrawItem(Self,
-                              pItem.m_pModel,
-                              pItem.m_Textures,
-                              matrix,
-                              pItem.m_pAnimation.FrameIndex,
-                              pItem.m_pAnimation.InterpolationFrameIndex,
-                              pItem.m_pAnimation.InterpolationFactor,
-                              pMesh,
-                              pNextMesh,
-                              nil,
-                              nil);
+                OnDrawItem(Self,
+                           pItem.m_pModel,
+                           pItem.m_Textures,
+                           matrix,
+                           pItem.m_pAnimation.FrameIndex,
+                           pItem.m_pAnimation.InterpolationFrameIndex,
+                           pItem.m_pAnimation.InterpolationFactor,
+                           pMesh,
+                           pNextMesh,
+                           nil,
+                           nil);
             finally
                 // clear memory
                 Dispose(pMesh);
@@ -4758,31 +4730,31 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   pTree,
+                   pNextTree);
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      pMesh,
-                      pNextMesh,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   pMesh,
+                   pNextMesh,
+                   pTree,
+                   pNextTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawCachedModel(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
@@ -4790,7 +4762,7 @@ var
     interpolatedMesh: TQRMesh;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // no sub-model item?
@@ -4814,31 +4786,31 @@ begin
                                        interpolatedMesh);
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                          m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                       m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
+                       nil,
+                       nil);
     end
     else
     // do interpolate?
@@ -4851,31 +4823,31 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex])
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex])
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex]);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex]);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawMesh(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
@@ -4908,16 +4880,16 @@ begin
     then
         DrawDynamicModel(pItem, matrix)
     else
-    if (Assigned(m_fOnCustomDrawItem))
+    if (Assigned(OnCustomDrawItem))
     then
         // let user take care of drawing model
-        m_fOnCustomDrawItem(Self,
-                            pItem.m_pModel,
-                            pItem.m_Textures,
-                            matrix,
-                            pItem.m_pAnimation.FrameIndex,
-                            pItem.m_pAnimation.InterpolationFrameIndex,
-                            pItem.m_pAnimation.InterpolationFactor);
+        OnCustomDrawItem(Self,
+                         pItem.m_pModel,
+                         pItem.m_Textures,
+                         matrix,
+                         pItem.m_pAnimation.FrameIndex,
+                         pItem.m_pAnimation.InterpolationFrameIndex,
+                         pItem.m_pAnimation.InterpolationFactor);
 
     // get model parser
     pParser := pItem.m_pModel.Parser;
@@ -5134,7 +5106,7 @@ begin
                                        pColor,
                                        modelOptions,
                                        framedModelOptions,
-                                       m_fOnLoadTexture);
+                                       OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -5171,7 +5143,7 @@ begin
                                             pColor,
                                             modelOptions,
                                             framedModelOptions,
-                                            m_fOnLoadTexture);
+                                            OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -5246,7 +5218,7 @@ begin
                                           pColor,
                                           modelOptions,
                                           framedModelOptions,
-                                          m_fOnLoadTexture,
+                                          OnLoadMeshTexture,
                                           team,
                                           customTeamName);
 
@@ -5320,17 +5292,17 @@ begin
     if (not Assigned(m_pJob)) then
     begin
         // set default values
-        m_pJobStatus.Status   := EQR_JS_NotStarted;
-        m_pJobStatus.Progress := 0;
+        JobStatus.Status   := EQR_JS_NotStarted;
+        JobStatus.Progress := 0;
     end
     else
     begin
         // get status from running job
-        m_pJobStatus.Status   := m_pJob.GetStatus;
-        m_pJobStatus.Progress := Floor(m_pJob.Progress);
+        JobStatus.Status   := m_pJob.GetStatus;
+        JobStatus.Progress := Floor(m_pJob.Progress);
     end;
 
-    Result := m_pJobStatus;
+    Result := JobStatus;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.Draw(const elapsedTime: Double);

@@ -295,7 +295,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets red component as float (between 0.0f and 1.0f)
+             Gets red component as float (between 0.0 and 1.0)
              @return(Red component as float value)
             }
             {$ENDREGION}
@@ -303,7 +303,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets green component as float (between 0.0f and 1.0f)
+             Gets green component as float (between 0.0 and 1.0)
              @return(Green component as float value)
             }
             {$ENDREGION}
@@ -311,7 +311,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets blue component as float (between 0.0f and 1.0f)
+             Gets blue component as float (between 0.0 and 1.0)
              @return(Blue component as float value)
             }
             {$ENDREGION}
@@ -319,7 +319,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets alpha component as float (between 0.0f and 1.0f)
+             Gets alpha component as float (between 0.0 and 1.0)
              @return(Alpha component as float value)
             }
             {$ENDREGION}
@@ -329,7 +329,7 @@ type
             {**
              Blends a color with another color
              @param(pOther Other color to blend with)
-             @param(offset Blend offset (from 0.0f to 1.0f))
+             @param(offset Blend offset (from 0.0 to 1.0))
              @return(Blended color)
              @br @bold(NOTE) The blended color should be deleted when useless
             }

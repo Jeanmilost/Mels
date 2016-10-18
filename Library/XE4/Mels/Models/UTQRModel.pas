@@ -75,7 +75,7 @@ type
             {$REGION 'Documentation'}
             {**
              Interpolates mesh
-             @param(position Interpolation position, in percent (between 0.0f and 1.0f))
+             @param(position Interpolation position, in percent (between 0.0 and 1.0))
              @param(mesh1 First mesh to interpolate)
              @param(mesh2 Second mesh to interpolate)
              @param(mesh @bold([out]) Resulting interpolated mesh)
