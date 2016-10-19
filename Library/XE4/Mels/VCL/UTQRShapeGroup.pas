@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRShapeGroup ---------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module contains the classes used to load and link all shape files together. *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRShapeGroup ---------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to load and link all shape models and files together.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRShapeGroup;
 
 interface
@@ -25,20 +44,24 @@ uses System.Classes,
      Vcl.Graphics;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Shape helper
-    *}
+     Shape helper
+    }
+    {$ENDREGION}
     TQRShapeHelper = class
         public
+            {$REGION 'Documentation'}
             {**
-            * Adds vertex to a vertex buffer
-            *@param pPosition - vertex possition in space 3D coordinates
-            *@param pNormal - vertex normal
-            *@param pTexCoord - vertex texture coordinates
-            *@param pColor - vertex color
-            *@param[in, out] index - vertex index in the buffer
-            *@param[in, out] vertex - vertex info containing buffer in which vertex should be added
-            *}
+             Adds vertex to a vertex buffer
+             @param(pPosition - vertex possition in space 3D coordinates)
+             @param(pNormal - vertex normal)
+             @param(pTexCoord - vertex texture coordinates)
+             @param(pColor - vertex color)
+             @param(index @bold([in, out]) Vertex index in the buffer)
+             @param(vertex @bold([in, out]) Vertex info containing buffer in which vertex should be added)
+            }
+            {$ENDREGION}
             class procedure AddVertex(const pPosition, pNormal: PQRVector3D;
                                                const pTexCoord: PQRVector2D;
                                                   const pColor: TQRColor;
@@ -46,11 +69,13 @@ type
                                                     var vertex: TQRVertex); static;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic 3D shape job
-    *}
+     Generic 3D shape job
+    }
+    {$ENDREGION}
     TQRShapeJob = class(TQRModelJob)
-        protected
+        private
             m_pModel:         TQRShapeModel;
             m_Textures:       TQRTextures;
             m_pColor:         TQRColor;
@@ -59,241 +84,347 @@ type
             m_IsCanceled:     Boolean;
             m_fOnLoadTexture: TQRLoadMeshTextureEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets model
-            *@return model
-            *}
-            function GetModel(): TQRShapeModel; virtual;
+             Gets model
+             @return(Model)
+            }
+            {$ENDREGION}
+            function GetModel: TQRShapeModel; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture
-            *@param index - texture index to get
-            *@return texture
-            *}
+             Gets texture
+             @param(index Texture index to get)
+             @return(Texture)
+            }
+            {$ENDREGION}
             function GetTexture(index: NativeInt): TQRTexture; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture count
-            *@return texture
-            *}
-            function GetTextureCount(): NativeInt; virtual;
+             Gets the texture count
+             @return(The texture count)
+            }
+            {$ENDREGION}
+            function GetTextureCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets color
-            *@return color
-            *}
-            function GetColor(): TQRColor; virtual;
+             Gets the model color
+             @return(The model color)
+            }
+            {$ENDREGION}
+            function GetColor: TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when model texture should be loaded
-            *@note This function is executed on the calling thread side
-            *}
-            procedure OnLoadTexture(); virtual;
+             Called when the model texture should be loaded
+             @br @bold(NOTE) This function is executed on the calling thread side
+            }
+            {$ENDREGION}
+            procedure OnLoadTexture; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                          const pColor: TQRColor;
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
-            destructor Destroy(); override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Cancels the job
-            *}
-            procedure Cancel(); override;
+             Cancels the job
+            }
+            {$ENDREGION}
+            procedure Cancel; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if job was canceled
-            *@return true if job was canceled, otherwise false
-            *}
-            function IsCanceled(): Boolean; virtual;
+             Checks if job was canceled
+             @return(@true if job was canceled, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsCanceled: Boolean; virtual;
 
-            { Properties }
-            property Model:                     TQRShapeModel read GetModel;
-            property Texture[index: NativeInt]: TQRTexture    read GetTexture;
-            property TextureCount:              NativeInt     read GetTextureCount;
-            property Color:                     TQRColor      read GetColor;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the model
+            }
+            {$ENDREGION}
+            property Model: TQRShapeModel read GetModel;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the model texture at index
+            }
+            {$ENDREGION}
+            property Texture[index: NativeInt]: TQRTexture read GetTexture;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the model texture count
+            }
+            {$ENDREGION}
+            property TextureCount: NativeInt read GetTextureCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the model color
+            }
+            {$ENDREGION}
+            property Color: TQRColor read GetColor;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic 3D shape group, contains all items and functions needed to manage a complete shape
-    *}
+     Generic 3D shape group, contains all items and functions needed to manage a complete shape
+    }
+    {$ENDREGION}
     TQRShapeGroup = class(TQRStaticModelGroup)
-        protected
+        private
             m_pJob: TQRShapeJob;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh
-            *@param[out] mesh - mesh
-            *}
+             Gets dynamic mesh
+             @param(mesh @bold([out]) Mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMesh(out mesh: TQRMesh); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh, from cache if available, otherwise calculates and caches it
-            *@param[out] mesh - mesh
-            *@param[out] pTree - aligned-axis bounding box tree matching with mesh
-            *}
+             Gets dynamic mesh, from cache if available, otherwise calculates and caches it
+             @param(mesh @bold([out]) Mesh)
+             @param(pTree @bold([out]) Aligned-axis bounding box tree matching with mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMeshUseCache(out pMesh: PQRMesh; out pTree: TQRAABBTree); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws dynamic model
-            *}
-            procedure DrawDynamicModel(); virtual;
+             Draws dynamic model
+            }
+            {$ENDREGION}
+            procedure DrawDynamicModel; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws cached model
-            *}
-            procedure DrawCachedModel(); virtual;
+             Draws cached model
+            }
+            {$ENDREGION}
+            procedure DrawCachedModel; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears script
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if group is empty
-            *@return true if model is empty, otherwise false
-            *}
-            function IsEmpty(): Boolean; override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Queries the job status
-            *@return job status
-            *}
-            function QueryJobStatus(): TQRModelJobStatus; override;
+             Clears script
+            }
+            {$ENDREGION}
+            procedure Clear; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws group
-            *@param elapsedTime - elapsed time since last draw
-            *}
+             Checks if group is empty
+             @return(@true if model is empty, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEmpty: Boolean; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Queries the job status
+             @return(Job status)
+            }
+            {$ENDREGION}
+            function QueryJobStatus: TQRModelJobStatus; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Draws group
+             @param(elapsedTime Elapsed time since last draw)
+            }
+            {$ENDREGION}
             procedure Draw(const elapsedTime: Double); override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Surface job
-    *}
+     Surface job
+    }
+    {$ENDREGION}
     TQRSurfaceJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param lengthX - surface length on x axis
-            *@param lengthY - surface length on y axis
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(lengthX Surface length on x axis)
+             @param(lengthY Surface length on y axis)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                      lengthX, lengthY: Single;
                          const pColor: TQRColor;
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Surface group, contains all items and functions needed to manage a complete surface model
-    *}
+     Surface group, contains all items and functions needed to manage a complete surface model
+    }
+    {$ENDREGION}
     TQRSurfaceGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads surface group, creates and initializes model
-            *@param lengthX - surface length on x axis
-            *@param lengthY - surface length on y axis
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads surface group, creates and initializes model
+             @param(lengthX Surface length on x axis)
+             @param(lengthY Surface length on y axis)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(lengthX, lengthY: Single;
                               const pColor: TQRColor;
                               modelOptions: TQRModelOptions): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Box job
-    *}
+     Box job
+    }
+    {$ENDREGION}
     TQRBoxJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param lengthX - box length on x axis
-            *@param lengthY - box length on y axis
-            *@param lengthZ - box length on z axis
-            *@param pColor - model color
-            *@param repeatTexOnEachFace - if true, texture will be repeated on each face
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(lengthX Box length on x axis)
+             @param(lengthY Box length on y axis)
+             @param(lengthZ Box length on z axis)
+             @param(pColor Model color)
+             @param(repeatTexOnEachFace If @true, texture will be repeated on each face)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
             lengthX, lengthY, lengthZ: Single;
                          const pColor: TQRColor;
@@ -301,71 +432,95 @@ type
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Box group, contains all items and functions needed to manage a complete box model
-    *}
+     Box group, contains all items and functions needed to manage a complete box model
+    }
+    {$ENDREGION}
     TQRBoxGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads box group, creates and initializes model
-            *@param lengthX - box length on x axis
-            *@param lengthY - box length on y axis
-            *@param lengthZ - box length on z axis
-            *@param pColor - model color
-            *@param repeatTexOnEachFace - if true, texture will be repeated on each face
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads box group, creates and initializes model
+             @param(lengthX Box length on x axis)
+             @param(lengthY Box length on y axis)
+             @param(lengthZ Box length on z axis)
+             @param(pColor Model color)
+             @param(repeatTexOnEachFace If @true, texture will be repeated on each face)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(lengthX, lengthY, lengthZ: Single;
                                        const pColor: TQRColor;
                                 repeatTexOnEachFace: Boolean;
                                        modelOptions: TQRModelOptions): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Sphere job
-    *}
+     Sphere job
+    }
+    {$ENDREGION}
     TQRSphereJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param slices - sphere slices to generate
-            *@param stacks - sphere stacks to generate
-            *@param radius - sphere radius
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(slices Sphere slices to generate)
+             @param(stacks Sphere stacks to generate)
+             @param(radius Sphere radius)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                        slices, stacks: NativeUInt;
                                radius: Single;
@@ -373,76 +528,100 @@ type
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Sphere group, contains all items and functions needed to manage a complete sphere model
-    *}
+     Sphere group, contains all items and functions needed to manage a complete sphere model
+    }
+    {$ENDREGION}
     TQRSphereGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads sphere group, creates and initializes model
-            *@param slices - sphere slices to generate
-            *@param stacks - sphere stacks to generate
-            *@param radius - sphere radius
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads sphere group, creates and initializes model
+             @param(slices Sphere slices to generate)
+             @param(stacks Sphere stacks to generate)
+             @param(radius Sphere radius)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(slices, stacks: NativeUInt;
                                   radius: Single;
                             const pColor: TQRColor;
                             modelOptions: TQRModelOptions): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Cone job
-    *}
+     Cone job
+    }
+    {$ENDREGION}
     TQRConeJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param faceCount - number of faces composing the cone body (without top and bottom closing)
-            *@param height - cone height
-            *@param topRadiusX - x axis radius of the ellipse formed by the truncated apex, the
-            *                    cone is not truncated if equals to 0.0
-            *@param topRadiusY - y axis radius of the ellipse formed by the truncated apex, ignored
-            *                    if topRadiusX is equals to 0.0
-            *@param bottomRadiusX - x axis radius of the ellipse formed by the base
-            *@param bottomRadiusY - y axis radius of the ellipse formed by the base
-            *@param closing - cone closing type
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(faceCount Number of faces composing the cone body (without top and bottom closing)
+             @param(height Cone height)
+             @param(topRadiusX x axis radius of the ellipse formed by the truncated apex, the cone
+                               is not truncated if equals to 0.0)
+             @param(topRadiusY y axis radius of the ellipse formed by the truncated apex, ignored if
+                               topRadiusX is equals to 0.0)
+             @param(bottomRadiusX x axis radius of the ellipse formed by the base)
+             @param(bottomRadiusY y axis radius of the ellipse formed by the base)
+             @param(closing Cone closing type)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                             faceCount: NativeUInt;
                                height,
@@ -455,36 +634,52 @@ type
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Cone group, contains all items and functions needed to manage a complete cone model
-    *}
+     Cone group, contains all items and functions needed to manage a complete cone model
+    }
+    {$ENDREGION}
     TQRConeGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads cone group, creates and initializes model
-            *@param faceCount - number of faces composing the cone body (without top and bottom closing)
-            *@param height - cone height
-            *@param topRadiusX - x axis radius of the ellipse formed by the truncated apex, the
-            *                    cone is not truncated if equals to 0.0
-            *@param topRadiusY - y axis radius of the ellipse formed by the truncated apex, ignored
-            *                    if topRadiusX is equals to 0.0
-            *@param bottomRadiusX - x axis radius of the ellipse formed by the base
-            *@param bottomRadiusY - y axis radius of the ellipse formed by the base
-            *@param closing - cone closing type
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads cone group, creates and initializes model
+             @param(faceCount Number of faces composing the cone body (without top and bottom closing))
+             @param(height Cone height)
+             @param(topRadiusX x axis radius of the ellipse formed by the truncated apex, the cone
+                               is not truncated if equals to 0.0)
+             @param(topRadiusY y axis radius of the ellipse formed by the truncated apex, ignored if
+                               topRadiusX is equals to 0.0)
+             @param(bottomRadiusX x axis radius of the ellipse formed by the base)
+             @param(bottomRadiusY y axis radius of the ellipse formed by the base)
+             @param(closing Cone closing type)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(faceCount: NativeUInt;
                              height,
                          topRadiusX,
@@ -496,43 +691,51 @@ type
                        modelOptions: TQRModelOptions): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Torus job
-    *}
+     Torus job
+    }
+    {$ENDREGION}
     TQRTorusJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param slices - torus slices
-            *@param facesPerSlices - for each torus slice, the number of faces to build
-            *@param outerRadiusX - outer radius on the (local) x axis
-            *@param outerRadiusY - outer radius on the (local) y axis
-            *@param innerRadiusX - inner radius on the (local) x axis
-            *@param innerRadiusY - inner radius on the (local) y axis
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(slices Torus slices)
+             @param(facesPerSlices For each torus slice, the number of faces to build)
+             @param(outerRadiusX Outer radius on the (local) x axis)
+             @param(outerRadiusY Outer radius on the (local) y axis)
+             @param(innerRadiusX Inner radius on the (local) x axis)
+             @param(innerRadiusY Inner radius on the (local) y axis)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                                slices,
                        facesPerSlices: NativeUInt;
@@ -544,33 +747,49 @@ type
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Torus group, contains all items and functions needed to manage a complete torus model
-    *}
+     Torus group, contains all items and functions needed to manage a complete torus model
+    }
+    {$ENDREGION}
     TQRTorusGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads cone group, creates and initializes model
-            *@param slices - torus slices
-            *@param facesPerSlices - for each torus slice, the number of faces to build
-            *@param outerRadiusX - outer radius on the (local) x axis
-            *@param outerRadiusY - outer radius on the (local) y axis
-            *@param innerRadiusX - inner radius on the (local) x axis
-            *@param innerRadiusY - inner radius on the (local) y axis
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads cone group, creates and initializes model
+             @param(slices Torus slices)
+             @param(facesPerSlices For each torus slice, the number of faces to build)
+             @param(outerRadiusX Outer radius on the (local) x axis)
+             @param(outerRadiusY Outer radius on the (local) y axis)
+             @param(innerRadiusX Inner radius on the (local) x axis)
+             @param(innerRadiusY Inner radius on the (local) y axis)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(slices,
                   facesPerSlices: NativeUInt;
                     outerRadiusX,
@@ -581,41 +800,49 @@ type
                     modelOptions: TQRModelOptions): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Parabola job
-    *}
+     Parabola job
+    }
+    {$ENDREGION}
     TQRParabolaJob = class(TQRShapeJob)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
              @param(custom If @true, texture is a custom texture provided by the user, otherwise a
                     texture belonging to model)
-            *}
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param slices - parabola slices
-            *@param facesPerSlices - for each parabola slice, the number of faces to build
-            *@param height - parabola height
-            *@param radius - parabola radius
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(slices Parabola slices)
+             @param(facesPerSlices For each parabola slice, the number of faces to build)
+             @param(height Parabola height)
+             @param(radius Parabola radius)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                                slices,
                        facesPerSlices: NativeUInt;
@@ -624,31 +851,47 @@ type
                          modelOptions: TQRModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Parabola group, contains all items and functions needed to manage a complete parabola model
-    *}
+     Parabola group, contains all items and functions needed to manage a complete parabola model
+    }
+    {$ENDREGION}
     TQRParabolaGroup = class(TQRShapeGroup)
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads cone group, creates and initializes model
-            *@param slices - parabola slices
-            *@param facesPerSlices - for each parabola slice, the number of faces to build
-            *@param height - parabola height
-            *@param radius - parabola radius
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads cone group, creates and initializes model
+             @param(slices Parabola slices)
+             @param(facesPerSlices For each parabola slice, the number of faces to build)
+             @param(height Parabola height)
+             @param(radius Parabola radius)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(slices, facesPerSlices: NativeUInt;
                                   height, radius: Single;
                                     const pColor: TQRColor;
@@ -728,7 +971,7 @@ begin
     m_fOnLoadTexture := fOnLoadTexture;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRShapeJob.Destroy();
+destructor TQRShapeJob.Destroy;
 var
     i: NativeUInt;
 begin
@@ -752,7 +995,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeJob.GetModel(): TQRShapeModel;
+function TQRShapeJob.GetModel: TQRShapeModel;
 begin
     m_pLock.Lock;
     Result := m_pModel;
@@ -774,21 +1017,21 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeJob.GetTextureCount(): NativeInt;
+function TQRShapeJob.GetTextureCount: NativeInt;
 begin
     m_pLock.Lock;
     Result := Length(m_Textures);
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeJob.GetColor(): TQRColor;
+function TQRShapeJob.GetColor: TQRColor;
 begin
     m_pLock.Lock;
     Result := m_pColor;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRShapeJob.OnLoadTexture();
+procedure TQRShapeJob.OnLoadTexture;
 var
     textureIndex: NativeInt;
     max:          NativeUInt;
@@ -840,7 +1083,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeJob.Process(): Boolean;
+function TQRShapeJob.Process: Boolean;
 var
     textureLoaded:           Boolean;
     vertexFormat:            TQRVertexFormat;
@@ -966,14 +1209,14 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRShapeJob.Cancel();
+procedure TQRShapeJob.Cancel;
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeJob.IsCanceled(): Boolean;
+function TQRShapeJob.IsCanceled: Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
@@ -982,12 +1225,12 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRShapeGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRShapeGroup.Create();
+constructor TQRShapeGroup.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRShapeGroup.Destroy();
+destructor TQRShapeGroup.Destroy;
 begin
     // delete model and his associated job, don't forget to unregister it from worker
     if (Assigned(m_pJob)) then
@@ -999,7 +1242,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRShapeGroup.Clear();
+procedure TQRShapeGroup.Clear;
 begin
     // previous job was created?
     if (Assigned(m_pJob)) then
@@ -1010,7 +1253,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeGroup.IsEmpty(): Boolean;
+function TQRShapeGroup.IsEmpty: Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
@@ -1087,7 +1330,7 @@ begin
         end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRShapeGroup.DrawDynamicModel();
+procedure TQRShapeGroup.DrawDynamicModel;
 var
     pMesh: PQRMesh;
     pTree: TQRAABBTree;
@@ -1107,7 +1350,7 @@ begin
             GetDynamicMesh(pMesh^);
 
             // draw mesh
-            OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), pMesh, nil);
+            OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix, pMesh, nil);
         finally
             // clear memory
             Dispose(pMesh);
@@ -1123,7 +1366,7 @@ begin
     OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix, pMesh, pTree);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRShapeGroup.DrawCachedModel();
+procedure TQRShapeGroup.DrawCachedModel;
 begin
     // nothing to draw?
     if (not Assigned(OnDrawItem)) then
@@ -1132,18 +1375,18 @@ begin
     // collision buffers were created?
     if (EQR_MO_No_Collision in m_pJob.ModelOptions) then
         // draw mesh, ignore collisions
-        OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix(), m_pJob.Mesh[0], nil)
+        OnDrawItem(Self, m_pJob.Model, m_pJob.m_Textures, GetMatrix, m_pJob.Mesh[0], nil)
     else
         // draw mesh
         OnDrawItem(Self,
                    m_pJob.Model,
                    m_pJob.m_Textures,
-                   GetMatrix(),
+                   GetMatrix,
                    m_pJob.Mesh[0],
                    m_pJob.AABBTree[0]);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRShapeGroup.QueryJobStatus(): TQRModelJobStatus;
+function TQRShapeGroup.QueryJobStatus: TQRModelJobStatus;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -1175,12 +1418,12 @@ begin
     // can draw model from a previously built cache, do generate frames dynamically, or let user
     // take care of frames creation?
     if (EQR_MO_Create_Cache in m_pJob.ModelOptions) then
-        DrawCachedModel()
+        DrawCachedModel
     else
     if ((EQR_MO_Dynamic_Frames          in m_pJob.ModelOptions) or
         (EQR_MO_Dynamic_Frames_No_Cache in m_pJob.ModelOptions))
     then
-        DrawDynamicModel()
+        DrawDynamicModel
     else
     if (Assigned(OnCustomDrawItem))
     then
@@ -1188,7 +1431,7 @@ begin
         OnCustomDrawItem(Self,
                          m_pJob.Model,
                          m_pJob.m_Textures,
-                         GetMatrix());
+                         GetMatrix);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRSurfaceJob
@@ -1210,7 +1453,7 @@ begin
     m_pModel              := pSurfaceModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSurfaceJob.Destroy();
+destructor TQRSurfaceJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1228,14 +1471,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRSurfaceGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRSurfaceGroup.Create();
+constructor TQRSurfaceGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSurfaceGroup.Destroy();
+destructor TQRSurfaceGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1245,7 +1488,7 @@ function TQRSurfaceGroup.Load(lengthX, lengthY: Single;
                                   modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRSurfaceJob.Create(Self,
@@ -1283,7 +1526,7 @@ begin
     m_pModel                      := pBoxModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRBoxJob.Destroy();
+destructor TQRBoxJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1301,14 +1544,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRBoxGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRBoxGroup.Create();
+constructor TQRBoxGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRBoxGroup.Destroy();
+destructor TQRBoxGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1319,7 +1562,7 @@ function TQRBoxGroup.Load(lengthX, lengthY, lengthZ: Single;
                                        modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRBoxJob.Create(Self,
@@ -1358,7 +1601,7 @@ begin
     m_pModel            := pSphereModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSphereJob.Destroy();
+destructor TQRSphereJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1376,14 +1619,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRSphereGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRSphereGroup.Create();
+constructor TQRSphereGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRSphereGroup.Destroy();
+destructor TQRSphereGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1394,7 +1637,7 @@ function TQRSphereGroup.Load(slices, stacks: NativeUInt;
                                modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRSphereJob.Create(Self,
@@ -1441,7 +1684,7 @@ begin
     m_pModel                 := pConeModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRConeJob.Destroy();
+destructor TQRConeJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1459,14 +1702,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRConeGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRConeGroup.Create();
+constructor TQRConeGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRConeGroup.Destroy();
+destructor TQRConeGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1482,7 +1725,7 @@ function TQRConeGroup.Load(faceCount: NativeUInt;
                         modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRConeJob.Create(Self,
@@ -1531,7 +1774,7 @@ begin
     m_pModel                   := pTorusModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRTorusJob.Destroy();
+destructor TQRTorusJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1549,14 +1792,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRTorusGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRTorusGroup.Create();
+constructor TQRTorusGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRTorusGroup.Destroy();
+destructor TQRTorusGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1571,7 +1814,7 @@ function TQRTorusGroup.Load(slices,
                       modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRTorusJob.Create(Self,
@@ -1614,7 +1857,7 @@ begin
     m_pModel                      := pParabolaModel;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRParabolaJob.Destroy();
+destructor TQRParabolaJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1632,14 +1875,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRParabolaGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRParabolaGroup.Create();
+constructor TQRParabolaGroup.Create;
 begin
     inherited Create;
 
     m_pJob := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRParabolaGroup.Destroy();
+destructor TQRParabolaGroup.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1650,7 +1893,7 @@ function TQRParabolaGroup.Load(slices, facesPerSlices: NativeUInt;
                                          modelOptions: TQRModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRParabolaJob.Create(Self,
