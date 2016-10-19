@@ -36,20 +36,19 @@ type
     }
     {$ENDREGION}
     TQRMessage = record
-        public
-            {$REGION 'Documentation'}
-            {**
-             Generic type, meaning is left to discretion of the child classes implementation
-            }
-            {$ENDREGION}
-            m_Type: NativeUInt;
+        {$REGION 'Documentation'}
+        {**
+         Generic type, meaning is left to discretion of the child classes implementation
+        }
+        {$ENDREGION}
+        m_Type: NativeUInt;
 
-            {$REGION 'Documentation'}
-            {**
-             Generic info, in case a subject should send additional specific info to his observer
-            }
-            {$ENDREGION}
-            m_pInfo: Pointer
+        {$REGION 'Documentation'}
+        {**
+         Generic info, in case a subject should send additional specific info to his observer
+        }
+        {$ENDREGION}
+        m_pInfo: Pointer
     end;
 
     {$REGION 'Documentation'}

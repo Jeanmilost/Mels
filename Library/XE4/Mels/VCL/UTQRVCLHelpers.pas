@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLHelpers ----------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This unit provides helpers to support some common tasks that the VCL don't care. *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLHelpers ---------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides some features that the VCL don't care.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLHelpers;
 
 interface
@@ -21,217 +40,442 @@ uses System.Classes,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Some helper functions to manipulate strings in a VCL context
-    *}
-    TQRVCLStringHelper = Record
-        public
-            {**
-            * Gets text from resource
-            *@param hInstance - module instance containing text to get
-            *@param resourceName - resource name
-            *@return text, empty string on error or if not found
-            *}
-            class function FromResource(hInstance: NativeUInt;
-                               const resourceName: string): string; static;
+     Some helper functions to manipulate strings in a VCL context
+    }
+    {$ENDREGION}
+    TQRVCLStringHelper = record
+        {$REGION 'Documentation'}
+        {**
+         Gets text from resource
+         @param(hInstance Module instance containing the text to get)
+         @param(resourceName Resource name)
+         @return(Text, empty string on error or if not found)
+        }
+        {$ENDREGION}
+        class function FromResource(hInstance: NativeUInt;
+                           const resourceName: string): string; static;
     end;
 
     PQRVCLStringHelper = ^TQRVCLStringHelper;
 
-    // needed, because these data types are ignored and not compiled in Vcl.Graphics if CRL is
-    // defined, although they are useful
+    // @exclude(needed, because these data types are ignored and not compiled in Vcl.Graphics if CRL
+    //          is defined, although they are useful)
     TQRRGBTripleArray = array [Byte] of TRGBTriple;
     PQRRGBTripleArray = ^TQRRGBTripleArray;
     TQRRGBQuadArray   = array [Byte] of TRGBQuad;
     PQRRGBQuadArray   = ^TQRRGBQuadArray;
 
+    {$REGION 'Documentation'}
     {**
-    * Targa (.tga) file header structure
-    *}
+     Targa (.tga) file header structure
+    }
+    {$ENDREGION}
     TQRTGAHeader = record
-        m_FileType:           TQRUInt8;
-        m_ColorMapType:       TQRUInt8;
-        m_ImageType:          TQRUInt8;
+        {$REGION 'Documentation'}
+        {**
+         Size of identifier that follows this 18 byte long header
+        }
+        {$ENDREGION}
+        m_IDSize: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Color map type, values are:
+         @br 0 - No palette
+         @br 1 - Has palette
+        }
+        {$ENDREGION}
+        m_ColorMapType: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image type, values are:
+         @br 0  - No image data
+         @br 1  - Uncompressed, indexed
+         @br 2  - Uncompressed, True Color (RGB)
+         @br 3  - Uncompressed, Grey
+         @br 9  - Run-Length encoded, indexed
+         @br 10 - Run-Length encoded, True Color (RGB)
+         @br 11 - Run-Length encoded, Grey
+        }
+        {$ENDREGION}
+        m_ImageType: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         First color map entry in palette
+        }
+        {$ENDREGION}
         m_ColorMapFirstIndex: array [0..1] of TQRUInt8;
-        m_ColorMapLength:     array [0..1] of TQRUInt8;
-        m_ColorMapEntrySize:  TQRUInt8;
-        m_OrigX:              array [0..1] of TQRUInt8;
-        m_OrigY:              array [0..1] of TQRUInt8;
-        m_Width:              array [0..1] of TQRUInt8;
-        m_Height:             array [0..1] of TQRUInt8;
-        m_BPP:                TQRUInt8;
-        m_ImageInfo:          TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Palette color count
+        }
+        {$ENDREGION}
+        m_ColorMapLength: array [0..1] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Bits per palette entry count, values are: 15, 16, 24 or 32
+        }
+        {$ENDREGION}
+        m_ColorMapEntrySize: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image origin on X axis, in pixels
+        }
+        {$ENDREGION}
+        m_OrigX: array [0..1] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image origin on Y axis, in pixels
+        }
+        {$ENDREGION}
+        m_OrigY: array [0..1] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image width in pixels
+        }
+        {$ENDREGION}
+        m_Width: array [0..1] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image height in pixels
+        }
+        {$ENDREGION}
+        m_Height: array [0..1] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image bits per pixels, values are: 8, 16, 24 or 32
+        }
+        {$ENDREGION}
+        m_BPP: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image descriptor bits (vh flip bits)
+        }
+        {$ENDREGION}
+        m_ImageInfo: TQRUInt8;
     end;
 
     PQRTGAHeader = ^TQRTGAHeader;
 
+    {$REGION 'Documentation'}
     {**
-    * Personal computer exchange (.pcx) file header structure
-    *}
+     Personal computer exchange (.pcx) file header structure
+    }
+    {$ENDREGION}
     TQRPCXHeader = record
-        m_Identifier:     TQRUInt8;                  // PCX ID number (always 0x0A)
-        m_Version:        TQRUInt8;                  // version number
-        m_Encoding:       TQRUInt8;                  // encoding format
-        m_BitsPerPixel:   TQRUInt8;                  // bits per pixel
-        m_XStart:         TQRUInt16;                 // image left pos
-        m_YStart:         TQRUInt16;                 // image top pos
-        m_XEnd:           TQRUInt16;                 // image right pos
-        m_YEnd:           TQRUInt16;                 // image bottom pos
-        m_HorzRes:        TQRUInt16;                 // horizontal resolution
-        m_VertRes:        TQRUInt16;                 // vertical resolution
-        m_Palette:        array [0..47] of TQRUInt8; // 16 color EGA palette
-        m_Reserved1:      TQRUInt8;                  // reserved (always 0)
-        m_NumBitPlanes:   TQRUInt8;                  // bit planes number
-        m_BytesPerLine:   TQRUInt16;                 // bytes per scanline
-        m_PaletteType:    TQRUInt16;                 // palette type
-        m_HorzScreenSize: TQRUInt16;                 // horizontal screen size
-        m_VertScreenSize: TQRUInt16;                 // vertical screen size
-        m_Reserved2:      array [0..53] of TQRUInt8; // reserved (always 0)
+        {$REGION 'Documentation'}
+        {**
+         PCX ID number (always $0A)
+        }
+        {$ENDREGION}
+        m_Identifier: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Version number
+        }
+        {$ENDREGION}
+        m_Version: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Encoding format
+        }
+        {$ENDREGION}
+        m_Encoding: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Bit per pixel
+        }
+        {$ENDREGION}
+        m_BitsPerPixel: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Image left position, in pixels
+        }
+        {$ENDREGION}
+        m_XStart: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Image top position, in pixels
+        }
+        {$ENDREGION}
+        m_YStart: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Image right position, in pixels
+        }
+        {$ENDREGION}
+        m_XEnd: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Image bottom position, in pixels
+        }
+        {$ENDREGION}
+        m_YEnd: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Horizontal resolution, in pixels
+        }
+        {$ENDREGION}
+        m_HorzRes: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Vertical resolution, in pixels
+        }
+        {$ENDREGION}
+        m_VertRes: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         16 color EGA palette
+        }
+        {$ENDREGION}
+        m_Palette: array [0..47] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Reserved (always 0)
+        }
+        {$ENDREGION}
+        m_Reserved1: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Bit planes number
+        }
+        {$ENDREGION}
+        m_NumBitPlanes: TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Bytes per scanline
+        }
+        {$ENDREGION}
+        m_BytesPerLine: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Palette type
+        }
+        {$ENDREGION}
+        m_PaletteType: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Horizontal screen size, in pixels
+        }
+        {$ENDREGION}
+        m_HorzScreenSize: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Vertical screen size, in pixels
+        }
+        {$ENDREGION}
+        m_VertScreenSize: TQRUInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Reserved (always 0)
+        }
+        {$ENDREGION}
+        m_Reserved2: array [0..53] of TQRUInt8;
     end;
 
     PQRPCXHeader = ^TQRPCXHeader;
 
+    {$REGION 'Documentation'}
     {**
-    * Some helper functions to manipulate pictures
-    *}
+     Some helper functions to manipulate pictures
+    }
+    {$ENDREGION}
     TQRVCLPictureHelper = record
         private
+            {$REGION 'Documentation'}
             {**
-            * Copy a pixel from source to dest
-            *@param pSrc - source pixel to copy
-            *@param pDest - destination pixel
-            *}
+             Copies a pixel from source to destination
+             @param(pSrc Source pixel to copy)
+             @param(pDest Destination pixel)
+            }
+            {$ENDREGION}
             class procedure CopyPixel(const pSrc, pDst: Pointer); static;
 
+            {$REGION 'Documentation'}
             {**
-            * Copy a pixel from source to dest and swap the RGB color values
-            *@param pSrc - source pixel to swap and copy
-            *@param pDest - destination pixel
-            *}
+             Copies a pixel from source to dest and swaps the RGB color values
+             @param(pSrc Source pixel to swap and copy)
+             @param(pDest Destination pixel)
+            }
+            {$ENDREGION}
             class procedure CopySwapPixel(const pSrc, pDst: Pointer); static;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Extracts file name without extension
-            *@param fileName - file name to extract from
-            *@return file name without extension, empty string if not found
-            *}
+             Extracts file name without extension
+             @param(fileName File name to extract from)
+             @return(File name without extension, empty string if not found)
+            }
+            {$ENDREGION}
             class function IsGraphicClassRegistered(const fileName: TFileName): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts picture content to bitmap
-            *@param pPicture - source picture
-            *@param pBitmap - destination bitmap
-            *@return true on success, otherwise false
-            *}
+             Converts picture content to bitmap
+             @param(pPicture Source picture)
+             @param(pBitmap Destination bitmap)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function ToBitmap(const pPicture: TPicture; pBitmap: Vcl.Graphics.TBitmap): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a pacture contains a bitmap or image in another format
-            *@param pPicture - picture to check
-            *@return true if picture contains a bitmap, otherwise false
-            *@note This function is needed, because accessing directly to the picture Bitmap property
-            *      will force picture to create a bitmap and thus delete the existing picture
-            *}
+             Checks if a pacture contains a bitmap or image in another format
+             @param(pPicture Picture to check)
+             @return(@true if picture contains a bitmap, otherwise @false)
+             @br @bold(NOTE)This function is required, because accessing directly to the picture
+                            Bitmap property will force picture to create a bitmap and thus delete
+                            the existing picture
+            }
+            {$ENDREGION}
             class function IsBitmap(const pPicture: TPicture): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets size of any image type contained in the picture
-            *@param pPicture - picture to get size from
-            *@param[out] width - picture width
-            *@param[out] height - picture height
-            *@return true on success, otherwise false
-            *}
+             Gets size of any image type contained in the picture
+             @param(pPicture Picture to get size from)
+             @param(width @bold([out]) Picture width)
+             @param(height @bold([out]) Picture height)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function GetPictureSize(const pPicture: TPicture;
                                        out width, height: Integer): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets pixel format from bitmap
-            *@param pBitmap - bitmap to get from
-            *@return bit count, 0 if not found or unknown
-            *}
+             Gets pixel format from bitmap
+             @param(pBitmap Bitmap to get from)
+             @return(Bit count, 0 if not found or unknown)
+            }
+            {$ENDREGION}
             class function GetBitmapPixelFormat(const pBitmap: Vcl.Graphics.TBitmap): Integer; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets bytes representing pixels from bitmap
-            *@param pBitmap - bitmap to extract bytes from
-            *@param[in, out] pPixels - byte array to contain bitmap pixels, should be initialized
-            *@param flipY - if true, image will be mirrored on the y axis
-            *@param bgr - if true, resulting pixels will be written in BGR format, RGB otherwise
-            *@return true on success, otherwise false
-            *@note Buffer containing bytes will be initialized internally, and should be deleted
-            *      using e.g. SetLength(pPixels, 0) when useless
-            *}
+             Gets bytes representing pixels from bitmap
+             @param(pBitmap Bitmap to extract bytes from)
+             @param(pPixels @bold([in, out]) Byte array to contain bitmap pixels, should be initialized)
+             @param(flipY If @true, image will be mirrored on the y axis)
+             @param(bgr If @true, resulting pixels will be written in BGR format, RGB otherwise)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Buffer containing bytes will be initialized internally, and should be
+                             deleted using e.g. SetLength(pPixels, 0) when useless
+            }
+            {$ENDREGION}
             class function BytesFromBitmap(const pBitmap: Vcl.Graphics.TBitmap;
                                              var pPixels: TQRByteArray;
                                               flipY, bgr: Boolean): Boolean; overload; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets bytes representing pixels from bitmap
-            *@param pBitmap - bitmap to extract bytes from
-            *@return bytes array, nil on error
-            *@note Returned bytes should be deleted when useless
-            *@note WARNING this function overload was never tested
-            *}
+             Gets bytes representing pixels from bitmap
+             @param(pBitmap Bitmap to extract bytes from)
+             @return(Bytes array, @nil on error)
+             @br @bold(NOTE) Returned bytes should be deleted when useless
+             @br @bold(NOTE) @bold(WARNING) this function overload was never tested
+            }
+            {$ENDREGION}
             class function BytesFromBitmap(const pBitmap: Vcl.Graphics.TBitmap): Pointer; overload; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Builds a bitmap from a byte array
-            *@param pPixels - byte array containing image pixels
-            *@param width - image width
-            *@param height - image height
-            *@param bpp - bytes per pixels (should be 24 or 32, other values are unsupported for now)
-            *@param flipY - if true, image will be mirrored on the y axis
-            *@param pBitmap - bitmap that will contain the image
-            *@return true on success, otherwise false
-            *}
+             Builds a bitmap from a byte array
+             @param(pPixels Byte array containing image pixels)
+             @param(width Image width)
+             @param(height Image height)
+             @param(bpp Bytes per pixels (should be 24 or 32, other values are unsupported for now))
+             @param(flipY If @true, image will be mirrored on the y axis)
+             @param(pBitmap Bitmap that will contain the image)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function BitmapFromBytes(const pPixels: Pointer;
                                       width, height, bpp: Cardinal;
                                                    flipY: Boolean;
                                                  pBitmap: Vcl.Graphics.TBitmap): Boolean; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads targa (.tga) image from file
-            *@param fileName - image file name to load
-            *@param swapRGB - if true, RGB color will be swapped to BGR
-            *@param pBitmap - bitmap that will receive the image
-            *@return true on success, otherwise false
-            *}
+             Loads targa (.tga) image from file
+             @param(fileName Image file name to load)
+             @param(swapRGB If @true, RGB color will be swapped to BGR)
+             @param(pBitmap Bitmap that will receive the image)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function LoadTGA(const fileName: UnicodeString;
                                           swapRGB: Boolean;
                                           pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads targa (.tga) image from stream
-            *@param pStream- stream containing image data to load
-            *@param readLength - length, in bytes, to read in buffer
-            *@param swapRGB - if true, RGB color will be swapped to BGR
-            *@param pBitmap - bitmap that will receive the image
-            *@return true on success, otherwise false
-            *@note Read will start from current buffer position
-            *}
+             Loads targa (.tga) image from stream
+             @param(pStream Stream containing image data to load)
+             @param(readLength Length, in bytes, to read in buffer)
+             @param(swapRGB If @true, RGB color will be swapped to BGR)
+             @param(pBitmap Bitmap that will receive the image)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will start from current buffer position
+            }
+            {$ENDREGION}
             class function LoadTGA(const pStream: TStream;
                                       readLength: NativeUInt;
                                          swapRGB: Boolean;
                                          pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads personal computer exchange (.pcx) image from file
-            *@param fileName - image file name to load
-            *@param pBitmap - bitmap that will receive the image
-            *@return true on success, otherwise false
-            *}
+             Loads personal computer exchange (.pcx) image from file
+             @param(fileName Image file name to load)
+             @param(pBitmap Bitmap that will receive the image)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             class function LoadPCX(const fileName: UnicodeString;
                                           pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads personal computer exchange (.pcx) image from stream
-            *@param pStream- stream containing image data to load
-            *@param readLength - length, in bytes, to read in buffer
-            *@param pBitmap - bitmap that will receive the image
-            *@return true on success, otherwise false
-            *@note Read will start from current buffer position
-            *}
+             Loads personal computer exchange (.pcx) image from stream
+             @param(pStream Stream containing image data to load)
+             @param(readLength Length, in bytes, to read in buffer)
+             @param(pBitmap Bitmap that will receive the image)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will start from current buffer position
+            }
+            {$ENDREGION}
             class function LoadPCX(const pStream: TStream;
                                       readLength: NativeUInt;
                                          pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
@@ -239,37 +483,41 @@ type
 
     PQRVCLPictureHelper = ^TQRVCLPictureHelper;
 
+    {$REGION 'Documentation'}
     {**
-    * Somme tools to manipulate the Windows Graphics Device Interface (GDI)
-    *@author Jean-Milost Reymond
-    *}
+     Helper to manipulate the Windows Graphics Device Interface (GDI)
+    }
+    {$ENDREGION}
     TQRGDIHelper = record
-        public
-            {**
-            * Applies antialiasing from a source bitmap to a destination bitmap
-            *@param pSource - source bitmap
-            *@param pDest - destination bitmap
-            *@param factor - antialiasing factor, should correspond to the difference of size between
-            *                source and destination bitmaps (e.g. for a source of 400x400 pixels and a
-            *                destination of 100x100 pixels, the factor should be 4)
-            *}
-            class procedure ApplyAntialiasing(pSource, pDest: Vcl.Graphics.TBitmap;
-                                                      factor: NativeInt); overload; static;
+        {$REGION 'Documentation'}
+        {**
+         Applies antialiasing from a source bitmap to a destination bitmap
+         @param(pSource Source bitmap)
+         @param(pDest Destination bitmap)
+         @param(factor Antialiasing factor, should match with the difference of size between source
+                       and destination bitmaps (e.g. for a source of 400x400 pixels and a destination
+                       of 100x100 pixels, the factor should be 4))
+        }
+        {$ENDREGION}
+        class procedure ApplyAntialiasing(pSource, pDest: Vcl.Graphics.TBitmap;
+                                                  factor: NativeInt); overload; static;
 
-            {**
-            * Applies antialiasing from a source device context to a destination device context
-            *@param hSrc - source device context
-            *@param hDst - destination device context
-            *@param x - x position in pixels to copy from
-            *@param y - y position in pixels to copy from
-            *@param width - width to copy from source to destination
-            *@param width - height to copy from source to destination
-            *@param factor - antialiasing factor, should correspond to the difference of size between
-            *                source and destination device contexts (e.g. for a source of 400x400
-            *                pixels and a destination of 100x100 pixels, the factor should be 4)
-            *}
-            class procedure ApplyAntialiasing(hSrc, hDst: THandle;
-                             x, y, width, height, factor: NativeInt); overload; static;
+        {$REGION 'Documentation'}
+        {**
+         Applies antialiasing from a source device context to a destination device context
+         @param(hSrc Source device context)
+         @param(hDst Destination device context)
+         @param(x x position in pixels to copy from)
+         @param(y y position in pixels to copy from)
+         @param(width - width to copy from source to destination)
+         @param(height Height to copy from source to destination)
+         @param(factor Antialiasing factor, should match with the difference of size between source
+                       and destination bitmaps (e.g. for a source of 400x400 pixels and a destination
+                       of 100x100 pixels, the factor should be 4))
+        }
+        {$ENDREGION}
+        class procedure ApplyAntialiasing(hSrc, hDst: THandle;
+                         x, y, width, height, factor: NativeInt); overload; static;
     end;
 
 implementation

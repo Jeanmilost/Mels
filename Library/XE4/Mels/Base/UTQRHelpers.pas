@@ -96,82 +96,81 @@ type
     }
     {$ENDREGION}
     TQRStringHelper = record
-        public
-            {$REGION 'Documentation'}
-            {**
-             Converts array of ansi char to string
-             @param(chars Array of ansi chars to convert)
-             @return(String)
-            }
-            {$ENDREGION}
-            class function AnsiCharArrayToStr(const chars: TQRAnsiCharArray): string; static;
+        {$REGION 'Documentation'}
+        {**
+         Converts array of ansi char to string
+         @param(chars Array of ansi chars to convert)
+         @return(String)
+        }
+        {$ENDREGION}
+        class function AnsiCharArrayToStr(const chars: TQRAnsiCharArray): string; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Converts string to array of bytes
-             @param(str String to convert)
-             @return(Array of bytes)
-            }
-            {$ENDREGION}
-            class function StrToByte(const str: String): TQRByteArray; static;
+        {$REGION 'Documentation'}
+        {**
+         Converts string to array of bytes
+         @param(str String to convert)
+         @return(Array of bytes)
+        }
+        {$ENDREGION}
+        class function StrToByte(const str: String): TQRByteArray; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Converts array of bytes to string
-             @param(bytes Array of bytes to convert)
-             @return(String)
-            }
-            {$ENDREGION}
-            class function ByteToStr(const bytes: TQRByteArray): string; static;
+        {$REGION 'Documentation'}
+        {**
+         Converts array of bytes to string
+         @param(bytes Array of bytes to convert)
+         @return(String)
+        }
+        {$ENDREGION}
+        class function ByteToStr(const bytes: TQRByteArray): string; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Checks if a digit contains only chars that can be converted to number
-             @param(digit Digit to check)
-             @param(strict If @true, only chars from '0' to '9' will be accepted, see note)
-             @return(@true if digit contains only chars that can be converted to number, otherwise
-                     @false)
-             @br @bold(NOTE) If strict mode is set to false, math symbols as e.g. '.' or '-' will
-                             also be accepted as valid numeric chars. This may be useful when
-                             IsNumeric() is used e.g. to determine if a string can be converted to
-                             number
-            }
-            {$ENDREGION}
-            class function IsNumeric(digit: AnsiChar; isStrict: Boolean): Boolean; overload; static;
+        {$REGION 'Documentation'}
+        {**
+         Checks if a digit contains only chars that can be converted to number
+         @param(digit Digit to check)
+         @param(strict If @true, only chars from '0' to '9' will be accepted, see note)
+         @return(@true if digit contains only chars that can be converted to number, otherwise
+                 @false)
+         @br @bold(NOTE) If strict mode is set to false, math symbols as e.g. '.' or '-' will
+                         also be accepted as valid numeric chars. This may be useful when
+                         IsNumeric() is used e.g. to determine if a string can be converted to
+                         number
+        }
+        {$ENDREGION}
+        class function IsNumeric(digit: AnsiChar; isStrict: Boolean): Boolean; overload; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Checks if a digit contains only chars that can be converted to number
-             @param(digit Digit to check)
-             @param(strict If @true, only chars from '0' to '9' will be accepted, see note)
-             @return(@true if digit contains only chars that can be converted to number, otherwise
-                     @false)
-             @br @bold(NOTE) If strict mode is set to false, math symbols as e.g. '.' or '-' will
-                             also be accepted as valid numeric chars. This may be useful when
-                             IsNumeric() is used e.g. to determine if a string can be converted to
-                             number
-            }
-            {$ENDREGION}
-            class function IsNumeric(digit: WideChar; isStrict: Boolean): Boolean; overload; static;
+        {$REGION 'Documentation'}
+        {**
+         Checks if a digit contains only chars that can be converted to number
+         @param(digit Digit to check)
+         @param(strict If @true, only chars from '0' to '9' will be accepted, see note)
+         @return(@true if digit contains only chars that can be converted to number, otherwise
+                 @false)
+         @br @bold(NOTE) If strict mode is set to false, math symbols as e.g. '.' or '-' will
+                         also be accepted as valid numeric chars. This may be useful when
+                         IsNumeric() is used e.g. to determine if a string can be converted to
+                         number
+        }
+        {$ENDREGION}
+        class function IsNumeric(digit: WideChar; isStrict: Boolean): Boolean; overload; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Searches the last position of a sub-string inside a string
-             @param(subStr Sub-string to find)
-             @param(str String containing the sub-string to find)
-             @return(Last sub-string position inside the string, 0 if not found)
-            }
-            {$ENDREGION}
-            class function LastPos(const subStr, str: UnicodeString): Integer; static;
+        {$REGION 'Documentation'}
+        {**
+         Searches the last position of a sub-string inside a string
+         @param(subStr Sub-string to find)
+         @param(str String containing the sub-string to find)
+         @return(Last sub-string position inside the string, 0 if not found)
+        }
+        {$ENDREGION}
+        class function LastPos(const subStr, str: UnicodeString): Integer; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Reverses a string content
-             @param(str String to reverse)
-             @return(Reversed string)
-            }
-            {$ENDREGION}
-            class function Reverse(const str: UnicodeString): UnicodeString; static;
+        {$REGION 'Documentation'}
+        {**
+         Reverses a string content
+         @param(str String to reverse)
+         @return(Reversed string)
+        }
+        {$ENDREGION}
+        class function Reverse(const str: UnicodeString): UnicodeString; static;
     end;
 
     PQRStringHelper = ^TQRStringHelper;
@@ -182,48 +181,47 @@ type
     }
     {$ENDREGION}
     TQRFileHelper = record
-        public
-            {$REGION 'Documentation'}
-            {**
-             Extracts file name
-             @param(fileName File name to extract from)
-             @param(delimiter Dir delimiter to use)
-             @return(File name without extension, empty string if not found)
-            }
-            {$ENDREGION}
-            class function ExtractFileName(const fileName: TFileName;
-                                          const delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
+        {$REGION 'Documentation'}
+        {**
+         Extracts file name
+         @param(fileName File name to extract from)
+         @param(delimiter Dir delimiter to use)
+         @return(File name without extension, empty string if not found)
+        }
+        {$ENDREGION}
+        class function ExtractFileName(const fileName: TFileName;
+                                      const delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Extracts file name without extension
-             @param(fileName File name to extract from)
-             @param(delimiter Dir delimiter to use)
-             @return(File name without extension, empty string if not found)
-            }
-            {$ENDREGION}
-            class function ExtractFileNameNoExt(const fileName: TFileName;
-                                               const delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
+        {$REGION 'Documentation'}
+        {**
+         Extracts file name without extension
+         @param(fileName File name to extract from)
+         @param(delimiter Dir delimiter to use)
+         @return(File name without extension, empty string if not found)
+        }
+        {$ENDREGION}
+        class function ExtractFileNameNoExt(const fileName: TFileName;
+                                           const delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Saves byte array to file
-             @param(pBytes Bytes to save)
-            }
-            {$ENDREGION}
-            class procedure SaveBytesToFile(const fileName: TFileName;
-                                                var pBytes: TQRByteArray); static;
+        {$REGION 'Documentation'}
+        {**
+         Saves byte array to file
+         @param(pBytes Bytes to save)
+        }
+        {$ENDREGION}
+        class procedure SaveBytesToFile(const fileName: TFileName;
+                                            var pBytes: TQRByteArray); static;
 
-            {$REGION 'Documentation'}
-            {**
-             Appends delimiter at dir end
-             @param(dirName Directory name to append to)
-             @return(Appended dir name)
-             @br @bold(NOTE) If delimiter already exists at end, it will not be appended again
-            }
-            {$ENDREGION}
-            class function AppendDelimiter(const dirName: UnicodeString;
-                                               delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
+        {$REGION 'Documentation'}
+        {**
+         Appends delimiter at dir end
+         @param(dirName Directory name to append to)
+         @return(Appended dir name)
+         @br @bold(NOTE) If delimiter already exists at end, it will not be appended again
+        }
+        {$ENDREGION}
+        class function AppendDelimiter(const dirName: UnicodeString;
+                                           delimiter: Char = CQR_Dir_Delimiter): UnicodeString; static;
     end;
 
     PQRFileHelper = ^TQRFileHelper;
@@ -234,51 +232,50 @@ type
     }
     {$ENDREGION}
     TQRMathsHelper = record
-        public
-            {$REGION 'Documentation'}
-            {**
-             Checks if a value is a power of 2
-             @param(x Value to check)
-             @return(@true if value is a power of two, otherwise @false)
-            }
-            {$ENDREGION}
-            class function IsPowerOfTwo(value: NativeUInt): Boolean; static;
+        {$REGION 'Documentation'}
+        {**
+         Checks if a value is a power of 2
+         @param(x Value to check)
+         @return(@true if value is a power of two, otherwise @false)
+        }
+        {$ENDREGION}
+        class function IsPowerOfTwo(value: NativeUInt): Boolean; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Rounds up to the nearest power of 2
-             @param(value Value to round up)
-             @return(Rounded up power of 2)
-            }
-            {$ENDREGION}
-            class function RoundUpToNearestPowerOf2(value: TQRUInt32): TQRUInt32; static;
+        {$REGION 'Documentation'}
+        {**
+         Rounds up to the nearest power of 2
+         @param(value Value to round up)
+         @return(Rounded up power of 2)
+        }
+        {$ENDREGION}
+        class function RoundUpToNearestPowerOf2(value: TQRUInt32): TQRUInt32; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Gets the closest power of 2 from a value
-             @param(value Value)
-             @return(Closest power of 2)
-            }
-            {$ENDREGION}
-            class function GetClosestPowerOf2(value: NativeUInt): NativeUInt; static;
+        {$REGION 'Documentation'}
+        {**
+         Gets the closest power of 2 from a value
+         @param(value Value)
+         @return(Closest power of 2)
+        }
+        {$ENDREGION}
+        class function GetClosestPowerOf2(value: NativeUInt): NativeUInt; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Converts degrees to radians
-             @param(angle Angle in degrees)
-             @return(Angle in radians)
-            }
-            {$ENDREGION}
-            class function DegToRad(angle: Double): Double; static;
+        {$REGION 'Documentation'}
+        {**
+         Converts degrees to radians
+         @param(angle Angle in degrees)
+         @return(Angle in radians)
+        }
+        {$ENDREGION}
+        class function DegToRad(angle: Double): Double; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Converts radians to degrees
-             @param(angle Angle in radians)
-             @return(Angle in degrees)
-            }
-            {$ENDREGION}
-            class function RadToDeg(angle: Double): Double; static;
+        {$REGION 'Documentation'}
+        {**
+         Converts radians to degrees
+         @param(angle Angle in radians)
+         @return(Angle in degrees)
+        }
+        {$ENDREGION}
+        class function RadToDeg(angle: Double): Double; static;
     end;
 
     {$REGION 'Documentation'}
@@ -287,24 +284,23 @@ type
     }
     {$ENDREGION}
     TQRMemoryHelper = record
-        public
-            {$REGION 'Documentation'}
-            {**
-             Checks if system on which program is executed is big endian
-             @return(@true if system on which program is executed is big endian, @false if little
-                     endian)
-            }
-            {$ENDREGION}
-            class function IsSystemBE: Boolean; static;
+        {$REGION 'Documentation'}
+        {**
+         Checks if system on which program is executed is big endian
+         @return(@true if system on which program is executed is big endian, @false if little
+                 endian)
+        }
+        {$ENDREGION}
+        class function IsSystemBE: Boolean; static;
 
-            {$REGION 'Documentation'}
-            {**
-             Swaps content of 2 variables
-             @param(a [in, out] First variable to swap)
-             @param(b [in, out] Second variable to swap)
-            }
-            {$ENDREGION}
-            class procedure Swap<T>(var left, right: T); static;
+        {$REGION 'Documentation'}
+        {**
+         Swaps content of 2 variables
+         @param(a [in, out] First variable to swap)
+         @param(b [in, out] Second variable to swap)
+        }
+        {$ENDREGION}
+        class procedure Swap<T>(var left, right: T); static;
     end;
 
 implementation

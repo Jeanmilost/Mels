@@ -1,12 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLGraphics ---------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This unit provides common tools to support some common graphic tasks that the    *
- *               VCL don't care.                                                                  *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLGraphics --------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides some graphical features that the VCL don't care.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLGraphics;
 
 interface
@@ -18,74 +36,96 @@ uses System.Classes,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Universal color class
-    *}
+     Universal color class
+    }
+    {$ENDREGION}
     TQRVCLColor = class(TQRColor)
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
-            constructor Create(); overload; override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param r - color red component intensity, from 0 (darkest) to 255 (lightest)
-            *@param g - color green component intensity, from 0 (darkest) to 255 (lightest)
-            *@param b - color blue component intensity, from 0 (darkest) to 255 (lightest)
-            *}
+             Constructor
+             @param(r Color red component intensity, from 0 (darkest) to 255 (lightest))
+             @param(g Color green component intensity, from 0 (darkest) to 255 (lightest))
+             @param(b Color blue component intensity, from 0 (darkest) to 255 (lightest))
+            }
+            {$ENDREGION}
             constructor Create(r, g, b: Byte); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param r - color red component intensity, from 0 (darkest) to 255 (lightest)
-            *@param g - color green component intensity, from 0 (darkest) to 255 (lightest)
-            *@param b - color blue component intensity, from 0 (darkest) to 255 (lightest)
-            *@param a - color alpha component intensity, from 0 (smallest) to 255 (highest)
-            *}
+             Constructor
+             @param(r Color red component intensity, from 0 (darkest) to 255 (lightest))
+             @param(g Color green component intensity, from 0 (darkest) to 255 (lightest))
+             @param(b Color blue component intensity, from 0 (darkest) to 255 (lightest))
+             @param(a Color alpha component intensity, from 0 (smallest) to 255 (highest))
+            }
+            {$ENDREGION}
             constructor Create(r, g, b, a: Byte); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOther - color to copy from
-            *}
+             Constructor
+             @param(pOther Color to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const pOther: TQRColor); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOther - color to copy from
-            *}
+             Constructor
+             @param(pOther Color to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const pOther: TQRVCLColor); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
-            destructor Destroy(); override;
-
-            {**
-            * Gets VCL color
-            *@return VCL color
+             Destructor
             }
-            function GetVCLColor(): TColor; virtual;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets VCL color
-            *@param color - VCL color
-            *@param alpha - color alpha component
+             Gets the VCL color
+             @return(The VCL color)
             }
+            {$ENDREGION}
+            function GetVCLColor: TColor; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets the VCL color
+             @param(color VCL color)
+             @param(alpha Color alpha component)
+            }
+            {$ENDREGION}
             procedure SetVCLColor(color: TColor; alpha: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets Windows color
-            *@return VCL color
+             Gets the Windows color
+             @return(The Windows color)
             }
-            function GetWinColor(): COLORREF; virtual;
+            {$ENDREGION}
+            function GetWinColor: COLORREF; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets Windows color
-            *@param color - VCL color
-            *@param alpha - color alpha component
+             Sets the Windows color
+             @param(color Windows color)
+             @param(alpha Color alpha component)
             }
+            {$ENDREGION}
             procedure SetWinColor(color: COLORREF; alpha: Byte); virtual;
     end;
 
@@ -93,7 +133,7 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRVCLColor
 //--------------------------------------------------------------------------------------------------
-constructor TQRVCLColor.Create();
+constructor TQRVCLColor.Create;
 begin
     inherited Create;
 end;
@@ -118,12 +158,12 @@ begin
     inherited Create(pOther);
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRVCLColor.Destroy();
+destructor TQRVCLColor.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVCLColor.GetVCLColor(): TColor;
+function TQRVCLColor.GetVCLColor: TColor;
 begin
     // build and return color
     Result := TColor((B shl 16) + (G shl 8) + R);
@@ -143,7 +183,7 @@ begin
     A :=   alpha;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVCLColor.GetWinColor(): COLORREF;
+function TQRVCLColor.GetWinColor: COLORREF;
 begin
     Result := RGB(R, G, B);
 end;
