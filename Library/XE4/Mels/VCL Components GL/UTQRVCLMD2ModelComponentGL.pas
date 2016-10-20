@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLMD2ModelComponentGL ----------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a MD2 model component using the VCL and OpenGL to draw it   *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLMD2ModelComponentGL ---------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a MD2 model component using OpenGL to draw it.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLMD2ModelComponentGL;
 
 interface
@@ -36,11 +55,13 @@ uses System.Classes,
      XE7.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * MD2 model component
-    *}
+     MD2 model component
+    }
+    {$ENDREGION}
     TQRVCLMD2ModelGL = class(TQRVCLFramedModelComponentGL)
-        protected
+        private
             m_pMD2:                TQRMD2Group;
             m_pModel:              TQRVCLModelComponentPropertyGL;
             m_pPreCalculatedLight: TQRVCLPreCalculatedLightComponentPropertyGL;
@@ -56,155 +77,204 @@ type
             m_hSceneDC:            THandle;
             m_AnimationGesture:    EQRMD2AnimationGesture;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets model package file name
-            *@param fileName - file name
-            *}
+             Sets model package file name
+             @param(fileName File name)
+            }
+            {$ENDREGION}
             procedure SetPackageName(fileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model vertex shader file name
-            *@param fileName - file name
-            *}
+             Sets model vertex shader file name
+             @param(fileName File name)
+            }
+            {$ENDREGION}
             procedure SetVertexName(fileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model fragment shader file name
-            *@param fileName - file name
-            *}
+             Sets model fragment shader file name
+             @param(fileName File name)
+            }
+            {$ENDREGION}
             procedure SetFragmentName(fileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model gesture
-            *@param gesture - gesture
-            *}
+             Sets model gesture
+             @param(gesture Gesture)
+            }
+            {$ENDREGION}
             procedure SetGesture(gesture: EQRMD2AnimationGesture); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model options
-            *@param options - options
-            *}
+             Sets model options
+             @param(options Options)
+            }
+            {$ENDREGION}
             procedure SetModelOptions(options: TQRModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets framed model options
-            *@param options - options
-            *}
+             Sets framed model options
+             @param(options Options)
+            }
+            {$ENDREGION}
             procedure SetFramedModelOptions(options: TQRFramedModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Declares properties that will deal with DFM files
-            *@param pFiler - DFM file manager
-            *}
+             Declares properties that will deal with DFM files
+             @param(pFiler DFM file manager)
+            }
+            {$ENDREGION}
             procedure DefineProperties(pFiler: TFiler); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads package content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads package content from DFM file
+             @param(pStream Stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadPackage(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes package content to DFM file
-            *@param pStream - DFM stream in which package should be written
-            *}
+             Writes package content to DFM file
+             @param(pStream DFM stream in which package should be written)
+            }
+            {$ENDREGION}
             procedure WritePackage(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads vertex shader content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads vertex shader content from DFM file
+             @param(pStream Stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadVertexShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes vertex shader content to DFM file
-            *@param pStream - DFM stream in which vertex shader should be written
-            *}
+             Writes vertex shader content to DFM file
+             @param(pStream DFM stream in which vertex shader should be written)
+            }
+            {$ENDREGION}
             procedure WriteVertexShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads fragment shader content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads fragment shader content from DFM file
+             @param(pStream Stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadFragmentShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes fragment shader content to DFM file
-            *@param pStream - DFM stream in which fragment shader should be written
-            *}
+             Writes fragment shader content to DFM file
+             @param(pStream DFM stream in which fragment shader should be written)
+            }
+            {$ENDREGION}
             procedure WriteFragmentShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called after control was fully loaded from DFM stream
-            *}
+             Called after control was fully loaded from DFM stream
+            }
+            {$ENDREGION}
             procedure Loaded; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates the component Windows handle
-            *@param params - Windows parameters used to create handle
-            *}
+             Creates the component Windows handle
+             @param(params Windows parameters used to create handle)
+            }
+            {$ENDREGION}
             procedure CreateWindowHandle(const params: TCreateParams); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Deletes the component Windows handle
-            *}
+             Deletes the component Windows handle
+            }
+            {$ENDREGION}
             procedure DestroyWindowHandle; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates a viewport for the component
-            *@param width - viewport width
-            *@param height - viewport height
-            *}
+             Creates a viewport for the component
+             @param(width Viewport width)
+             @param(height Viewport height)
+            }
+            {$ENDREGION}
             procedure CreateViewport(width, height: NativeUInt); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Prepares shader to be used while scene is drawn
-            *@param textures - model textures
-            *}
+             Prepares shader to be used while scene is drawn
+             @param(textures Model textures)
+            }
+            {$ENDREGION}
             function PrepareShaderToDrawModel(const textures: TQRTextures): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called after model was completely loaded
-            *@param pGroup - group that finished to load the model
-            *}
+             Called after model was completely loaded
+             @param(pGroup Group that finished to load the model)
+            }
+            {$ENDREGION}
             procedure OnAfterLoadModelEvent(const pGroup: TQRModelGroup); virtual;
 
-           {**
-            * Called when mesh texture should be loaded
-            *@param pModel - model for which texture should be loaded
-            *@param pBitmap - whenever possible, the bitmap containing the texture, nil if not available
-            *@param pTexture - texture info
-            *@param[out] loadNext - if true, event will be called again with a new item to load next texture
-            *@return true on success, otherwise false
-            *}
+            {$REGION 'Documentation'}
+            {**
+             Called when mesh texture should be loaded
+             @param(pModel Model for which texture should be loaded)
+             @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not
+                            available)
+             @param(pTexture Texture info)
+             @param(loadNext @bold([out]) If @true, event will be called again with a new item to
+                                          load next texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnLoadMeshTexture(const pGroup: TQRModelGroup;
                                        const pModel: TQRModel;
                                             pBitmap: Vcl.Graphics.TBitmap;
                                            pTexture: TQRTexture;
                                        out loadNext: Boolean): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when the scene content should be drawn
-            *@param hDC - internal control device context that OpenGL should use to draw the scene
-            *}
+             Called when the scene content should be drawn
+             @param(hDC Internal control device context that OpenGL should use to draw the scene)
+            }
+            {$ENDREGION}
             procedure OnDrawSceneContent(hDC: THandle); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when framed model item should be drawn
-            *@param pGroup - group at which model belongs
-            *@param pModel - model to draw
-            *@param textures - textures belonging to model, in the order where they should be combined
-            *@param matrix - model matrix
-            *@param index - model mesh index
-            *@param nextIndex - model mesh index to interpolate with
-            *@param interpolationFactor - interpolation factor
-            *}
+             Called when framed model item should be drawn
+             @param(pGroup Group at which model belongs)
+             @param(pModel Model to draw)
+             @param(textures Textures belonging to model, in the order where they should be combined)
+             @param(matrix Model matrix)
+             @param(index Model mesh index)
+             @param(nextIndex Model mesh index to interpolate with)
+             @param(interpolationFactor Interpolation factor)
+            }
+            {$ENDREGION}
             procedure OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                                   pModel: TQRModel;
                                           const textures: TQRTextures;
@@ -212,20 +282,22 @@ type
                                         index, nextIndex: NativeInt;
                                const interpolationFactor: Double); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when framed model item should be drawn
-            *@param pGroup - group at which model belongs
-            *@param pModel - model to draw
-            *@param textures - textures belonging to model, in the order where they should be combined
-            *@param matrix - model matrix
-            *@param index - model mesh index
-            *@param nextIndex - model mesh index to interpolate with
-            *@param interpolationFactor - interpolation factor
-            *@param pMesh - mesh to draw, can be NULL
-            *@param pNextMesh - next mesh to interpolate with, can be NULL
-            *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be NULL
-            *@param pNextAABBTree - aligned-axis bounding box tree matching with next mesh, can be NULL
-            *}
+             Called when framed model item should be drawn
+             @param(pGroup Group at which model belongs)
+             @param(pModel Model to draw)
+             @param(textures Textures belonging to model, in the order where they should be combined)
+             @param(matrix Model matrix)
+             @param(index Model mesh index)
+             @param(nextIndex Model mesh index to interpolate with)
+             @param(interpolationFactor Interpolation factor)
+             @param(pMesh Mesh to draw, can be @nil)
+             @param(pNextMesh Next mesh to interpolate with, can be @nil)
+             @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil)
+             @param(pNextAABBTree Aligned-axis bounding box tree matching with next mesh, can be @nil)
+            }
+            {$ENDREGION}
             procedure OnDrawModelItem(const pGroup: TQRModelGroup;
                                       const pModel: TQRModel;
                                     const textures: TQRTextures;
@@ -236,33 +308,86 @@ type
                     const pAABBTree, pNextAABBTree: TQRAABBTree); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
         published
-            { Properties }
-            property Model:              TQRVCLModelComponentPropertyGL              read m_pModel              write m_pModel;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model properties set
+            }
+            {$ENDREGION}
+            property Model: TQRVCLModelComponentPropertyGL read m_pModel write m_pModel;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the pre-calculated properties set
+            }
+            {$ENDREGION}
             property PreCalculatedLight: TQRVCLPreCalculatedLightComponentPropertyGL read m_pPreCalculatedLight write m_pPreCalculatedLight;
-            property PackageName:        TFileName                                   read m_PackageName         write SetPackageName;
-            property VertexName:         TFileName                                   read m_VertexName          write SetVertexName;
-            property FragmentName:       TFileName                                   read m_FragmentName        write SetFragmentName;
-            property Gesture:            EQRMD2AnimationGesture                      read m_Gesture             write SetGesture            default EQR_AG_MD2_Stand;
-            property ModelOptions:       TQRModelOptions                             read m_ModelOptions        write SetModelOptions       default [EQR_MO_Dynamic_Frames, EQR_MO_No_Collision];
-            property FramedModelOptions: TQRFramedModelOptions                       read m_FramedModelOptions  write SetFramedModelOptions;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the MD2 package name to load
+            }
+            {$ENDREGION}
+            property PackageName: TFileName read m_PackageName write SetPackageName;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vertex shader file name to load
+            }
+            {$ENDREGION}
+            property VertexName: TFileName read m_VertexName write SetVertexName;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the fragment shader file name to load
+            }
+            {$ENDREGION}
+            property FragmentName: TFileName read m_FragmentName write SetFragmentName;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model gesture to execute, default is EQR_AG_MD2_Stand
+            }
+            {$ENDREGION}
+            property Gesture: EQRMD2AnimationGesture read m_Gesture write SetGesture default EQR_AG_MD2_Stand;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model options, default are EQR_MO_Dynamic_Frames and EQR_MO_No_Collision
+            }
+            {$ENDREGION}
+            property ModelOptions: TQRModelOptions read m_ModelOptions write SetModelOptions default [EQR_MO_Dynamic_Frames, EQR_MO_No_Collision];
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the framed model options, none are enabled by default
+            }
+            {$ENDREGION}
+            property FramedModelOptions: TQRFramedModelOptions read m_FramedModelOptions write SetFramedModelOptions;
     end;
 
 implementation
@@ -688,17 +813,17 @@ begin
         begin
             // load projection matrix and initialize it
             glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
+            glLoadIdentity;
 
             // apply projection matrix
-            glLoadMatrix(PGLfloat(m_ProjectionMatrix.GetPtr()));
+            glLoadMatrix(PGLfloat(m_ProjectionMatrix.GetPtr));
 
             // load model view matrix and initialize it
             glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
+            glLoadIdentity;
 
             // apply model view matrix
-            glLoadMatrix(PGLfloat(m_ViewMatrix.GetPtr()));
+            glLoadMatrix(PGLfloat(m_ViewMatrix.GetPtr));
         end;
     finally
         ReleaseDC(WindowHandle, hDC);
@@ -857,7 +982,7 @@ begin
     // no animation is running or component is in design time?
     if (m_NoAnimation or (csDesigning in ComponentState)) then
         // invalidate model to repaint it
-        Invalidate();
+        Invalidate;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLMD2ModelGL.OnLoadMeshTexture(const pGroup: TQRModelGroup;
