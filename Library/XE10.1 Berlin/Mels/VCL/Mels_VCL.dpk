@@ -1,0 +1,51 @@
+package Mels_VCL;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Mels VCL - Provides the features to manage models and shapes in a VCL context'}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  vcl,
+  vclimg,
+  Mels_Models,
+  Mels_Base;
+
+contains
+  UTQRLogging,
+  UTQRMD2ModelGroup,
+  UTQRMD3ModelGroup,
+  UTQRModelGroup,
+  UTQRThreading,
+  UTQRVCLAnimationTimer,
+  UTQRVCLGraphics,
+  UTQRVCLHelpers,
+  UTQRVCLModelRenderer,
+  UTQRShapeGroup;
+
+end.
