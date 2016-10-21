@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelComponentPropertiesGL ---------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides common properties that can be exposed by a model component  *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelComponentPropertiesGL --------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the common properties that can be exposed by a model component.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelComponentPropertiesGL;
 
 interface
@@ -22,524 +41,840 @@ uses System.Classes,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Messages a property can use to notify his owner
-    *}
+     Messages a property can use to notify his owner
+     @value(EQR_PM_RecreateWnd Message notifying the parent that the component Windows object should
+                               be recreated)
+    }
+    {$ENDREGION}
     EQRPropMessages =
     (
         EQR_PM_RecreateWnd
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Called when a property should notify an important change to his owner
-    *@param pSender - event sender
-    *@param message - message to send to owner
-    *}
+     Called when a property should notify an important change to his owner
+     @param(pSender Event sender)
+     @param(message Message to send to owner)
+    }
+    {$ENDREGION}
     TQRNotifyPropOwnerEvent = function(pSender: TObject; message: EQRPropMessages): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic property that can be used on the VCL designer
-    *}
+     Basic property that can be used on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLBasicModelComponentPropertyGL = class(TPersistent)
-        protected
+        private
             m_pOwner:             TControl;
             m_fOnNotifyPropOwner: TQRNotifyPropOwnerEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Invalidate owner, in design time only
-            *}
+             Invalidate owner, in design time only
+            }
+            {$ENDREGION}
             procedure InvalidateDesigner; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
-            { Public properties }
-            property Owner:             TControl                read m_pOwner;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the property owner
+            }
+            {$ENDREGION}
+            property Owner: TControl read m_pOwner;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnNotifyPropOwner event
+            }
+            {$ENDREGION}
             property OnNotifyPropOwner: TQRNotifyPropOwnerEvent read m_fOnNotifyPropOwner write m_fOnNotifyPropOwner;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a 3D vector on the VCL designer
-    *}
+     Property that exposes a 3D vector on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLModelComponentVector3GL = class(TQRVCLBasicModelComponentPropertyGL)
-        protected
+        private
             m_X: Single;
             m_Y: Single;
             m_Z: Single;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector X component
-            *@param value - 3D vector X component
-            *}
+             Sets the 3D vector X component
+             @param(value 3D vector X component)
+            }
+            {$ENDREGION}
             procedure SetX(value: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector Y component
-            *@param value - 3D vector Y component
-            *}
+             Sets the 3D vector Y component
+             @param(value 3D vector Y component)
+            }
+            {$ENDREGION}
             procedure SetY(value: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector Z component
-            *@param value - 3D vector Z component
-            *}
+             Sets the 3D vector Z component
+             @param(value 3D vector Z component)
+            }
+            {$ENDREGION}
             procedure SetZ(value: Single); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
         published
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the x coordinate
+            }
+            {$ENDREGION}
             property X: Single read m_X write SetX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the y coordinate
+            }
+            {$ENDREGION}
             property Y: Single read m_Y write SetY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the z coordinate
+            }
+            {$ENDREGION}
             property Z: Single read m_Z write SetZ;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a 3D vector on the VCL designer
-    *@note Changing a value will recreate the window and reload the model
-    *}
+     Property that exposes a 3D vector on the VCL designer
+     @br @bold(NOTE) Changing a value will recreate the window and reload the model
+    }
+    {$ENDREGION}
     TQRVCLModelComponentNotifiableVector3GL = class(TQRVCLModelComponentVector3GL)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector X component
-            *@param value - 3D vector X component
-            *}
+             Sets the 3D vector X component
+             @param(value 3D vector X component)
+            }
+            {$ENDREGION}
             procedure SetX(value: Single); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector Y component
-            *@param value - 3D vector Y component
-            *}
+             Sets the 3D vector Y component
+             @param(value 3D vector Y component)
+            }
+            {$ENDREGION}
             procedure SetY(value: Single); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the 3D vector Z component
-            *@param value - 3D vector Z component
-            *}
+             Sets the 3D vector Z component
+             @param(value 3D vector Z component)
+            }
+            {$ENDREGION}
             procedure SetZ(value: Single); override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a color on the VCL designer
-    *}
+     Property that exposes a color on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLModelComponentColorGL = class(TQRVCLBasicModelComponentPropertyGL)
-        protected
+        private
             m_pColor: TQRVCLColor;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets the color red component as single value (between 0.0 and 1.0)
-            *@return color red component as single value
-            *}
+             Gets the color red component as single value (between 0.0 and 1.0)
+             @return(Color red component as single value)
+            }
+            {$ENDREGION}
             function GetRedF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color green component as single value (between 0.0 and 1.0)
-            *@return color green component as single value
-            *}
+             Gets the color green component as single value (between 0.0 and 1.0)
+             @return(Color green component as single value)
+            }
+            {$ENDREGION}
             function GetGreenF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color blue component as single value (between 0.0 and 1.0)
-            *@return color blue component as single value
-            *}
+             Gets the color blue component as single value (between 0.0 and 1.0)
+             @return(Color blue component as single value)
+            }
+            {$ENDREGION}
             function GetBlueF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color alpha component as single value (between 0.0 and 1.0)
-            *@return color alpha component as single value
-            *}
+             Gets the color alpha component as single value (between 0.0 and 1.0)
+             @return(Color alpha component as single value)
+            }
+            {$ENDREGION}
             function GetAlphaF: Single; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color red component value
-            *@return color red component value
-            *}
+             Gets the color red component value
+             @return(Color red component value)
+            }
+            {$ENDREGION}
             function GetRed: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color red component value
-            *@param value - value to set
-            *}
+             Sets the color red component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetRed(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color green component value
-            *@return color green component value
-            *}
+             Gets the color green component value
+             @return(Color green component value)
+            }
+            {$ENDREGION}
             function GetGreen: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color green component value
-            *@param value - value to set
-            *}
+             Sets the color green component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetGreen(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color blue component value
-            *@return color blue component value
-            *}
+             Gets the color blue component value
+             @return(Color blue component value)
+            }
+            {$ENDREGION}
             function GetBlue: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color blue component value
-            *@param value - value to set
-            *}
+             Sets the color blue component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetBlue(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the color alpha component value
-            *@return color alpha component value
-            *}
+             Gets the color alpha component value
+             @return(Color alpha component value)
+            }
+            {$ENDREGION}
             function GetAlpha: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color alpha component value
-            *@param value - value to set
-            *}
+             Sets the color alpha component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetAlpha(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the used VCL color
-            *@return the used VCL color
-            *}
+             Gets the used VCL color
+             @return(The used VCL color)
+            }
+            {$ENDREGION}
             function GetVCLColor: TColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the VCL color to use
-            *@param value - VCL color to use
-            *}
+             Sets the VCL color to use
+             @param(value VCL color to use)
+            }
+            {$ENDREGION}
             procedure SetVCLColor(value: TColor); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the used Windows color value
-            *@return the used Windows color value
-            *}
+             Gets the used Windows color value
+             @return(The used Windows color value)
+            }
+            {$ENDREGION}
             function GetWinColor: COLORREF; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the Windows color value to use
-            *@param value - Windows color value to use
-            *}
+             Sets the Windows color value to use
+             @param(value Windows color value to use)
+            }
+            {$ENDREGION}
             procedure SetWinColor(value: COLORREF); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
-            { Public properties }
-            property RedF:        Single      read GetRedF;
-            property GreenF:      Single      read GetGreenF;
-            property BlueF:       Single      read GetBlueF;
-            property AlphaF:      Single      read GetAlphaF;
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color red component (between 0.0 and 1.0)
+            }
+            {$ENDREGION}
+            property RedF: Single read GetRedF;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color green component (between 0.0 and 1.0)
+            }
+            {$ENDREGION}
+            property GreenF: Single read GetGreenF;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color blue component (between 0.0 and 1.0)
+            }
+            {$ENDREGION}
+            property BlueF: Single read GetBlueF;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color alpha component (between 0.0 and 1.0)
+            }
+            {$ENDREGION}
+            property AlphaF: Single read GetAlphaF;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the native color
+            }
+            {$ENDREGION}
             property NativeColor: TQRVCLColor read m_pColor;
 
         published
-            { Published properties }
-            property Red:      Byte     read GetRed      write SetRed;
-            property Green:    Byte     read GetGreen    write SetGreen;
-            property Blue:     Byte     read GetBlue     write SetBlue;
-            property Alpha:    Byte     read GetAlpha    write SetAlpha    default 255;
-            property VCLColor: TColor   read GetVCLColor write SetVCLColor default clBlack;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color red component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Red: Byte read GetRed write SetRed;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color green component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Green: Byte read GetGreen write SetGreen;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color blue component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Blue: Byte read GetBlue write SetBlue;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color alpha component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Alpha: Byte read GetAlpha write SetAlpha default 255;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the VCL color
+            }
+            {$ENDREGION}
+            property VCLColor: TColor read GetVCLColor write SetVCLColor default clBlack;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the Windows color
+            }
+            {$ENDREGION}
             property WinColor: COLORREF read GetWinColor write SetWinColor;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a model color on the VCL designer, black by default
-    *@note Changing a value will recreate the window and reload the model
-    *}
+     Property that exposes a model color on the VCL designer, black by default
+     @br @bold(NOTE) Changing a value will recreate the window and reload the model
+    }
+    {$ENDREGION}
     TQRVCLModelComponentNotifiableBlackColorGL = class(TQRVCLModelComponentColorGL)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Sets the color red component value
-            *@param value - value to set
-            *}
+             Sets the color red component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetRed(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color green component value
-            *@param value - value to set
-            *}
+             Sets the color green component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetGreen(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color blue component value
-            *@param value - value to set
-            *}
+             Sets the color blue component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetBlue(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color alpha component value
-            *@param value - value to set
-            *}
+             Sets the color alpha component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetAlpha(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the VCL color to use
-            *@param value - VCL color to use
-            *}
+             Sets the VCL color to use
+             @param(value VCL color to use)
+            }
+            {$ENDREGION}
             procedure SetVCLColor(value: TColor); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the Windows color value to use
-            *@param value - Windows color value to use
-            *}
+             Sets the Windows color value to use
+             @param(value Windows color value to use)
+            }
+            {$ENDREGION}
             procedure SetWinColor(value: COLORREF); override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+        // Properties
         published
-            property Red      default 0;
-            property Green    default 0;
-            property Blue     default 0;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color red component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Red default 0;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color green component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Green default 0;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color blue component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Blue default 0;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the VCL color
+            }
+            {$ENDREGION}
             property VCLColor default clBlack;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the Windows color
+            }
+            {$ENDREGION}
             property WinColor default $00000000;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a model color on the VCL designer, white by default
-    *@note Changing a value will recreate the window and reload the model
-    *}
+     Property that exposes a model color on the VCL designer, white by default
+     @br @bold(NOTE) Changing a value will recreate the window and reload the model
+    }
+    {$ENDREGION}
     TQRVCLModelComponentNotifiableWhiteColorGL = class(TQRVCLModelComponentColorGL)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Sets the color red component value
-            *@param value - value to set
-            *}
+             Sets the color red component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetRed(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color green component value
-            *@param value - value to set
-            *}
+             Sets the color green component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetGreen(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color blue component value
-            *@param value - value to set
-            *}
+             Sets the color blue component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetBlue(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the color alpha component value
-            *@param value - value to set
-            *}
+             Sets the color alpha component value
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetAlpha(value: Byte); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the VCL color to use
-            *@param value - VCL color to use
-            *}
+             Sets the VCL color to use
+             @param(value VCL color to use)
+            }
+            {$ENDREGION}
             procedure SetVCLColor(value: TColor); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the Windows color value to use
-            *@param value - Windows color value to use
-            *}
+             Sets the Windows color value to use
+             @param(value Windows color value to use)
+            }
+            {$ENDREGION}
             procedure SetWinColor(value: COLORREF); override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
         published
-            property Red      default 255;
-            property Green    default 255;
-            property Blue     default 255;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color red component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Red default 255;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color green component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Green default 255;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the color blue component (between 0 and 255)
+            }
+            {$ENDREGION}
+            property Blue default 255;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the VCL color
+            }
+            {$ENDREGION}
             property VCLColor default clWhite;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the Windows color
+            }
+            {$ENDREGION}
             property WinColor default $00FFFFFF;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes the alpha blending controller on the VCL designer
-    *}
+     Property that exposes the alpha blending controller on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLModelComponentAlphaBlendingPropertyGL = class(TQRVCLBasicModelComponentPropertyGL)
-        protected
+        private
             m_GlobalLevel: Byte;
             m_Enabled:     Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets global alpha level
-            *@return global alpha level
-            *}
+             Gets global alpha level
+             @return(Global alpha level)
+            }
+            {$ENDREGION}
             function GetGlobalLevel: Byte; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets global alpha level
-            *@param value - value to set
-            *}
+             Sets global alpha level
+             @param(value Value to set)
+            }
+            {$ENDREGION}
             procedure SetGlobalLevel(value: Byte); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets enabled flag
-            *@return enabled flag
-            *}
+             Gets enabled flag
+             @return(Enabled flag)
+            }
+            {$ENDREGION}
             function GetEnabled: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets enabled flag
-            *@param value - if true, alpha blending is enabled
-            *}
+             Sets enabled flag
+             @param(value If @true, alpha blending is enabled)
+            }
+            {$ENDREGION}
             procedure SetEnabled(value: Boolean); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            { Published properties }
-            property GlobalLevel: Byte    read GetGlobalLevel write SetGlobalLevel default 255;
-            property Enabled:     Boolean read GetEnabled     write SetEnabled;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the global transparency level (between 0 and 255)
+            }
+            {$ENDREGION}
+            property GlobalLevel: Byte read GetGlobalLevel write SetGlobalLevel default 255;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if alpha blending is enabled
+            }
+            {$ENDREGION}
+            property Enabled: Boolean read GetEnabled write SetEnabled;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a model on the VCL designer
-    *}
+     Property that exposes a model on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLModelComponentPropertyGL = class(TQRVCLBasicModelComponentPropertyGL)
-        protected
+        private
             m_pColor:          TQRVCLModelComponentNotifiableWhiteColorGL;
             m_pScaling:        TQRVCLModelComponentVector3GL;
             m_pTranslation:    TQRVCLModelComponentVector3GL;
@@ -549,134 +884,238 @@ type
             m_SwapYZ:          Boolean;
             m_CombinationType: EQRModelMatrixCombinationType;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets rotation on X axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on X axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationX(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rotation on Y axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on Y axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationY(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rotation on Z axis
-            *@param angle - rotation angle in radians
-            *}
+             Sets rotation on Z axis
+             @param(angle Rotation angle in radians)
+            }
+            {$ENDREGION}
             procedure SetRotationZ(const angle: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets swap Y and Z axis
-            *@param value - if true, Y and Z axiz will be swapped
-            *}
+             Sets swap Y and Z axis
+             @param(value If @true, Y and Z axiz will be swapped)
+            }
+            {$ENDREGION}
             procedure SetSwapYZ(value: Boolean); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets file name
-            *@param value - combination type to set
-            *}
+             Sets file name
+             @param(value Combination type to set)
+            }
+            {$ENDREGION}
             procedure SetCombinationType(value: EQRModelMatrixCombinationType); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Applies properties to model
-            *@param pModel - model to update
-            *}
+             Applies properties to model
+             @param(pModel Model to update)
+            }
+            {$ENDREGION}
             procedure Apply(pModel: TQRModelGroup); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            { Published properties }
-            property Color:                 TQRVCLModelComponentNotifiableWhiteColorGL read m_pColor          write m_pColor;
-            property Scaling:               TQRVCLModelComponentVector3GL              read m_pScaling        write m_pScaling;
-            property Translation:           TQRVCLModelComponentVector3GL              read m_pTranslation    write m_pTranslation;
-            property RotationX:             Single                                     read m_RotationX       write SetRotationX;
-            property RotationY:             Single                                     read m_RotationY       write SetRotationY;
-            property RotationZ:             Single                                     read m_RotationZ       write SetRotationZ;
-            property SwapYZ:                Boolean                                    read m_SwapYZ          write SetSwapYZ;
-            property MatrixCombinationType: EQRModelMatrixCombinationType              read m_CombinationType write SetCombinationType default EQR_CT_Scale_Rotate_Translate;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model color
+            }
+            {$ENDREGION}
+            property Color: TQRVCLModelComponentNotifiableWhiteColorGL read m_pColor write m_pColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model scaling vector
+            }
+            {$ENDREGION}
+            property Scaling: TQRVCLModelComponentVector3GL read m_pScaling write m_pScaling;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model translation vector
+            }
+            {$ENDREGION}
+            property Translation: TQRVCLModelComponentVector3GL read m_pTranslation write m_pTranslation;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the x axis, in radians
+            }
+            {$ENDREGION}
+            property RotationX: Single read m_RotationX write SetRotationX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the y axis, in radians
+            }
+            {$ENDREGION}
+            property RotationY: Single read m_RotationY write SetRotationY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rotation angle on the z axis, in radians
+            }
+            {$ENDREGION}
+            property RotationZ: Single read m_RotationZ write SetRotationZ;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the y and z axis should be swapped
+            }
+            {$ENDREGION}
+            property SwapYZ: Boolean read m_SwapYZ write SetSwapYZ;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the matrix combination type
+            }
+            {$ENDREGION}
+            property MatrixCombinationType: EQRModelMatrixCombinationType read m_CombinationType write SetCombinationType default EQR_CT_Scale_Rotate_Translate;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Property that exposes a pre-calculated lighting on the VCL designer
-    *}
+     Property that exposes a pre-calculated lighting on the VCL designer
+    }
+    {$ENDREGION}
     TQRVCLPreCalculatedLightComponentPropertyGL = class(TQRVCLBasicModelComponentPropertyGL)
-        protected
+        private
             m_pAmbient:   TQRVCLModelComponentNotifiableBlackColorGL;
             m_pColor:     TQRVCLModelComponentNotifiableWhiteColorGL;
             m_pDirection: TQRVCLModelComponentNotifiableVector3GL;
             m_Enabled:    Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets enabled flag
-            *@param value - if true, light is enabled
+             Sets enabled flag
+             @param(value If @true, light is enabled)
             }
+            {$ENDREGION}
             procedure SetEnabled(value: Boolean); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - color property owner
-            *@param fOnNotifyPropOwner - callback function the prop will use to notify his owner,
-            *                            nil if not used
-            *}
+             Constructor
+             @param(pOwner Color property owner)
+             @param(fOnNotifyPropOwner Callback function the prop will use to notify his owner, @nil
+                                       if not used)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TControl;
                    fOnNotifyPropOwner: TQRNotifyPropOwnerEvent = nil); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Applies properties to pre-calculated light
-            *@param pLight - light to update
-            *}
+             Applies properties to pre-calculated light
+             @param(pLight Light to update)
+            }
+            {$ENDREGION}
             procedure Apply(pLight: TQRMD2Light); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            { Published properties }
-            property Ambient:   TQRVCLModelComponentNotifiableBlackColorGL read m_pAmbient   write m_pAmbient;
-            property Color:     TQRVCLModelComponentNotifiableWhiteColorGL read m_pColor     write m_pColor;
-            property Direction: TQRVCLModelComponentNotifiableVector3GL    read m_pDirection write m_pDirection;
-            property Enabled:   Boolean                                    read m_Enabled    write SetEnabled;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light ambient color
+            }
+            {$ENDREGION}
+            property Ambient: TQRVCLModelComponentNotifiableBlackColorGL read m_pAmbient write m_pAmbient;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light color
+            }
+            {$ENDREGION}
+            property Color: TQRVCLModelComponentNotifiableWhiteColorGL read m_pColor write m_pColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light direction vector
+            }
+            {$ENDREGION}
+            property Direction: TQRVCLModelComponentNotifiableVector3GL read m_pDirection write m_pDirection;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the light is enabled
+            }
+            {$ENDREGION}
+            property Enabled: Boolean read m_Enabled write SetEnabled;
     end;
 
 implementation
@@ -715,7 +1154,7 @@ begin
     if (not Assigned(m_pOwner)) then
         Exit;
 
-    m_pOwner.Invalidate();
+    m_pOwner.Invalidate;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLBasicModelComponentPropertyGL.Assign(pSource: TPersistent);
