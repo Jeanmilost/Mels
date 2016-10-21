@@ -33,6 +33,7 @@ unit UTQRDesignerHook;
 interface
 
 uses System.Classes,
+     System.SysUtils,
      UTQRDesignPatterns,
      Vcl.Controls,
      Winapi.Messages,
@@ -122,7 +123,7 @@ type
              Constructor
             }
             {$ENDREGION}
-            constructor Create;
+            constructor Create; reintroduce;
 
             {$REGION 'Documentation'}
             {**

@@ -861,9 +861,9 @@ var
     pSrcBitmap:  Vcl.Graphics.TBitmap;
 begin
     // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(m_fOnLoadTexture)) then
+    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
     begin
-        Result := m_fOnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
+        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
         Exit;
     end;
 
@@ -907,7 +907,7 @@ begin
 
     try
         // enable OpenGL rendering context
-        if (not m_pRenderSurface.EnableContext(hDC)) then
+        if (not RenderSurface.EnableContext(hDC)) then
         begin
             Result := False;
             Exit;
@@ -927,13 +927,13 @@ begin
             try
                 // convert bitmap to pixel array, and create OpenGL texture from array
                 TQRVCLPictureHelper.BytesFromBitmap(pSrcBitmap, pixels, false, false);
-                pTexture.Index := m_pRenderer.CreateTexture(pSrcBitmap.Width,
-                                                            pSrcBitmap.Height,
-                                                            pixelFormat,
-                                                            pixels,
-                                                            GL_NEAREST,
-                                                            GL_NEAREST,
-                                                            GL_TEXTURE_2D);
+                pTexture.Index := Renderer.CreateTexture(pSrcBitmap.Width,
+                                                         pSrcBitmap.Height,
+                                                         pixelFormat,
+                                                         pixels,
+                                                         GL_NEAREST,
+                                                         GL_NEAREST,
+                                                         GL_TEXTURE_2D);
             finally
                 SetLength(pixels, 0);
             end;
@@ -970,20 +970,20 @@ procedure TQRVCLShapeGL.OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                             const textures: TQRTextures;
                                               const matrix: TQRMatrix4x4);
 begin
-    if ((csDesigning in ComponentState) or not(Assigned(m_fDrawSceneStaticModelItemEvent))) then
+    if ((csDesigning in ComponentState) or not(Assigned(OnDrawSceneStaticModelItem))) then
         Exit;
 
-    m_fDrawSceneStaticModelItemEvent(Self,
-                                     m_hSceneDC,
-                                     m_pRenderSurface.GLContext,
-                                     m_pRenderer,
-                                     m_pShader,
-                                     pGroup,
-                                     pModel,
-                                     textures,
-                                     matrix,
-                                     nil,
-                                     nil);
+    OnDrawSceneStaticModelItem(Self,
+                               m_hSceneDC,
+                               RenderSurface.GLContext,
+                               Renderer,
+                               Shader,
+                               pGroup,
+                               pModel,
+                               textures,
+                               matrix,
+                               nil,
+                               nil);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnDrawModelItem(const pGroup: TQRModelGroup;
@@ -995,18 +995,18 @@ procedure TQRVCLShapeGL.OnDrawModelItem(const pGroup: TQRModelGroup;
 begin
     // notify user that model item is about to be drawn on the scene, stop drawing if user already
     // processed it
-    if ((not(csDesigning in ComponentState)) and Assigned(m_fDrawSceneStaticModelItemEvent)) then
-        if (m_fDrawSceneStaticModelItemEvent(Self,
-                                             m_hSceneDC,
-                                             m_pRenderSurface.GLContext,
-                                             m_pRenderer,
-                                             m_pShader,
-                                             pGroup,
-                                             pModel,
-                                             textures,
-                                             matrix,
-                                             pMesh,
-                                             pAABBTree))
+    if ((not(csDesigning in ComponentState)) and Assigned(OnDrawSceneStaticModelItem)) then
+        if (OnDrawSceneStaticModelItem(Self,
+                                       m_hSceneDC,
+                                       RenderSurface.GLContext,
+                                       Renderer,
+                                       Shader,
+                                       pGroup,
+                                       pModel,
+                                       textures,
+                                       matrix,
+                                       pMesh,
+                                       pAABBTree))
         then
             Exit;
 
@@ -1019,11 +1019,11 @@ begin
         Exit;
 
     // draw mesh
-    m_pRenderer.Draw(pMesh^, matrix, textures);
+    Renderer.Draw(pMesh^, matrix, textures);
 
     // notify user that collisions may be detected
-    if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        m_fOnDetectCollisions(Self, matrix, pAABBTree);
+    if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
+        OnDetectCollisions(Self, matrix, pAABBTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.Assign(pSource: TPersistent);
@@ -1117,7 +1117,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -1244,7 +1244,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -1375,7 +1375,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -1553,7 +1553,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -1731,7 +1731,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -1882,7 +1882,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;

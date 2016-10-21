@@ -75,7 +75,6 @@ type
             m_ModelOptions:        TQRModelOptions;
             m_FramedModelOptions:  TQRFramedModelOptions;
             m_hSceneDC:            THandle;
-            m_AnimationGesture:    EQRMD2AnimationGesture;
 
         protected
             {$REGION 'Documentation'}
@@ -400,7 +399,7 @@ begin
 
     // override basic data, to enable double-buffering on OpenGL rendering (means also that embedded
     // GDI rendering isn't supported for this component)
-    m_SupportsGDI := False;
+    SupportsGDI := False;
 
     // initialize variables
     m_pMD2                := TQRMD2Group.Create;
@@ -756,7 +755,7 @@ begin
         Exit;
 
     // no render surface?
-    if (not Assigned(m_pRenderSurface)) then
+    if (not Assigned(RenderSurface)) then
         Exit;
 
     // check if handle was successfully allocated
@@ -772,58 +771,58 @@ begin
 
     try
         // enable render surface context
-        if (not m_pRenderSurface.EnableContext(hDC)) then
+        if (not RenderSurface.EnableContext(hDC)) then
             Exit;
 
         // resize render surface
-        m_pRenderSurface.Resize(hDC);
+        RenderSurface.Resize(hDC);
 
         // resize local overlay, if any
-        if (Assigned(m_pOverlay)) then
-            m_pOverlay.SetSize(ClientWidth, ClientHeight);
+        if (Assigned(Overlay)) then
+            Overlay.SetSize(ClientWidth, ClientHeight);
 
         // get antialiasing factor to apply
         factor := GetAntialiasingFactor;
 
         // create OpenGL viewport to use to draw scene
-        m_pRenderer.CreateViewport(ClientWidth * factor, ClientHeight * factor);
+        Renderer.CreateViewport(ClientWidth * factor, ClientHeight * factor);
 
         // notify user that scene matrix (i.e. projection and view matrix) are about to be created
-        if (Assigned(m_fOnCreateSceneMatrix)) then
+        if (Assigned(OnCreateSceneMatrix)) then
             // user defined his own matrix?
-            if (m_fOnCreateSceneMatrix(Self, m_ProjectionMatrix, m_ViewMatrix)) then
+            if (OnCreateSceneMatrix(Self, ProjectionMatrix^, ViewMatrix^)) then
                 Exit;
 
         // create projection matrix
-        m_ProjectionMatrix := m_pRenderer.GetProjection(45.0,
-                                                        ClientWidth  * factor,
-                                                        ClientHeight * factor,
-                                                        1.0,
-                                                        1000.0);
+        ProjectionMatrix.Assign(Renderer.GetProjection(45.0,
+                                                       ClientWidth  * factor,
+                                                       ClientHeight * factor,
+                                                       1.0,
+                                                       1000.0));
 
         position  := TQRVector3D.Create(0.0, 0.0, 0.0);
         direction := TQRVector3D.Create(0.0, 0.0, 1.0);
         up        := TQRVector3D.Create(0.0, 1.0, 0.0);
 
         // create view matrix (will not be modified while execution)
-        m_ViewMatrix := m_pRenderer.LookAtLH(position, direction, up);
+        ViewMatrix.Assign(Renderer.LookAtLH(position, direction, up));
 
         // do use shader?
-        if (not m_UseShader) then
+        if (not UseShader) then
         begin
             // load projection matrix and initialize it
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity;
 
             // apply projection matrix
-            glLoadMatrix(PGLfloat(m_ProjectionMatrix.GetPtr));
+            glLoadMatrix(PGLfloat(ProjectionMatrix.GetPtr));
 
             // load model view matrix and initialize it
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity;
 
             // apply model view matrix
-            glLoadMatrix(PGLfloat(m_ViewMatrix.GetPtr));
+            glLoadMatrix(PGLfloat(ViewMatrix.GetPtr));
         end;
     finally
         ReleaseDC(WindowHandle, hDC);
@@ -851,7 +850,7 @@ begin
     end;
 
     // is OpenGL context created?
-    if (m_pRenderSurface.GLContext = 0) then
+    if (RenderSurface.GLContext = 0) then
     begin
         Result := False;
         Exit;
@@ -941,10 +940,10 @@ begin
     end;
 
     // bind shader program
-    m_pShader.Use(True);
+    Shader.Use(True);
 
     // get perspective (or projection) matrix slot from shader
-    uniform := m_pRenderer.GetUniform(m_pShader, EQR_SA_PerspectiveMatrix);
+    uniform := Renderer.GetUniform(Shader, EQR_SA_PerspectiveMatrix);
 
     // found it?
     if (uniform = -1) then
@@ -955,10 +954,10 @@ begin
     end;
 
     // connect perspective (or projection) matrix to shader
-    glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(m_ProjectionMatrix.GetPtr));
+    glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(ProjectionMatrix.GetPtr));
 
     // get view (or camera) matrix slot from shader
-    uniform := m_pRenderer.GetUniform(m_pShader, EQR_SA_CameraMatrix);
+    uniform := Renderer.GetUniform(Shader, EQR_SA_CameraMatrix);
 
     // found it?
     if (uniform = -1) then
@@ -969,10 +968,10 @@ begin
     end;
 
     // connect view (or camera) matrix to shader
-    glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(m_ViewMatrix.GetPtr));
+    glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(ViewMatrix.GetPtr));
 
     // unbind shader program
-    m_pShader.Use(False);
+    Shader.Use(False);
 
     Result := True;
 end;
@@ -980,7 +979,7 @@ end;
 procedure TQRVCLMD2ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
     // no animation is running or component is in design time?
-    if (m_NoAnimation or (csDesigning in ComponentState)) then
+    if (NoAnimation or (csDesigning in ComponentState)) then
         // invalidate model to repaint it
         Invalidate;
 end;
@@ -996,9 +995,9 @@ var
     hDC:         THandle;
 begin
     // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(m_fOnLoadTexture)) then
+    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
     begin
-        Result := m_fOnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
+        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
         Exit;
     end;
 
@@ -1042,7 +1041,7 @@ begin
 
     try
         // enable OpenGL rendering context
-        if (not m_pRenderSurface.EnableContext(hDC)) then
+        if (not RenderSurface.EnableContext(hDC)) then
         begin
             Result := False;
             Exit;
@@ -1057,13 +1056,13 @@ begin
         try
             // convert bitmap to pixel array, and create OpenGL texture from array
             TQRVCLPictureHelper.BytesFromBitmap(pBitmap, pixels, false, false);
-            pTexture.Index := m_pRenderer.CreateTexture(pBitmap.Width,
-                                                        pBitmap.Height,
-                                                        pixelFormat,
-                                                        pixels,
-                                                        GL_NEAREST,
-                                                        GL_NEAREST,
-                                                        GL_TEXTURE_2D);
+            pTexture.Index := Renderer.CreateTexture(pBitmap.Width,
+                                                     pBitmap.Height,
+                                                     pixelFormat,
+                                                     pixels,
+                                                     GL_NEAREST,
+                                                     GL_NEAREST,
+                                                     GL_TEXTURE_2D);
         finally
             SetLength(pixels, 0);
         end;
@@ -1083,7 +1082,7 @@ begin
         m_hSceneDC := hDC;
 
         // draw model
-        m_pMD2.Draw(m_ElapsedTime);
+        m_pMD2.Draw(ElapsedTime);
     finally
         m_hSceneDC := 0;
     end;
@@ -1096,25 +1095,25 @@ procedure TQRVCLMD2ModelGL.OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                              index, nextIndex: NativeInt;
                                     const interpolationFactor: Double);
 begin
-    if ((csDesigning in ComponentState) or not(Assigned(m_fDrawSceneFramedModelItemEvent))) then
+    if ((csDesigning in ComponentState) or not(Assigned(OnDrawSceneFramedModelItem))) then
         Exit;
 
-    m_fDrawSceneFramedModelItemEvent(Self,
-                                     m_hSceneDC,
-                                     m_pRenderSurface.GLContext,
-                                     m_pRenderer,
-                                     m_pShader,
-                                     pGroup,
-                                     pModel,
-                                     textures,
-                                     matrix,
-                                     index,
-                                     nextIndex,
-                                     interpolationFactor,
-                                     nil,
-                                     nil,
-                                     nil,
-                                     nil);
+    OnDrawSceneFramedModelItem(Self,
+                               m_hSceneDC,
+                               RenderSurface.GLContext,
+                               Renderer,
+                               Shader,
+                               pGroup,
+                               pModel,
+                               textures,
+                               matrix,
+                               index,
+                               nextIndex,
+                               interpolationFactor,
+                               nil,
+                               nil,
+                               nil,
+                               nil);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnDrawModelItem(const pGroup: TQRModelGroup;
@@ -1130,23 +1129,23 @@ var
 begin
     // notify user that model item is about to be drawn on the scene, stop drawing if user already
     // processed it
-    if ((not(csDesigning in ComponentState)) and Assigned(m_fDrawSceneFramedModelItemEvent)) then
-        if (m_fDrawSceneFramedModelItemEvent(Self,
-                                             m_hSceneDC,
-                                             m_pRenderSurface.GLContext,
-                                             m_pRenderer,
-                                             m_pShader,
-                                             pGroup,
-                                             pModel,
-                                             textures,
-                                             matrix,
-                                             index,
-                                             nextIndex,
-                                             interpolationFactor,
-                                             pMesh,
-                                             pNextMesh,
-                                             pAABBTree,
-                                             pNextAABBTree))
+    if ((not(csDesigning in ComponentState)) and Assigned(OnDrawSceneFramedModelItem)) then
+        if (OnDrawSceneFramedModelItem(Self,
+                                       m_hSceneDC,
+                                       RenderSurface.GLContext,
+                                       Renderer,
+                                       Shader,
+                                       pGroup,
+                                       pModel,
+                                       textures,
+                                       matrix,
+                                       index,
+                                       nextIndex,
+                                       interpolationFactor,
+                                       pMesh,
+                                       pNextMesh,
+                                       pAABBTree,
+                                       pNextAABBTree))
         then
             Exit;
 
@@ -1165,16 +1164,16 @@ begin
         PrepareShaderToDrawModel(textures);
 
         // draw mesh
-        m_pRenderer.Draw(pMesh^,
-                         pNextMesh^,
-                         matrix,
-                         interpolationFactor,
-                         textures,
-                         m_pShader);
+        Renderer.Draw(pMesh^,
+                      pNextMesh^,
+                      matrix,
+                      interpolationFactor,
+                      textures,
+                      Shader);
 
         // notify user that collisions may be detected
-        if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            m_fOnDetectCollisions(Self, matrix, pAABBTree);
+        if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
+            OnDetectCollisions(Self, matrix, pAABBTree);
 
         Exit;
     end;
@@ -1183,11 +1182,11 @@ begin
     if (not Assigned(pNextMesh) or (interpolationFactor <= 0.0)) then
     begin
         // draw mesh
-        m_pRenderer.Draw(pMesh^, matrix, textures);
+        Renderer.Draw(pMesh^, matrix, textures);
 
         // notify user that collisions may be detected
-        if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            m_fOnDetectCollisions(Self, matrix, pAABBTree);
+        if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
+            OnDetectCollisions(Self, matrix, pAABBTree);
 
         Exit;
     end
@@ -1195,11 +1194,11 @@ begin
     if (interpolationFactor >= 1.0) then
     begin
         // draw mesh
-        m_pRenderer.Draw(pNextMesh^, matrix, textures);
+        Renderer.Draw(pNextMesh^, matrix, textures);
 
         // notify user that collisions may be detected
-        if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            m_fOnDetectCollisions(Self, matrix, pNextAABBTree);
+        if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
+            OnDetectCollisions(Self, matrix, pNextAABBTree);
 
         Exit;
     end;
@@ -1208,11 +1207,11 @@ begin
     TQRModelHelper.Interpolate(interpolationFactor, pMesh^, pNextMesh^, mesh);
 
     // draw mesh
-    m_pRenderer.Draw(mesh, matrix, textures);
+    Renderer.Draw(mesh, matrix, textures);
 
     // notify user that collisions may be detected
-    if (Assigned(m_fOnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        m_fOnDetectCollisions(Self, matrix, pAABBTree);
+    if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
+        OnDetectCollisions(Self, matrix, pAABBTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Assign(pSource: TPersistent);

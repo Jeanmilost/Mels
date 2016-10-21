@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelComponentGL -------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a basic model component using the VCL and OpenGL to draw it *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelComponentGL ------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a basic model component using OpenGL to draw it.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelComponentGL;
 
 interface
@@ -45,9 +64,15 @@ uses System.Classes,
      XE7.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Antialiasing mode
-    *}
+     Antialiasing mode
+     @value(EQR_AM_None No antialiasing enabled)
+     @value(EQR_AM_FSAA_2x Enables a full screen antialiasing with a factor of 2)
+     @value(EQR_AM_FSAA_4x Enables a full screen antialiasing with a factor of 4)
+     @value(EQR_AM_FSAA_8x Enables a full screen antialiasing with a factor of 8)
+    }
+    {$ENDREGION}
     EQRAntialiasingMode =
     (
         EQR_AM_None    = 0,
@@ -56,92 +81,102 @@ type
         EQR_AM_FSAA_8x
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Called when OpenGL was created and should be configured
-    *@param pSender - event sender
-    *@param hDC - device context
-    *@param hGLRC - OpenGL render context
-    *@param pRenderer - OpenGL renderer
-    *@param pShader - OpenGL shader
-    *}
+     Called when OpenGL was created and should be configured
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+    }
+    {$ENDREGION}
     TQRConfigureOpenGL = procedure(pSender: TObject;
                                 hDC, hGLRC: THandle;
                                  pRenderer: TQRVCLModelRendererGL;
                                    pShader: TQRVCLModelShaderGL) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when projection and view matrix are created
-    *@param pSender - event sender
-    *@param[in, out] projectionMatrix - projection matrix to use
-    *@param[in, out] viewMatrix - view matrix to use
-    *@return true to use user defined matrix instead of default, otherwise false
-    *}
+     Called when projection and view matrix are created
+     @param(pSender - event sender)
+     @param(projectionMatrix @bold([in, out]) Projection matrix to use)
+     @param(viewMatrix @bold([in, out]) View matrix to use)
+     @return(@true to use user defined matrix instead of default, otherwise @false)
+    }
+    {$ENDREGION}
     TQRCreateSceneMatrix = function(pSender: TObject;
                        var projectionMatrix,
                                  viewMatrix: TQRMatrix4x4): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when a scene is initialized, before OpenGL clears the render target
-    *@param pSender - event sender
-    *@param hDC - device context
-    *}
+     Called when a scene is initialized, before OpenGL clears the render target
+     @param(pSender Event sender)
+     @param(hDC Device context)
+    }
+    {$ENDREGION}
     TQRInitializeSceneEvent = procedure(pSender: TObject; hDC: THandle) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called before a scene is drawn
-    *@param pSender - event sender
-    *@param hDC - device context
-    *@param hGLRC - OpenGL render context
-    *@param pRenderer - OpenGL renderer
-    *@param pShader - OpenGL shader
-    *}
+     Called before a scene is drawn
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+    }
+    {$ENDREGION}
     TQRBeforeDrawSceneEvent = procedure(pSender: TObject;
                                      hDC, hGLRC: THandle;
                                       pRenderer: TQRVCLModelRendererGL;
                                         pShader: TQRVCLModelShaderGL) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called after a scene is drawn
-    *@param pSender - event sender
-    *@param hDC - device context
-    *@param hGLRC - OpenGL render context
-    *@param pRenderer - OpenGL renderer
-    *@param pShader - OpenGL shader
-    *}
+     Called after a scene is drawn
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+    }
+    {$ENDREGION}
     TQRAfterDrawSceneEvent = procedure(pSender: TObject;
                                     hDC, hGLRC: THandle;
                                      pRenderer: TQRVCLModelRendererGL;
                                        pShader: TQRVCLModelShaderGL) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when a scene is finalized, after OpenGL has swapped the render target
-    *@param pSender - event sender
-    *@param hDC - device context
-    *}
+     Called when a scene is finalized, after OpenGL has swapped the render target
+     @param(pSender Event sender)
+     @param(hDC Device context)
+    }
+    {$ENDREGION}
     TQRFinalizeSceneEvent = procedure(pSender: TObject; hDC: THandle) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when collisions should be detected on the model
-    *@param pSender - event sender
-    *@param modelMatrix - model matrix
-    *@param pAABBTree - model aligned-axis bounding box tree
-    *}
+     Called when collisions should be detected on the model
+     @param(pSender Event sender)
+     @param(modelMatrix Model matrix)
+     @param(pAABBTree Model aligned-axis bounding box tree)
+    }
+    {$ENDREGION}
     TQRDetectCollisionsEvent = procedure(pSender: TObject;
                                const modelMatrix: TQRMatrix4x4;
                                        pAABBTree: TQRAABBTree) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic model component using the VCL and OpenGL to draw it
-    *}
+     Basic model component using the VCL and OpenGL to draw it
+    }
+    {$ENDREGION}
     TQRVCLModelComponentGL = class(TWinControl, IQRObserver)
         private
-            // the allowed property is a little special, that's why it is not accessible as the
-            // others. Its purpose is to determine whether OpenGL was correctly initialized, and if
-            // the control may access to all the OpenGL function it requires to perform the drawing
-            m_Allowed:       Boolean;
-            m_pDefaultImage: TPngImage;
-
-        protected
+            m_pDefaultImage:        TPngImage;
             m_pColor:               TQRVCLModelComponentColorGL;
             m_pAlphaBlending:       TQRVCLModelComponentAlphaBlendingPropertyGL;
             m_pRenderer:            TQRVCLModelRendererGL;
@@ -156,6 +191,7 @@ type
             m_UseShader:            Boolean;
             m_SupportsGDI:          Boolean;
             m_LogMessageLoop:       Boolean;
+            m_Allowed:              Boolean;
             m_fOnConfigureOpenGL:   TQRConfigureOpenGL;
             m_fOnLoadTexture:       TQRLoadMeshTextureEvent;
             m_fOnCreateSceneMatrix: TQRCreateSceneMatrix;
@@ -165,188 +201,431 @@ type
             m_fOnFinalizeScene:     TQRFinalizeSceneEvent;
             m_fOnDetectCollisions:  TQRDetectCollisionsEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Component Windows procedure
-            *@param message - Windows message
-            *}
+             Component Windows procedure
+             @param(message Windows message)
+            }
+            {$ENDREGION}
             procedure WndProc(var message: TMessage); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets antialiasing mode
-            *@param mode - antialiasing mode
-            *}
+             Gets the view matrix
+             @return(The view matrix)
+            }
+            {$ENDREGION}
+            function GetViewMatrix: PQRMatrix4x4; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets the view matrix
+             @param(pMatrix The view matrix)
+            }
+            {$ENDREGION}
+            procedure SetViewMatrix(const pMatrix: PQRMatrix4x4);
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the projection matrix
+             @return(The projection matrix)
+            }
+            {$ENDREGION}
+            function GetProjectionMatrix: PQRMatrix4x4; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets the projection matrix
+             @param(pMatrix The projection matrix)
+            }
+            {$ENDREGION}
+            procedure SetProjectionMatrix(const pMatrix: PQRMatrix4x4);
+
+            {$REGION 'Documentation'}
+            {**
+             Sets antialiasing mode
+             @param(mode Antialiasing mode)
+            }
+            {$ENDREGION}
             procedure SetAntialiasingMode(mode: EQRAntialiasingMode); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets antialiasing factor
-            *@return antialiasing factor to apply
-            *}
+             Gets antialiasing factor
+             @return(Antialiasing factor to apply)
+            }
+            {$ENDREGION}
             function GetAntialiasingFactor: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called after all control properties were loaded from DFM files
-            *}
+             Called after all control properties were loaded from DFM files
+            }
+            {$ENDREGION}
             procedure Loaded; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when control is resized
-            *}
+             Called when control is resized
+            }
+            {$ENDREGION}
             procedure Resize; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates the control parameters
-            *@param params - control parameters
-            *}
+             Creates the control parameters
+             @param(params Control parameters)
+            }
+            {$ENDREGION}
             procedure CreateParams(var params: TCreateParams); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates the component Windows handle
-            *@param params - Windows parameters used to create handle
-            *}
+             Creates the component Windows handle
+             @param(params Windows parameters used to create handle)
+            }
+            {$ENDREGION}
             procedure CreateWindowHandle(const params: TCreateParams); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Deletes the component Windows handle
-            *}
+             Deletes the component Windows handle
+            }
+            {$ENDREGION}
             procedure DestroyWindowHandle; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Releases the draw context
-            *}
+             Releases the draw context
+            }
+            {$ENDREGION}
             procedure ReleaseDrawContext; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates a viewport for the component
-            *@param width - viewport width
-            *@param height - viewport height
-            *}
+             Creates a viewport for the component
+             @param(width Viewport width)
+             @param(height Viewport height)
+            }
+            {$ENDREGION}
             procedure CreateViewport(width, height: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Builds shader
-            *@param pVertexPrg - vertex shader program to compile and build
-            *@param pFragmentPrg - fragment shader program to compile and build
-            *@return true on success, otherwise false
-            *}
+             Builds shader
+             @param(pVertexPrg Vertex shader program to compile and build)
+             @param(pFragmentPrg Fragment shader program to compile and build)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function BuildShader(pVertexPrg, pFragmentPrg: TStream): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a default image, in case a problem occurred while OpenGL library was initialized
-            *}
+             Draws a default image, in case a problem occurred while OpenGL library was initialized
+            }
+            {$ENDREGION}
             function DrawDefaultImage(hDC: THandle): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws the scene
-            *@param hDC - internal control device context that OpenGL should use to draw the scene
-            *}
+             Draws the scene
+             @param(hDC Internal control device context that OpenGL should use to draw the scene)
+            }
+            {$ENDREGION}
             procedure DrawScene(hDC: THandle); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws the scene to a device context
-            *@param message - Windows message containing device context to draw to
-            *@return true if message was processed, otherwise false
-            *}
+             Draws the scene to a device context
+             @param(message Windows message containing device context to draw to)
+             @return(@true if message was processed, otherwise @false)
+            }
+            {$ENDREGION}
             function DrawSceneTo(var message: TMessage): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws the scene to a device context
-            *@param hDC - device context to draw the scene to
-            *@param x - position on the x axis where the scene will be drawn, in pixels
-            *@param y - position on the y axis where the scene will be drawn, in pixels
-            *}
+             Draws the scene to a device context
+             @param(hDC Device context to draw the scene to)
+             @param(x Position on the x axis where the scene will be drawn, in pixels)
+             @param(y Position on the y axis where the scene will be drawn, in pixels)
+            }
+            {$ENDREGION}
             procedure DrawSceneTo(hDC: THandle; x, y: Integer); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when OpenGL can be configured
-            *}
+             Called when OpenGL can be configured
+            }
+            {$ENDREGION}
             procedure OnConfigOpenGL; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when the scene content should be drawn
-            *@param hDC - internal control device context that OpenGL should use to draw the scene
-            *}
+             Called when the scene content should be drawn
+             @param(hDC Internal control device context that OpenGL should use to draw the scene)
+            }
+            {$ENDREGION}
             procedure OnDrawSceneContent(hDC: THandle); virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Receives and processes important messages from properties
-            *@param pSender - event sender
-            *@param message - message to send to owner
-            *}
+             Receives and processes important messages from properties
+             @param(pSender Event sender)
+             @param(message Message to send to owner)
+            }
+            {$ENDREGION}
             function OnReceivePropNotification(pSender: TObject;
                                                message: EQRPropMessages): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when subject send a notification to the observer
-            *@param message - notification message
-            *}
+             Called when subject send a notification to the observer
+             @param(message Notification message)
+            }
+            {$ENDREGION}
             procedure OnNotified(message: TQRMessage); virtual;
 
-        public
+        // Properties
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Gets the renderer
+            }
+            {$ENDREGION}
+            property Renderer: TQRVCLModelRendererGL read m_pRenderer;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the shader
+            }
+            {$ENDREGION}
+            property Shader: TQRVCLModelShaderGL read m_pShader;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the render surface
+            }
+            {$ENDREGION}
+            property RenderSurface: TQRVCLModelRenderSurfaceGL read m_pRenderSurface;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the view matrix
+            }
+            {$ENDREGION}
+            property ViewMatrix: PQRMatrix4x4 read GetViewMatrix write SetViewMatrix;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the projection matrix
+            }
+            {$ENDREGION}
+            property ProjectionMatrix: PQRMatrix4x4 read GetProjectionMatrix write SetProjectionMatrix;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the overlay
+            }
+            {$ENDREGION}
+            property Overlay: Vcl.Graphics.TBitmap read m_pOverlay;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the drawing with the GDI is supported
+            }
+            {$ENDREGION}
+            property SupportsGDI: Boolean read m_SupportsGDI write m_SupportsGDI;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets if shader are used
+            }
+            {$ENDREGION}
+            property UseShader: Boolean read m_UseShader;
+
+        public
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Paints the control content to a device context
-            *@param dc - device context to paint to
-            *@param x - position on the x axis where the scene will be drawn on the context, in pixels
-            *@param y - position on the y axis where the scene will be drawn on the context, in pixels
-            *}
+             Paints the control content to a device context
+             @param(dc Device context to paint to)
+             @param(x Position on the x axis where the scene will be drawn on the context, in pixels)
+             @param(y Position on the y axis where the scene will be drawn on the context, in pixels)
+            }
+            {$ENDREGION}
             procedure PaintTo(dc: HDC; x, y: Integer); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
-            { Public properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets if the model is allowed to work, i.e. if OpenGL was successfully initialized and
+             is ready to use
+            }
+            {$ENDREGION}
             property Allowed: Boolean read m_Allowed;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the message loop should be logged to the compiler console
+             @br @bold(NOTE) This property is only allowed if library is compiled in debug mode
+            }
+            {$ENDREGION}
             {$IFDEF DEBUG}
                 property LogMessageLoop: Boolean read m_LogMessageLoop write m_LogMessageLoop stored False;
             {$ENDIF}
 
+        // Properties
         published
-            { Published properties }
-            property Color:               TQRVCLModelComponentColorGL                 read m_pColor               write m_pColor;
-            property AlphaBlending:       TQRVCLModelComponentAlphaBlendingPropertyGL read m_pAlphaBlending       write m_pAlphaBlending;
-            property Antialiasing:        EQRAntialiasingMode                         read m_AntialiasingMode     write SetAntialiasingMode    default EQR_AM_None;
-            property OnConfigureOpenGL:   TQRConfigureOpenGL                          read m_fOnConfigureOpenGL   write m_fOnConfigureOpenGL;
-            property OnLoadTexture:       TQRLoadMeshTextureEvent                     read m_fOnLoadTexture       write m_fOnLoadTexture;
-            property OnCreateSceneMatrix: TQRCreateSceneMatrix                        read m_fOnCreateSceneMatrix write m_fOnCreateSceneMatrix;
-            property OnInitializeScene:   TQRInitializeSceneEvent                     read m_fOnInitializeScene   write m_fOnInitializeScene;
-            property OnBeforeDrawScene:   TQRBeforeDrawSceneEvent                     read m_fOnBeforeDrawScene   write m_fOnBeforeDrawScene;
-            property OnAfterDrawScene:    TQRAfterDrawSceneEvent                      read m_fOnAfterDrawScene    write m_fOnAfterDrawScene;
-            property OnFinalizeScene:     TQRFinalizeSceneEvent                       read m_fOnFinalizeScene     write m_fOnFinalizeScene;
-            property OnDetectCollisions:  TQRDetectCollisionsEvent                    read m_fOnDetectCollisions  write m_fOnDetectCollisions;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model color
+            }
+            {$ENDREGION}
+            property Color: TQRVCLModelComponentColorGL read m_pColor write m_pColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the alpha blending properties set
+            }
+            {$ENDREGION}
+            property AlphaBlending: TQRVCLModelComponentAlphaBlendingPropertyGL read m_pAlphaBlending write m_pAlphaBlending;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the alpha blending mode, deactivated by default
+            }
+            {$ENDREGION}
+            property Antialiasing: EQRAntialiasingMode read m_AntialiasingMode write SetAntialiasingMode default EQR_AM_None;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnConfigureOpenGL event
+            }
+            {$ENDREGION}
+            property OnConfigureOpenGL: TQRConfigureOpenGL read m_fOnConfigureOpenGL write m_fOnConfigureOpenGL;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnLoad Texture event
+            }
+            {$ENDREGION}
+            property OnLoadTexture: TQRLoadMeshTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCreateSceneMatrix event
+            }
+            {$ENDREGION}
+            property OnCreateSceneMatrix: TQRCreateSceneMatrix read m_fOnCreateSceneMatrix write m_fOnCreateSceneMatrix;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnInitializeScene event
+            }
+            {$ENDREGION}
+            property OnInitializeScene: TQRInitializeSceneEvent read m_fOnInitializeScene write m_fOnInitializeScene;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnBeforeDrawScene event
+            }
+            {$ENDREGION}
+            property OnBeforeDrawScene: TQRBeforeDrawSceneEvent read m_fOnBeforeDrawScene write m_fOnBeforeDrawScene;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnAfterDrawScene event
+            }
+            {$ENDREGION}
+            property OnAfterDrawScene: TQRAfterDrawSceneEvent read m_fOnAfterDrawScene write m_fOnAfterDrawScene;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnFinalizeScene event
+            }
+            {$ENDREGION}
+            property OnFinalizeScene: TQRFinalizeSceneEvent read m_fOnFinalizeScene write m_fOnFinalizeScene;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDetectCollisions event
+            }
+            {$ENDREGION}
+            property OnDetectCollisions: TQRDetectCollisionsEvent read m_fOnDetectCollisions write m_fOnDetectCollisions;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the component alignment
+            }
+            {$ENDREGION}
             property Align;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the component anchors
+            }
+            {$ENDREGION}
             property Anchors;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the component constraints
+            }
+            {$ENDREGION}
             property Constraints;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the component is enabled
+            }
+            {$ENDREGION}
             property Enabled;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when a static model item should be drawn on the scene
-    *@param pSender - event sender
-    *@param hDC - device context
-    *@param hGLRC - OpenGL render context
-    *@param pRenderer - OpenGL renderer
-    *@param pShader - OpenGL shader
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *@param pMesh - mesh to draw, can be nil (depends on selected options)
-    *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be nil (depends on selected options)
-    *@return true if framed model item was drawn on the scene, otherwise false
-    *}
+     Called when a static model item should be drawn on the scene
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+     @param(pMesh Mesh to draw, can be @nil (depends on selected options))
+     @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil (depends on
+                      selected options))
+     @return(@true if framed model item was drawn on the scene, otherwise @false)
+    }
+    {$ENDREGION}
     TQRDrawSceneStaticModelItemEvent = function (pSender: TObject;
                                               hDC, hGLRC: THandle;
                                                pRenderer: TQRVCLModelRendererGL;
@@ -358,61 +637,81 @@ type
                                              const pMesh: PQRMesh;
                                          const pAABBTree: TQRAABBTree): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic model component for static models and using the VCL and OpenGL to draw it
-    *}
+     Basic model component for static models and using the VCL and OpenGL to draw it
+    }
+    {$ENDREGION}
     TQRVCLStaticModelComponentGL = class(TQRVCLModelComponentGL)
-        protected
+        private
             m_fDrawSceneStaticModelItemEvent: TQRDrawSceneStaticModelItemEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called when OpenGL can be configured
-            *}
+             Called when OpenGL can be configured
+            }
+            {$ENDREGION}
             procedure OnConfigOpenGL; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
         published
-            { Properties }
-            property OnDrawSceneFramedModelItem: TQRDrawSceneStaticModelItemEvent read m_fDrawSceneStaticModelItemEvent write m_fDrawSceneStaticModelItemEvent;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDrawSceneStaticModelItem event
+            }
+            {$ENDREGION}
+            property OnDrawSceneStaticModelItem: TQRDrawSceneStaticModelItemEvent read m_fDrawSceneStaticModelItemEvent write m_fDrawSceneStaticModelItemEvent;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Called when a framed model item should be drawn on the scene
-    *@param pSender - event sender
-    *@param hDC - device context
-    *@param hGLRC - OpenGL render context
-    *@param pRenderer - OpenGL renderer
-    *@param pShader - OpenGL shader
-    *@param pGroup - group at which model belongs
-    *@param pModel - model to draw
-    *@param textures - textures belonging to model, in the order where they should be combined
-    *@param matrix - model matrix
-    *@param index - model mesh index
-    *@param nextIndex - model mesh index to interpolate with
-    *@param interpolationFactor - interpolation factor
-    *@param pMesh - mesh to draw, can be nil (depends on selected options)
-    *@param pNextMesh - next mesh to interpolate with, can be nil (depends on selected options)
-    *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be nil (depends on selected options)
-    *@param pNextAABBTree - aligned-axis bounding box tree matching with next mesh, can be nil (depends on selected options)
-    *@return true if framed model item was drawn on the scene, otherwise false
-    *}
+     Called when a framed model item should be drawn on the scene
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+     @param(pGroup Group at which model belongs)
+     @param(pModel Model to draw)
+     @param(textures Textures belonging to model, in the order where they should be combined)
+     @param(matrix Model matrix)
+     @param(index Model mesh index)
+     @param(nextIndex Model mesh index to interpolate with)
+     @param(interpolationFactor Interpolation factor)
+     @param(pMesh Mesh to draw, can be @nil (depends on selected options))
+     @param(pNextMesh Next mesh to interpolate with, can be @nil (depends on selected options))
+     @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil (depends on
+                      selected options))
+     @param(pNextAABBTree Aligned-axis bounding box tree matching with next mesh, can be @nil
+                          (depends on selected options))
+     @return(@true if framed model item was drawn on the scene, otherwise @false)
+    }
+    {$ENDREGION}
     TQRDrawSceneFramedModelItemEvent = function (pSender: TObject;
                                               hDC, hGLRC: THandle;
                                                pRenderer: TQRVCLModelRendererGL;
@@ -426,47 +725,80 @@ type
                                   const pMesh, pNextMesh: PQRMesh;
                           const pAABBTree, pNextAABBTree: TQRAABBTree): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Basic model component supporting framed animation and using the VCL and OpenGL to draw it
-    *}
+     Basic model component supporting framed animation and using the VCL and OpenGL to draw it
+    }
+    {$ENDREGION}
     TQRVCLFramedModelComponentGL = class(TQRVCLModelComponentGL)
-        protected
+        private
             m_ElapsedTime:                    Double;
             m_NoAnimation:                    Boolean;
             m_fDrawSceneFramedModelItemEvent: TQRDrawSceneFramedModelItemEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called when OpenGL can be configured
-            *}
+             Called when OpenGL can be configured
+            }
+            {$ENDREGION}
             procedure OnConfigOpenGL; override;
 
-        public
+        // Properties
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Gets or sets the elapsed time since last drawn
+            }
+            {$ENDREGION}
+            property ElapsedTime: Double read m_ElapsedTime write m_ElapsedTime;
+
+        public
+            {$REGION 'Documentation'}
+            {**
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when subject send a notification to the observer
-            *@param message - notification message
-            *}
+             Called when subject send a notification to the observer
+             @param(message Notification message)
+            }
+            {$ENDREGION}
             procedure OnNotified(message: TQRMessage); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
         published
-            { Properties }
-            property NoAnimation:                Boolean                          read m_NoAnimation                    write m_NoAnimation                    default False;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if model should not be animated
+            }
+            {$ENDREGION}
+            property NoAnimation: Boolean read m_NoAnimation write m_NoAnimation default False;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDrawSceneFramedModelItem event
+            }
+            {$ENDREGION}
             property OnDrawSceneFramedModelItem: TQRDrawSceneFramedModelItemEvent read m_fDrawSceneFramedModelItemEvent write m_fDrawSceneFramedModelItemEvent;
     end;
 
@@ -517,7 +849,7 @@ destructor TQRVCLModelComponentGL.Destroy;
 begin
     // detach from animation timer and stop to receive time notifications (runtime only)
     if (csDesigning in ComponentState) then
-        TQRDesignerHook.GetInstance().Detach(Self);
+        TQRDesignerHook.GetInstance.Detach(Self);
 
     // clear memory. NOTE overlay structures are deleted while handle is destroyed
     m_pRenderSurface.Free;
@@ -606,6 +938,26 @@ begin
     end;
 
     inherited WndProc(message);
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVCLModelComponentGL.GetViewMatrix: PQRMatrix4x4;
+begin
+    Result := @m_ViewMatrix;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRVCLModelComponentGL.SetViewMatrix(const pMatrix: PQRMatrix4x4);
+begin
+    m_ViewMatrix := pMatrix^;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVCLModelComponentGL.GetProjectionMatrix: PQRMatrix4x4;
+begin
+    Result := @m_ProjectionMatrix;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRVCLModelComponentGL.SetProjectionMatrix(const pMatrix: PQRMatrix4x4);
+begin
+    m_ProjectionMatrix := pMatrix^;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.SetAntialiasingMode(mode: EQRAntialiasingMode);
@@ -872,17 +1224,17 @@ begin
             begin
                 // load projection matrix and initialize it
                 glMatrixMode(GL_PROJECTION);
-                glLoadIdentity();
+                glLoadIdentity;
 
                 // apply projection matrix
-                glLoadMatrix(PGLfloat(m_ProjectionMatrix.GetPtr()));
+                glLoadMatrix(PGLfloat(m_ProjectionMatrix.GetPtr));
 
                 // load model view matrix and initialize it
                 glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
+                glLoadIdentity;
 
                 // apply model view matrix
-                glLoadMatrix(PGLfloat(m_ViewMatrix.GetPtr()));
+                glLoadMatrix(PGLfloat(m_ViewMatrix.GetPtr));
             end;
         end;
     finally
@@ -900,7 +1252,7 @@ begin
     end;
 
     // load and compile shader
-    m_pShader.CreateProgram();
+    m_pShader.CreateProgram;
     m_pShader.AttachFile(pVertexPrg,   EQR_ST_Vertex);
     m_pShader.AttachFile(pFragmentPrg, EQR_ST_Fragment);
 
@@ -1474,14 +1826,14 @@ begin
 
     // attach to animation timer to receive time notifications (runtime only)
     if (not(csDesigning in ComponentState)) then
-        TQRVCLAnimationTimer.GetInstance().Attach(Self);
+        TQRVCLAnimationTimer.GetInstance.Attach(Self);
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLFramedModelComponentGL.Destroy;
 begin
     // detach from animation timer and stop to receive time notifications (runtime only)
     if (not(csDesigning in ComponentState)) then
-        TQRVCLAnimationTimer.GetInstance().Detach(Self);
+        TQRVCLAnimationTimer.GetInstance.Detach(Self);
 
     inherited Destroy;
 end;

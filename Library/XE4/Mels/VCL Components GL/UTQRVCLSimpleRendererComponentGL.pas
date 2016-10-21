@@ -92,7 +92,7 @@ begin
         Exit;
 
     // notify that optional OpenGL configuration can be enabled
-    if (Assigned(m_fOnConfigureOpenGL)) then
+    if (Assigned(OnConfigureOpenGL)) then
     begin
         // a Windows handle is required to create a device context
         HandleNeeded;
@@ -105,11 +105,11 @@ begin
         hDC := GetDC(WindowHandle);
 
         try
-            m_fOnConfigureOpenGL(Self,
-                                 hDC,
-                                 m_pRenderSurface.GLContext,
-                                 m_pRenderer,
-                                 m_pShader);
+            OnConfigureOpenGL(Self,
+                              hDC,
+                              RenderSurface.GLContext,
+                              Renderer,
+                              Shader);
         finally
             // free the device context
             ReleaseDC(WindowHandle, hDC)
@@ -123,9 +123,9 @@ begin
     if (Assigned(m_fOnDrawScene)) then
         m_fOnDrawScene(Self,
                        hDC,
-                       m_pRenderSurface.GLContext,
-                       m_pRenderer,
-                       m_pShader);
+                       RenderSurface.GLContext,
+                       Renderer,
+                       Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 
