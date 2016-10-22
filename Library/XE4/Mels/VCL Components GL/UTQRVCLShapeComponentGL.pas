@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLShapeComponentGL -------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a set of shapes that can be drawn using the VCL and OpenGL. *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLShapeComponentGL ------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a set of shapes that can be drawn using OpenGL.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLShapeComponentGL;
 
 interface
@@ -35,9 +54,11 @@ uses System.Classes,
      XE7.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Shapes component
-    *}
+     Shapes component
+    }
+    {$ENDREGION}
     TQRVCLShapeGL = class(TQRVCLStaticModelComponentGL)
         protected
             m_pShape:          TQRShapeGroup;
@@ -50,130 +71,168 @@ type
             m_ModelOptions:    TQRModelOptions;
             m_hSceneDC:        THandle;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets texture
-            *@param pPicture - texture picture
-            *}
+             Sets texture
+             @param(pPicture Texture picture)
+            }
+            {$ENDREGION}
             procedure SetTexture(pPicture: TPicture); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model options
-            *@param options - options
-            *}
+             Sets model options
+             @param(options Options)
+            }
+            {$ENDREGION}
             procedure SetModelOptions(options: TQRModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model vertex shader file name
-            *@param fileName - file name
-            *}
+             Sets model vertex shader file name
+             @param(fileName File name)
+            }
+            {$ENDREGION}
             procedure SetVertexName(fileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model fragment shader file name
-            *@param fileName - file name
-            *}
+             Sets model fragment shader file name
+             @param(fileName File name)
+            }
+            {$ENDREGION}
             procedure SetFragmentName(fileName: TFileName); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Declares properties that will deal with DFM files
-            *@param pFiler - DFM file manager
-            *}
+             Declares properties that will deal with DFM files
+             @param(pFiler DFM file manager)
+            }
+            {$ENDREGION}
             procedure DefineProperties(pFiler: TFiler); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads vertex shader content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads vertex shader content from DFM file
+             @param(pStream Stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadVertexShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes vertex shader content to DFM file
-            *@param pStream - DFM stream in which vertex shader should be written
-            *}
+             Writes vertex shader content to DFM file
+             @param(pStream DFM stream in which vertex shader should be written)
+            }
+            {$ENDREGION}
             procedure WriteVertexShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Reads fragment shader content from DFM file
-            *@param pStream - stream containing DFM data
-            *}
+             Reads fragment shader content from DFM file
+             @param(pStream Stream containing DFM data)
+            }
+            {$ENDREGION}
             procedure ReadFragmentShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Writes fragment shader content to DFM file
-            *@param pStream - DFM stream in which fragment shader should be written
-            *}
+             Writes fragment shader content to DFM file
+             @param(pStream DFM stream in which fragment shader should be written)
+            }
+            {$ENDREGION}
             procedure WriteFragmentShader(pStream: TStream); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates the component Windows handle
-            *@param params - Windows parameters used to create handle
-            *}
+             Creates the component Windows handle
+             @param(params Windows parameters used to create handle)
+            }
+            {$ENDREGION}
             procedure CreateWindowHandle(const params: TCreateParams); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Deletes the component Windows handle
-            *}
+             Deletes the component Windows handle
+            }
+            {$ENDREGION}
             procedure DestroyWindowHandle; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Called after model was completely loaded
-            *@param pGroup - group that finished to load the model
-            *}
+             Called after model was completely loaded
+             @param(pGroup Group that finished to load the model)
+            }
+            {$ENDREGION}
             procedure OnAfterLoadModelEvent(const pGroup: TQRModelGroup); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when texture changed
-            *@param pSender - event sender
-            *}
+             Called when texture changed
+             @param(pSender Event sender)
+            }
+            {$ENDREGION}
             procedure OnTextureChanged(pSender: TObject); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when mesh texture should be loaded
-            *@param pModel - model for which texture should be loaded
-            *@param pBitmap - whenever possible, the bitmap containing the texture, nil if not available
-            *@param pTexture - texture info
-            *@param[out] loadNext - if true, event will be called again with a new item to load next texture
-            *@return true on success, otherwise false
-            *}
+             Called when mesh texture should be loaded
+             @param(pModel Model for which texture should be loaded)
+             @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not
+                            available)
+             @param(pTexture Texture info)
+             @param(loadNext @bold([out]) If @true, event will be called again with a new item to
+                                          load next texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnLoadMeshTexture(const pGroup: TQRModelGroup;
                                        const pModel: TQRModel;
                                             pBitmap: Vcl.Graphics.TBitmap;
                                            pTexture: TQRTexture;
                                        out loadNext: Boolean): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when the scene content should be drawn
-            *@param hDC - internal control device context that OpenGL should use to draw the scene
-            *}
+             Called when the scene content should be drawn
+             @param(hDC Internal control device context that OpenGL should use to draw the scene)
+            }
+            {$ENDREGION}
             procedure OnDrawSceneContent(hDC: THandle); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when framed model item should be drawn
-            *@param pGroup - group at which model belongs
-            *@param pModel - model to draw
-            *@param textures - textures belonging to model, in the order where they should be combined
-            *@param matrix - model matrix
-            *}
+             Called when framed model item should be drawn
+             @param(pGroup Group at which model belongs)
+             @param(pModel Model to draw)
+             @param(textures Textures belonging to model, in the order where they should be combined)
+             @param(matrix Model matrix)
+            }
+            {$ENDREGION}
             procedure OnCustomDrawModelItem(const pGroup: TQRModelGroup;
                                                   pModel: TQRModel;
                                           const textures: TQRTextures;
                                             const matrix: TQRMatrix4x4); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when framed model item should be drawn
-            *@param pGroup - group at which model belongs
-            *@param pModel - model to draw
-            *@param textures - textures belonging to model, in the order where they should be combined
-            *@param matrix - model matrix
-            *@param pMesh - mesh to draw, can be NULL
-            *@param pAABBTree - aligned-axis bounding box tree matching with mesh, can be NULL
-            *}
+             Called when framed model item should be drawn
+             @param(pGroup Group at which model belongs)
+             @param(pModel Model to draw)
+             @param(textures Textures belonging to model, in the order where they should be combined)
+             @param(matrix Model matrix)
+             @param(pMesh Mesh to draw, can be @nil)
+             @param(pAABBTree Aligned-axis bounding box tree matching with mesh, can be @nil)
+            }
+            {$ENDREGION}
             procedure OnDrawModelItem(const pGroup: TQRModelGroup;
                                       const pModel: TQRModel;
                                     const textures: TQRTextures;
@@ -182,200 +241,331 @@ type
                                    const pAABBTree: TQRAABBTree); virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property Model:        TQRVCLModelComponentPropertyGL read m_pModel       write m_pModel;
-            property ModelOptions: TQRModelOptions                read m_ModelOptions write SetModelOptions default [EQR_MO_Dynamic_Frames, EQR_MO_No_Collision];
-            property VertexName:   TFileName                      read m_VertexName   write SetVertexName;
-            property FragmentName: TFileName                      read m_FragmentName write SetFragmentName;
-            property Texture:      TPicture                       read m_pTexture     write SetTexture;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model properties
+            }
+            {$ENDREGION}
+            property Model: TQRVCLModelComponentPropertyGL read m_pModel write m_pModel;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model options, default are EQR_MO_Dynamic_Frames and EQR_MO_No_Collision
+            }
+            {$ENDREGION}
+            property ModelOptions: TQRModelOptions read m_ModelOptions write SetModelOptions default [EQR_MO_Dynamic_Frames, EQR_MO_No_Collision];
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vertex shader file name to load
+            }
+            {$ENDREGION}
+            property VertexName: TFileName read m_VertexName write SetVertexName;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the fragment shader file name to load
+            }
+            {$ENDREGION}
+            property FragmentName: TFileName read m_FragmentName write SetFragmentName;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the texture to use
+            }
+            {$ENDREGION}
+            property Texture: TPicture read m_pTexture write SetTexture;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Surface component
-    *}
+     Surface component
+    }
+    {$ENDREGION}
     TQRVCLSurfaceGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_SurfaceWidth:  Single;
             m_SurfaceHeight: Single;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets surface width
-            *@param width - surface width
-            *}
+             Sets surface width
+             @param(width Surface width)
+            }
+            {$ENDREGION}
             procedure SetSurfaceWidth(width: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets surface height
-            *@param height - surface height
-            *}
+             Sets surface height
+             @param(height Surface height)
+            }
+            {$ENDREGION}
             procedure SetSurfaceHeight(height: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property SurfaceWidth:  Single read m_SurfaceWidth  write SetSurfaceWidth;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the surface width
+            }
+            {$ENDREGION}
+            property SurfaceWidth: Single read m_SurfaceWidth write SetSurfaceWidth;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the surface height
+            }
+            {$ENDREGION}
             property SurfaceHeight: Single read m_SurfaceHeight write SetSurfaceHeight;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Box component
-    *}
+     Box component
+    }
+    {$ENDREGION}
     TQRVCLBoxGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_BoxWidth:            Single;
             m_BoxHeight:           Single;
             m_BoxDepth:            Single;
             m_RepeatTexOnEachFace: Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets box width
-            *@param width - box width
-            *}
+             Sets box width
+             @param(width Box width)
+            }
+            {$ENDREGION}
             procedure SetBoxWidth(width: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets surface height
-            *@param height - surface height
-            *}
+             Sets box height
+             @param(height Box height)
+            }
+            {$ENDREGION}
             procedure SetBoxHeight(height: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets box depth
-            *@param depth - box depth
-            *}
+             Sets box depth
+             @param(depth Box depth)
+            }
+            {$ENDREGION}
             procedure SetBoxDepth(depth: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property BoxWidth:  Single read m_BoxWidth  write SetBoxWidth;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box width
+            }
+            {$ENDREGION}
+            property BoxWidth: Single read m_BoxWidth write SetBoxWidth;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box height
+            }
+            {$ENDREGION}
             property BoxHeight: Single read m_BoxHeight write SetBoxHeight;
-            property BoxDepth:  Single read m_BoxDepth  write SetBoxDepth;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box depth
+            }
+            {$ENDREGION}
+            property BoxDepth: Single read m_BoxDepth write SetBoxDepth;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Sphere component
-    *}
+     Sphere component
+    }
+    {$ENDREGION}
     TQRVCLSphereGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_Slices: NativeUInt;
             m_Stacks: NativeUInt;
             m_Radius: Single;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets slices
-            *@param slices - sphere slices
-            *}
+             Sets slices
+             @param(slices Sphere slices)
+            }
+            {$ENDREGION}
             procedure SetSlices(slices: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets stacks
-            *@param stacks - sphere stacks
-            *}
+             Sets stacks
+             @param(stacks Sphere stacks)
+            }
+            {$ENDREGION}
             procedure SetStacks(stacks: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets sphere radius
-            *@param radius - sphere radius
-            *}
+             Sets sphere radius
+             @param(radius Sphere radius)
+            }
+            {$ENDREGION}
             procedure SetRadius(radius: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere slices
+            }
+            {$ENDREGION}
             property Slices: NativeUInt read m_Slices write SetSlices default 20;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere  stacks
+            }
+            {$ENDREGION}
             property Stacks: NativeUInt read m_Stacks write SetStacks default 20;
-            property Radius: Single     read m_Radius write SetRadius;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write SetRadius;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Cone component
-    *}
+     Cone component
+    }
+    {$ENDREGION}
     TQRVCLConeGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_Faces:         NativeUInt;
             m_ConeHeight:    Single;
             m_TopRadiusX:    Single;
@@ -384,87 +574,153 @@ type
             m_BottomRadiusY: Single;
             m_Closing:       EQR_Cone_Closing;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets cone faces count
-            *@param faces - cone faces
-            *}
+             Sets cone faces count
+             @param(faces Cone faces)
+            }
+            {$ENDREGION}
             procedure SetFaces(faces: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone height
-            *@param height - sphere height
-            *}
+             Sets cone height
+             @param(height Cone height)
+            }
+            {$ENDREGION}
             procedure SetConeHeight(height: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone top radius for the x axis
-            *@param topRadiusX - top radius for the x axis
-            *}
+             Sets cone top radius for the x axis
+             @param(topRadiusX Top radius for the x axis)
+            }
+            {$ENDREGION}
             procedure SetTopRadiusX(topRadiusX: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone top radius for the y axis
-            *@param topRadiusY - top radius for the y axis
-            *}
+             Sets cone top radius for the y axis
+             @param(topRadiusY Top radius for the y axis)
+            }
+            {$ENDREGION}
             procedure SetTopRadiusY(topRadiusY: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone bottom radius for the x axis
-            *@param bottomRadiusX - bottom radius for the x axis
-            *}
+             Sets cone bottom radius for the x axis
+             @param(bottomRadiusX Bottom radius for the x axis)
+            }
+            {$ENDREGION}
             procedure SetBottomRadiusX(bottomRadiusX: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone bottom radius for the y axis
-            *@param bottomRadiusX - bottom radius for the y axis
-            *}
+             Sets cone bottom radius for the y axis
+             @param(bottomRadiusX Bottom radius for the y axis)
+            }
+            {$ENDREGION}
             procedure SetBottomRadiusY(bottomRadiusY: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets cone closing method
-            *@param closing - cone cloding method
-            *}
+             Sets cone closing method
+             @param(closing Cone closing method)
+            }
+            {$ENDREGION}
             procedure SetClosing(closing: EQR_Cone_Closing); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property Faces:         NativeUInt       read m_Faces         write SetFaces         default 20;
-            property ConeHeight:    Single           read m_ConeHeight    write SetConeHeight;
-            property TopRadiusX:    Single           read m_TopRadiusX    write SetTopRadiusX;
-            property TopRadiusY:    Single           read m_TopRadiusY    write SetTopRadiusY;
-            property BottomRadiusX: Single           read m_BottomRadiusX write SetBottomRadiusX;
-            property BottomRadiusY: Single           read m_BottomRadiusY write SetBottomRadiusY;
-            property Closing:       EQR_Cone_Closing read m_Closing       write SetClosing       default EQR_CC_Both;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone faces
+            }
+            {$ENDREGION}
+            property Faces: NativeUInt read m_Faces write SetFaces default 20;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone height
+            }
+            {$ENDREGION}
+            property ConeHeight: Single read m_ConeHeight write SetConeHeight;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone top x radius
+            }
+            {$ENDREGION}
+            property TopRadiusX: Single read m_TopRadiusX write SetTopRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone top y radius
+            }
+            {$ENDREGION}
+            property TopRadiusY: Single read m_TopRadiusY write SetTopRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone bottom x radius
+            }
+            {$ENDREGION}
+            property BottomRadiusX: Single read m_BottomRadiusX write SetBottomRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone bottom y radius
+            }
+            {$ENDREGION}
+            property BottomRadiusY: Single read m_BottomRadiusY write SetBottomRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the cone closing
+            }
+            {$ENDREGION}
+            property Closing: EQR_Cone_Closing read m_Closing write SetClosing default EQR_CC_Both;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Torus component
-    *}
+     Torus component
+    }
+    {$ENDREGION}
     TQRVCLTorusGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_Slices:         NativeUInt;
             m_FacesPerSlices: NativeUInt;
             m_OuterRadiusX:   Single;
@@ -472,138 +728,236 @@ type
             m_InnerRadiusX:   Single;
             m_InnerRadiusY:   Single;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets torus slices count
-            *@param slices - torus slices
-            *}
+             Sets torus slices count
+             @param(slices Torus slices)
+            }
+            {$ENDREGION}
             procedure SetSlices(slices: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets torus faces per slices count
-            *@param facesPerSlices - torus faces per slices
-            *}
+             Sets torus faces per slices count
+             @param(facesPerSlices Torus faces per slices)
+            }
+            {$ENDREGION}
             procedure SetFacesPerSlices(facesPerSlices: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets torus inner radius for the x axis
-            *@param innerRadiusX - inner radius for the x axis
-            *}
+             Sets torus inner radius for the x axis
+             @param(innerRadiusX Inner radius for the x axis)
+            }
+            {$ENDREGION}
             procedure SetInnerRadiusX(innerRadiusX: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets torus inner radius for the y axis
-            *@param innerRadiusY - inner radius for the y axis
-            *}
+             Sets torus inner radius for the y axis
+             @param(innerRadiusY Inner radius for the y axis)
+            }
+            {$ENDREGION}
             procedure SetInnerRadiusY(innerRadiusY: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets torus outer radius for the x axis
-            *@param outerRadiusX - outer radius for the x axis
-            *}
+             Sets torus outer radius for the x axis
+             @param(outerRadiusX Outer radius for the x axis)
+            }
+            {$ENDREGION}
             procedure SetOuterRadiusX(outerRadiusX: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets torus outer radius for the y axis
-            *@param outerRadiusX - outer radius for the y axis
-            *}
+             Sets torus outer radius for the y axis
+             @param(outerRadiusX Outer radius for the y axis)
+            }
+            {$ENDREGION}
             procedure SetOuterRadiusY(outerRadiusY: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property Slices:         NativeUInt read m_Slices         write SetSlices         default 20;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus slices
+            }
+            {$ENDREGION}
+            property Slices: NativeUInt read m_Slices write SetSlices default 20;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus faces per slices
+            }
+            {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write SetFacesPerSlices default 20;
-            property InnerRadiusX:   Single     read m_InnerRadiusX   write SetInnerRadiusX;
-            property InnerRadiusY:   Single     read m_InnerRadiusY   write SetInnerRadiusY;
-            property OuterRadiusX:   Single     read m_OuterRadiusX   write SetOuterRadiusX;
-            property OuterRadiusY:   Single     read m_OuterRadiusY   write SetOuterRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus inner radius on the x axis
+            }
+            {$ENDREGION}
+            property InnerRadiusX: Single read m_InnerRadiusX write SetInnerRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus inner radius on the y axis
+            }
+            {$ENDREGION}
+            property InnerRadiusY: Single read m_InnerRadiusY write SetInnerRadiusY;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus outer radius on the x axis
+            }
+            {$ENDREGION}
+            property OuterRadiusX: Single read m_OuterRadiusX write SetOuterRadiusX;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the torus outer radius on the y axis
+            }
+            {$ENDREGION}
+            property OuterRadiusY: Single read m_OuterRadiusY write SetOuterRadiusY;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Parabola component
-    *}
+     Parabola component
+    }
+    {$ENDREGION}
     TQRVCLParabolaGL = class(TQRVCLShapeGL)
-        protected
+        private
             m_Slices:         NativeUInt;
             m_FacesPerSlices: NativeUInt;
             m_ParabolaHeight: Single;
             m_Radius:         Single;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Sets parabola slices count
-            *@param slices - parabola slices
-            *}
+             Sets parabola slices count
+             @param(slices Parabola slices)
+            }
+            {$ENDREGION}
             procedure SetSlices(slices: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets parabola faces per slices count
-            *@param facesPerSlices - parabola faces per slices
-            *}
+             Sets parabola faces per slices count
+             @param(facesPerSlices Parabola faces per slices)
+            }
+            {$ENDREGION}
             procedure SetFacesPerSlices(facesPerSlices: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets parabola height
-            *@param height - parabola height
-            *}
+             Sets parabola height
+             @param(height Parabola height)
+            }
+            {$ENDREGION}
             procedure SetParabolaHeight(height: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets parabola radius
-            *@param radius - parabola radius
-            *}
+             Sets parabola radius
+             @param(radius Parabola radius)
+            }
+            {$ENDREGION}
             procedure SetRadius(radius: Single); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads the model
-            *@return true on success, otherwise false
-            *}
+             Loads the model
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadModel: Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - component owner
-            *}
+             Constructor
+             @param(pOwner Component owner)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TComponent); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the property attributes from another property
-            *@param pSource - source property to copy from
-            *}
+             Copies the property attributes from another property
+             @param(pSource Source property to copy from)
+            }
+            {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
         published
-            property Slices:         NativeUInt read m_Slices         write SetSlices;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola slices
+            }
+            {$ENDREGION}
+            property Slices: NativeUInt read m_Slices write SetSlices;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola faces per slices
+            }
+            {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write SetFacesPerSlices;
-            property ParabolaHeight: Single     read m_ParabolaHeight write SetParabolaHeight;
-            property Radius:         Single     read m_Radius         write SetRadius;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola height
+            }
+            {$ENDREGION}
+            property ParabolaHeight: Single read m_ParabolaHeight write SetParabolaHeight;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the parabola radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write SetRadius;
     end;
 
 implementation
@@ -841,7 +1195,7 @@ end;
 procedure TQRVCLShapeGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
     // invalidate model to repaint it
-    Invalidate();
+    Invalidate;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnTextureChanged(pSender: TObject);
