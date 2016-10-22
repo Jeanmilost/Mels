@@ -19,6 +19,12 @@
 // * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
 // *************************************************************************************************
 
+{**
+ @abstract(@name registers the components in the RAD studio tool palette.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRPlayerAL_Register;
 
 interface
