@@ -363,14 +363,18 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the surface width
+             Gets or sets the surface length on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Surface width.svg)
             }
             {$ENDREGION}
             property SurfaceWidth: Single read m_SurfaceWidth write SetSurfaceWidth;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the surface height
+             Gets or sets the surface length on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Surface height.svg)
             }
             {$ENDREGION}
             property SurfaceHeight: Single read m_SurfaceHeight write SetSurfaceHeight;
@@ -448,21 +452,27 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the box width
+             Gets or sets the box length on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube width.svg)
             }
             {$ENDREGION}
             property BoxWidth: Single read m_BoxWidth write SetBoxWidth;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the box height
+             Gets or sets the box length on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube height.svg)
             }
             {$ENDREGION}
             property BoxHeight: Single read m_BoxHeight write SetBoxHeight;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the box depth
+             Gets or sets the box length on the z axis
+             @br @br
+             @image(Resources/Images/Documentation/Cube depth.svg)
             }
             {$ENDREGION}
             property BoxDepth: Single read m_BoxDepth write SetBoxDepth;
@@ -539,14 +549,20 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the sphere slices
+             Gets or sets the slices count that will be used to divide the sphere while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write SetSlices default 20;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the sphere  stacks
+             Gets or sets the stacks count that will be used to divide the sphere while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Stacks.svg)
             }
             {$ENDREGION}
             property Stacks: NativeUInt read m_Stacks write SetStacks default 20;
@@ -554,6 +570,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the sphere radius
+             @br @br
+             @image(Resources/Images/Documentation/Sphere Radius.svg)
             }
             {$ENDREGION}
             property Radius: Single read m_Radius write SetRadius;
@@ -666,7 +684,9 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the cone faces
+             Gets or sets the number of faces to generate while cone vertex buffer will be created
+             @br @br
+             @image(Resources/Images/Documentation/Cone Face Count.svg)
             }
             {$ENDREGION}
             property Faces: NativeUInt read m_Faces write SetFaces default 20;
@@ -674,34 +694,44 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the cone height
+             @br @br
+             @image(Resources/Images/Documentation/Cone Height.svg)
             }
             {$ENDREGION}
             property ConeHeight: Single read m_ConeHeight write SetConeHeight;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the cone top x radius
+             Gets or sets the cone top radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Top X.svg)
             }
             {$ENDREGION}
             property TopRadiusX: Single read m_TopRadiusX write SetTopRadiusX;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the cone top y radius
+             Gets or sets the cone top radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Top Y.svg)
             }
             {$ENDREGION}
             property TopRadiusY: Single read m_TopRadiusY write SetTopRadiusY;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the cone bottom x radius
+             Gets or sets the cone bottom radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Bottom X.svg)
             }
             {$ENDREGION}
             property BottomRadiusX: Single read m_BottomRadiusX write SetBottomRadiusX;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the cone bottom y radius
+             Gets or sets the cone bottom radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Cone Radius Bottom Y.svg)
             }
             {$ENDREGION}
             property BottomRadiusY: Single read m_BottomRadiusY write SetBottomRadiusY;
@@ -812,14 +842,20 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the torus slices
+             Gets or sets the slices count that will be used to divide the torus while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Torus Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write SetSlices default 20;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the torus faces per slices
+             Gets or sets the number of faces per slices to apply to the torus while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Torus Faces Per Slices.svg)
             }
             {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write SetFacesPerSlices default 20;
@@ -827,6 +863,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus inner radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus inner Radius X.svg)
             }
             {$ENDREGION}
             property InnerRadiusX: Single read m_InnerRadiusX write SetInnerRadiusX;
@@ -834,6 +872,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus inner radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Inner Radius Y.svg)
             }
             {$ENDREGION}
             property InnerRadiusY: Single read m_InnerRadiusY write SetInnerRadiusY;
@@ -841,6 +881,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus outer radius on the x axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Outer Radius X.svg)
             }
             {$ENDREGION}
             property OuterRadiusX: Single read m_OuterRadiusX write SetOuterRadiusX;
@@ -848,6 +890,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the torus outer radius on the y axis
+             @br @br
+             @image(Resources/Images/Documentation/Torus Outer Radius Y.svg)
             }
             {$ENDREGION}
             property OuterRadiusY: Single read m_OuterRadiusY write SetOuterRadiusY;
@@ -933,14 +977,20 @@ type
         published
             {$REGION 'Documentation'}
             {**
-             Gets or sets the parabola slices
+             Gets or sets the slices count that will be used to divide the parabola while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Slices.svg)
             }
             {$ENDREGION}
             property Slices: NativeUInt read m_Slices write SetSlices;
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the parabola faces per slices
+             Gets or sets the number of faces per slices to apply to the parabola while his vertex
+             buffer is built
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Faces Per Slices.svg)
             }
             {$ENDREGION}
             property FacesPerSlices: NativeUInt read m_FacesPerSlices write SetFacesPerSlices;
@@ -948,6 +998,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the parabola height
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Height.svg)
             }
             {$ENDREGION}
             property ParabolaHeight: Single read m_ParabolaHeight write SetParabolaHeight;
@@ -955,6 +1007,8 @@ type
             {$REGION 'Documentation'}
             {**
              Gets or sets the parabola radius
+             @br @br
+             @image(Resources/Images/Documentation/Parabola Radius.svg)
             }
             {$ENDREGION}
             property Radius: Single read m_Radius write SetRadius;
