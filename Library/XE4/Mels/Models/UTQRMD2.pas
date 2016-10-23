@@ -1365,7 +1365,7 @@ begin
 
     m_pAmbient  := TQRColor.Create(0, 0, 0);
     m_pColor    := TQRColor.Create(0, 0, 0);
-    m_Direction := Default(TQRVector3D);
+    m_Direction := TQRVector3D.Create(0.0, 0.0, 0.0);
     m_Enabled   := False;
 end;
 //--------------------------------------------------------------------------------------------------
