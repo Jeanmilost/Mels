@@ -1,11 +1,31 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelRenderer ----------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a basic interface to implement a model renderer using VCL   *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelRenderer ---------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a basic interface to implement a model renderer using the VCL and the
+            Windows API.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelRenderer;
 
 interface
@@ -16,42 +36,53 @@ uses UTQRVCLHelpers,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Basic interface to implement a model renderer
-    *}
+     Basic interface to implement a model renderer
+    }
+    {$ENDREGION}
     TQRVCLModelRenderer = class(TQRModelRenderer)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Sets pixel format that target renderer will use
-            *@param hDC - device context linked to renderer
-            *@param doubleBuffered - if true, OpenGL rendering will be double buffered
-            *@return true on success, otherwise false
-            *@note The GDI cannot be used to draw above or below OpenGL scene if double buffering is
-            *      enabled. This also means that the control background will be opaque
-            *}
+             Sets the pixel format that target renderer will use
+             @param(hDC Device context linked to renderer)
+             @param(doubleBuffered If @true, rendering will be double buffered)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Depending on implementation, the GDI may fail to draw above or below
+                             the scene if double buffering is enabled. This also means that, in this
+                             case, the control background will be opaque
+            }
+            {$ENDREGION}
             function SetTargetPixelFormat(hDC: THandle; doubleBuffered: Boolean): Boolean; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts bitmap in pixels byte array
-            *@param pBitmap - bitmap to convert
-            *@param[out] pPixels - pixels array when function returns
-            *@param flipY - if true, image will be mirrored on the Y axis
-            *@param bgr - if true, image will be converted from RGB to BGR (or RGBA to ABGR) format
-            *@return true on success, otherwise false
-            *@note The caller is responsible to delete the pPixels buffer content after use, by
-            *      calling the FreeMem() function
-            *}
+             Converts a bitmap in pixels byte array
+             @param(pBitmap Bitmap to convert)
+             @param(pPixels @bold([out]) Pixels array when function returns)
+             @param(flipY If @true, the image will be mirrored on the Y axis)
+             @param(bgr If @true, the image will be converted from RGB to BGR (or RGBA to ABGR) format)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) The caller is responsible to delete the pPixels buffer content after
+                             use, by calling the FreeMem() function
+            }
+            {$ENDREGION}
             class function BytesFromBitmap(const pBitmap: Vcl.Graphics.TBitmap;
                                              out pPixels: PBYTE;
                                               flipY, bgr: Boolean): Boolean; static;

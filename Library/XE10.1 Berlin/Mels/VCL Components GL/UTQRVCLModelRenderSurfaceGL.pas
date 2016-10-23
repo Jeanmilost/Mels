@@ -1,16 +1,35 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelRenderSurfaceGL ---------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a renderer surface on which an OpenGL scene can be drawn    *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelRenderSurfaceGL --------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a renderer surface on which an OpenGL scene can be drawn.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelRenderSurfaceGL;
 
 interface
-    // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE XE7.OpenGLext *)
+    // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
+    (*$NOINCLUDE Winapi.OpenGLext *)
 
 uses UTQRCommon,
      UTQRHelpers,
@@ -22,23 +41,18 @@ uses UTQRCommon,
      Vcl.Controls,
      Vcl.Forms,
      Winapi.Windows,
-     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-     // earlier, so the DelphiGL component (provided with installation) should be used instead
-     XE7.OpenGL,
-     XE7.OpenGLext;
+     Winapi.OpenGL,
+     Winapi.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Renderer surface on which an OpenGL scene can be drawn
-    *}
+     Renderer surface on which an OpenGL scene can be drawn
+    }
+    {$ENDREGION}
     TQRVCLModelRenderSurfaceGL = class(TObject)
         private
-            // the allowed property is a little special, that's why it is not accessible as the
-            // others. Its purpose is to determine whether OpenGL was correctly initialized, and if
-            // the control may access to all the OpenGL function it requires to perform the drawing
-            m_Allowed: Boolean;
-
-        protected
+            m_Allowed:             Boolean;
             m_pOwner:              TWinControl;
             m_pRenderer:           TQRVCLModelRendererGL;
             m_hGLContext:          THandle;
@@ -50,97 +64,128 @@ type
             m_Factor:              NativeInt;
             m_Transparent:         Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Creates buffer to use for alpha rendering
-            *@param hDC - device context that OpenGL will use to render to
-            *@param width - surface width, in pixels
-            *@param height - surface height, in pixels
-            *@return true on success, otherwise false
-            *}
+             Creates buffer to use for alpha rendering
+             @param(hDC Device context that OpenGL will use to render to)
+             @param(width Surface width, in pixels)
+             @param(height Surface height, in pixels)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function CreateARGBRenderBuffers(hDC: THandle; width, height: NativeInt): Boolean;
 
+            {$REGION 'Documentation'}
             {**
-            * Clears buffer used for alpha rendering
-            *@param hDC - device context used by OpenGL to render to
-            *}
+             Clears buffer used for alpha rendering
+             @param(hDC Device context used by OpenGL to render to)
+            }
+            {$ENDREGION}
             procedure ClearARGBRenderBuffers(hDC: THandle);
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOwner - renderer surface owner
-            *@param pRenderer - OpenGL renderer to use
-            *}
+             Constructor
+             @param(pOwner Renderer surface owner)
+             @param(pRenderer OpenGL renderer to use)
+            }
+            {$ENDREGION}
             constructor Create(pOwner: TWinControl; pRenderer: TQRVCLModelRendererGL); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Initializes the renderer surface
-            *@param hDC - device context that OpenGL will use to render to
-            *@param factor - scale factor to use for antialiasing
-            *@param transparent - if true, alpha transparency will be enabled
-            *@param supportGDI - if true, renderer surface will support embedded GDI drawing
-            *@return true on success, otherwise false
-            *@note Be careful, embedded GDI and OpenGL drawing may cause flickering on intensive
-            *      rendering
-            *}
+             Initializes the renderer surface
+             @param(hDC Device context that OpenGL will use to render to)
+             @param(factor Scale factor to use for antialiasing)
+             @param(transparent If @true, alpha transparency will be enabled)
+             @param(supportGDI If @true, renderer surface will support embedded GDI drawing)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Be careful, embedded GDI and OpenGL drawing may cause flickering on
+                             intensive rendering
+            }
+            {$ENDREGION}
             function Initialize(hDC: THandle;
                              factor: NativeInt;
             transparent, supportGDI: Boolean): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Releases the renderer surface
-            *@param hDC - device context used by OpenGL to render to
-            *}
+             Releases the renderer surface
+             @param(hDC Device context used by OpenGL to render to)
+            }
+            {$ENDREGION}
             procedure Release(hDC: THandle); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Resizes the renderer surface
-            *@param hDC - device context that OpenGL will use to render to
-            *}
+             Resizes the renderer surface
+             @param(hDC Device context that OpenGL will use to render to)
+            }
+            {$ENDREGION}
             procedure Resize(hDC: THandle); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Enables OpenGL context (i.e. next OpenGL operation will be done on this surface)
-            *@param hDC - device context that OpenGL will use to render to
-            *@return true on success, otherwise false
-            *}
+             Enables OpenGL context (i.e. next OpenGL operation will be done on this surface)
+             @param(hDC Device context that OpenGL will use to render to)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function EnableContext(hDC: THandle): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Begins to draw a scene
-            *@param hDC - device context that OpenGL will use to render to
-            *@return true if scene can be drawn, otherwise false
-            *}
+             Begins to draw a scene
+             @param(hDC Device context that OpenGL will use to render to)
+             @return(@true if scene can be drawn, otherwise @false)
+            }
+            {$ENDREGION}
             function BeginScene(hDC: THandle): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Ends to draw a scene
-            *@param hDC - device context that OpenGL will use to render to
-            *}
+             Ends to draw a scene
+             @param(hDC Device context that OpenGL will use to render to)
+            }
+            {$ENDREGION}
             procedure EndScene(hDC: THandle); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets scene as pixel array
-            *@param hDC - device context used by OpenGL to render the scene
-            *@param[out] pixels - pixel array to populate
-            *@return true on success, otherwise false
+             Gets scene as pixel array
+             @param(hDC Device context used by OpenGL to render the scene)
+             @param(pixels @bold([out]) Pixel array to populate)
+             @return(@true on success, otherwise @false)
             }
+            {$ENDREGION}
             function GetPixels(hDC: THandle; var pixels: TQRByteArray): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets scene as bitmap
-            *@param hDC - device context used by OpenGL to render the scene
-            *@param pBitmap - destination bitmap
-            *@return true on success, otherwise false
+             Gets scene as bitmap
+             @param(hDC Device context used by OpenGL to render the scene)
+             @param(pBitmap Destination bitmap)
+             @return(@true on success, otherwise @false)
             }
+            {$ENDREGION}
             function GetBitmap(hDC: THandle; pBitmap: Vcl.Graphics.TBitmap): Boolean; virtual;
 
-            { Public properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the OpenGL context
+            }
+            {$ENDREGION}
             property GLContext: THandle read m_hGLContext;
     end;
 
@@ -484,7 +529,7 @@ begin
     if (m_Transparent or (m_Factor <> 1)) then
     begin
         // process OpenGL pending operations
-        glFlush();
+        glFlush;
 
         // unbind draw buffer, restore default one provided by Windows instead
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -529,7 +574,7 @@ begin
     end;
 
     // flush OpenGL
-    glFinish();
+    glFinish;
     glPixelStorei(GL_PACK_ALIGNMENT,   4);
     glPixelStorei(GL_PACK_ROW_LENGTH,  0);
     glPixelStorei(GL_PACK_SKIP_ROWS,   0);

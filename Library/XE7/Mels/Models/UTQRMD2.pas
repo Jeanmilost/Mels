@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRMD2 -----------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides the tools to load a md2 model and build his vertex buffer   *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRMD2 ----------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to load a md2 model and build his vertex buffer.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRMD2;
 
 interface
@@ -25,143 +44,354 @@ const
     //----------------------------------------------------------------------------------------------
     // Global constants
     //----------------------------------------------------------------------------------------------
-    CQR_MD2_Mesh_File_Version:          TQRUInt32  = 8;
-    CQR_MD2_ID:                         TQRUInt32  = ($32 shl 24) + ($50 shl 16) + ($44 shl 8) + $49;
-    CQR_MD2_Normals_Table_File_Version: Single     = 1.0;
-    CQR_MD2_Invalid_Index:              NativeUInt = NativeUInt(-1);
+    {$REGION 'Documentation'}
+    {**
+     The MD2 file version
+    }
+    {$ENDREGION}
+    CQR_MD2_Mesh_File_Version: TQRUInt32 = 8;
+
+    {$REGION 'Documentation'}
+    {**
+     The MD2 file magic number, that can be used to identify the file content. His value is 'IDP2'
+    }
+    {$ENDREGION}
+    CQR_MD2_ID: TQRUInt32 = ($32 shl 24) + ($50 shl 16) + ($44 shl 8) + $49;
+
+    {$REGION 'Documentation'}
+    {**
+     The MD2 normal table file version
+    }
+    {$ENDREGION}
+    CQR_MD2_Normals_Table_File_Version: Single = 1.0;
+
+    {$REGION 'Documentation'}
+    {**
+     The invalid index error value to use with MD2 files
+    }
+    {$ENDREGION}
+    CQR_MD2_Invalid_Index: NativeUInt = NativeUInt(-1);
     //----------------------------------------------------------------------------------------------
 
 type
+    {$REGION 'Documentation'}
     {**
-    * MD2 header
-    *@note This class cannot be inherited
-    *}
+     MD2 header
+    }
+    {$ENDREGION}
     TQRMD2Header = record
-        m_ID:                 TQRUInt32;
-        m_Version:            TQRUInt32;
-        m_SkinWidth:          TQRUInt32;
-        m_SkinHeight:         TQRUInt32;
-        m_FrameSize:          TQRUInt32;
-        m_SkinCount:          TQRUInt32;
-        m_VertexCount:        TQRUInt32;
-        m_TextureCoordCount:  TQRUInt32;
-        m_PolygonCount:       TQRUInt32;
-        m_GlCmdsCount:        TQRUInt32;
-        m_FrameCount:         TQRUInt32;
-        m_SkinOffset:         TQRUInt32;
-        m_TextureCoordOffset: TQRUInt32;
-        m_PolygonOffset:      TQRUInt32;
-        m_FrameOffset:        TQRUInt32;
-        m_GlCmdsOffset:       TQRUInt32;
-        m_EndOffset:          TQRUInt32;
-
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@throw exception on error
-        *}
+         MD2 magic number identifier, should be equal to CQR_MD2_ID
+        }
+        {$ENDREGION}
+        m_ID: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         MD2 version, should be equal to 8
+        }
+        {$ENDREGION}
+        m_Version: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         MD2 texture width
+        }
+        {$ENDREGION}
+        m_SkinWidth: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         MD2 texture height
+        }
+        {$ENDREGION}
+        m_SkinHeight: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Size of one frame in bytes
+        }
+        {$ENDREGION}
+        m_FrameSize: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Number of textures
+        }
+        {$ENDREGION}
+        m_SkinCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Number of vertices
+        }
+        {$ENDREGION}
+        m_VertexCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Number of texture coordinates
+        }
+        {$ENDREGION}
+        m_TextureCoordCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Number of polygons
+        }
+        {$ENDREGION}
+        m_PolygonCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Number of OpenGL commands
+         @br @bold(NOTE) An openGL command is an information used to determine the kind of vertex
+                         buffer to build, especially if vertex buffer is structured as triangle
+                         strip or triangle fan)
+        }
+        {$ENDREGION}
+        m_GlCmdsCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Total number of frames
+        }
+        {$ENDREGION}
+        m_FrameCount: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to skin names (each skin name is a 64 bytes long char array and is @nil terminated)
+        }
+        {$ENDREGION}
+        m_SkinOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to s-t texture coordinates
+        }
+        {$ENDREGION}
+        m_TextureCoordOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to polygons
+        }
+        {$ENDREGION}
+        m_PolygonOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to frame data
+        }
+        {$ENDREGION}
+        m_FrameOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to OpenGL commands
+         @br @bold(NOTE) An openGL command is an information used to determine the kind of vertex
+                         buffer to build, especially if vertex buffer is structured as triangle
+                         strip or triangle fan)
+        }
+        {$ENDREGION}
+        m_GlCmdsOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Offset to end of file
+        }
+        {$ENDREGION}
+        m_EndOffset: TQRUInt32;
+
+        {$REGION 'Documentation'}
+        {**
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream);
     end;
 
     PQRMD2Header = ^TQRMD2Header;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 skin
-    *@note This class cannot be inherited
-    *}
+     MD2 skin
+    }
+    {$ENDREGION}
     TQRMD2Skin = record
-        m_Name: String;
-
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@throw exception on error
-        *}
+         Texture name
+        }
+        {$ENDREGION}
+        m_Name: string;
+
+        {$REGION 'Documentation'}
+        {**
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream);
     end;
 
     PQRMD2Skin= ^TQRMD2Skin;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 vertex
-    *@note This class cannot be inherited
-    *}
-    TQRMD2Vertex = Record
-        m_Vertex:      array[0..2] of TQRUInt8;
+     MD2 vertex
+    }
+    {$ENDREGION}
+    TQRMD2Vertex = record
+        {$REGION 'Documentation'}
+        {**
+         Vertex coordinates
+        }
+        {$ENDREGION}
+        m_Vertex: array[0..2] of TQRUInt8;
+
+        {$REGION 'Documentation'}
+        {**
+         Index of the normal to use in the normal table
+        }
+        {$ENDREGION}
         m_NormalIndex: TQRUInt8;
 
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@throw exception on error
-        *}
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream);
     end;
 
     PQRMD2Vertex = ^TQRMD2Vertex;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 texture coordinate
-    *@note This class cannot be inherited
-    *}
-    TQRMD2TextureCoord = Record
+     MD2 texture coordinate
+    }
+    {$ENDREGION}
+    TQRMD2TextureCoord = record
+        {$REGION 'Documentation'}
+        {**
+         Texture u coordinate
+        }
+        {$ENDREGION}
         m_U: TQRInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Texture v coordinate
+        }
+        {$ENDREGION}
         m_V: TQRInt16;
 
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@throw exception on error
-        *}
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream);
     end;
 
     PQRMD2TextureCoord = ^TQRMD2TextureCoord;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 frame
-    *@note This class cannot be inherited
-    *}
-    TQRMD2Frame = Record
-        m_Name:      String;
-        m_Scale:     array[0..2] of TQRFloat32;
-        m_Translate: array[0..2] of TQRFloat32;
-        m_Vertex:    array of TQRMD2Vertex;
-
+     MD2 frame
+    }
+    {$ENDREGION}
+    TQRMD2Frame = record
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@param header - MD2 file header
-        *@throw exception on error
-        *}
+         Frame name
+        }
+        {$ENDREGION}
+        m_Name: string;
+
+        {$REGION 'Documentation'}
+        {**
+         Scale factor to apply to each vertex of the frame
+        }
+        {$ENDREGION}
+        m_Scale: array[0..2] of TQRFloat32;
+
+        {$REGION 'Documentation'}
+        {**
+         Translation to apply to each vertex of the frame
+        }
+        {$ENDREGION}
+        m_Translate: array[0..2] of TQRFloat32;
+
+        {$REGION 'Documentation'}
+        {**
+         Vertices that compose the frame
+        }
+        {$ENDREGION}
+        m_Vertex: array of TQRMD2Vertex;
+
+        {$REGION 'Documentation'}
+        {**
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @param(header MD2 file header)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream; const header: TQRMD2Header);
     end;
 
     PQRMD2Frame = ^TQRMD2Frame;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 polygon
-    *@note This class cannot be inherited
-    *}
-    TQRMD2Polygon = Record
-        m_VertexIndex:       array[0..2] of TQRInt16;
+     MD2 polygon
+    }
+    {$ENDREGION}
+    TQRMD2Polygon = record
+        {$REGION 'Documentation'}
+        {**
+         Index of each vertex composing the polygon in the frame buffer
+        }
+        {$ENDREGION}
+        m_VertexIndex: array[0..2] of TQRInt16;
+
+        {$REGION 'Documentation'}
+        {**
+         Index of each polygon texture coordinate in the frame buffer
+        }
+        {$ENDREGION}
         m_TextureCoordIndex: array[0..2] of TQRInt16;
 
+        {$REGION 'Documentation'}
         {**
-        * Reads data from file
-        *@param pBuffer - buffer to read from
-        *@throw exception on error
-        *}
+         Reads data from file
+         @param(pBuffer Buffer to read from)
+         @raises(Exception on error)
+        }
+        {$ENDREGION}
         procedure Read(pBuffer: TStream);
     end;
 
     PQRMD2Polygon = ^TQRMD2Polygon;
 
+    {$REGION 'Documentation'}
     {**
-    * Reads and exposes MD2 file content
-    *}
+     Reads and exposes MD2 file content
+    }
+    {$ENDREGION}
     TQRMD2Parser = class(TQRModelParser)
-        protected
+        private
             m_Header:    TQRMD2Header;
             m_Skins:     array of TQRMD2Skin;
             m_TexCoords: array of TQRMD2TextureCoord;
@@ -169,362 +399,587 @@ type
             m_Frames:    array of TQRMD2Frame;
             m_GlCmds:    array of TQRInt32;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets header
-            *@return header, nil if not found or on error
-            *}
-            function GetHeader(): PQRMD2Header; virtual;
+             Gets header
+             @return(Header, @nil if not found or on error)
+            }
+            {$ENDREGION}
+            function GetHeader: PQRMD2Header; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets skin at index
-            *@param index - index
-            *@return skin, nil if not found or on error
-            *}
+             Gets skin at index
+             @param(index Index)
+             @return(Skin, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetSkin(index: NativeInt): PQRMD2Skin; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture coordinate at index
-            *@param index - index
-            *@return texture coordinate, nil if not found or on error
-            *}
+             Gets texture coordinate at index
+             @param(index Index)
+             @return(Texture coordinate, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetTexCoord(index: NativeInt): PQRMD2TextureCoord; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets polygon at index
-            *@param index - index
-            *@return polygon, nil if not found or on error
-            *}
+             Gets polygon at index
+             @param(index Index)
+             @return(Polygon, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetPolygon(index: NativeInt): PQRMD2Polygon; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets frame at index
-            *@param index - index
-            *@return frame, nil if not found or on error
-            *}
+             Gets the frame at index
+             @param(index Index)
+             @return(Frame, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetFrame(index: NativeInt): PQRMD2Frame; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets OpenGL command at index
-            *@param index - index
-            *@return OpenGL command, -1 if not found or on error
-            *}
+             Gets OpenGL command at index
+             @param(index Index)
+             @return(OpenGL command, -1 if not found or on error)
+            }
+            {$ENDREGION}
             function GetGlCmd(index: NativeInt): TQRInt32; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets skin count
-            *@return skin count
-            *}
-            function GetSkinCount(): NativeInt; virtual;
+             Gets the skin count
+             @return(The skin count)
+            }
+            {$ENDREGION}
+            function GetSkinCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture coordinate count
-            *@return texture coordinate count
-            *}
-            function GetTexCoordCount(): NativeInt; virtual;
+             Gets the texture coordinate count
+             @return(The texture coordinate count)
+            }
+            {$ENDREGION}
+            function GetTexCoordCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets polygon count
-            *@return polygon count
-            *}
-            function GetPolygonCount(): NativeInt; virtual;
+             Gets the polygon count
+             @return(The polygon count)
+            }
+            {$ENDREGION}
+            function GetPolygonCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets frame count
-            *@return frame count
-            *}
-            function GetFrameCount(): NativeInt; virtual;
+             Gets the frame count
+             @return(The frame count)
+            }
+            {$ENDREGION}
+            function GetFrameCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets OpenGL command count
-            *@return OpenGL command count
-            *}
-            function GetGlCmdCount(): NativeInt; virtual;
+             Gets the OpenGL command count
+             @return(The OpenGL command count)
+            }
+            {$ENDREGION}
+            function GetGlCmdCount: NativeInt; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads MD2 from file
-            *@param fileName - file name
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads MD2 from file
+             @param(fileName File name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads MD2 from buffer
-            *@param pBuffer - buffer
-            *@param readLength - length to read in buffer, in bytes (not used here, can be 0)
-            *@return true on success, otherwise false
-            *@note Read will begin from current offset
-            *}
+             Loads MD2 from buffer
+             @param(pBuffer Buffer)
+             @param(readLength Length to read in buffer, in bytes (not used here, can be 0))
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will begin from current offset
+            }
+            {$ENDREGION}
             function Load(const pBuffer: TStream; readLength: NativeUInt): Boolean; override;
 
-            { Properties }
-            property Header:                      PQRMD2Header       read GetHeader;
-            property Skins    [index: NativeInt]: PQRMD2Skin         read GetSkin;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 header
+            }
+            {$ENDREGION}
+            property Header: PQRMD2Header read GetHeader;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 skin at index
+            }
+            {$ENDREGION}
+            property Skins[index: NativeInt]: PQRMD2Skin read GetSkin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 texture coordinate at index
+            }
+            {$ENDREGION}
             property TexCoords[index: NativeInt]: PQRMD2TextureCoord read GetTexCoord;
-            property Polygons [index: NativeInt]: PQRMD2Polygon      read GetPolygon;
-            property Frames   [index: NativeInt]: PQRMD2Frame        read GetFrame;
-            property GlCmds   [index: NativeInt]: TQRInt32           read GetGlCmd;
-            property SkinCount:                   NativeInt          read GetSkinCount;
-            property TexCoordCount:               NativeInt          read GetTexCoordCount;
-            property PolygonCount:                NativeInt          read GetPolygonCount;
-            property FrameCount:                  NativeInt          read GetFrameCount;
-            property GlCmdCount:                  NativeInt          read GetGlCmdCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 polygon at index
+            }
+            {$ENDREGION}
+            property Polygons[index: NativeInt]: PQRMD2Polygon read GetPolygon;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 frame at index
+            }
+            {$ENDREGION}
+            property Frames[index: NativeInt]: PQRMD2Frame read GetFrame;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 OpenGL command at index
+            }
+            {$ENDREGION}
+            property GlCmds[index: NativeInt]: TQRInt32 read GetGlCmd;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 skin count
+            }
+            {$ENDREGION}
+            property SkinCount: NativeInt read GetSkinCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 texture coordinate count
+            }
+            {$ENDREGION}
+            property TexCoordCount: NativeInt read GetTexCoordCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 polygon count
+            }
+            {$ENDREGION}
+            property PolygonCount: NativeInt read GetPolygonCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 frame count
+            }
+            {$ENDREGION}
+            property FrameCount: NativeInt read GetFrameCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 OpenGL command count
+            }
+            {$ENDREGION}
+            property GlCmdCount: NativeInt read GetGlCmdCount;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 pre-calculated light. This light is calculated while the mesh is generated, and thus is
-    * embedded in the vertex buffer itself
-    *}
+     MD2 pre-calculated light. This light is calculated while the mesh is generated, and thus is
+     embedded in the vertex buffer itself
+    }
+    {$ENDREGION}
     TQRMD2Light = class
-        protected
+        private
             m_pAmbient:  TQRColor;
             m_pColor:    TQRColor;
             m_Direction: TQRVector3D;
             m_Enabled:   Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets ambient color
-            *@return ambient color
-            *@note The ambient color is the color of all meshes that are not illuminated by another
-            *      light. This can be compared e.g. to a room where no light source are visible
+             Gets the ambient color
+             @return(The ambient color)
+             @br @bold(NOTE) The ambient color is the color of all meshes that are not illuminated
+                             by another light. This can be compared e.g. to a room where no light
+                             source are visible
             }
-            function GetAmbient(): TQRColor; virtual;
+            {$ENDREGION}
+            function GetAmbient: TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets ambient color
-            *@param pColor - ambient color
-            *@note The ambient color is the color of all meshes that are not illuminated by another
-            *      light. This can be compared e.g. to a room where no light source are visible
+             Sets the ambient color
+             @param(pColor The ambient color)
+             @br @bold(NOTE) The ambient color is the color of all meshes that are not illuminated
+                             by another light. This can be compared e.g. to a room where no light
+                             source are visible
             }
+            {$ENDREGION}
             procedure SetAmbient(const pColor: TQRColor); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets light color
-            *@return light color
+             Gets the light color
+             @return(The light color)
             }
-            function GetColor(): TQRColor; virtual;
+            {$ENDREGION}
+            function GetColor: TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets light color
-            *@param pColor - light color
+             Sets the light color
+             @param(pColor The light color)
             }
+            {$ENDREGION}
             procedure SetColor(const pColor: TQRColor); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets light direction
-            *@return light direction
+             Gets the light direction
+             @return(The light direction)
             }
-            function GetDirection(): PQRVector3D; virtual;
+            {$ENDREGION}
+            function GetDirection: PQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets light direction
-            *@param pDirection - light direction
+             Sets the light direction
+             @param(pDirection The light direction)
             }
+            {$ENDREGION}
             procedure SetDirection(const pDirection: PQRVector3D); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets enabled flag
-            *@return enabled flag
+             Gets the enabled flag
+             @return(The enabled flag)
             }
-            function GetEnabled(): Boolean; virtual;
+            {$ENDREGION}
+            function GetEnabled: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets enabled flag
-            *@param value - enabled flag value to set
+             Sets the enabled flag
+             @param(value The enabled flag value to set)
             }
+            {$ENDREGION}
             procedure SetEnabled(value: Boolean); virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Assigns light content from another light
-            *@param pOther - other light to assign from
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Assigns (i.e. copies) the light content from another light
+             @param(pOther Other light to assign from
+            }
+            {$ENDREGION}
             procedure Assign(const pOther: TQRMD2Light); virtual;
 
-            { Properties }
-            property Ambient:   TQRColor    read GetAmbient   write SetAmbient;
-            property Color:     TQRColor    read GetColor     write SetColor;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the ambient light color
+            }
+            {$ENDREGION}
+            property Ambient: TQRColor read GetAmbient write SetAmbient;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light color
+            }
+            {$ENDREGION}
+            property Color: TQRColor read GetColor write SetColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light direction
+            }
+            {$ENDREGION}
             property Direction: PQRVector3D read GetDirection write SetDirection;
-            property Enabled:   Boolean     read GetEnabled   write SetEnabled;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the light enabled state
+            }
+            {$ENDREGION}
+            property Enabled: Boolean read GetEnabled write SetEnabled;
     end;
 
     TQRMD2Normals = array of TQRVector3D;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 model
-    *}
+     MD2 model
+    }
+    {$ENDREGION}
     TQRMD2Model = class(TQRFramedModel)
-        protected
+        private
             m_pParser:             TQRMD2Parser;
             m_Normals:             TQRMD2Normals;
             m_RHToLH:              Boolean;
             m_pPreCalculatedLight: TQRMD2Light;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Uncompresses MD2 vertex
-            *@param pFrame - MD2 frame
-            *@param pVertex - MD2 vertex to uncompress
-            *@return uncompressed vertex
-            *}
+             Uncompresses MD2 vertex
+             @param(pFrame MD2 frame)
+             @param(pVertex MD2 vertex to uncompress)
+             @return(The uncompressed vertex)
+            }
+            {$ENDREGION}
             function UncompressVertex(const frame: TQRMD2Frame;
                                      const vertex: TQRMD2Vertex): TQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex pre-calculated light color
-            *@param pLight - MD2 pre-calculated light model to use
-            *@param normal - vertex normal
-            *@return vertex color
-            *}
+             Gets the vertex pre-calculated light color
+             @param(pLight MD2 pre-calculated light model to use)
+             @param(normal Vertex normal)
+             @return(The vertex color)
+            }
+            {$ENDREGION}
             function GetPreCalculatedLightColor(const pLight: TQRMD2Light;
                                                 const normal: TQRVector3D): TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex pre-calculated light
-            *@param normal - vertex normal
-            *@return vertex color
-            *}
-            function GetPreCalculatedLight(): TQRMD2Light; virtual;
+             Gets vertex pre-calculated light
+             @param(normal Vertex normal)
+             @return(The vertex color)
+            }
+            {$ENDREGION}
+            function GetPreCalculatedLight: TQRMD2Light; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets vertex pre-calculated light
-            *@param normal - vertex normal
-            *@return vertex color
-            *}
+             Sets vertex pre-calculated light
+             @param(normal Vertex normal)
+             @return(The vertex color)
+            }
+            {$ENDREGION}
             procedure SetPreCalculatedLight(const light: TQRMD2Light); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets left hand to right hand conversion mode flag status
-            *@return left hand to right hand conversion mode flag status
-            *}
-            function GetRHToLH(): Boolean; virtual;
+             Gets left hand to right hand conversion mode flag status
+             @return(Left hand to right hand conversion mode flag status)
+            }
+            {$ENDREGION}
+            function GetRHToLH: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets left hand to right hand conversion mode flag status
-            *@param value - left hand to right hand conversion mode flag status to set
-            *}
+             Sets left hand to right hand conversion mode flag status
+             @param(value Left hand to right hand conversion mode flag status to set)
+            }
+            {$ENDREGION}
             procedure SetRHToLH(value: Boolean); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets MD2 parser
-            *@return MD2 parser
-            *}
-            function GetParser(): TQRMD2Parser; virtual;
+             Gets MD2 parser
+             @return(The MD2 parser)
+            }
+            {$ENDREGION}
+            function GetParser: TQRMD2Parser; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Loads MD2 from file
-            *@param fileName - file name
-            *@return true on success, otherwise false
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads MD2 from file
+             @param(fileName File name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads MD2 from buffer
-            *@param pBuffer - buffer
-            *@param readLength - length to read in buffer, in bytes
-            *@return true on success, otherwise false
-            *@note Read will begin from current offset
-            *}
+             Loads MD2 from buffer
+             @param(pBuffer Buffer)
+             @param(readLength Length to read in buffer, in bytes)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Read will begin from current offset
+            }
+            {$ENDREGION}
             function Load(const pBuffer: TStream;
                              readLength: NativeUInt): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads normals table from file
-            *@param fileName - file name
-            *@return true on success, otherwise false
-            *}
+             Loads normals table from file
+             @param(fileName File name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadNormals(const fileName: TFileName): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads normals table from buffer
-            *@param pBuffer - buffer
-            *@param readLength - length to read in buffer, in bytes (not used here, can be 0)
-            *@return true on success, otherwise false
-            *}
+             Loads normals table from buffer
+             @param(pBuffer Buffer)
+             @param(readLength Length to read in buffer, in bytes (not used here, can be 0))
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadNormals(const pBuffer: TStream;
                                     readLength: NativeUInt): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets skin names list
-            *@param pNames - skin names
-            *@return true on success, otherwise false
-            *@note Names list should be empty and not sorted, otherwise skin index in source parser
-            *      may not match
-            *}
+             Gets skin names list
+             @param(pNames Skin names)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Names list should be empty and not sorted, otherwise skin index in
+                             source parser may not match
+            }
+            {$ENDREGION}
             function GetSkinNames(const pNames: TStringList): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets frame names list
-            *@param pNames - frame names
-            *@return true on success, otherwise false
-            *@note Names list should be empty and not sorted, otherwise frame index in source parser
-            *      may not match
-            *}
+             Gets frame names list
+             @param(pNames Frame names)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Names list should be empty and not sorted, otherwise frame index in
+                             source parser may not match
+            }
+            {$ENDREGION}
             function GetFrameNames(const pNames: TStringList): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to create
-            *@param[out] mesh - frame mesh
-            *@param pAABBTree - aligned-axis bounding box tree to populate, ignored if nil
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets the model frame mesh
+             @param(index Frame mesh index to create)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(pAABBTree Aligned-axis bounding box tree to populate, ignored if @nil)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) vertex buffer content is structured as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
+                             @br where:
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
+            }
+            {$ENDREGION}
             function GetMesh(index: NativeUInt;
                           out mesh: TQRMesh;
                          pAABBTree: TQRAABBTree;
                        hIsCanceled: TQRIsCanceledEvent = nil): Boolean; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model frame mesh
-            *@param index - frame mesh index to get
-            *@param nextIndex - frame mesh index to interpolate with
-            *@param interpolationFactor - interpolation factor to apply
-            *@param[out] mesh - frame mesh
-            *@param hIsCanceled - callback function that allows to break the operation, can be nil
-            *@return true on success, otherwise false
-            *@note vertex buffer content is organized as follow:
-            *      [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
-            *      where:
-            *      x/y/z    - vertex coordinates
-            *      nx/ny/nz - vertex normal (if includeNormal is activated)
-            *      tu/tv    - vertex texture coordinates(if includeTexture is activated)
-            *      r/g/b/a  - vertex color(if includeColor is activated)
-            *}
+             Gets the model frame mesh
+             @param(index Frame mesh index to get)
+             @param(nextIndex Frame mesh index to interpolate with)
+             @param(interpolationFactor Interpolation factor to apply)
+             @param(mesh @bold([out]) Frame mesh)
+             @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) vertex buffer content is structured as follow:
+                             @br [1]x [2]y [3]z [4]nx [5]ny [6]nz [7]tu [8]tv [9]r [10]g [11]b [12]a
+                             @br
+                             @br where:
+                             @br @bold(x/y/z)    - vertex coordinates
+                             @br @bold(nx/ny/nz) - vertex normal (if the VertexFormat property contains the EQR_VF_Normals option)
+                             @br @bold(tu/tv)    - vertex texture coordinates (if the VertexFormat property contains the EQR_VF_TexCoords option)
+                             @br @bold(r/g/b/a)  - vertex color (if the VertexFormat property contains the EQR_VF_Colors option)
+            }
+            {$ENDREGION}
             function GetMesh(index, nextIndex: NativeUInt;
                           interpolationFactor: Double;
                                      out mesh: TQRMesh;
                                   hIsCanceled: TQRIsCanceledEvent): Boolean; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets mesh count
-            *@return mesh count
-            *}
-            function GetMeshCount(): NativeUInt; override;
+             Gets the mesh count
+             @returns(The mesh count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the pre-calculated light to use
+            }
+            {$ENDREGION}
             property PreCalculatedLight: TQRMD2Light  read GetPreCalculatedLight write SetPreCalculatedLight;
-            property RHToLH:             Boolean      read GetRHToLH             write SetRHToLH;
-            property Parser:             TQRMD2Parser read GetParser;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the left hand to right hand converter enabled status
+            }
+            {$ENDREGION}
+            property RHToLH: Boolean read GetRHToLH write SetRHToLH;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2 parser
+            }
+            {$ENDREGION}
+            property Parser: TQRMD2Parser read GetParser;
     end;
 
 implementation
@@ -687,17 +1142,17 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD2Parser
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Parser.Create();
+constructor TQRMD2Parser.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Parser.Destroy();
+destructor TQRMD2Parser.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetHeader(): PQRMD2Header;
+function TQRMD2Parser.GetHeader: PQRMD2Header;
 begin
     Result := @m_Header;
 end;
@@ -762,27 +1217,27 @@ begin
     Result := m_GlCmds[index];
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetSkinCount(): NativeInt;
+function TQRMD2Parser.GetSkinCount: NativeInt;
 begin
     Result := Length(m_Skins);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetTexCoordCount(): NativeInt;
+function TQRMD2Parser.GetTexCoordCount: NativeInt;
 begin
     Result := Length(m_TexCoords);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetPolygonCount(): NativeInt;
+function TQRMD2Parser.GetPolygonCount: NativeInt;
 begin
     Result := Length(m_Polygons);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetFrameCount(): NativeInt;
+function TQRMD2Parser.GetFrameCount: NativeInt;
 begin
     Result := Length(m_Frames);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.GetGlCmdCount(): NativeInt;
+function TQRMD2Parser.GetGlCmdCount: NativeInt;
 begin
     Result := Length(m_GlCmds);
 end;
@@ -904,7 +1359,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD2Light
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Light.Create();
+constructor TQRMD2Light.Create;
 begin
     inherited Create;
 
@@ -914,7 +1369,7 @@ begin
     m_Enabled   := False;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Light.Destroy();
+destructor TQRMD2Light.Destroy;
 begin
     m_pAmbient.Free;
     m_pColor.Free;
@@ -922,7 +1377,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetAmbient(): TQRColor;
+function TQRMD2Light.GetAmbient: TQRColor;
 begin
     Result := m_pAmbient;
 end;
@@ -932,7 +1387,7 @@ begin
     m_pAmbient.Assign(pColor);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetColor(): TQRColor;
+function TQRMD2Light.GetColor: TQRColor;
 begin
     Result := m_pColor;
 end;
@@ -942,7 +1397,7 @@ begin
     m_pColor.Assign(pColor);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetDirection(): PQRVector3D;
+function TQRMD2Light.GetDirection: PQRVector3D;
 begin
     Result := @m_Direction;
 end;
@@ -952,7 +1407,7 @@ begin
     m_Direction := pDirection^;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetEnabled(): Boolean;
+function TQRMD2Light.GetEnabled: Boolean;
 begin
     Result := m_Enabled;
 end;
@@ -973,16 +1428,16 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD2Model
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Model.Create();
+constructor TQRMD2Model.Create;
 begin
     inherited Create;
 
-    m_pParser             := TQRMD2Parser.Create();
+    m_pParser             := TQRMD2Parser.Create;
     m_pPreCalculatedLight := TQRMD2Light.Create;
     m_RHToLH              := False;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Model.Destroy();
+destructor TQRMD2Model.Destroy;
 begin
     // clear memory
     SetLength(m_Normals, 0);
@@ -1022,15 +1477,15 @@ begin
         lightAngle := 0.0;
 
     // calculate light color
-    r := Floor(Min(255.0, Max((pLight.Color.GetRed()   * lightAngle), pLight.Ambient.GetRed())));
-    g := Floor(Min(255.0, Max((pLight.Color.GetGreen() * lightAngle), pLight.Ambient.GetGreen())));
-    b := Floor(Min(255.0, Max((pLight.Color.GetBlue()  * lightAngle), pLight.Ambient.GetBlue())));
-    a := Floor(Min(255.0, Max((pLight.Color.GetAlpha() * lightAngle), pLight.Ambient.GetAlpha())));
+    r := Floor(Min(255.0, Max((pLight.Color.GetRed   * lightAngle), pLight.Ambient.GetRed)));
+    g := Floor(Min(255.0, Max((pLight.Color.GetGreen * lightAngle), pLight.Ambient.GetGreen)));
+    b := Floor(Min(255.0, Max((pLight.Color.GetBlue  * lightAngle), pLight.Ambient.GetBlue)));
+    a := Floor(Min(255.0, Max((pLight.Color.GetAlpha * lightAngle), pLight.Ambient.GetAlpha)));
 
     Result := TQRColor.Create(PByte(@r)^, PByte(@g)^, PByte(@b)^, PByte(@a)^);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetPreCalculatedLight(): TQRMD2Light;
+function TQRMD2Model.GetPreCalculatedLight: TQRMD2Light;
 begin
     Result := m_pPreCalculatedLight;
 end;
@@ -1040,7 +1495,7 @@ begin
     m_pPreCalculatedLight.Assign(light);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetRHToLH(): Boolean;
+function TQRMD2Model.GetRHToLH: Boolean;
 begin
     Result := m_RHToLH;
 end;
@@ -1050,7 +1505,7 @@ begin
     m_RHToLH := value;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetParser(): TQRMD2Parser;
+function TQRMD2Model.GetParser: TQRMD2Parser;
 begin
     Result := m_pParser;
 end;
@@ -1108,7 +1563,7 @@ begin
     end;
 
     // read version
-    pBuffer.ReadData(fileVersion);
+    pBuffer.Read(fileVersion, SizeOf(fileVersion));
 
     // is version correct?
     if (fileVersion <> CQR_MD2_Normals_Table_File_Version) then
@@ -1118,7 +1573,7 @@ begin
     end;
 
     // read file length
-    pBuffer.ReadData(dataLength);
+    pBuffer.Read(dataLength, SizeOf(TQRUInt32));
 
     // is file empty?
     if (dataLength = 0) then
@@ -1134,9 +1589,9 @@ begin
     for i := 0 to dataLength - 1 do
     begin
         // read next normal from file
-        pBuffer.ReadData(x);
-        pBuffer.ReadData(y);
-        pBuffer.ReadData(z);
+        pBuffer.Read(x, SizeOf(x));
+        pBuffer.Read(y, SizeOf(y));
+        pBuffer.Read(z, SizeOf(z));
 
         // set normal in table
         m_Normals[i] := TQRVector3D.Create(x, y, z);
@@ -1220,7 +1675,7 @@ begin
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
-    if ((EQR_VF_Normals in m_VertexFormat) and (normalCount = 0)) then
+    if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
     begin
         Result := False;
         Exit;
@@ -1233,15 +1688,15 @@ begin
     stride := 3;
 
     // do include m_Normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     i      := 0;
@@ -1268,7 +1723,7 @@ begin
         // create and populate new vertex for the current command
         mesh[meshIndex].m_Name      := 'qr_md2';
         mesh[meshIndex].m_Stride    := stride;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // search for OpenGL command type
@@ -1311,7 +1766,7 @@ begin
             Inc(j, 3);
 
             // do include m_Normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1336,7 +1791,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // reinterpret OpenGL commands array as an array of single
                 glCmdsSingle := TQRSingleArray(m_pParser.m_GLCmds);
@@ -1352,7 +1807,7 @@ begin
             end;
 
             // do include colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 doFreeColor := False;
 
@@ -1363,7 +1818,7 @@ begin
                     foundNormal := True;
 
                     // are normals also included?
-                    if (not(EQR_VF_Normals in m_VertexFormat)) then
+                    if (not(EQR_VF_Normals in VertexFormat)) then
                     begin
                         // is normal index out of bounds?
                         if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1397,14 +1852,14 @@ begin
                 else
                 begin
                     // use default color
-                    pMeshColor := m_pColor;
+                    pMeshColor := Color;
                 end;
 
                 SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 4);
-                mesh[meshIndex].m_Buffer[j]     := pMeshColor.GetRedF();
-                mesh[meshIndex].m_Buffer[j + 1] := pMeshColor.GetGreenF();
-                mesh[meshIndex].m_Buffer[j + 2] := pMeshColor.GetBlueF();
-                mesh[meshIndex].m_Buffer[j + 3] := pMeshColor.GetAlphaF();
+                mesh[meshIndex].m_Buffer[j]     := pMeshColor.GetRedF;
+                mesh[meshIndex].m_Buffer[j + 1] := pMeshColor.GetGreenF;
+                mesh[meshIndex].m_Buffer[j + 2] := pMeshColor.GetBlueF;
+                mesh[meshIndex].m_Buffer[j + 3] := pMeshColor.GetAlphaF;
                 Inc(j, 4);
 
                 if (doFreeColor) then
@@ -1464,7 +1919,7 @@ begin
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
-    if ((EQR_VF_Normals in m_VertexFormat) and (normalCount = 0)) then
+    if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
     begin
         Result := False;
         Exit;
@@ -1478,15 +1933,15 @@ begin
     stride := 3;
 
     // do include m_Normals?
-    if (EQR_VF_Normals in m_VertexFormat) then
+    if (EQR_VF_Normals in VertexFormat) then
         Inc(stride, 3);
 
     // do include texture coordinates?
-    if (EQR_VF_TexCoords in m_VertexFormat) then
+    if (EQR_VF_TexCoords in VertexFormat) then
         Inc(stride, 2);
 
     // do include colors?
-    if (EQR_VF_Colors in m_VertexFormat) then
+    if (EQR_VF_Colors in VertexFormat) then
         Inc(stride, 4);
 
     i      := 0;
@@ -1513,7 +1968,7 @@ begin
         // create and populate new vertex for the current command
         mesh[meshIndex].m_Name      := 'qr_md2';
         mesh[meshIndex].m_Stride    := stride;
-        mesh[meshIndex].m_Format    := m_VertexFormat;
+        mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
 
         // search for OpenGL command type
@@ -1564,7 +2019,7 @@ begin
             Inc(j, 3);
 
             // do include m_Normals?
-            if (EQR_VF_Normals in m_VertexFormat) then
+            if (EQR_VF_Normals in VertexFormat) then
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1596,7 +2051,7 @@ begin
             end;
 
             // do include texture coordinates?
-            if (EQR_VF_TexCoords in m_VertexFormat) then
+            if (EQR_VF_TexCoords in VertexFormat) then
             begin
                 // reinterpret OpenGL commands array as an array of single
                 glCmdsSingle := TQRSingleArray(m_pParser.m_GLCmds);
@@ -1612,7 +2067,7 @@ begin
             end;
 
             // do include colors?
-            if (EQR_VF_Colors in m_VertexFormat) then
+            if (EQR_VF_Colors in VertexFormat) then
             begin
                 doFreeColor := False;
 
@@ -1623,7 +2078,7 @@ begin
                     foundNormal := True;
 
                     // are normals also included?
-                    if (not(EQR_VF_Normals in m_VertexFormat)) then
+                    if (not(EQR_VF_Normals in VertexFormat)) then
                     begin
                         // is normal index out of bounds?
                         if (srcVertex.m_NormalIndex >= normalCount) then
@@ -1657,14 +2112,14 @@ begin
                 else
                 begin
                     // use default color
-                    pMeshColor := m_pColor;
+                    pMeshColor := Color;
                 end;
 
                 SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 4);
-                mesh[meshIndex].m_Buffer[j]     := pMeshColor.GetRedF();
-                mesh[meshIndex].m_Buffer[j + 1] := pMeshColor.GetGreenF();
-                mesh[meshIndex].m_Buffer[j + 2] := pMeshColor.GetBlueF();
-                mesh[meshIndex].m_Buffer[j + 3] := pMeshColor.GetAlphaF();
+                mesh[meshIndex].m_Buffer[j]     := pMeshColor.GetRedF;
+                mesh[meshIndex].m_Buffer[j + 1] := pMeshColor.GetGreenF;
+                mesh[meshIndex].m_Buffer[j + 2] := pMeshColor.GetBlueF;
+                mesh[meshIndex].m_Buffer[j + 3] := pMeshColor.GetAlphaF;
                 Inc(j, 4);
 
                 if (doFreeColor) then
@@ -1682,7 +2137,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetMeshCount(): NativeUInt;
+function TQRMD2Model.GetMeshCount: NativeUInt;
 begin
     Result := m_pParser.m_Header.m_FrameCount;
 end;

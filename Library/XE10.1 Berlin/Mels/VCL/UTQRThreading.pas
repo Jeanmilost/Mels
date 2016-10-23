@@ -1057,7 +1057,7 @@ begin
         m_pLock.Unlock;
     end;
 
-    if (m_Started and running) then
+    if (Started and running) then
     begin
         // wait until worker has really stopped to work
         Terminate;

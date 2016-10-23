@@ -1,39 +1,61 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelShaderGL ----------------------------------------------------------------------*
- **************************************************************************************************
- * Description : OpenGL shader language to use to render models                                   *
- * Developer   : Jean-Milost Reymond                                                              *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelShaderGL ---------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to access the OpenGL shader language to use to render models.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelShaderGL;
 
 interface
-    // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE XE7.OpenGLext *)
+    // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
+    (*$NOINCLUDE Winapi.OpenGLext *)
 
 uses System.Classes,
      System.SysUtils,
      UTQR3D,
      UTQRLogging,
-     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-     // earlier, so the DelphiGL component (provided with installation) should be used instead
-     XE7.OpenGL,
-     XE7.OpenGLext;
+     Winapi.OpenGL,
+     Winapi.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Called when a generic attribute should be associated with a named variable
-    *@param pSender - event sender
-    *@param programID - shader program identifier
-    *@param shaderType - shader type
-    *}
+     Called when a generic attribute should be associated with a named variable
+     @param(pSender Event sender)
+     @param(programID Shader program identifier)
+     @param(shaderType Shader type)
+    }
+    {$ENDREGION}
     TQRGLShaderBindAttributeEvent = procedure(pSender: TObject;
                                             programID: NativeUInt;
                                            shaderType: EQRShaderType) of object;
 
+    {$REGION 'Documentation'}
     {**
-    * OpenGL shader language to use to render models
-    *}
+     OpenGL shader language to use to render models
+    }
+    {$ENDREGION}
     TQRVCLModelShaderGL = class(TQRShader)
         private
             m_ProgramID:        GLuint;
@@ -42,107 +64,137 @@ type
             m_fOnBindAttribute: TQRGLShaderBindAttributeEvent;
 
         protected
+            {$REGION 'Documentation'}
             {**
-            * Compiles shader from file
-            *@param fileName - shader file name to compile
-            *@param shaderType - shader type
-            *@return compiled shader identifier
-            *}
+             Compiles shader from file
+             @param(fileName Shader file name to compile)
+             @param(shaderType Shader type)
+             @return(Compiled shader identifier)
+            }
+            {$ENDREGION}
             function CompileFile(const fileName: TFileName; shaderType: GLenum): GLuint; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Compiles shader
-            *@param source - shader source code
-            *@param type - shader type
-            *@return compiled shader identifier
-            *}
+             Compiles shader
+             @param(source Shader source code)
+             @param(type Shader type)
+             @return(Compiled shader identifier)
+            }
+            {$ENDREGION}
             function Compile(const source: AnsiString; shaderType: GLenum): GLuint; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Logs the shader error content to compiler console
-            *}
-            procedure LogShaderError(); virtual;
+             Logs the shader error content to compiler console
+            }
+            {$ENDREGION}
+            procedure LogShaderError; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates program
-            *}
-            procedure CreateProgram(); virtual;
+             Creates program
+            }
+            {$ENDREGION}
+            procedure CreateProgram; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets shader program identifier
-            *@return shader program identifier
-            *}
-            function GetProgramID(): NativeUInt; override;
+             Gets shader program identifier
+             @return(Shader program identifier)
+            }
+            {$ENDREGION}
+            function GetProgramID: NativeUInt; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Attaches shader to program from stream
-            *@param pStream - stream containing shader
-            *@param type - shader type
-            *@return compiled shader identifier
-            *}
+             Attaches shader to program from stream
+             @param(pStream Stream containing shader)
+             @param(type Shader type)
+             @return(Compiled shader identifier)
+            }
+            {$ENDREGION}
             function AttachFile(pStream: TStream;
                              shaderType: EQRShaderType): NativeUInt; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Attaches shader to program from file
-            *@param fileName - shader file
-            *@param type - shader type
-            *@return compiled shader identifier
-            *}
+             Attaches shader to program from file
+             @param(fileName Shader file)
+             @param(type Shader type)
+             @return(Compiled shader identifier)
+            }
+            {$ENDREGION}
             function AttachFile(const fileName: TFileName;
                                     shaderType: EQRShaderType): NativeUInt; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Attaches shader to program
-            *@param source - shader source code
-            *@param type - shader type
-            *@return compiled shader identifier
-            *}
+             Attaches shader to program
+             @param(source Shader source code)
+             @param(type Shader type)
+             @return(Compiled shader identifier)
+            }
+            {$ENDREGION}
             function Attach(const source: UnicodeString;
                               shaderType: EQRShaderType): NativeUInt; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Links all attached shader and keep program ready to run
-            *@param useProgram - if true, program will be used immediately (in case link succeeded)
-            *@return true on success, otherwise false
-            *}
+             Links all attached shader and keep program ready to run
+             @param(useProgram If @true, program will be used immediately (in case link succeeded))
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Link(useProgram: Boolean): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Uses the program
-            *@param use - if true, program will be used, released otherwise
-            *}
+             Uses the program
+             @param(use If @true, program will be used, released otherwise)
+            }
+            {$ENDREGION}
             procedure Use(use: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts shader type to OpenGL shader type
-            *@param shaderType - shader type to convert
-            *@return converted OpenGL shader type
-            *}
+             Converts shader type to OpenGL shader type
+             @param(shaderType Shader type to convert)
+             @return(Converted OpenGL shader type)
+            }
+            {$ENDREGION}
             class function ShaderTypeToOpenGLShaderType(shaderType: EQRShaderType): GLenum; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts OpenGL shader type to shader type
-            *@param shaderType - OpenGL shader type to convert
-            *@return converted shader type
-            *}
+             Converts OpenGL shader type to shader type
+             @param(shaderType OpenGL shader type to convert)
+             @return(Converted shader type)
+            }
+            {$ENDREGION}
             class function OpenGLTypeToShaderType(shaderType: GLenum): EQRShaderType; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets OnBindAttribute callback
-            *@param fHandler - function handler
-            *}
+             Sets OnBindAttribute callback
+             @param(fHandler Function handler)
+            }
+            {$ENDREGION}
             procedure Set_OnBindAttribute(fHandler: TQRGLShaderBindAttributeEvent); virtual;
     end;
 
@@ -241,7 +293,7 @@ begin
     if (shader = 0) then
     begin
         {$IFDEF DEBUG}
-            LogShaderError();
+            LogShaderError;
         {$IFEND}
 
         Result := 0;
@@ -255,7 +307,7 @@ begin
     if (compiled = 0) then
     begin
         {$IFDEF DEBUG}
-            LogShaderError();
+            LogShaderError;
         {$IFEND}
 
         Result := 0;
@@ -266,7 +318,7 @@ begin
     Result := shader;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLModelShaderGL.LogShaderError();
+procedure TQRVCLModelShaderGL.LogShaderError;
 {$IFDEF DEBUG}
     var
         logLength: GLint;
@@ -288,17 +340,17 @@ begin
     {$IFEND}
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLModelShaderGL.CreateProgram();
+procedure TQRVCLModelShaderGL.CreateProgram;
 begin
     // create new shader program
-    m_ProgramID := glCreateProgram();
+    m_ProgramID := glCreateProgram;
 
     // succeeded?
     if (m_ProgramID = 0) then
         raise Exception.Create('Failed to create shader program');
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVCLModelShaderGL.GetProgramID(): NativeUInt;
+function TQRVCLModelShaderGL.GetProgramID: NativeUInt;
 begin
     Result := m_ProgramID;
 end;
@@ -408,7 +460,7 @@ var
     if (linked = 0) then
     begin
         {$IFDEF DEBUG}
-            LogShaderError();
+            LogShaderError;
         {$IFEND}
 
         Result := False;

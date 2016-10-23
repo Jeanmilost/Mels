@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRVCLModelRendererGL --------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a model renderer based on VCL and OpenGL                    *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRVCLModelRendererGL -------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a model renderer based on OpenGL.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRVCLModelRendererGL;
 
 interface
@@ -24,140 +43,172 @@ uses System.SysUtils,
      Winapi.OpenGLext;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Basic interface to implement a model renderer
-    *}
+     Basic interface to implement a model renderer
+    }
+    {$ENDREGION}
     TQRVCLModelRendererGL = class(TQRVCLModelRenderer)
         protected
+            {$REGION 'Documentation'}
             {**
-            * Selects texture to draw
-            *@param textures - model texture list
-            *@param modelName - model name to draw (should match with a texture name in the list)
-            *}
+             Selects texture to draw
+             @param(textures Model texture list)
+             @param(modelName Model name to draw (should match with a texture name in the list))
+            }
+            {$ENDREGION}
             procedure SelectTexture(const textures: TQRTextures;
                                    const modelName: UnicodeString); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Selects texture to draw
-            *@param pShader - shader that will draw the texture
-            *@param textures - model texture list
-            *@param modelName - model name to draw (should match with a texture name in the list)
-            *}
+             Selects texture to draw
+             @param(pShader Shader that will draw the texture)
+             @param(textures Model texture list)
+             @param(modelName Model name to draw (should match with a texture name in the list))
+            }
+            {$ENDREGION}
             procedure SelectTexture(const pShader: TQRShader;
                                    const textures: TQRTextures;
                                   const modelName: UnicodeString); overload; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates a device context and enables OpenGL
-            *@param hWnd - control or form handle on which OpenGL scene will be drawn
-            *@param doubleBuffered - if true, OpenGL rendering will be double buffered
-            *@param hDC[out] - device context to use to draw OpenGL scene
-            *@param hRC[out] - newly created OpenGL context
-            *@return true on success, otherwise false
-            *@note The GDI cannot be used to draw above or below OpenGL scene if double buffering is
-            *      enabled. This also means that the control background will be opaque
-            *}
+             Creates a device context and enables OpenGL
+             @param(hWnd Control or form handle on which OpenGL scene will be drawn)
+             @param(doubleBuffered If @true, OpenGL rendering will be double buffered)
+             @param(hDC @bold([out]) Device context to use to draw OpenGL scene)
+             @param(hRC @bold([out]) Newly created OpenGL context)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) The GDI cannot be used to draw above or below OpenGL scene if double
+                             buffering is enabled. This also means that the control background will
+                             be opaque
+            }
+            {$ENDREGION}
             function CreateDCAndEnableOpenGL(hWnd: THandle;
                         doubleBuffered: Boolean;
                           out hDC, hRC: THandle): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Enables OpenGL
-            *@param hWnd - control or form handle on which OpenGL scene will be drawn
-            *@param doubleBuffered - if true, OpenGL rendering will be double buffered
-            *@param hDC - device context to use to draw OpenGL scene
-            *@param hRC[out] - newly created OpenGL context
-            *@return true on success, otherwise false
-            *@note The GDI cannot be used to draw above or below OpenGL scene if double buffering is
-            *      enabled. This also means that the control background will be opaque
-            *}
+             Enables OpenGL
+             @param(hWnd Control or form handle on which OpenGL scene will be drawn)
+             @param(doubleBuffered If @true, OpenGL rendering will be double buffered)
+             @param(hDC Device context to use to draw OpenGL scene)
+             @param(hRC @bold([out]) Newly created OpenGL context)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) The GDI cannot be used to draw above or below OpenGL scene if double
+                             buffering is enabled. This also means that the control background will
+                             be opaque
+            }
+            {$ENDREGION}
             function EnableOpenGL(doubleBuffered: Boolean;
                                              hDC: THandle;
                                          out hRC: THandle): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Disables OpenGL and clears memory
-            *@param hWnd - control or form handle on which OpenGL scene was drawn
-            *@param hDC - device context used to draw OpenGL scene
-            *@param hRC - OpenGL context to shutdown
-            *}
+             Disables OpenGL and clears memory
+             @param(hWnd Control or form handle on which OpenGL scene was drawn)
+             @param(hDC Device context used to draw OpenGL scene)
+             @param(hRC OpenGL context to shutdown)
+            }
+            {$ENDREGION}
             procedure DisableOpenGL(hWnd, hDC, hRC: THandle); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets shader uniform hnadle
-            *@param pShader - shader containing uniform to get
-            *@param uniform - uniform to get from shader
-            *@return uniform handle, -1 if not found or on error
-            *}
+             Gets shader uniform hnadle
+             @param(pShader Shader containing uniform to get)
+             @param(uniform Uniform to get from shader)
+             @return(Uniform handle, -1 if not found or on error)
+            }
+            {$ENDREGION}
             function GetUniform(const pShader: TQRShader;
                                       uniform: EQRShaderAttribute): GLint; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets shader attribute
-            *@param pShader - shader containing attribute to get
-            *@param attribute - attribute to get from shader
-            *@return uniform handle, -1 if not found or on error
-            *}
+             Gets shader attribute
+             @param(pShader Shader containing attribute to get)
+             @param(attribute Attribute to get from shader)
+             @return(Uniform handle, -1 if not found or on error)
+            }
+            {$ENDREGION}
             function GetAttribute(const pShader: TQRShader;
                                       attribute: EQRShaderAttribute): GLint; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates OpenGL viewport
-            *@param clientWidth - form client width
-            *@param clientHeight - form client height
-            *}
+             Creates OpenGL viewport
+             @param(clientWidth Form client width)
+             @param(clientHeight Form client height)
+            }
+            {$ENDREGION}
             procedure CreateViewport(clientWidth, clientHeight: Integer); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts mouse position to OpenGL point (i.e. a point in the OpenGL space)
-            *@param hWnd - handle of the window or control on which mouse is hoving
-            *@param viewRect - OpenGL view rectangle
-            *@return converted point in the OpenGL space
-            *}
+             Converts mouse position to OpenGL point (i.e. a point in the OpenGL space)
+             @param(hWnd Handle of the window or control on which mouse is hoving)
+             @param(viewRect OpenGL view rectangle)
+             @return(Converted point in the OpenGL space)
+            }
+            {$ENDREGION}
             function MousePosToGLPoint(hWnd: THandle; out viewRect: TQRRect): TQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Copies the current OpenGL rendering into a bitmap
-            *@param pBitmap - bitmap to copy to
-            *}
+             Copies the current OpenGL rendering into a bitmap
+             @param(pBitmap Bitmap to copy to)
+            }
+            {$ENDREGION}
             procedure GetBitmapFromOpenGL(pBitmap: Vcl.Graphics.TBitmap); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates texture
-            *@param width - texture width
-            *@param height - texture height
-            *@param format - texture format, can be GL_RGB or GL_RGBA
-            *@param pPixels - texture pixels array
-            *@param minFiltter - min filter to apply
-            *@param magFilter - mag filter to apply
-            *@param targetID - OpenGL target identigier, e.g. GL_TEXTURE_2D
-            *@return newly created texture identifier
-            *}
+             Creates texture
+             @param(width Texture width)
+             @param(height Texture height)
+             @param(format Texture format, can be GL_RGB or GL_RGBA)
+             @param(pPixels Texture pixels array)
+             @param(minFiltter Min filter to apply)
+             @param(magFilter Mag filter to apply)
+             @param(targetID OpenGL target identigier, e.g. GL_TEXTURE_2D)
+             @return(Newly created texture identifier)
+            }
+            {$ENDREGION}
             function CreateTexture(width, height, format: WORD;
                                                  pPixels: Pointer;
                           minFilter, magFilter, targetID: GLuint): GLInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh
-            *@param mesh - mesh to draw
-            *@param translation - translation to apply to mesh
-            *@param rotationX - rotation on x axis to apply to mesh
-            *@param rotationY - rotation on y axis to apply to mesh
-            *@param rotationZ - rotation on z axis to apply to mesh
-            *@param scale - scaling to apply to mesh
-            *@param textures - model textures
-            *}
+             Draws a mesh
+             @param(mesh Mesh to draw)
+             @param(translation Translation to apply to mesh)
+             @param(rotationX Rotation on x axis to apply to mesh)
+             @param(rotationY Rotation on y axis to apply to mesh)
+             @param(rotationZ Rotation on z axis to apply to mesh)
+             @param(scale Scaling to apply to mesh)
+             @param(textures Model textures)
+            }
+            {$ENDREGION}
             procedure Draw(var mesh: TQRMesh;
                   const translation: TQRVector3D;
                           rotationX,
@@ -166,39 +217,45 @@ type
                         const scale: TQRVector3D;
                      const textures: TQRTextures); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh
-            *@param mesh - mesh to draw
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param textures - model textures
-            *}
+             Draws a mesh
+             @param(mesh Mesh to draw)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(textures Model textures)
+            }
+            {$ENDREGION}
             procedure Draw(var mesh: TQRMesh;
                   const modelMatrix: TQRMatrix4x4;
                      const textures: TQRTextures); overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh using shader
-            *@param mesh - mesh to draw
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param textures - model textures
-            *@param pShader - shader that will be used to draw the model
-            *@return true on success, otherwise false
-            *}
+             Draws a mesh using shader
+             @param(mesh Mesh to draw)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(textures Model textures)
+             @param(pShader Shader that will be used to draw the model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Draw(var mesh: TQRMesh;
                  const modelMatrix: TQRMatrix4x4;
                     const textures: TQRTextures;
                            pShader: TQRShader): Boolean; overload; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh using shader
-            *@param mesh - mesh to draw
-            *@param nextMesh - mesh to interpolate with
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param interpolationFactor - interpolation factor
-            *@param textures - model textures
-            *@param pShader - shader that will be used to draw the model
-            *@return true on success, otherwise false
-            *}
+             Draws a mesh using shader
+             @param(mesh Mesh to draw)
+             @param(nextMesh Mesh to interpolate with)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(interpolationFactor Interpolation factor)
+             @param(textures Model textures)
+             @param(pShader Shader that will be used to draw the model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Draw(var mesh: TQRMesh;
                     const nextMesh: TQRMesh;
                  const modelMatrix: TQRMatrix4x4;
@@ -410,7 +467,7 @@ begin
     end;
 
     // get model matrix slot from shader
-    Result := glGetUniformLocation(pShader.GetProgramID(), PAnsiChar(propertyName));
+    Result := glGetUniformLocation(pShader.GetProgramID, PAnsiChar(propertyName));
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.GetAttribute(const pShader: TQRShader;
@@ -436,7 +493,7 @@ begin
     end;
 
     // get shader interpolation position attribute
-    Result := glGetAttribLocation(pShader.GetProgramID(), PAnsiChar(propertyName));
+    Result := glGetAttribLocation(pShader.GetProgramID, PAnsiChar(propertyName));
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.CreateViewport(clientWidth, clientHeight: Integer);
@@ -518,7 +575,7 @@ begin
         GetMem(pPixels, dimensions[2] * dimensions[3] * 4);
 
         // flush OpenGL
-        glFinish();
+        glFinish;
         glPixelStorei(GL_PACK_ALIGNMENT,   4);
         glPixelStorei(GL_PACK_ROW_LENGTH,  0);
         glPixelStorei(GL_PACK_SKIP_ROWS,   0);
@@ -630,7 +687,7 @@ begin
 
     glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+    glPushMatrix;
 
     // place model into 3D world
     glTranslatef(translation.X, translation.Y, translation.Z);
@@ -712,10 +769,10 @@ begin
         if (EQR_VF_Colors in mesh[i].m_Format) then
             glDisableClientState(GL_COLOR_ARRAY);
 
-        glFlush();
+        glFlush;
     end;
 
-    glPopMatrix();
+    glPopMatrix;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
@@ -752,10 +809,10 @@ begin
 
     glMatrixMode(GL_MODELVIEW);
 
-    glPushMatrix();
+    glPushMatrix;
 
     // place model into 3D world
-    glLoadMatrixf(PGLfloat(modelMatrix.GetPtr()));
+    glLoadMatrixf(PGLfloat(modelMatrix.GetPtr));
 
     // iterate through vertices to draw
     for i := 0 to count - 1 do
@@ -830,10 +887,10 @@ begin
         if (EQR_VF_Colors in mesh[i].m_Format) then
             glDisableClientState(GL_COLOR_ARRAY);
 
-        glFlush();
+        glFlush;
     end;
 
-    glPopMatrix();
+    glPopMatrix;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLModelRendererGL.Draw(var mesh: TQRMesh;
@@ -876,7 +933,7 @@ begin
         end;
 
         // connect model matrix to shader
-        glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr()));
+        glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr));
 
         // get shader position attribute
         posAttrib := GetAttribute(pShader, EQR_SA_Position);
@@ -1088,7 +1145,7 @@ begin
         end;
 
         // connect model matrix to shader
-        glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr()));
+        glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr));
 
         // get shader position attribute
         interpolationAttrib := GetUniform(pShader, EQR_SA_Interpolation);

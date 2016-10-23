@@ -3,9 +3,6 @@
         <ProjectGuid>{62C31E12-ACD0-4E10-B31E-DF9A821B9B9B}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -29,15 +26,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="DelphiGL">
-        <MSBuild Projects="..\..\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
-    </Target>
-    <Target Name="DelphiGL:Clean">
-        <MSBuild Projects="..\..\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="DelphiGL:Make">
-        <MSBuild Projects="..\..\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="Base\Mels_Base.dproj"/>
     </Target>
@@ -84,13 +72,13 @@
         <MSBuild Projects="VCL Components GL\Mels_VCLComponentsGLD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="DelphiGL;Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD"/>
+        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="DelphiGL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean"/>
+        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="DelphiGL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make"/>
+        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

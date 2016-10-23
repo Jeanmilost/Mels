@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRGeometry ------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides all geometry classes, as e.g. vectors and matrix classes    *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRGeometry -----------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides features required to process calculation based on geometry.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRGeometry;
 
 interface
@@ -14,86 +33,270 @@ uses System.SysUtils,
      System.Math;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Vector 2D
-    *}
+     Vector 2D
+    }
+     {$ENDREGION}
     TQRVector2D = record
         private
-            m_X: Single; // x coordinate for the 2D vector
-            m_Y: Single; // y coordinate for the 2D vector
+            m_X: Single;
+            m_Y: Single;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param x - vector x coordinate
-            *@param y - vector y coordinate
-            *}
+             Constructor
+             @param(x Vector x coordinate)
+             @param(y Vector y coordinate)
+            }
+            {$ENDREGION}
             constructor Create(const x, y: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param other - other vector to copy from
-            *}
+             Copy constructor
+             @param(other Other vector to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const other: TQRVector2D); overload;
 
-            { Basic functions }
-            Procedure Assign(const other: TQRVector2D);                              inline;
-            function  Add(const value: Single): TQRVector2D;               overload; inline;
-            function  Add(const other: TQRVector2D): TQRVector2D;          overload; inline;
-            function  Invert: TQRVector2D;                                 overload; inline;
-            function  Sub(const value: Single): TQRVector2D;               overload; inline;
-            function  Sub(const other: TQRVector2D): TQRVector2D;          overload; inline;
-            function  Mul(const value: Single): TQRVector2D;               overload; inline;
-            function  Mul(const other: TQRVector2D): TQRVector2D;          overload; inline;
-            function  Divide(const value: Single): TQRVector2D;            overload; inline;
-            function  Divide(const other: TQRVector2D): TQRVector2D;       overload; inline;
-            function  AddAndAssign(const value: Single): TQRVector2D;      overload; inline;
-            function  AddAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
-            function  SubAndAssign(const value: Single): TQRVector2D;      overload; inline;
-            function  SubAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
-            function  MulAndAssign(const value: Single): TQRVector2D;      overload; inline;
-            function  MulAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
-            function  DivAndAssign(const value: Single): TQRVector2D;      overload; inline;
-            function  DivAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
-            function  IsEqual(const other: TQRVector2D): Boolean;                    inline;
-            function  Differs(const other: TQRVector2D): Boolean;                    inline;
-
+            {$REGION 'Documentation'}
             {**
-            * Gets the vector length
-            *@return vector length
-            *}
+             Assigns (i.e. copies) the content from another vector
+             @param(other Other vector to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const other: TQRVector2D); inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 vectors and determines if they are equal
+             @param(other Other vector to compare with)
+             @return(@true if vectors are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const other: TQRVector2D): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 vectors and determines if they are different
+             @param(other Other vector to compare with)
+             @return(@true if vectors differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const other: TQRVector2D): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Inverts the vector
+             @return(Inverted vector)
+            }
+            {$ENDREGION}
+            function Invert: TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value to this vector
+             @param(value Value to add to vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function Add(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another vector to this vector
+             @param(other Other vector to add to this vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function Add(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value to this vector
+             @param(value Value to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function Sub(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts to this vector the contents of another vector
+             @param(other Other vector to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function Sub(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies a value to this vector
+             @param(value Value to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function Mul(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another vector to this vector
+             @param(other Other vector to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function Mul(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value to this vector
+             @param(value Value to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function Divide(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another vector to this vector
+             @param(other Other vector to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function Divide(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value and assigns the result to this vector
+             @param(value Value to add to vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another vector and assigns the result to this vector
+             @param(other Other vector to add to this vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value and assigns the result to this vector
+             @param(value Value to subtract to vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts the content of another vector and assigns the result to this vector
+             @param(other Other vector to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multilpies a value and assigns the result to this vector
+             @param(value Value to multiply to vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another vector and assigns the result to this vector
+             @param(other Other vector to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value and assigns the result to this vector
+             @param(value Value to divide to vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const value: Single): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another vector and assigns the result to this vector
+             @param(other Other vector to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const other: TQRVector2D): TQRVector2D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the vector length
+             @return(Vector length)
+            }
+            {$ENDREGION}
             function Length: Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Normalizes the vector
-            *@return normalized vector
-            *}
+             Normalizes the vector
+             @return(Normalized vector)
+            }
+            {$ENDREGION}
             function Normalize: TQRVector2D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates the cross product between 2 vectors
-            *@param vector - vector with which cross product is calculated
-            *@return cross product
-            *}
+             Calculates the cross product between 2 vectors
+             @param(vector Vector with which cross product is calculated)
+             @return(Cross product)
+            }
+            {$ENDREGION}
             function Cross(const vector: TQRVector2D): TQRVector2D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates the dot product between 2 vectors
-            *@param vector - vector with which dot product is calculated
-            *@return dot product
-            *}
+             Calculates the dot product between 2 vectors
+             @param(vector Vector with which dot product is calculated)
+             @return(Dot product)
+            }
+            {$ENDREGION}
             function Dot(const vector: TQRVector2D): Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates interpolation vector between 2 vectors
-            *@param other - other vector to interpolate with
-            *@param position - interpolation position, in percent (between 0.0f and 1.0f)
-            *@return interpolation vector
-            *}
+             Calculates interpolation vector between 2 vectors
+             @param(other Other vector to interpolate with)
+             @param(position Interpolation position, in percent (between 0.0 and 1.0))
+             @return(Interpolation vector)
+            }
+            {$ENDREGION}
             function Interpolate(const other: TQRVector2D; const position: Single): TQRVector2D; inline;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vector x value
+            }
+            {$ENDREGION}
             property X: Single read m_X write m_X;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vector y value
+            }
+            {$ENDREGION}
             property Y: Single read m_Y write m_Y;
     end;
 
@@ -104,837 +307,1573 @@ type
     *}
     TQRVector3D = record
         private
-            m_X: Single; // x coordinate for the 3D vector
-            m_Y: Single; // y coordinate for the 3D vector
-            m_Z: Single; // z coordinate for the 3D vector
+            m_X: Single;
+            m_Y: Single;
+            m_Z: Single;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param x - vector x coordinate
-            *@param y - vector y coordinate
-            *@param z - vector z coordinate
-            *}
+             Constructor
+             @param(x Vector x coordinate)
+             @param(y Vector y coordinate)
+             @param(z Vector z coordinate)
+            }
+            {$ENDREGION}
             constructor Create(const x, y, z: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param other - other vector to copy from
-            *}
+             Copy constructor
+             @param(other Other vector to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const other: TQRVector3D); overload;
 
-            { Basic functions }
-            procedure Assign(const other: TQRVector3D);                              inline;
-            function  Add(const value: Single): TQRVector3D;               overload; inline;
-            function  Add(const other: TQRVector3D): TQRVector3D;          overload; inline;
-            function  Invert: TQRVector3D;                                 overload; inline;
-            function  Sub(const value: Single): TQRVector3D;               overload; inline;
-            function  Sub(const other: TQRVector3D): TQRVector3D;          overload; inline;
-            function  Mul(const value: Single): TQRVector3D;               overload; inline;
-            function  Mul(const other: TQRVector3D): TQRVector3D;          overload; inline;
-            function  Divide(const value: Single): TQRVector3D;            overload; inline;
-            function  Divide(const other: TQRVector3D): TQRVector3D;       overload; inline;
-            function  AddAndAssign(const value: Single): TQRVector3D;      overload; inline;
-            function  AddAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
-            function  SubAndAssign(const value: Single): TQRVector3D;      overload; inline;
-            function  SubAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
-            function  MulAndAssign(const value: Single): TQRVector3D;      overload; inline;
-            function  MulAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
-            function  DivAndAssign(const value: Single): TQRVector3D;      overload; inline;
-            function  DivAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
-            function  IsEqual(const other: TQRVector3D): Boolean;                    inline;
-            function  Differs(const other: TQRVector3D): Boolean;                    inline;
-
+            {$REGION 'Documentation'}
             {**
-            * Gets the vector length
-            *@return vector length
-            *}
+             Assigns (i.e. copies) the content from another vector
+             @param(other Other vector to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const other: TQRVector3D); inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 vectors and determines if they are equal
+             @param(other Other vector to compare with)
+             @return(@true if vectors are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const other: TQRVector3D): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 vectors and determines if they are different
+             @param(other Other vector to compare with)
+             @return(@true if vectors differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const other: TQRVector3D): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Inverts the vector
+             @return(Inverted vector)
+            }
+            {$ENDREGION}
+            function Invert: TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value to this vector
+             @param(value Value to add to vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function Add(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another vector to this vector
+             @param(other Other vector to add to this vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function Add(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value to this vector
+             @param(value Value to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function Sub(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts to this vector the contents of another vector
+             @param(other Other vector to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function Sub(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies a value to this vector
+             @param(value Value to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function Mul(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another vector to this vector
+             @param(other Other vector to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function Mul(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value to this vector
+             @param(value Value to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function Divide(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another vector to this vector
+             @param(other Other vector to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function Divide(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value and assigns the result to this vector
+             @param(value Value to add to vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another vector and assigns the result to this vector
+             @param(other Other vector to add to this vector)
+             @return(Added vector)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value and assigns the result to this vector
+             @param(value Value to subtract to vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts the content of another vector and assigns the result to this vector
+             @param(other Other vector to subtract to this vector)
+             @return(Subtracted vector)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multilpies a value and assigns the result to this vector
+             @param(value Value to multiply to vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another vector and assigns the result to this vector
+             @param(other Other vector to multiply to this vector)
+             @return(Multiplied vector)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value and assigns the result to this vector
+             @param(value Value to divide to vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const value: Single): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another vector and assigns the result to this vector
+             @param(other Other vector to divide to this vector)
+             @return(Divided vector)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const other: TQRVector3D): TQRVector3D; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the vector length
+             @return(Vector length)
+            }
+            {$ENDREGION}
             function Length: Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Normalizes the vector
-            *@return normalized vector
-            *}
+             Normalizes the vector
+             @return(Normalized vector)
+            }
+            {$ENDREGION}
             function Normalize: TQRVector3D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates the cross product between 2 vectors
-            *@param vector - vector with which cross product is calculated
-            *@return cross product
-            *}
+             Calculates the cross product between 2 vectors
+             @param(vector Vector with which cross product is calculated)
+             @return(Cross product)
+            }
+            {$ENDREGION}
             function Cross(const vector: TQRVector3D): TQRVector3D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates the dot product between 2 vectors
-            *@param vector - vector with which dot product is calculated
-            *@return dot product
-            *}
+             Calculates the dot product between 2 vectors
+             @param(vector Vector with which dot product is calculated)
+             @return(Dot product)
+            }
+            {$ENDREGION}
             function Dot(const vector: TQRVector3D): Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates interpolation vector between 2 vectors
-            *@param other - other vector to interpolate with
-            *@param position - interpolation position, in percent (between 0.0f and 1.0f)
-            *@return interpolation vector
-            *}
+             Calculates interpolation vector between 2 vectors
+             @param(other Other vector to interpolate with)
+             @param(position Interpolation position, in percent (between 0.0 and 1.0))
+             @return(Interpolation vector)
+            }
+            {$ENDREGION}
             function Interpolate(const other: TQRVector3D; const position: Single): TQRVector3D; inline;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vector x value
+            }
+            {$ENDREGION}
             property X: Single read m_X write m_X;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vector y value
+            }
+            {$ENDREGION}
             property Y: Single read m_Y write m_Y;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the vector z value
+            }
+            {$ENDREGION}
             property Z: Single read m_Z write m_Z;
     end;
 
     PQRVector3D = ^TQRVector3D;
 
+    {$REGION 'Documentation'}
     {**
-    * Plane
-    *}
+     Plane
+    }
+    {$ENDREGION}
     TQRPlane = record
         private
-            m_A: Single; // a coordinate for the plane
-            m_B: Single; // b coordinate for the plane
-            m_C: Single; // c coordinate for the plane
-            m_D: Single; // d coordinate for the plane
+            m_A: Single;
+            m_B: Single;
+            m_C: Single;
+            m_D: Single;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param a - plane a coordinate (relative to formula aX + bY + cZ + d = 0)
-            *@param b - plane b coordinate (relative to formula aX + bY + cZ + d = 0)
-            *@param c - plane c coordinate (relative to formula aX + bY + cZ + d = 0)
-            *@param d - plane d coordinate (relative to formula aX + bY + cZ + d = 0)
-            *}
+             Constructor
+             @param(a Plane a coordinate (relative to formula aX + bY + cZ + d = 0))
+             @param(b Plane b coordinate (relative to formula aX + bY + cZ + d = 0))
+             @param(c Plane c coordinate (relative to formula aX + bY + cZ + d = 0))
+             @param(d Plane d coordinate (relative to formula aX + bY + cZ + d = 0))
+            }
+            {$ENDREGION}
             constructor Create(const a, b, c, d: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param other - other plane to copy from
-            *}
+             Copy constructor
+             @param(other Other plane to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const other: TQRPlane); overload;
 
-            { Basic functions }
-            procedure Assign(const other: TQRPlane);           inline;
-            function  Invert: TQRPlane;                        inline;
-            function  IsEqual(const other: TQRPlane): Boolean; inline;
-            function  Differs(const other: TQRPlane): Boolean; inline;
-
+            {$REGION 'Documentation'}
             {**
-            * Calculates distance to plane
-            *@param point - point from which the distance must be calculated
-            *@return distance to plane
-            *}
+             Assigns (i.e. copies) the content from another plane
+             @param(other Other plane to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const other: TQRPlane); inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 planes and determines if they are equal
+             @param(other Other plane to compare with)
+             @return(@true if planes are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const other: TQRPlane): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 planes and determines if they are different
+             @param(other Other plane to compare with)
+             @return(@true if planes differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const other: TQRPlane): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Inverts the plane
+             @return(Inverted plane)
+            }
+            {$ENDREGION}
+            function Invert: TQRPlane; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Calculates distance to plane
+             @param(point Point from which the distance must be calculated)
+             @return(Distance to plane)
+            }
+            {$ENDREGION}
             function DistanceTo(const point: TQRVector3D): Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if plane intersects line and calculates intersection point
-            *@param v1 - line start
-            *@param v2 - line end
-            *@param[out] p - calculated point on plane
-            *@return true if plane intersects line, otherwise false
-            *}
-            function IntersectLine(const v1, v2: TQRVector3D; out p: TQRVector3D): Boolean; inline;
+             Checks if plane intersects line and calculates intersection point
+             @param(v1 Line start)
+             @param(v2 Line end)
+             @param(point Calculated point on plane)
+             @return(@true if plane intersects line, otherwise @false)
+            }
+            {$ENDREGION}
+            function IntersectLine(const v1, v2: TQRVector3D; out point: TQRVector3D): Boolean; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if plane intersects ray and calculates intersection point
-            *@param rp - ray start point
-            *@param rd - ray direction
-            *@param[out] p - calculated point on plane
-            *@return true if plane intersects ray, otherwise false
-            *}
-            function IntersectRay(const rp, rd: TQRVector3D; out p: TQRVector3D): Boolean; inline;
+             Checks if plane intersects ray and calculates intersection point
+             @param(rp Ray start point)
+             @param(rd Ray direction)
+             @param(point Calculated point on plane)
+             @return(@true if plane intersects ray, otherwise @false)
+            }
+            {$ENDREGION}
+            function IntersectRay(const rp, rd: TQRVector3D; out point: TQRVector3D): Boolean; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Compare plane with the given plane using the given tolerance
-            *@param other - other plane to compare
-            *@param tolerance - tolerance for comparison
-            *@return true if planes are equals in the limits of the given tolerance,
-            *         otherwise false
-            *}
+             Compares plane with the given plane using the given tolerance
+             @param(other Other plane to compare)
+             @param(tolerance Tolerance for comparison)
+             @return(@true if planes are equals in the limits of the given tolerance, otherwise @false)
+            }
+            {$ENDREGION}
             function Compare(const other: TQRPlane; const tolerance: Single): Boolean; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates a plane using 3 vertex
-            *@param v1 - value of the first vertex
-            *@param v2 - value of the second vertex
-            *@param v3 - value of the thrid vertex
-            *@return the built plane
-            *}
+             Calculates a plane using 3 vertex
+             @param(v1 Value of the first vertex)
+             @param(v2 Value of the second vertex)
+             @param(v3 Value of the thrid vertex)
+             @return(The built plane)
+            }
+            {$ENDREGION}
             class function FromPoints(const v1, v2, v3: TQRVector3D): TQRPlane; static; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates a plane using a point and a normal
-            *@param point - a point belongs to the plane
-            *@param normal - normal of the plane
-            *@return the built plane
-            *}
+             Calculates a plane using a point and a normal
+             @param(point A point belonging to the plane)
+             @param(normal Normal of the plane)
+             @return(The built plane)
+            }
+            {$ENDREGION}
             class function FromPointNormal(const point, normal: TQRVector3D): TQRPlane; static; inline;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the plane a value
+             @br @bold(NOTE) According to the formula aX + bY + cZ + d = 0
+            }
+            {$ENDREGION}
             property A: Single read m_A write m_A;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the plane b value
+             @br @bold(NOTE) According to the formula aX + bY + cZ + d = 0
+            }
+            {$ENDREGION}
             property B: Single read m_B write m_B;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the plane c value
+             @br @bold(NOTE) According to the formula aX + bY + cZ + d = 0
+            }
+            {$ENDREGION}
             property C: Single read m_C write m_C;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the plane c value
+             @br @bold(NOTE) According to the formula aX + bY + cZ + d = 0
+            }
+            {$ENDREGION}
             property D: Single read m_D write m_D;
     end;
 
     PQRPlane = ^TQRPlane;
 
+    {$REGION 'Documentation'}
     {**
-    * 4x4 matrix
-    *}
+     4x4 matrix
+    }
+    {$ENDREGION}
     TQRMatrix4x4 = record
         private
-            m_Table: array[0..3] of array [0..3] of Single; // 4x4 matrix array
+            m_Table: array[0..3] of array [0..3] of Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets matrix item at index
-            *@param i - index
-            *@return item
-            *@throw exception if index is out of bounds
-            *}
-            function  GetItem(i: NativeInt): Single; overload; inline;
+             Gets matrix item at index
+             @param(index Item index)
+             @return(The item)
+             @raises(Exception if index is out of bounds)
+            }
+            {$ENDREGION}
+            function GetItem(index: NativeInt): Single; overload; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets matrix item at index
-            *@param i - index
-            *@param value - value to set
-            *@throw exception if index is out of bounds
-            *}
-            procedure SetItem(i: NativeInt; value: Single); overload; inline;
+             Sets matrix item at index
+             @param(index Item index)
+             @param(value The value to set)
+             @raises(Exception if index is out of bounds)
+            }
+            {$ENDREGION}
+            procedure SetItem(index: NativeInt; value: Single); overload; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets matrix item from table
-            *@param x - table x position
-            *@param y - table y position
-            *@return item
-            *@throw exception if positions are out of bounds
-            *}
-            function  GetTableItem(x, y: NativeInt): Single; overload; inline;
+             Gets matrix item from table
+             @param(x Table x position)
+             @param(y Table y position)
+             @return(The item)
+             @raises(Exception if positions are out of bounds)
+            }
+            {$ENDREGION}
+            function GetTableItem(x, y: NativeInt): Single; overload; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets matrix item to table
-            *@param x - table x position
-            *@param y - table y position
-            *@param value - value to set
-            *@throw exception if positions are out of bounds
-            *}
+             Sets matrix item to table
+             @param(x Table x position)
+             @param(y Table y position)
+             @param(value Value to set)
+             @raises(Exception if positions are out of bounds)
+            }
+            {$ENDREGION}
             procedure SetTableItem(x, y: NativeInt; value: Single); overload; inline;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param _11 - [0][0] matrix table value
-            *@param _12 - [1][0] matrix table value
-            *@param _13 - [2][0] matrix table value
-            *@param _14 - [3][0] matrix table value
-            *@param _21 - [0][1] matrix table value
-            *@param _22 - [1][1] matrix table value
-            *@param _23 - [2][1] matrix table value
-            *@param _24 - [3][1] matrix table value
-            *@param _31 - [0][2] matrix table value
-            *@param _32 - [1][2] matrix table value
-            *@param _33 - [2][2] matrix table value
-            *@param _34 - [3][2] matrix table value
-            *@param _41 - [0][3] matrix table value
-            *@param _42 - [1][3] matrix table value
-            *@param _43 - [2][3] matrix table value
-            *@param _44 - [3][3] matrix table value
-            *}
+             Constructor
+             @param(_11 [0][0] matrix table value)
+             @param(_12 [1][0] matrix table value)
+             @param(_13 [2][0] matrix table value)
+             @param(_14 [3][0] matrix table value)
+             @param(_21 [0][1] matrix table value)
+             @param(_22 [1][1] matrix table value)
+             @param(_23 [2][1] matrix table value)
+             @param(_24 [3][1] matrix table value)
+             @param(_31 [0][2] matrix table value)
+             @param(_32 [1][2] matrix table value)
+             @param(_33 [2][2] matrix table value)
+             @param(_34 [3][2] matrix table value)
+             @param(_41 [0][3] matrix table value)
+             @param(_42 [1][3] matrix table value)
+             @param(_43 [2][3] matrix table value)
+             @param(_44 [3][3] matrix table value)
+            }
+            {$ENDREGION}
             constructor Create(const _11, _12, _13, _14,
                                      _21, _22, _23, _24,
                                      _31, _32, _33, _34,
                                      _41, _42, _43, _44: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param other - other matrix to copy from
-            *}
+             Copy constructor
+             @param(other Other matrix to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const other: TQRMatrix4x4); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets record initialized with default values
-            *@return record initialized with default values
-            *}
+             Gets record initialized with default values
+             @return(Record initialized with default values)
+            }
+            {$ENDREGION}
             class function GetDefault: TQRMatrix4x4; inline; static;
 
-            { Basic functions }
-            procedure Assign(const other: TQRMatrix4x4);
-            function  IsEqual(const other: TQRMatrix4x4): Boolean;
-            function  Differs(const other: TQRMatrix4x4): Boolean; inline;
-
+            {$REGION 'Documentation'}
             {**
-            * Checks if matrix is an identity matrix
-            *@return true if matrix is an identity matrix, otherwise false
-            *}
+             Assigns (i.e. copies) the content from another matrix
+             @param(other Other matrix to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const other: TQRMatrix4x4);
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 matrices and determines if they are equal
+             @param(other Other matrix to compare with)
+             @return(@true if matrices are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const other: TQRMatrix4x4): Boolean;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 matrices and determines if they are different
+             @param(other Other matrix to compare with)
+             @return(@true if matrices differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const other: TQRMatrix4x4): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Checks if matrix is an identity matrix
+             @return(@true if matrix is an identity matrix, otherwise @false)
+            }
+            {$ENDREGION}
             function IsIdentity: Boolean; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets matrix determinant
-            *@return matrix determinant
-            *}
+             Gets matrix determinant
+             @return(Matrix determinant)
+            }
+            {$ENDREGION}
             function Determinant: Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Inverses the matrix
-            *@return inverse of the matrix
-            *}
+             Inverses the matrix
+             @param(determinant Determinant)
+             @return(Inverse of the matrix)
+            }
+            {$ENDREGION}
             function Inverse(out determinant: Single): TQRMatrix4x4;
 
+            {$REGION 'Documentation'}
             {**
-            * Multiplies matrix by another matrix
-            *@param other - other matrix to multiply with
-            *@return multiplied resulting matrix
-            *}
+             Multiplies matrix by another matrix
+             @param(other Other matrix to multiply with)
+             @return(Multiplied resulting matrix)
+            }
+            {$ENDREGION}
             function Multiply(const other: TQRMatrix4x4): TQRMatrix4x4;
 
+            {$REGION 'Documentation'}
             {**
-            * Translates matrix
-            *@param t - translation vector
-            *@return copy of translated matrix
-            *}
+             Translates matrix
+             @param(t Translation vector)
+             @return(Copy of translated matrix)
+            }
+            {$ENDREGION}
             function Translate(const t: TQRVector3D): TQRMatrix4x4; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Rotates matrix
-            *@param angle - rotation angle in radians
-            *@param r - rotation direction (e.g. [0.0f, 0.0f, 1.0f] for a z-axis rotation)
-            *@return copy of rotated matrix
-            *@note rotation direction vector should be normalized before calling
-            *      this function
-            *}
+             Rotates matrix
+             @param(angle Rotation angle in radians)
+             @param(r Rotation direction (e.g. [0.0, 0.0, 1.0] for a z-axis rotation))
+             @return(Copy of rotated matrix)
+             @br @bold(NOTE) Rotation direction vector should be normalized before calling this
+                             function
+            }
+            {$ENDREGION}
             function Rotate(const angle: Single; const r: TQRVector3D): TQRMatrix4x4; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Scales matrix
-            *@param s - scale vector
-            *@return copy of scaled matrix
-            *}
+             Scales matrix
+             @param(s Scale vector)
+             @return(Copy of scaled matrix)
+            }
+            {$ENDREGION}
             function Scale(const s: TQRVector3D): TQRMatrix4x4; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Swaps matrix lines and columns
-            *@return swapped matrix
-            *}
+             Swaps matrix lines and columns
+             @return(Swapped matrix)
+            }
+            {$ENDREGION}
             function Swap: TQRMatrix4x4; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Applies a transformation matrix to a vector
-            *@param vector - vector to transform
-            *@param matrix - transformation matrix
-            *@return transformed vector
-            *}
+             Transforms a vector by applying the matrix
+             @param(vector Vector to transform)
+             @return(Transformed vector)
+            }
+            {$ENDREGION}
             function Transform(const vector: TQRVector3D): TQRVector3D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets table pointer
-            *@return pointer
-            *}
+             Gets the matrix table pointer
+             @return(The matrix table pointer)
+            }
+            {$ENDREGION}
             function GetPtr: PSingle; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets an identity matrix
-            *@return identity matrix
-            *}
+             Gets an identity matrix
+             @return(Identity matrix)
+            }
+            {$ENDREGION}
             class function Identity: TQRMatrix4x4; static; inline;
 
-            { Properties }
-            property Item[i: NativeInt]:     Single read GetItem      write SetItem;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets a matrix item at index
+            }
+            {$ENDREGION}
+            property Item[index: NativeInt]: Single read GetItem write SetItem;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets a matrix item in table
+            }
+            {$ENDREGION}
             property Table[x, y: NativeInt]: Single read GetTableItem write SetTableItem;
-            property Ptr: PSingle                   read GetPtr;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the matrix table pointer
+            }
+            {$ENDREGION}
+            property Ptr: PSingle read GetPtr;
     end;
 
     PQRMatrix4x4 = ^TQRMatrix4x4;
 
+    {$REGION 'Documentation'}
     {**
-    * Quaternion
-    *}
+     Quaternion
+    }
+    {$ENDREGION}
     TQRQuaternion = record
         private
-            m_X: Single; // x coordinate for the quaternion
-            m_Y: Single; // y coordinate for the quaternion
-            m_Z: Single; // z coordinate for the quaternion
-            m_W: Single; // w coordinate for the quaternion
+            m_X: Single;
+            m_Y: Single;
+            m_Z: Single;
+            m_W: Single;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param x - vector x value
-            *@param y - vector y value
-            *@param z - vector z value
-            *@param w - vector w value
-            *}
+             Constructor
+             @param(x Vector x value)
+             @param(y Vector y value)
+             @param(z Vector z value)
+             @param(w Vector w value)
+            }
+            {$ENDREGION}
             constructor Create(x, y, z, w: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor that creates a quaternion from an axis and an angle
-            *@param vector - vector representing axis
-            *@param angle - angle in radians
-            *}
+             Constructor that creates a quaternion from an axis and an angle
+             @param(vector Vector representing axis)
+             @param(angle Angle in radians)
+            }
+            {$ENDREGION}
             constructor Create(const vector: TQRVector3D; angle: Single); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor that creates a quaternion from a 4x4 matrix
-            *@param matrix - matrix
-            *}
+             Constructor that creates a quaternion from a 4x4 matrix
+             @param(matrix Matrix)
+            }
+            {$ENDREGION}
             constructor Create(const matrix: TQRMatrix4x4); overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Copy constructor
-            *@param other - other quaternion to copy from
-            *}
+             Copy constructor
+             @param(other Other quaternion to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const other: TQRQuaternion); overload;
 
-            { Basic functions }
-            procedure Assign(const other: TQRQuaternion);                                inline;
-            function  Add(const value: Single): TQRQuaternion;                 overload; inline;
-            function  Add(const other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Invert: TQRQuaternion;                                   overload; inline;
-            function  Sub(const value: Single): TQRQuaternion;                 overload; inline;
-            function  Sub(const other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Mul(const value: Single): TQRQuaternion;                 overload; inline;
-            function  Mul(const other: TQRQuaternion): TQRQuaternion;          overload; inline;
-            function  Divide(const value: Single): TQRQuaternion;              overload; inline;
-            function  Divide(const other: TQRQuaternion): TQRQuaternion;       overload; inline;
-            function  AddAndAssign(const value: Single): TQRQuaternion;        overload; inline;
-            function  AddAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  SubAndAssign(const value: Single): TQRQuaternion;        overload; inline;
-            function  SubAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  MulAndAssign(const value: Single): TQRQuaternion;        overload; inline;
-            function  MulAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  DivAndAssign(const value: Single): TQRQuaternion;        overload; inline;
-            function  DivAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
-            function  IsEqual(const other: TQRQuaternion): Boolean;                      inline;
-            function  Differs(const other: TQRQuaternion): Boolean;                      inline;
-
+            {$REGION 'Documentation'}
             {**
-            * Calculates the norm of the quaternion
-            *@return the norm of the quaternion
-            *}
+             Assigns (i.e. copies) the content from another quaternion
+             @param(other Other quaternion to copy from)
+            }
+            {$ENDREGION}
+            procedure Assign(const other: TQRQuaternion); inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 quaternions and determines if they are equal
+             @param(other Other quaternion to compare with)
+             @return(@true if quaternion are equal, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEqual(const other: TQRQuaternion): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Compares the content of 2 quaternions and determines if they are different
+             @param(other Other quaternion to compare with)
+             @return(@true if quaternions differ, otherwise @false)
+            }
+            {$ENDREGION}
+            function Differs(const other: TQRQuaternion): Boolean; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Inverts the quaternion
+             @return(Inverted quaternion)
+            }
+            {$ENDREGION}
+            function Invert: TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value to this quaternion
+             @param(value Value to add to quaternion)
+             @return(Added quaternion)
+            }
+            {$ENDREGION}
+            function Add(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another quaternion to this quaternion
+             @param(other Other quaternion to add to this quaternion)
+             @return(Added quaternion)
+            }
+            {$ENDREGION}
+            function Add(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value to this quaternion
+             @param(value Value to subtract to this quaternion)
+             @return(Subtracted quaternion)
+            }
+            {$ENDREGION}
+            function Sub(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts to this quaternion the contents of another quaternion
+             @param(other Other quaternion to subtract to this quaternion)
+             @return(Subtracted quaternion)
+            }
+            {$ENDREGION}
+            function Sub(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies a value to this quaternion
+             @param(value Value to multiply to this quaternion)
+             @return(Multiplied quaternion)
+            }
+            {$ENDREGION}
+            function Mul(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another quaternion to this quaternion
+             @param(other Other quaternion to multiply to this quaternion)
+             @return(Multiplied quaternion)
+            }
+            {$ENDREGION}
+            function Mul(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value to this quaternion
+             @param(value Value to divide to this quaternion)
+             @return(Divided quaternion)
+            }
+            {$ENDREGION}
+            function Divide(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another quaternion to this quaternion
+             @param(other Other quaternion to divide to this quaternion)
+             @return(Divided quaternion)
+            }
+            {$ENDREGION}
+            function Divide(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a value and assigns the result to this quaternion
+             @param(value Value to add to quaternion)
+             @return(Added quaternion)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds the content of another quaternion and assigns the result to this quaternion
+             @param(other Other quaternion to add to this quaternion)
+             @return(Added quaternion)
+            }
+            {$ENDREGION}
+            function AddAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts a value and assigns the result to this quaternion
+             @param(value Value to subtract to quaternion)
+             @return(Subtracted quaternion)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Subtracts the content of another quaternion and assigns the result to this quaternion
+             @param(other Other quaternion to subtract to this quaternion)
+             @return(Subtracted quaternion)
+            }
+            {$ENDREGION}
+            function SubAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multilpies a value and assigns the result to this quaternion
+             @param(value Value to multiply to quaternion)
+             @return(Multiplied quaternion)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Multiplies the content of another quaternion and assigns the result to this quaternion
+             @param(other Other quaternion to multiply to this quaternion)
+             @return(Multiplied quaternion)
+            }
+            {$ENDREGION}
+            function MulAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides a value and assigns the result to this quaternion
+             @param(value Value to divide to quaternion)
+             @return(Divided quaternion)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const value: Single): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Divides the content of another quaternion and assigns the result to this quaternion
+             @param(other Other quaternion to divide to this quaternion)
+             @return(Divided quaternion)
+            }
+            {$ENDREGION}
+            function DivAndAssign(const other: TQRQuaternion): TQRQuaternion; overload; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Calculates the norm of the quaternion
+             @return(The norm of the quaternion)
+            }
+            {$ENDREGION}
             function Norm: Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the quaternion length
-            *@return the quaternion length
-            *}
+             Gets the quaternion length
+             @return(The quaternion length)
+            }
+            {$ENDREGION}
             function Length: Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Normalizes the vector
-            *@return normalized vector
-            *}
+             Normalizes the quaternion
+             @return(Normalized quaternion)
+            }
+            {$ENDREGION}
             function Normalize: TQRQuaternion; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates the dot product between 2 quaternions
-            *@param q - quaternion with which dot product is calculated
-            *@return dot product
-            *}
+             Calculates the dot product between 2 quaternions
+             @param(q Quaternion with which dot product should be calculated)
+             @return(Dot product)
+            }
+            {$ENDREGION}
             function Dot(const q: TQRQuaternion): Single; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Scales the quaternion
-            *@param s - scale factor to apply
-            *@return scaled quaternion
-            *}
+             Scales the quaternion
+             @param(s Scale factor to apply)
+             @return(Scaled quaternion)
+            }
+            {$ENDREGION}
             function Scale(s: Single): TQRQuaternion; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Conjugates quaternion
-            *@return the conjugate of the quaternion
-            *}
+             Conjugates quaternion
+             @return(The conjugated quaternion)
+            }
+            {$ENDREGION}
             function Conjugate: TQRQuaternion; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Inverse quaternion
-            *@return inverted quaternion
-            *}
+             Inverse quaternion
+             @return(Inverted quaternion)
+            }
+            {$ENDREGION}
             function Inverse: TQRQuaternion; inline;
 
+            {$REGION 'Documentation'}
             {**
             * Gets the spherical linear interpolated quaternion between 2 quaternions
-            *@param other - other quaternion to interpolate with
-            *@param p - interpolation position, in percent (between 0.0f and 1.0f)
-            *@return the spherical linear interpolated quaternion
-            *}
+             @param(other Other quaternion to interpolate with)
+             @param(p Interpolation position, in percent (between 0.0 and 1.0))
+             @return(The spherical linear interpolated quaternion)
+            }
+            {$ENDREGION}
             function Slerp(const other: TQRQuaternion; p: Single): TQRQuaternion; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Rotates a vector by the quaternion
-            *@param vector - vector to rotate
-            *@return rotated vector
-            *}
+             Rotates a vector by the quaternion
+             @param(vector Vector to rotate)
+             @return(Rotated vector)
+            }
+            {$ENDREGION}
             function Rotate(const vector: TQRVector3D): TQRVector3D; inline;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets matrix from quaternion
-            *@return matrix
-            *}
+             Gets matrix from quaternion
+             @return(The matrix)
+            }
+            {$ENDREGION}
             function GetMatrix: TQRMatrix4x4; inline;
 
-
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the quaternion x value
+            }
+            {$ENDREGION}
             property X: Single read m_X write m_X;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the quaternion y value
+            }
+            {$ENDREGION}
             property Y: Single read m_Y write m_Y;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the quaternion z value
+            }
+            {$ENDREGION}
             property Z: Single read m_Z write m_Z;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the quaternion w value
+            }
+            {$ENDREGION}
             property W: Single read m_W write m_W;
     end;
 
     PQRQuaternion = ^TQRQuaternion;
 
+    {$REGION 'Documentation'}
     {**
-    * Euclidean ray
-    *}
+     Euclidean ray
+    }
+    {$ENDREGION}
     TQRRay = class
-        protected
+        private
             m_Pos:    TQRVector3D;
             m_Dir:    TQRVector3D;
             m_InvDir: TQRVector3D;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets position
-            *@return position
-            *}
+             Gets position
+             @return(The position)
+            }
+            {$ENDREGION}
             function GetPos: PQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets position
-            *@param pPos - position
-            *}
+             Sets position
+             @param(pPos Position)
+            }
+            {$ENDREGION}
             procedure SetPos(const pPos: PQRVector3D); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets direction
-            *@return direction
-            *}
+             Gets direction
+             @return(The direction)
+            }
+            {$ENDREGION}
             function GetDir: PQRVector3D; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets direction
-            *@param pDir - direction
-            *}
+             Sets direction
+             @param(pDir Direction)
+            }
+            {$ENDREGION}
             procedure SetDir(const pDir: PQRVector3D); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets inverted direction
-            *@return inverted direction
-            *}
+             Gets inverted direction
+             @return(Inverted direction)
+            }
+            {$ENDREGION}
             function GetInvDir: PQRVector3D; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOther - other ray to copy from
-            *}
+             Copy constructor
+             @param(pOther Other ray to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const pOther: TQRRay); overload; virtual;
 
-            { Properties }
-            property Pos:    PQRVector3D read GetPos write SetPos;
-            property Dir:    PQRVector3D read GetDir write SetDir;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the ray position
+            }
+            {$ENDREGION}
+            property Pos: PQRVector3D read GetPos write SetPos;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the ray direction
+            }
+            {$ENDREGION}
+            property Dir: PQRVector3D read GetDir write SetDir;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the inverse of the ray direction
+            }
+            {$ENDREGION}
             property InvDir: PQRVector3D read GetInvDir;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Class representing a polygon
-    *}
+     Polygon
+    }
+    {$ENDREGION}
     TQRPolygon = record
         private
             m_Vertex: array[0..2] of TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a vector is between start and end limits
-            *@param value - value to check
-            *@param vStart - start limit
-            *@param vEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if value is between limits, otherwise false
-            *}
+             Checks if a vector is between start and end limits
+             @param(value Value to check)
+             @param(vStart Start limit)
+             @param(vEnd End limit)
+             @param(tolerance Tolerance to apply during calculation)
+             @return(@true if value is between limits, otherwise @false)
+            }
+            {$ENDREGION}
             function IsBetween(const value, vStart, vEnd: TQRVector3D;
                                                tolerance: Single): Boolean; overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a value is between start and end limits
-            *@param value - value to check
-            *@param lStart - start limit
-            *@param lEnd - end limit
-            *@param tolerance - tolerance
-            *@return true if value is between limits, otherwise false
-            *}
+             Checks if a value is between start and end limits
+             @param(value Value to check)
+             @param(lStart Start limit)
+             @param(lEnd End limit)
+             @param(tolerance Tolerance to apply during calculation)
+             @return(@true if value is between limits, otherwise @false)
+            }
+            {$ENDREGION}
             function IsBetween(const value, lStart, lEnd, tolerance: Single): Boolean; overload;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param vertex1 - first vertex of the polygon
-            *@param vertex2 - second vertex of the polygon
-            *@param vertex3 - third vertex of the polygon
-            *}
+             Constructor
+             @param(vertex1 First vertex of the polygon)
+             @param(vertex2 Second vertex of the polygon)
+             @param(vertex3 Third vertex of the polygon)
+            }
+            {$ENDREGION}
             constructor Create(const vertex1, vertex2, vertex3: TQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets vertex at index
-            *@param index - vertex index
-            *@return corresponding vertex, nil if not found
-            *}
-             function GetVertex(index: Byte): TQRVector3D;
+             Gets vertex at index
+             @param(index Vertex index)
+             @return(corresponding vertex, @nil if not found)
+            }
+            {$ENDREGION}
+            function GetVertex(index: Byte): TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets vertex
-            *@param index - vertex index to set
-            *@param vertex - vertex value
-            *}
+             Sets vertex
+             @param(index Vertex index to set)
+             @param(vertex Vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex(index: Byte; const vertex: TQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets first polygon vertex
-            *@return first polygon vertex
-            *}
+             Gets first polygon vertex
+             @return(First polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex1: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets first polygon vertex
-            *@param pVertex - first polygon vertex value
-            *}
+             Sets first polygon vertex
+             @param(pVertex First polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex1(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets second polygon vertex
-            *@return second polygon vertex
-            *}
+             Gets second polygon vertex
+             @return(Second polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex2: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets second polygon vertex
-            *@param pVertex - second polygon vertex value
-            *}
+             Sets second polygon vertex
+             @param(pVertex Second polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex2(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets third polygon vertex
-            *@return third polygon vertex
-            *}
+             Gets third polygon vertex
+             @return(Third polygon vertex)
+            }
+            {$ENDREGION}
             function GetVertex3: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets third polygon vertex
-            *@param pVertex - third polygon vertex value
-            *}
+             Sets third polygon vertex
+             @param(pVertex Third polygon vertex value)
+            }
+            {$ENDREGION}
             procedure SetVertex3(const pVertex: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Creates and returns a clone of the polygon
-            *@return a clone of the polygon
-            *@note The returned polygon should be deleted when useless
-            *}
+             Creates and returns a clone of the polygon
+             @return(A clone of the polygon)
+             @br @blod(NOTE) The returned polygon should be deleted when useless
+            }
+            {$ENDREGION}
             function GetClone: TQRPolygon;
 
+            {$REGION 'Documentation'}
             {**
-            * Applies the given matrix to the polygon
-            *@param matrix - matrix to apply
-            *@return transformed polygon
-            *@note The returned polygon should be deleted when useless
-            *}
+             Applies the given matrix to the polygon
+             @param(matrix Matrix to apply)
+             @return(Transformed polygon)
+             @br @bold(NOTE) The returned polygon should be deleted when useless
+            }
+            {$ENDREGION}
             function ApplyMatrix(const matrix: TQRMatrix4x4): TQRPolygon;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the polygon plane
-            *@return the polygon plane
-            *}
+             Gets the polygon plane
+             @return(The polygon plane)
+            }
+            {$ENDREGION}
             function GetPlane: TQRPlane;
 
+            {$REGION 'Documentation'}
             {**
-            * Calculates and returns the center point of the polygon
-            *@return the center point of the polygon
-            *}
+             Calculates and returns the center point of the polygon
+             @return(The center point of the polygon)
+            }
+            {$ENDREGION}
             function GetCenter: TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a point is inside polygon
-            *@param x - point x coordinate
-            *@param y - point y coordinate
-            *@param z - point z coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
+             Checks if a point is inside polygon
+             @param(x Point x coordinate)
+             @param(y Point y coordinate)
+             @param(z Point z coordinate)
+             @return(@true if point is inside polygon, otherwise @false)
+            }
+            {$ENDREGION}
             function Inside(const x, y, z: Single): Boolean; overload;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if a point is inside polygon
-            *@param point - point coordinate
-            *@return true if point is inside polygon, otherwise false
-            *}
+             Checks if a point is inside polygon
+             @param(point Point coordinate)
+             @return(@true if point is inside polygon, otherwise @false)
+            }
+            {$ENDREGION}
             function Inside(const point: TQRVector3D): Boolean; overload;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the first polygon vertex
+            }
+            {$ENDREGION}
             property Vertex1: PQRVector3D read GetVertex1 write SetVertex1;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the second polygon vertex
+            }
+            {$ENDREGION}
             property Vertex2: PQRVector3D read GetVertex2 write SetVertex2;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the third polygon vertex
+            }
+            {$ENDREGION}
             property Vertex3: PQRVector3D read GetVertex3 write SetVertex3;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Polygon list
-    *}
+     Polygon list
+    }
+    {$ENDREGION}
     TQRPolygons = array of TQRPolygon;
     PQRPolygons = ^TQRPolygons;
 
+    {$REGION 'Documentation'}
     {**
-    * 2D circle
-    *}
+     2D circle
+    }
+    {$ENDREGION}
     TQRCircle = record
         private
             m_Pos:    TQRVector2D;
             m_Radius: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets circle center pos
-            *@return sphere center pos
-            *}
+             Gets the circle center position
+             @return(The circle center position)
+            }
+            {$ENDREGION}
             function GetPos: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets circle center pos
-            *@param pPos - sphere center pos
-            *}
+             Sets the circle center position
+             @param(pPos The circle center position)
+            }
+            {$ENDREGION}
             procedure SetPos(const pPos: PQRVector2D);
 
+        // Properties
         public
-            { Properties }
-            property Pos:    PQRVector2D read GetPos   write SetPos;
-            property Radius: Single      read m_Radius write m_Radius;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the circle center position
+            }
+            {$ENDREGION}
+            property Pos: PQRVector2D read GetPos write SetPos;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the circle radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D sphere
-    *}
+     3D sphere
+    }
+    {$ENDREGION}
     TQRSphere = record
         private
             m_Pos:    TQRVector3D;
             m_Radius: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets sphere center pos
-            *@return sphere center pos
-            *}
+             Gets the sphere center position
+             @return(The sphere center position)
+            }
+            {$ENDREGION}
             function GetPos: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets sphere center pos
-            *@param pPos - sphere center pos
-            *}
+             Sets the sphere center position
+             @param(pPos The sphere center position)
+            }
+            {$ENDREGION}
             procedure SetPos(const pPos: PQRVector3D);
 
+        // Properties
         public
-            { Properties }
-            property Pos:    PQRVector3D read GetPos   write SetPos;
-            property Radius: Single      read m_Radius write m_Radius;
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere center position
+            }
+            {$ENDREGION}
+            property Pos: PQRVector3D read GetPos write SetPos;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the sphere radius
+            }
+            {$ENDREGION}
+            property Radius: Single read m_Radius write m_Radius;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 2D rectangle
-    *}
+     2D rectangle
+    }
+    {$ENDREGION}
     TQRRect = record
         private
             m_Min: TQRVector2D;
             m_Max: TQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets rect min edge
-            *@return box min edge
-            *}
+             Gets the rectangle min edge
+             @return(The rectangle min edge)
+            }
+            {$ENDREGION}
             function GetMin: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rect min edge
-            *@param pValue - box min edge
-            *}
+             Sets the rectangle min edge
+             @param(pValue The rectangle min edge)
+            }
+            {$ENDREGION}
             procedure SetMin(const pValue: PQRVector2D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets rect max edge
-            *@return box max edge
-            *}
+             Gets the rectangle max edge
+             @return(The rectangle maximum edge)
+            }
+            {$ENDREGION}
             function GetMax: PQRVector2D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets rect max edge
-            *@param pValue - box max edge
-            *}
+             Sets the rectangle max edge
+             @param(pValue The rectangle max edge)
+            }
+            {$ENDREGION}
             procedure SetMax(const pValue: PQRVector2D);
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param x - rect x position, i.e. the position of the left edge
-            *@param y - rect y position, i.e. the position of the top edge
-            *@param width - width
-            *@param height - height
-            *}
+             Constructor
+             @param(x Rect x position, i.e. the position of the left edge)
+             @param(y Rect y position, i.e. the position of the top edge)
+             @param(width Width)
+             @param(height Height)
+            }
+            {$ENDREGION}
             constructor Create(const x, y, width, height: Single);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets width
-            *@return width
-            *}
+             Gets width
+             @return(Width)
+            }
+            {$ENDREGION}
             function GetWidth: Single;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets height
-            *@return height
-            *}
+             Gets height
+             @return(Height)
+            }
+            {$ENDREGION}
             function GetHeight: Single;
 
-            { Properties }
-            property Min:    PQRVector2D read GetMin write SetMin;
-            property Max:    PQRVector2D read GetMax write SetMax;
-            property Width:  Single      read GetWidth;
-            property Height: Single      read GetHeight;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rectangle min edge
+            }
+            {$ENDREGION}
+            property Min: PQRVector2D read GetMin write SetMin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the rectangle max edge
+            }
+            {$ENDREGION}
+            property Max: PQRVector2D read GetMax write SetMax;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the rectangle width
+            }
+            {$ENDREGION}
+            property Width: Single read GetWidth;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the rectangle height
+            }
+            {$ENDREGION}
+            property Height: Single read GetHeight;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * 3D aligned-axis box
-    *}
+     3D aligned-axis box
+    }
+    {$ENDREGION}
     TQRBox = record
         private
             m_Min: TQRVector3D;
             m_Max: TQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets box min edge
-            *@return box min edge
-            *}
+             Gets box min edge
+             @return(The box min edge)
+            }
+            {$ENDREGION}
             function GetMin: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets box min edge
-            *@param pValue - box min edge
-            *}
+             Sets box min edge
+             @param(pValue The box min edge)
+            }
+            {$ENDREGION}
             procedure SetMin(const pValue: PQRVector3D);
 
+            {$REGION 'Documentation'}
             {**
-            * Gets box max edge
-            *@return box max edge
-            *}
+             Gets box max edge
+             @return(The box max edge)
+            }
+            {$ENDREGION}
             function GetMax: PQRVector3D;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets box max edge
-            *@param pValue - box max edge
-            *}
+             Sets box max edge
+             @param(pValue The box max edge)
+            }
+            {$ENDREGION}
             procedure SetMax(const pValue: PQRVector3D);
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Cuts box on the longest axis
-            *@param[in, out] leftBox - resulting left box
-            *@param[in, out] rightBox - resulting right box
-            *}
+             Cuts the box on the longest axis
+             @param(leftBox @bold([in, out]) Resulting left box)
+             @param(rightBox @bold([in, out]) Resulting right box)
+            }
+            {$ENDREGION}
             procedure Cut(var leftBox: TQRBox; var rightBox: TQRBox);
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box min edge
+            }
+            {$ENDREGION}
             property Min: PQRVector3D read GetMin write SetMin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the box max edge
+            }
+            {$ENDREGION}
             property Max: PQRVector3D read GetMax write SetMax;
     end;
 
@@ -961,6 +1900,21 @@ begin
     m_Y := other.m_Y;
 end;
 //--------------------------------------------------------------------------------------------------
+function TQRVector2D.IsEqual(const other: TQRVector2D): Boolean;
+begin
+    Result := ((m_X = other.m_X) and (m_Y = other.m_Y));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVector2D.Differs(const other: TQRVector2D): Boolean;
+begin
+    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVector2D.Invert: TQRVector2D;
+begin
+    result := TQRVector2D.Create(-m_X, -m_Y);
+end;
+//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Add(const value: Single): TQRVector2D;
 begin
     result := TQRVector2D.Create(m_X + value, m_Y + value);
@@ -969,11 +1923,6 @@ end;
 function TQRVector2D.Add(const other: TQRVector2D): TQRVector2D;
 begin
     result := TQRVector2D.Create(m_X + other.m_X, m_Y + other.m_Y);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRVector2D.Invert: TQRVector2D;
-begin
-    result := TQRVector2D.Create(-m_X, -m_Y);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVector2D.Sub(const value: Single): TQRVector2D;
@@ -1088,16 +2037,6 @@ begin
     Result := Self;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector2D.IsEqual(const other: TQRVector2D): Boolean;
-begin
-    Result := ((m_X = other.m_X) and (m_Y = other.m_Y));
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRVector2D.Differs(const other: TQRVector2D): Boolean;
-begin
-    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y));
-end;
-//--------------------------------------------------------------------------------------------------
 function TQRVector2D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y));
@@ -1167,6 +2106,21 @@ begin
     m_Z := other.m_Z;
 end;
 //--------------------------------------------------------------------------------------------------
+function TQRVector3D.IsEqual(const other: TQRVector3D): Boolean;
+begin
+    Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVector3D.Differs(const other: TQRVector3D): Boolean;
+begin
+    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVector3D.Invert: TQRVector3D;
+begin
+    Result := TQRVector3D.Create(-m_X, -m_Y, -m_Z);
+end;
+//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Add(const value: Single): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X + value, m_Y + value, m_Z + value);
@@ -1175,11 +2129,6 @@ end;
 function TQRVector3D.Add(const other: TQRVector3D): TQRVector3D;
 begin
     Result := TQRVector3D.Create(m_X + other.m_X, m_Y + other.m_Y, m_Z + other.m_Z);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRVector3D.Invert: TQRVector3D;
-begin
-    Result := TQRVector3D.Create(-m_X, -m_Y, -m_Z);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVector3D.Sub(const value: Single): TQRVector3D;
@@ -1308,16 +2257,6 @@ begin
     Result := Self;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVector3D.IsEqual(const other: TQRVector3D): Boolean;
-begin
-    Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z));
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRVector3D.Differs(const other: TQRVector3D): Boolean;
-begin
-    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z));
-end;
-//--------------------------------------------------------------------------------------------------
 function TQRVector3D.Length: Single;
 begin
     Result := sqrt((m_X * m_X) + (m_Y * m_Y) + (m_Z * m_Z));
@@ -1391,11 +2330,6 @@ begin
     m_D := other.m_D;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPlane.Invert: TQRPlane;
-begin
-    Result := TQRPlane.Create(-m_A, -m_B, -m_C, -m_D);
-end;
-//--------------------------------------------------------------------------------------------------
 function TQRPlane.IsEqual(const other: TQRPlane): Boolean;
 begin
     Result := ((m_A = other.m_A) and (m_B = other.m_B) and (m_C = other.m_C) and (m_D = other.m_D));
@@ -1404,6 +2338,11 @@ end;
 function TQRPlane.Differs(const other: TQRPlane): Boolean;
 begin
     Result := ((m_A <> other.m_A) or (m_B <> other.m_B) or (m_C <> other.m_C) or (m_D <> other.m_D));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRPlane.Invert: TQRPlane;
+begin
+    Result := TQRPlane.Create(-m_A, -m_B, -m_C, -m_D);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRPlane.DistanceTo(const point: TQRVector3D): Single;
@@ -1417,17 +2356,17 @@ begin
     Result := n.Dot(point) + m_D;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPlane.IntersectLine(const v1, v2: TQRVector3D; out p: TQRVector3D): Boolean;
+function TQRPlane.IntersectLine(const v1, v2: TQRVector3D; out point: TQRVector3D): Boolean;
 var
     direction: TQRVector3D;
 begin
     // calculates the direction of the line
     direction := v2.Sub(v1);
 
-    Result := IntersectRay(v1, direction.Normalize, p);
+    Result := IntersectRay(v1, direction.Normalize, point);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRPlane.IntersectRay(const rp, rd: TQRVector3D; out p: TQRVector3D): Boolean;
+function TQRPlane.IntersectRay(const rp, rd: TQRVector3D; out point: TQRVector3D): Boolean;
 var
     normal:    TQRVector3D;
     dot, temp: Single;
@@ -1450,9 +2389,9 @@ begin
     temp := (m_D + normal.Dot(rp)) / dot;
 
     // calculates the intersection point
-    p := TQRVector3D.Create(rp.m_X - (temp * rd.m_X),
-                            rp.m_Y - (temp * rd.m_Y),
-                            rp.m_Z - (temp * rd.m_Z));
+    point := TQRVector3D.Create(rp.m_X - (temp * rd.m_X),
+                                rp.m_Y - (temp * rd.m_Y),
+                                rp.m_Z - (temp * rd.m_Z));
 
     Result := True;
 end;
@@ -1514,30 +2453,30 @@ begin
     Result := Identity;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.GetItem(i: NativeInt): Single;
+function TQRMatrix4x4.GetItem(index: NativeInt): Single;
 var
     x, y: NativeInt;
 begin
-    if (i > 15) then
+    if (index > 15) then
         raise Exception.Create('Index is out of bounds');
 
     // calculate x and y position from index
-    x := i mod 4;
-    y := i div 4;
+    x := index mod 4;
+    y := index div 4;
 
     Result := m_Table[x][y];
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMatrix4x4.SetItem(i: NativeInt; value: Single);
+procedure TQRMatrix4x4.SetItem(index: NativeInt; value: Single);
 var
     x, y: NativeInt;
 begin
-    if (i > 15) then
+    if (index > 15) then
         raise Exception.Create('Index is out of bounds');
 
     // calculate x and y position from index
-    x := i mod 4;
-    y := i div 4;
+    x := index mod 4;
+    y := index div 4;
 
     m_Table[x][y] := value;
 end;
@@ -1901,6 +2840,21 @@ begin
     m_W := other.m_W;
 end;
 //--------------------------------------------------------------------------------------------------
+function TQRQuaternion.IsEqual(const other: TQRQuaternion): Boolean;
+begin
+    Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z) and (m_W = other.m_W));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRQuaternion.Differs(const other: TQRQuaternion): Boolean;
+begin
+    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z) or (m_W <> other.m_W));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRQuaternion.Invert: TQRQuaternion;
+begin
+    Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, -m_W);
+end;
+//--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Add(const value: Single): TQRQuaternion;
 begin
     Result := TQRQuaternion.Create(m_X + value, m_Y + value, m_Z + value, m_W + value);
@@ -1912,11 +2866,6 @@ begin
                                    m_Y + other.m_Y,
                                    m_Z + other.m_Z,
                                    m_W + other.m_W);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Invert: TQRQuaternion;
-begin
-    Result := TQRQuaternion.Create(-m_X, -m_Y, -m_Z, -m_W);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Sub(const value: Single): TQRQuaternion;
@@ -2066,16 +3015,6 @@ begin
     m_W := m_W / other.m_W;
 
     Result := Self;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.IsEqual(const other: TQRQuaternion): Boolean;
-begin
-    Result := ((m_X = other.m_X) and (m_Y = other.m_Y) and (m_Z = other.m_Z) and (m_W = other.m_W));
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRQuaternion.Differs(const other: TQRQuaternion): Boolean;
-begin
-    Result := ((m_X <> other.m_X) or (m_Y <> other.m_Y) or (m_Z <> other.m_Z) or (m_W <> other.m_W));
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRQuaternion.Norm: Single;
@@ -2407,7 +3346,7 @@ begin
     nPToV3 := m_Vertex[2].Sub(point).Normalize;
 
     // calculate the angles using the dot product of each vectors. Limit range
-    // to values between -1.0f and 1.0f
+    // to values between -1.0 and 1.0
     a1 := Max(Min(nPToV1.Dot(nPToV2), 1.0), -1.0);
     a2 := Max(Min(nPToV2.Dot(nPToV3), 1.0), -1.0);
     a3 := Max(Min(nPToV3.Dot(nPToV1), 1.0), -1.0);

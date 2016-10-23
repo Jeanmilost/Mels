@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRModelRenderer -------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides a basic interface to implement a model renderer             *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRModelRenderer ------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a basic interface to implement a model renderer.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRModelRenderer;
 
 interface
@@ -16,31 +35,39 @@ uses System.SysUtils,
      UTQR3D;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Basic interface to implement a model renderer
-    *}
+     Basic interface to implement a model renderer
+    }
+    {$ENDREGION}
     TQRModelRenderer = class
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets orthogonal projection matrix (glOrtho() OpenGL equivalent)
-            *@param left - viewport left edge
-            *@param right - viewport right edge
-            *@param bottom - viewport bottom edge
-            *@param top - viewport top edge
-            *@param zNear - near clipping plane
-            *@param zFar - far clipping plane
-            *@return matrix
-            *}
+             Gets orthogonal projection matrix (glOrtho() OpenGL equivalent)
+             @param(left Viewport left edge)
+             @param(right Viewport right edge)
+             @param(bottom Viewport bottom edge)
+             @param(top Viewport top edge)
+             @param(zNear Near clipping plane)
+             @param(zFar Far clipping plane)
+             @return(Matrix)
+            }
+            {$ENDREGION}
             class function GetOrtho(left,
                                     right,
                                     bottom,
@@ -48,16 +75,18 @@ type
                                     zNear,
                                     zFar: Single): TQRMatrix4x4; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets frustum projection matrix (glFrustum() OpenGL equivalent)
-            *@param left - viewport left edge
-            *@param right - viewport right edge
-            *@param bottom - viewport bottom edge
-            *@param top - viewport top edge
-            *@param zNear - near clipping plane
-            *@param zFar - far clipping plane
-            *@return matrix
-            *}
+             Gets frustum projection matrix (glFrustum() OpenGL equivalent)
+             @param(left Viewport left edge)
+             @param(right Viewport right edge)
+             @param(bottom Viewport bottom edge)
+             @param(top Viewport top edge)
+             @param(zNear Near clipping plane)
+             @param(zFar Far clipping plane)
+             @return(Matrix)
+            }
+            {$ENDREGION}
             class function GetFrustum(left,
                                       right,
                                       bottom,
@@ -65,54 +94,62 @@ type
                                       zNear,
                                       zFar: Single): TQRMatrix4x4; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets projection (or camera) matrix
-            *@param fov - field of view, in degrees
-            *@param width - view width, generally the same as window width
-            *@param height - view height, generally the same as window height
-            *@param zNear - near plane clipping
-            *@param zFar - far plane clipping
-            *@return matrix
-            *@note This function returns the exactly same matrix as gluPerspective
-            *}
+             Gets projection (or camera) matrix
+             @param(fov Field of view, in degrees)
+             @param(width View width, generally the same as window width)
+             @param(height View height, generally the same as window height)
+             @param(zNear Near plane clipping)
+             @param(zFar Far plane clipping)
+             @return(Matrix)
+             @br @bold(NOTE) This function returns the exactly same matrix as gluPerspective
+            }
+            {$ENDREGION}
             class function GetProjection(fov,
                                          width,
                                          height,
                                          zNear,
                                          zFar: Single): TQRMatrix4x4; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates combined look at matrix (left hand system)
-            *@param position - eye (or camera) target position
-            *@param direction - eye (or camera) direction vector
-            *@param up - up vector direction
-            *@return look at matrix
-            *}
+             Creates combined look at matrix (left hand system)
+             @param(position Eye (or camera) target position)
+             @param(direction Eye (or camera) direction vector)
+             @param(up Up vector direction)
+             @return(Look at matrix)
+            }
+            {$ENDREGION}
             class function LookAtLH(const position,
                                          direction,
                                                 up: TQRVector3D): TQRMatrix4x4; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Creates combined look at matrix (right hand system)
-            *@param position - eye (or camera) target position
-            *@param direction - eye (or camera) direction vector
-            *@param up - up vector direction
-            *@return look at matrix
-            *}
+             Creates combined look at matrix (right hand system)
+             @param(position Eye (or camera) target position)
+             @param(direction Eye (or camera) direction vector)
+             @param(up Up vector direction)
+             @return(Look at matrix)
+            }
+            {$ENDREGION}
             class function LookAtRH(const position,
                                          direction,
                                                 up: TQRVector3D): TQRMatrix4x4; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh
-            *@param mesh - mesh to draw
-            *@param translation - translation to apply to mesh
-            *@param rotationX - rotation on x axis to apply to mesh
-            *@param rotationY - rotation on y axis to apply to mesh
-            *@param rotationZ - rotation on z axis to apply to mesh
-            *@param scale - scaling to apply to mesh
-            *@param textures - model textures
-            *}
+             Draws a mesh
+             @param(mesh Mesh to draw)
+             @param(translation Translation to apply to mesh)
+             @param(rotationX Rotation on x axis to apply to mesh)
+             @param(rotationY Rotation on y axis to apply to mesh)
+             @param(rotationZ Rotation on z axis to apply to mesh)
+             @param(scale Scaling to apply to mesh)
+             @param(textures Model textures)
+            }
+            {$ENDREGION}
             procedure Draw(var mesh: TQRMesh;
                   const translation: TQRVector3D;
                           rotationX,
@@ -121,39 +158,45 @@ type
                         const scale: TQRVector3D;
                      const textures: TQRTextures); overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh
-            *@param mesh - mesh to draw
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param textures - model textures
-            *}
+             Draws a mesh
+             @param(mesh Mesh to draw)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(textures Model textures)
+            }
+            {$ENDREGION}
             procedure Draw(var mesh: TQRMesh;
                   const modelMatrix: TQRMatrix4x4;
                      const textures: TQRTextures); overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh using shader
-            *@param mesh - mesh to draw
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param textures - model textures
-            *@param pShader - shader that will be used to draw the model
-            *@return true on success, otherwise false
-            *}
+             Draws a mesh using shader
+             @param(mesh Mesh to draw)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(textures Model textures)
+             @param(pShader Shader that will be used to draw the model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Draw(var mesh: TQRMesh;
                  const modelMatrix: TQRMatrix4x4;
                     const textures: TQRTextures;
                            pShader: TQRShader): Boolean; overload; virtual; abstract;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws a mesh using shader
-            *@param mesh - mesh to draw
-            *@param nextMesh - mesh to interpolate with
-            *@param modelMatrix - model matrix to apply to mesh
-            *@param interpolationFactor - interpolation factor
-            *@param textures - model textures
-            *@param pShader - shader that will be used to draw the model
-            *@return true on success, otherwise false
-            *}
+             Draws a mesh using shader
+             @param(mesh Mesh to draw)
+             @param(nextMesh Mesh to interpolate with)
+             @param(modelMatrix Model matrix to apply to mesh)
+             @param(interpolationFactor Interpolation factor)
+             @param(textures Model textures)
+             @param(pShader Shader that will be used to draw the model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Draw(var mesh: TQRMesh;
                     const nextMesh: TQRMesh;
                  const modelMatrix: TQRMatrix4x4;
@@ -278,8 +321,8 @@ var
     xAxis, yAxis, zAxis: TQRVector3D;
 begin
     // compute per axis transformations
-    zAxis := direction.Sub(position).Normalize();
-    xAxis := up.Cross(zAxis).Normalize();
+    zAxis := direction.Sub(position).Normalize;
+    xAxis := up.Cross(zAxis).Normalize;
     yAxis := zAxis.Cross(xAxis);
 
     // create look at matrix, translate eye position
@@ -294,8 +337,8 @@ var
     xAxis, yAxis, zAxis: TQRVector3D;
 begin
     // compute per axis transformations
-    zAxis := direction.Sub(position).Normalize();
-    xAxis := up.Cross(zAxis).Normalize();
+    zAxis := direction.Sub(position).Normalize;
+    xAxis := up.Cross(zAxis).Normalize;
     yAxis := zAxis.Cross(xAxis);
 
     // create look at matrix, translate eye position

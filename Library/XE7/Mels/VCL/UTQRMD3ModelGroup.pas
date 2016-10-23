@@ -1,12 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRMD3ModelGroup -------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module contains the classes used to load and link all MD3 files together.   *
- *               The MD3 package files (.pk3) are also supported                                  *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRMD3ModelGroup ------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to load and link all files composing the MD3 together.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRMD3ModelGroup;
 
 interface
@@ -31,38 +49,84 @@ uses System.Classes,
      Vcl.Graphics;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * MD3 model helper
-    *}
+     MD3 model helper
+    }
+    {$ENDREGION}
     TQRMD3Helper = class
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Builds name based on a template
-            *@param templateName - template name to build from
-            *@param prefixKeyword - prefix keyword to find and replace in template name
-            *@param prefix - prefix to use
-            *@return built name
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Builds name based on a template
+             @param(templateName Template name to build from)
+             @param(prefixKeyword Prefix keyword to find and replace in template name)
+             @param(prefix Prefix to use)
+             @return(Built name)
+            }
+            {$ENDREGION}
             class function BuildName(const templateName,
                                           prefixKeyword,
                                                  prefix: UnicodeString): UnicodeString; static;
 
+            {$REGION 'Documentation'}
             {**
-            * Builds tag name
-            *@param itemName - item name
-            *@return tag name, empty string if failed or on error
-            *}
+             Builds tag name
+             @param(itemName Item name)
+             @return(Tag name, empty string if failed or on error)
+            }
+            {$ENDREGION}
             class function BuildTagName(const itemName: UnicodeString): UnicodeString; static;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Standard MD3 animation set, as commonly defined in the Quake engine
-    *@note These gestures are given for convenience, you are free to define your own gestures
-    *}
+     Standard MD3 animation set, as commonly defined in the Quake engine
+     @value(EQR_AG_MD3_Both_Death1 Selects the death nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD3_Both_Dead1 Selects the dead nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD3_Both_Death2 Selects the death nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD3_Both_Dead2 Selects the dead nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD3_Both_Death3 Selects the death nb. 3 gesture to be played by the model)
+     @value(EQR_AG_MD3_Both_Dead3 Selects the dead nb. 3 gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Gesture Selects the torso default gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Attack Selects the torso attack gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Attack2 Selects the torso attack nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Drop Selects the torso drop gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Raise Selects the torso raise gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Stand Selects the torso stand gesture to be played by the model)
+     @value(EQR_AG_MD3_Torso_Stand2 Selects the torso stand nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Walk_Crouching Selects the legs walk crouching gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Walk Selects the legs walk gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Run Selects the legs run gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Back Selects the legs back gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Swim Selects the legs swim gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Jump Selects the legs jump gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Land Selects the legs land gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Jump_Back Selects the legs jump back gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Land_Back Selects the legs land back gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Idle Selects the legs idle gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Idle_Crouching Selects the legs idle crouching gesture to be played by the model)
+     @value(EQR_AG_MD3_Legs_Turn Selects the legs turn gesture to be played by the model)
+     @value(EQR_AG_MD3_Max_Animations Indicates the animation gestures end, should not be used as a gesture)
+     @br @bold(NOTE) These gestures are given for convenience, you are free to define your own
+                     gestures. However these gestures must match with those defined in the model.cfg
+                     file
+    }
+    {$ENDREGION}
     EQRMD3AnimationGesture =
     (
         EQR_AG_MD3_Both_Death1 = 0,
@@ -93,9 +157,14 @@ type
         EQR_AG_MD3_Max_Animations
     );
 
+    {$REGION 'Documentation'}
     {**
-    * MD3 model gender
-    *}
+     MD3 model gender
+     @value(EQR_GN_MD3_Unknown gender (i.e. undefined inside the model.cfg file))
+     @value(EQR_GN_MD3_Male The character represented by the model is a male)
+     @value(EQR_GN_MD3_Female The character represented by the model is a female)
+    }
+    {$ENDREGION}
     EQRMD3Gender =
     (
         EQR_GN_MD3_Unknown = 0,
@@ -103,40 +172,72 @@ type
         EQR_GN_MD3_Female
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Foot step mode
-    *}
+     Foot step mode
+     @value(EQR_FS_MD3_Unknown Unknown foot step mode)
+     @value(EQR_FS_MD3_Boot Boot foot step mode)
+    }
+    {$ENDREGION}
     EQRMD3FootStep =
     (
         EQR_FS_MD3_Unknown = 0,
         EQR_FS_MD3_Boot
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Structure containing headoffset instruction, don't know what exactly means
-    *}
+     Structure containing headoffset instruction, don't know what exactly means
+    }
+    {$ENDREGION}
     TQRMD3AnimCfgFileHeadOffset = record
+        {$REGION 'Documentation'}
+        {**
+         Unknown value nb.1, as found in the model.cfg file head offset section
+        }
+        {$ENDREGION}
         m_UnknownOffset1: NativeInt;
+
+        {$REGION 'Documentation'}
+        {**
+         Unknown value nb.2, as found in the model.cfg file head offset section
+        }
+        {$ENDREGION}
         m_UnknownOffset2: NativeInt;
+
+        {$REGION 'Documentation'}
+        {**
+         Unknown value nb.3, as found in the model.cfg file head offset section
+        }
+        {$ENDREGION}
         m_UnknownOffset3: NativeInt;
     end;
 
     PQRMD3AnimCfgFileHeadOffset = ^TQRMD3AnimCfgFileHeadOffset;
 
+    {$REGION 'Documentation'}
     {**
-    * Structure containing footsteps instruction, don't know what exactly means
-    *}
+     Structure containing footsteps instruction, don't know what exactly means
+    }
+    {$ENDREGION}
     TQRMD3AnimCfgFileFootSteps = record
+        {$REGION 'Documentation'}
+        {**
+         Foot step mode
+        }
+        {$ENDREGION}
         m_Mode: EQRMD3FootStep;
     end;
 
     PQRMD3AnimCfgFileFootSteps = ^TQRMD3AnimCfgFileFootSteps;
 
+    {$REGION 'Documentation'}
     {**
-    * MD3 animation configuration file parser
-    *}
+     MD3 animation configuration file parser
+    }
+    {$ENDREGION}
     TQRMD3AnimCfgFile = class(TQRFramedModelAnimCfgFile)
-        protected
+        private
             m_Gender:         EQRMD3Gender;
             m_HeadOffset:     TQRMD3AnimCfgFileHeadOffset;
             m_FootSteps:      TQRMD3AnimCfgFileFootSteps;
@@ -146,182 +247,305 @@ type
             m_ReadHeadOffset: Boolean;
             m_ReadFootSteps:  Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called when script line should be parsed
-            *@param line - line to parse
-            *@param linbeNb - line number
-            *@return ture on success, otherwise false
-            *}
+             Called when script line should be parsed
+             @param(line Line to parse)
+             @param(linbeNb Line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Parses a word found in script line
-            *@param word - word to parse
-            *@param lineNb - current parsing line number
-            *@return true on success, otherwise false
-            *}
+             Parses a word found in script line
+             @param(word Word to parse)
+             @param(lineNb Current parsing line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears animation configuration
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model gender
-            *@return model gender
-            *}
-            function GetGender(): EQRMD3Gender; virtual;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets header offset
-            *@return header offset
-            *}
-            function GetHeadOffset(): PQRMD3AnimCfgFileHeadOffset; virtual;
+             Clears the animation configuration
+            }
+            {$ENDREGION}
+            procedure Clear; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets foot steps
-            *@return foot steps
-            *}
-            function GetFootSteps(): PQRMD3AnimCfgFileFootSteps; virtual;
+             Gets the model gender
+             @return(The model gender)
+            }
+            {$ENDREGION}
+            function GetGender: EQRMD3Gender; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Converts animation gesture to string
-            *@param gesture - animation gesture to convert
-            *@return converted animation gesture as string
-            *}
+             Gets the head offset
+             @return(The head offset)
+            }
+            {$ENDREGION}
+            function GetHeadOffset: PQRMD3AnimCfgFileHeadOffset; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets foot steps
+             @return(Foot steps)
+            }
+            {$ENDREGION}
+            function GetFootSteps: PQRMD3AnimCfgFileFootSteps; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Converts the animation gesture to string
+             @param(gesture Animation gesture to convert)
+             @return(Converted animation gesture as string)
+            }
+            {$ENDREGION}
             class function GestureToStr(gesture: EQRMD3AnimationGesture): UnicodeString; static;
 
-            { Properties }
-            property Gender:     EQRMD3Gender                read GetGender;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the model gender
+            }
+            {$ENDREGION}
+            property Gender: EQRMD3Gender read GetGender;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the head offset
+            }
+            {$ENDREGION}
             property HeadOffset: PQRMD3AnimCfgFileHeadOffset read GetHeadOffset;
-            property FootSteps:  PQRMD3AnimCfgFileFootSteps  read GetFootSteps;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the foot steps
+            }
+            {$ENDREGION}
+            property FootSteps: PQRMD3AnimCfgFileFootSteps read GetFootSteps;
     end;
 
     TQRMD3PathTable = TDictionary<UnicodeString, UnicodeString>;
     TQRMD3LinkKeys  = TStringList;
 
+    {$REGION 'Documentation'}
     {**
-    * MD3 skin file parser
-    *}
+     MD3 skin file parser
+    }
+    {$ENDREGION}
     TQRMD3Skin = class(TQRScript)
-        protected
+        private
             m_PathTable: TQRMD3PathTable;
             m_LinkKeys:  TQRMD3LinkKeys;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called when script line should be parsed
-            *@param line - line to parse
-            *@param linbeNb - line number
-            *@return ture on success, otherwise false
-            *}
+             Called when a script line should be parsed
+             @param(line Line to parse)
+             @param(linbeNb Line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears skin configuration
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets path from table matching with name
-            *@param name - path name to get
-            *@return path, empty string if not found or on error
-            *}
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Clears the skin configuration
+            }
+            {$ENDREGION}
+            procedure Clear; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the path from the table matching with name
+             @param(name Path name to get)
+             @return(Path, empty string if not found or on error)
+            }
+            {$ENDREGION}
             function GetPath(const name: UnicodeString): UnicodeString; virtual;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the skin path matching with name
+            }
+            {$ENDREGION}
             property Path[const name: UnicodeString]: UnicodeString read GetPath;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Animation item, contains the information that defines a given animation
-    *}
+     Animation item, contains the information that defines a given animation
+    }
+    {$ENDREGION}
     TQRMD3AnimationItem = class
-        protected
+        private
             m_StartFrame:      NativeUInt;
             m_EndFrame:        NativeUInt;
             m_FramesPerSecond: NativeUInt;
             m_Loop:            Boolean;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param startFrame - animation start frame index
-            *@param endFrame - animation end frame index
-            *@param fps - frame per seconds
-            *@param loop - if true, animation should loop at end
-            *}
+             Constructor
+             @param(startFrame Animation start frame index)
+             @param(endFrame Animation end frame index)
+             @param(fps Frame per seconds)
+             @param(loop If @true, animation should loop at end)
+            }
+            {$ENDREGION}
             constructor Create(startFrame, endFrame, fps: NativeUInt;
                                                     loop: Boolean); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+             Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
-            { Properties }
-            property StartFrame:      NativeUInt read m_StartFrame      write m_StartFrame;
-            property EndFrame:        NativeUInt read m_EndFrame        write m_EndFrame;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation start frame index
+            }
+            {$ENDREGION}
+            property StartFrame: NativeUInt read m_StartFrame write m_StartFrame;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation end frame index
+            }
+            {$ENDREGION}
+            property EndFrame: NativeUInt read m_EndFrame write m_EndFrame;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation frame per seconds count
+            }
+            {$ENDREGION}
             property FramesPerSecond: NativeUInt read m_FramesPerSecond write m_FramesPerSecond;
-            property Loop:            Boolean    read m_Loop            write m_Loop;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if the animation should loop at end
+            }
+            {$ENDREGION}
+            property Loop: Boolean read m_Loop write m_Loop;
 
     end;
 
     TQRMD3AnimationDictionary = TDictionary<EQRMD3AnimationGesture, TQRMD3AnimationItem>;
 
+    {$REGION 'Documentation'}
     {**
-    * Link, it's a relationship between sub-models to animate
-    *}
+     Link, it's a relationship between sub-models to animate
+    }
+    {$ENDREGION}
     TQRMD3ModelLink = class
-        protected
+        private
             m_TagIndex: NativeUInt;
             m_pItem:    Pointer;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *}
+             Constructor
+            }
+            {$ENDREGION}
             constructor Create; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param tagIndex - tag index in MD3 model from which link was built
-            *@param pItem - item to link to
-            *}
+             Constructor
+             @param(tagIndex Tag index in MD3 model from which link was built)
+             @param(pItem Item to link to)
+            }
+            {$ENDREGION}
             constructor Create(tagIndex: NativeUInt; const pItem: Pointer); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
+              Destructor
+            }
+            {$ENDREGION}
             destructor Destroy; override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the MD3 model tag index
+            }
+            {$ENDREGION}
             property TagIndex: NativeUInt read m_TagIndex write m_TagIndex;
-            property Item:     Pointer    read m_pItem    write m_pItem;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the linked item
+            }
+            {$ENDREGION}
+            property Item: Pointer read m_pItem write m_pItem;
     end;
 
     TQRMD3ModelLinks = array of TQRMD3ModelLink;
 
+    {$REGION 'Documentation'}
     {**
-    * Group sub-model item, contains all info about a particular model belonging to group
-    *}
+     Group sub-model item, contains all information about a particular sub-model item belonging to
+     the group
+    }
+    {$ENDREGION}
     TQRMD3ModelItem = class
-        protected
+        private
             m_Name:        UnicodeString;
             m_pModel:      TQRMD3Model;
             m_pSkin:       TQRMD3Skin;
@@ -334,187 +558,364 @@ type
             m_CacheIndex:  NativeUInt;
             m_RhToLh:      Boolean;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Adds a target model in links
-            *@param links - links in which target should be added
-            *@param pTarget - target to add to links
-            *@param tagIndex - model tag index from which link was generated
-            *}
+             Adds a target model in links
+             @param(links Links in which target should be added)
+             @param(pTarget Target to add to links)
+             @param(tagIndex Model tag index from which link was generated)
+            }
+            {$ENDREGION}
             procedure AddLink(var links: TQRMD3ModelLinks;
                           const pTarget: TQRMD3ModelItem;
                                tagIndex: NativeUInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model animation
-            *@param gesture - animation gesture
-            *@return animation item
-            *}
+             Gets model animation
+             @param(gesture Animation gesture)
+             @return(Animation item)
+            }
+            {$ENDREGION}
             function GetAnimation(gesture: EQRMD3AnimationGesture): TQRMD3AnimationItem; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets model animation
-            *@param gesture - animationm gesture
-            *@param pAnimation - animation item to set
-            *}
+             Sets model animation
+             @param(gesture Animationm gesture)
+             @param(pAnimation Animation item to set)
+            }
+            {$ENDREGION}
             procedure SetAnimation(gesture: EQRMD3AnimationGesture;
                           const pAnimation: TQRMD3AnimationItem); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model texture at index
-            *@param index - texture index
-            *}
+             Gets model texture at index
+             @param(index Texture index)
+            }
+            {$ENDREGION}
             function GetTexture(index: NativeInt): TQRTexture; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets link from a parent model
-            *@param index - link index
-            *@param pTarget - linked parent model
-            *}
+             Gets link from a parent model
+             @param(index Link index)
+             @param(pTarget Linked parent model)
+            }
+            {$ENDREGION}
             function GetLinkFrom(index: NativeInt): TQRMD3ModelLink; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets link to a child model
-            *@param index - link index
-            *@param pTarget - linked child model
-            *}
+             Gets link to a child model
+             @param(index Link index)
+             @param(pTarget Linked child model)
+            }
+            {$ENDREGION}
             function GetLinkTo(index: NativeInt): TQRMD3ModelLink; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model texture count
-            *@return model texture count
-            *}
+             Gets the model texture count
+             @return(The model texture count)
+            }
+            {$ENDREGION}
             function GetTextureCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets links from count
-            *@return links from count
-            *}
+             Gets the links from count
+             @return(The links from count)
+            }
+            {$ENDREGION}
             function GetLinksFromCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets links to count
-            *@return links to count
-            *}
+             Gets the links to count
+             @return(The links to count)
+            }
+            {$ENDREGION}
             function GetLinksToCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model animation count
-            *@return model animation count
-            *}
+             Gets the model animation count
+             @return(The model animation count)
+            }
+            {$ENDREGION}
             function GetAnimationCount: NativeInt; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create;  virtual;
-            destructor  Destroy; override;
-
+            {$REGION 'Documentation'}
             {**
-            * Adds a model texture
-            *@param pTexture - texture to add
-            *}
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Adds a model texture
+             @param(pTexture Texture to add)
+            }
+            {$ENDREGION}
             procedure AddTexture(const pTexture: TQRTexture); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds link from a parent model
-            *@param tagIndex - model tag index from which link was generated
-            *@param pTarget - parent target model to link from
-            *}
+             Adds a link from a parent model
+             @param(tagIndex Model tag index from which link was generated)
+             @param(pTarget Parent target model to link from)
+            }
+            {$ENDREGION}
             procedure AddLinkFrom(tagIndex: NativeUInt; const pTarget: TQRMD3ModelItem); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds link to a child model
-            *@param tagIndex - model tag index from which link was generated
-            *@param pTarget - child target model to link to
-            *}
+             Adds link to a child model
+             @param(tagIndex Model tag index from which link was generated)
+             @param(pTarget Child target model to link to)
+            }
+            {$ENDREGION}
             procedure AddLinkTo(tagIndex: NativeUInt; const pTarget: TQRMD3ModelItem); virtual;
 
-            { Properties }
-            property Name:                                        UnicodeString           read m_Name       write m_Name;
-            property Model:                                       TQRMD3Model             read m_pModel     write m_pModel;
-            property Skin:                                        TQRMD3Skin              read m_pSkin      write m_pSkin;
-            property Animations[gesture: EQRMD3AnimationGesture]: TQRMD3AnimationItem     read GetAnimation write SetAnimation;
-            property Animation:                                   TQRFramedModelAnimation read m_pAnimation write m_pAnimation;
-            property Gesture:                                     EQRMD3AnimationGesture  read m_Gesture    write m_Gesture;
-            property RhToLh:                                      Boolean                 read m_RhToLh     write m_RhToLh;
-            property Textures  [index: NativeInt]:                TQRTexture              read GetTexture;
-            property LinksFrom [index: NativeInt]:                TQRMD3ModelLink         read GetLinkFrom;
-            property LinksTo   [index: NativeInt]:                TQRMD3ModelLink         read GetLinkTo;
-            property TextureCount:                                NativeInt               read GetTextureCount;
-            property LinksFromCount:                              NativeInt               read GetLinksFromCount;
-            property LinksToCount:                                NativeInt               read GetLinksToCount;
-            property AnimationCount:                              NativeInt               read GetAnimationCount;
-            property CacheIndex:                                  NativeUInt              read m_CacheIndex;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the name
+            }
+            {$ENDREGION}
+            property Name: UnicodeString read m_Name write m_Name;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model
+            }
+            {$ENDREGION}
+            property Model: TQRMD3Model read m_pModel write m_pModel;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the skin
+            }
+            {$ENDREGION}
+            property Skin: TQRMD3Skin read m_pSkin write m_pSkin;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation from a gesture
+            }
+            {$ENDREGION}
+            property Animations[gesture: EQRMD3AnimationGesture]: TQRMD3AnimationItem read GetAnimation write SetAnimation;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation
+            }
+            {$ENDREGION}
+            property Animation: TQRFramedModelAnimation read m_pAnimation write m_pAnimation;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation gesture
+            }
+            {$ENDREGION}
+            property Gesture: EQRMD3AnimationGesture read m_Gesture write m_Gesture;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets if vertex buffer should be converted from left hand coordinates to right hand
+            }
+            {$ENDREGION}
+            property RhToLh: Boolean read m_RhToLh write m_RhToLh;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets texture at index
+            }
+            {$ENDREGION}
+            property Textures[index: NativeInt]: TQRTexture read GetTexture;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the link from at index
+            }
+            {$ENDREGION}
+            property LinksFrom[index: NativeInt]: TQRMD3ModelLink read GetLinkFrom;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the link to at index
+            }
+            {$ENDREGION}
+            property LinksTo[index: NativeInt]: TQRMD3ModelLink read GetLinkTo;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the texture count
+            }
+            {$ENDREGION}
+            property TextureCount: NativeInt read GetTextureCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the link from count
+            }
+            {$ENDREGION}
+            property LinksFromCount: NativeInt read GetLinksFromCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the link to count
+            }
+            {$ENDREGION}
+            property LinksToCount: NativeInt read GetLinksToCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the animation count
+            }
+            {$ENDREGION}
+            property AnimationCount: NativeInt read GetAnimationCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cache index
+            }
+            {$ENDREGION}
+            property CacheIndex: NativeUInt read m_CacheIndex;
     end;
 
     TQRMD3ModelItems = array of TQRMD3ModelItem;
 
+    {$REGION 'Documentation'}
     {**
-    * Group info, contains all informations to load group, as e.g. file templates, prefixes, ...
-    *}
+     Group info, contains all informations to load group, as e.g. file templates, prefixes, ...
+    }
+    {$ENDREGION}
     TQRMD3GroupInfo = class
-        protected
+        private
             m_ModelTemplate: UnicodeString;
             m_SkinTemplate:  UnicodeString;
             m_AnimTemplate:  UnicodeString;
             m_pPrefixes:     TStringList;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param createDefaultPrefixes - if true, default prefixes will be created
-            *@note First declared prefix always matchs with the root model
-            *@note Be careful, the prefix order will influence on the manner the objects will be
-            *      linked. For example, a head/upper/lower order will link the head to upper model,
-            *      then the upper to lower model, whereas a lower/upper/head order will link the
-            *      lower to upper model, then the upper to head model
-            *}
+             Constructor
+             @param(createDefaultPrefixes If @true, default prefixes will be created)
+             @br @bold(NOTE) First declared prefix always matchs with the root model
+             @br @bold(NOTE) Be careful, the prefix order will influence on the manner the objects
+                             will be linked. For example, a head/upper/lower order will link the
+                             head to upper model, then the upper to lower model, whereas a
+                             lower/upper/head order will link the lower to upper model, then the
+                             upper to head model
+            }
+            {$ENDREGION}
             constructor Create(createDefaultPrefixes: Boolean = true); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param pOther - other group info to copy from
-            *}
+             Copy constructor
+             @param(pOther Other group info to copy from)
+            }
+            {$ENDREGION}
             constructor Create(const pOther: TQRMD3GroupInfo); overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
-            destructor Destroy(); override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets prefix at index
-            *@param index . prefix index to get
-            *@return prefix
-            *}
+             Gets prefix at index
+             @param(index Prefix index to get)
+             @return(Prefix)
+            }
+            {$ENDREGION}
             function GetPrefix(index: NativeInt): UnicodeString; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets prefix count
-            *@return prefix count
-            *}
-            function GetPrefixCount(): NativeInt; virtual;
+             Gets the prefix count
+             @return(The prefix count)
+            }
+            {$ENDREGION}
+            function GetPrefixCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds prefix to list
-            *@param prefix - prefix to add
-            *}
+             Adds prefix to list
+             @param(prefix Prefix to add)
+            }
+            {$ENDREGION}
             procedure AddPrefix(const prefix: UnicodeString); virtual;
 
-            { Properties }
-            property ModelTemplate:              UnicodeString read m_ModelTemplate write m_ModelTemplate;
-            property SkinTemplate:               UnicodeString read m_SkinTemplate  write m_SkinTemplate;
-            property AnimTemplate:               UnicodeString read m_AnimTemplate  write m_AnimTemplate;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the model template file name to use
+            }
+            {$ENDREGION}
+            property ModelTemplate: UnicodeString read m_ModelTemplate write m_ModelTemplate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the skin template file name to use
+            }
+            {$ENDREGION}
+            property SkinTemplate: UnicodeString read m_SkinTemplate  write m_SkinTemplate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the animation template file name to use
+            }
+            {$ENDREGION}
+            property AnimTemplate: UnicodeString read m_AnimTemplate  write m_AnimTemplate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the prefix at index
+            }
+            {$ENDREGION}
             property Prefixes[index: NativeInt]: UnicodeString read GetPrefix;
-            property PrefixCount:                NativeInt     read GetPrefixCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the prefix count
+            }
+            {$ENDREGION}
+            property PrefixCount: NativeInt read GetPrefixCount;
     end;
 
     TQRMD3ItemDictionary = TDictionary<UnicodeString, ^TQRMD3ModelItem>;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic MD3 job
-    *}
+     Generic MD3 job
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD3 job is designed to load all the files composing the MD3
+                     model, and provides the data to be used by the group
+    }
+    {$ENDREGION}
     TQRMD3Job = class(TQRModelJob)
-        protected
+        private
             m_Items:              TQRMD3ModelItems;
             m_pItemDictionary:    TQRMD3ItemDictionary;
             m_pInfo:              TQRMD3GroupInfo;
@@ -528,72 +929,91 @@ type
             m_FramedModelOptions: TQRFramedModelOptions;
             m_fOnLoadTexture:     TQRLoadMeshTextureEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets model item at index
-            *@return model item
-            *}
+             Gets model item at index
+             @return(Model item)
+            }
+            {$ENDREGION}
             function GetItem(index: NativeInt): TQRMD3ModelItem; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets model item from name
-            *@return model item
-            *}
+             Gets model item from name
+             @return(Model item)
+            }
+            {$ENDREGION}
             function GetItem(const name: UnicodeString): TQRMD3ModelItem; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets framed model options
-            *@return model options
-            *}
-            function GetFramedModelOptions(): TQRFramedModelOptions; virtual;
+             Gets framed model options
+             @return(Model options)
+            }
+            {$ENDREGION}
+            function GetFramedModelOptions: TQRFramedModelOptions; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets framed model options
-            *@param options - model options
-            *}
+             Sets framed model options
+             @param(options Model options)
+            }
+            {$ENDREGION}
             procedure SetFramedModelOptions(options: TQRFramedModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Links all models loaded or added in group together
-            *}
-            procedure LinkModel(); virtual;
+             Links all models loaded or added in group together
+            }
+            {$ENDREGION}
+            procedure LinkModel; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Links skin elements with model
-            *@param pSkin - skin containing elements to load
-            *@param dir - model directory
-            *@param pItem - item containing sub-model to link with skin
-            *@return true on success, otherwise false
-            *}
+             Links skin elements with model
+             @param(pSkin Skin containing elements to load)
+             @param(dir Model directory)
+             @param(pItem Item containing the sub-model to link with skin)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LinkSkin(const pSkin: TQRMD3Skin;
                                 const dir: UnicodeString;
                               const pItem: TQRMD3ModelItem): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Links animations with model
-            *@param pInfo - group info
-            *@param pAnimations - configuration file containing animations
-            *@return true on success, otherwise false
-            *}
+             Links animations with model
+             @param(pInfo Group info)
+             @param(pAnimations Configuration file containing animations)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LinkAnimations(const pInfo: TQRMD3GroupInfo;
                               const pAnimations: TQRMD3AnimCfgFile): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when model texture should be loaded
-            *@note This function is executed on the calling thread side
-            *}
-            procedure OnLoadTexture(); virtual;
+             Called when model texture should be loaded
+             @br @bold(NOTE) This function is executed on the calling thread side
+            }
+            {$ENDREGION}
+            procedure OnLoadTexture; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pInfo - model info
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pInfo Model info)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                           const pInfo: TQRMD3GroupInfo;
                          const pColor: TQRColor;
@@ -601,83 +1021,124 @@ type
                    framedModelOptions: TQRFramedModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Cancels the job
-            *}
-            procedure Cancel(); override;
+             Cancels the job
+            }
+            {$ENDREGION}
+            procedure Cancel; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if job was canceled
-            *@return true if job was canceled, otherwise false
-            *}
-            function IsCanceled(): Boolean; virtual;
+             Checks if job was canceled
+             @return(@true if job was canceled, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsCanceled: Boolean; virtual;
 
-            { Properties }
-            property ItemAtIndex[index:      NativeInt]:      TQRMD3ModelItem       read GetItem;
-            property ItemFromName[const name: UnicodeString]: TQRMD3ModelItem       read GetItem;
-            property FramedModelOptions:                      TQRFramedModelOptions read GetFramedModelOptions write SetFramedModelOptions;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets model item at index
+            }
+            {$ENDREGION}
+            property ItemAtIndex[index: NativeInt]: TQRMD3ModelItem read GetItem;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets model item from name
+            }
+            {$ENDREGION}
+            property ItemFromName[const name: UnicodeString]: TQRMD3ModelItem read GetItem;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the framed model options
+            }
+            {$ENDREGION}
+            property FramedModelOptions: TQRFramedModelOptions read GetFramedModelOptions write SetFramedModelOptions;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD3 from file
-    *}
+     Job to load MD3 from file
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD3 job is designed to load all the files composing the MD3
+                     model, and provides the data to be used by the group
+    }
+    {$ENDREGION}
     TQRLoadMD3FileJob = class(TQRMD3Job)
-        protected
+        private
             m_Dir:           UnicodeString;
             m_PrefixKeyword: UnicodeString;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Loads sub-model skin file
-            *@param fileName - skin file name
-            *@param pItem - item representing sub-model
-            *@return true on success, otherwise false
-            *}
+             Loads sub-model skin file
+             @param(fileName Skin file name)
+             @param(pItem Item representing sub-model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadSkin(const fileName: TFileName;
                                  const pItem: TQRMD3ModelItem): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads animations from animation configuration file
-            *@param pInfo - model group info
-            *@param fileName - animation config file name
-            *@return true on success, otherwise false
-            *}
+             Loads animations from animation configuration file
+             @param(pInfo Model group info)
+             @param(fileName Animation config file name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadAnimations(const pInfo: TQRMD3GroupInfo;
                                  const fileName: TFileName): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
-            *}
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param dir - dir in which all model files to load are contained
-            *@param prefixKeyword - model templates prefix keyword
-            *@param pInfo - model group info
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(dir Directory in which all model files to load are contained)
+             @param(prefixKeyword Model templates prefix keyword)
+             @param(pInfo Model group info)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                             const dir,
                         prefixKeyword: UnicodeString;
@@ -687,79 +1148,102 @@ type
                    framedModelOptions: TQRFramedModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD3 from memory dir
-    *}
+     Job to load MD3 from memory directory
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD3 job is designed to load all the files composing the MD3
+                     model, and provides the data to be used by the group
+    }
+    {$ENDREGION}
     TQRLoadMD3MemoryDirJob = class(TQRMD3Job)
-        protected
+        private
             m_pDir:          TQRMemoryDir;
             m_PrefixKeyword: UnicodeString;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Loads sub-model skin file
-            *@param pStream - stream containing skin data
-            *@param pItem - item representing sub-model
-            *@return true on success, otherwise false
-            *}
+             Loads sub-model skin file
+             @param(pStream Stream containing the skin data)
+             @param(pItem Item representing the sub-model)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadSkin(pStream: TStream; const pItem: TQRMD3ModelItem): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads animations from animation configuration file
-            *@param pInfo - model group info
-            *@param pStream - buffer containing animation configuration
-            *@return true on success, otherwise false
-            *}
+             Loads animations from animation configuration file
+             @param(pInfo Model group info)
+             @param(pStream Duffer containing animation configuration)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadAnimations(const pInfo: TQRMD3GroupInfo;
                                         pStream: TStream): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
-            *}
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the memory dir containing model files
-            *@return memory dir
-            *}
-            function GetMemoryDir(): TQRMemoryDir; virtual;
+             Gets the memory dir containing model files
+             @return(Memory dir)
+            }
+            {$ENDREGION}
+            function GetMemoryDir: TQRMemoryDir; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pDir - memory dir containing all model files to load
-            *@param prefixKeyword - model templates prefix keyword
-            *@param pInfo - model group info
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *@note Memory dir will be deleted internally, do not try to delete it from outside
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pDir Memory directory containing all model files to load)
+             @param(prefixKeyword Model templates prefix keyword)
+             @param(pInfo Model group info)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+             @br @bold(NOTE) Memory dir will be deleted internally, do not try to delete it from outside
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                            const pDir: TQRMemoryDir;
                   const prefixKeyword: UnicodeString;
@@ -769,26 +1253,42 @@ type
                    framedModelOptions: TQRFramedModelOptions;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the memory directory
+            }
+            {$ENDREGION}
             property MemoryDir: TQRMemoryDir read GetMemoryDir;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Teams at which the model belongs. Basically a .pk3 package contains 3 models versions (here
-    * called teams), a default, a green and a blue. Additionally some packages may contain some
-    * special packages, in this case the team name should be specified
-    *}
+     Teams at which the model belongs. Basically a .pk3 package contains 3 models versions (here
+     called teams), a default, a green and a blue. Additionally some packages may contain some
+     special features, in this case the team name should be specified
+     @value(EQR_PT_MD3_Default No team defined for the model)
+     @value(EQR_PT_MD3_Red Model belongs to the red team)
+     @value(EQR_PT_MD3_Blue Model belongs to the blue team)
+     @value(EQR_PT_MD3_Custom Model belongs to a custom user team)
+    }
+    {$ENDREGION}
     EQRMD3PackageTeam =
     (
         EQR_PT_MD3_Default = 0,
@@ -797,9 +1297,24 @@ type
         EQR_PT_MD3_Custom
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Sound files that the package may contain
-    *}
+     Sound files that the package may contain
+     @value(EQR_PS_MD3_Death1 The death nb. 1 sound)
+     @value(EQR_PS_MD3_Death2 The death nb. 2 sound)
+     @value(EQR_PS_MD3_Death3 The death nb. 3 sound)
+     @value(EQR_PS_MD3_Drown The drown sound)
+     @value(EQR_PS_MD3_Fall1 The fall nb. 1 sound)
+     @value(EQR_PS_MD3_Falling1 The falling nb. 1 sound)
+     @value(EQR_PS_MD3_Gasp The gasp sound)
+     @value(EQR_PS_MD3_Jump1 The jump nb. 1 sound)
+     @value(EQR_PS_MD3_Pain25_1 The pain nb. 1 sound)
+     @value(EQR_PS_MD3_Pain50_1 The pain nb. 2 sound)
+     @value(EQR_PS_MD3_Pain75_1 The pain nb. 3 sound)
+     @value(EQR_PS_MD3_Pain100_1 The pain nb. 4 sound)
+     @value(EQR_PS_MD3_Taunt The taunt sound)
+    }
+    {$ENDREGION}
     EQRMD3PackageSound =
     (
         EQR_PS_MD3_Death1 = 0,
@@ -817,33 +1332,41 @@ type
         EQR_PS_MD3_Taunt
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Called when texture should be loaded
-    *@param pGroup - group at which model belongs
-    *@param pPackage - MD3 model package
-    *@param [in, out] handled - if true, model will be considered as unpacked and no further
-    *                           operation will be done. If false, model will be unpacked using
-    *                           standard algorithm
-    *@return true on success, otherwise false
-    *@note Be careful, newly added files in memory dir may conflict with unpacked files while
-    *      standard algorithm is applied if handled is set to false
-    *}
+     Called when the model should be unpacked
+     @param(pGroup Group at which model belongs)
+     @param(pPackage MD3 model package)
+     @param(handled @bold([in, out]) If @true, model will be considered as unpacked and no further
+                                     operation will be done. If @false, model will be unpacked using
+                                     the standard algorithm)
+     @return(@true on success, otherwise @false)
+     @br @bold(NOTE) Be careful, newly added files in memory dir may conflict with unpacked files
+                     while standard algorithm is applied if handled is set to @false
+    }
+    {$ENDREGION}
     TQRUnpackMD3ModelEvent = function(const pGroup: TQRModelGroup;
                                           pPackage: TStream;
                                               pDir: TQRMemoryDir;
                                        var handled: Boolean): Boolean of object;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD3 model from package (*.pk3 or .zip)
-    *@note Some zip archives may be detected as valid but fails while stream is extracted, by
-    *      returning an incoherent stream content (no error is shown when this happen). This seems
-    *      to be a limitation of the zip library provided with the Embarcadero Delphi compiler (XE7),
-    *      and happen sometimes with some packages created with old zippers, e.g. when
-    *      RequiredVersion is set to 10 and CompressionMethod is set to 0 in the returned TZipHeader
-    *      record. The solution for now is to extract and recreate the package using a recent zipper
-    *}
+     Job to load a MD3 model from a package (*.pk3 or .zip)
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD3 job is designed to load all the files composing the MD3
+                     model, and provides the data to be used by the group
+     @br @bold(NOTE) Some zip archives may be detected as valid but fails while stream is extracted,
+                     by returning an incoherent stream content (no error is shown when this happen).
+                     This seems to be a limitation of the zip library provided with the Embarcadero
+                     Delphi compiler (tested with XE7 and earlier), and happen sometimes with some
+                     packages created with old zippers, e.g. when RequiredVersion is set to 10 and
+                     CompressionMethod is set to 0 in the returned TZipHeader record. The solution
+                     for now is to extract and recreate the package using a recent zipper
+    }
+    {$ENDREGION}
     TQRLoadMD3PackageJob = class(TQRLoadMD3MemoryDirJob)
-        protected
+        private
             m_pPackage:                TStream;
             m_pIcon:                   TBitmap;
             m_ShaderFileName:          TFileName;
@@ -851,51 +1374,65 @@ type
             m_ExternalUnpackHandled:   Boolean;
             m_fOnUnpackModel:          TQRUnpackMD3ModelEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Unpacks model package and prepare memory directory
-            *@return true on succes, otherwise false
-            *}
-            function Unpack(): Boolean; virtual;
+             Unpacks model package and prepare memory directory
+             @return(@true on succes, otherwise @false)
+            }
+            {$ENDREGION}
+            function Unpack: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets icon
-            *@return icon, nil if not found or on error
-            *}
+             Gets icon
+             @return(Icon, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetIcon: TBitmap; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets shader file
-            *@return shader file, nil if not found or on error
-            *}
+             Gets shader file
+             @return(Shader file, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetShader: TStream; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets sound
-            *@param index - sound index
-            *@return sound file, nil if not found or on error
-            *}
+             Gets sound
+             @param(Index Sound index)
+             @return(Sound file, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetSound(index: EQRMD3PackageSound): TStream; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when model is about to be unpacked externally
-            *}
-            procedure OnUnpackModelExternally(); virtual;
+             Called when model is about to be unpacked externally
+            }
+            {$ENDREGION}
+            procedure OnUnpackModelExternally; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pPackage - stream containing package model to load
-            *@param prefixKeyword - model templates prefix keyword
-            *@param pColor - model color
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@param team - team at which the model belongs (if available)
-            *@param customTeamName - custom team name, in case the team is custom
-            *@throw exception if group is not defined
-            *@note Package stream will be deleted internally, do not try to delete it from outside
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pPackage Stream containing package model to load)
+             @param(prefixKeyword Model templates prefix keyword)
+             @param(pColor Model color)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @param(team Team at which the model belongs (if available))
+             @param(customTeamName Custom team name, in case the team is custom)
+             @raises(Exception if the group is not defined)
+             @br @bold(NOTE) Package stream will be deleted internally, do not try to delete it from
+                             outside
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                        const pPackage: TStream;
                   const prefixKeyword: UnicodeString;
@@ -906,166 +1443,237 @@ type
                                  team: EQRMD3PackageTeam = EQR_PT_MD3_Default;
                        customTeamName: UnicodeString = ''); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
 
-            { Properties }
-            property Icon:                             TBitmap                read GetIcon;
-            property Shader:                           TStream                read GetShader;
-            property Sound[index: EQRMD3PackageSound]: TStream                read GetSound;
-            property OnUnpackModel:                    TQRUnpackMD3ModelEvent read m_fOnUnpackModel write m_fOnUnpackModel;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the icon, @nil if no icon available
+            }
+            {$ENDREGION}
+            property Icon: TBitmap read GetIcon;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the shader, @nil if no shader available
+            }
+            {$ENDREGION}
+            property Shader: TStream read GetShader;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the sound, @nil if no sound available
+            }
+            {$ENDREGION}
+            property Sound[index: EQRMD3PackageSound]: TStream read GetSound;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnUnpackModel event
+            }
+            {$ENDREGION}
+            property OnUnpackModel: TQRUnpackMD3ModelEvent read m_fOnUnpackModel write m_fOnUnpackModel;
     end;
 
     TQRMD3ModelPostponedGestures = TDictionary<UnicodeString, EQRMD3AnimationGesture>;
 
+    {$REGION 'Documentation'}
     {**
-    * MD3 model group, contains all items and functions needed to manage a complete MD3 model
-    *}
+     MD3 model group, contains all the items and functions needed to manage a complete MD3 model
+    }
+    {$ENDREGION}
     TQRMD3Group = class(TQRFramedModelGroup)
-        protected
-            m_PrefixKeyword:      UnicodeString;                // model prefix keyword, to search and replace by final name
-            m_pJob:               TQRMD3Job;                    // model job, take care of loading model inside a separated thread
-            m_pPostponedGestures: TQRMD3ModelPostponedGestures; // postponed gestures, in case gesture is set while model is opening
+        private
+            m_PrefixKeyword:      UnicodeString;
+            m_pJob:               TQRMD3Job;
+            m_pPostponedGestures: TQRMD3ModelPostponedGestures;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Animates model
-            *@param elapsedTime - elapsed time since last rendering
-            *@param pItem - model item containing sub-model to animate
-            *}
+             Animates model
+             @param(elapsedTime Elapsed time since last rendering)
+             @param(pItem Model item containing sub-model to animate)
+            }
+            {$ENDREGION}
             procedure AnimateModel(elapsedTime: Double; pItem: TQRMD3ModelItem); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh
-            *@param pItem - sub-model item to get from
-            *@param index - mesh index to calculate and get
-            *@param[out] mesh - mesh
-            *}
+             Gets dynamic mesh
+             @param(pItem Sub-model item to get from)
+             @param(index Mesh index to calculate and get)
+             @param(mesh @bold([out]) Mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMesh(const pItem: TQRMD3ModelItem;
                                            index: NativeUInt;
                                         out mesh: TQRMesh); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh, from cache if available, otherwise calculates and caches it
-            *@param pItem - sub-model item to get from
-            *@param index - mesh index to calculate and get
-            *@param[out] mesh - mesh
-            *@param[out] pTree - aligned-axis bounding box tree matching with mesh
-            *}
+             Gets dynamic mesh, from cache if available, otherwise calculates and caches it
+             @param(pItem Sub-model item to get from)
+             @param(index Mesh index to calculate and get)
+             @param(mesh @bold([out]) Mesh)
+             @param(pTree @bold([out]) Aligned-axis bounding box tree matching with mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMeshUseCache(const pItem: TQRMD3ModelItem;
                                                    index: NativeUInt;
                                                out pMesh: PQRMesh;
                                                out pTree: TQRAABBTree); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws dynamic model
-            *@param pItem - sub-model item to draw
-            *@param matrix - sub-model matrix
-            *}
+             Draws dynamic model
+             @param(pItem Sub-model item to draw)
+             @param(matrix Sub-model matrix)
+            }
+            {$ENDREGION}
             procedure DrawDynamicModel(const pItem: TQRMD3ModelItem;
                                       const matrix: TQRMatrix4x4); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws cached model
-            *@param pItem - sub-model item to draw
-            *@param matrix - sub-model matrix
-            *}
+             Draws cached model
+             @param(pItem Sub-model item to draw)
+             @param(matrix Sub-model matrix)
+            }
+            {$ENDREGION}
             procedure DrawCachedModel(const pItem: TQRMD3ModelItem;
                                      const matrix: TQRMatrix4x4); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws the sub-model mesh
-            *@param pItem - sub-model item to draw
-            *@param matrix - sub-model matrix
-            *}
+             Draws the sub-model mesh
+             @param(pItem Sub-model item to draw)
+             @param(matrix Sub-model matrix)
+            }
+            {$ENDREGION}
             procedure DrawMesh(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the memory dir containing model files
-            *@return memory dir, nil if not found or on error
-            *}
-            function GetMemoryDir(): TQRMemoryDir; virtual;
+             Gets the memory dir containing model files
+             @return(Memory dir, @nil if not found or on error)
+            }
+            {$ENDREGION}
+            function GetMemoryDir: TQRMemoryDir; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets icon
-            *@return icon, nil if not found or on error
-            *}
+             Gets icon
+             @return(Icon, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetIcon: TBitmap;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets shader file
-            *@return shader file, nil if not found or on error
-            *}
+             Gets shader file
+             @return(Shader file, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetShader: TStream;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets sound
-            *@param index - sound index
-            *@return sound file, nil if not found or on error
-            *}
+             Gets sound
+             @param(index Sound index)
+             @return(Sound file, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetSound(index: EQRMD3PackageSound): TStream;
 
         public
-            { Construction/Destruction }
-            constructor Create;  override;
-            destructor  Destroy; override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears group
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if group is empty
-            *@return true if model is empty, otherwise false
-            *}
-            function IsEmpty(): Boolean; override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from dir
-            *@param dir - dir containing all model files to load
-            *@param pInfo - group info
-            *@param pColor - model color
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@return true on success, otherwise false
-            *@note A standard md3 model is commonly composed of 3 sub-models, named "lower", "upper"
-            *      and "head". Additionaly the model may contain a "weapon" sub-model, that should
-            *      be declared explicitely in the sub-models list (to addd to the info structure
-            *      Prefixes list)
-            *@note A MD3 model is generally composed by the following files:
-            *      - a set of .md3 files that contains the various sub-model parts
-            *      - a set of .skin files, matching with each sub-models
-            *      - a set of texture files, matching with each sub-models, can be of any type: bmp,
-            *        jpg, pcx, ...
-            *      - an animation file, that describes all the animations the model can execute,
-            *        composed as follow:
-            *        sex m/f
-            *        [frame start] [frame count] [frame loop] [fps]
-            *        0             39            0            20    // MODEL_WALK
-            *        ...
-            *      Inside the dir, each md3 model can be identified by a group name, e.g. to load
-            *      the Lara model, the following files may be found in dir:
-            *      - lara_head.md3
-            *      - lara_head.skin
-            *      - lara_head.jpg
-            *      - lara_lower.md3
-            *      - lara_lower.skin
-            *      - lara_lower.jpg
-            *      - ...
-            *      - lara_animations.cfg
-            *      The way the names are composed may vary depending of the choices made by the model
-            *      creator, for this reason the info structure provides templates for file names,
-            *      that may be configured as needed
-            *}
+             Clears group
+            }
+            {$ENDREGION}
+            procedure Clear; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Checks if group is empty
+             @return(@true if model is empty, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEmpty: Boolean; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads group from dir
+             @param(dir Directory containing all model files to load)
+             @param(pInfo Group info)
+             @param(pColor Model color)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) A standard md3 model is commonly composed of 3 sub-models, named
+                             "lower", "upper" and "head". Additionaly the model may contain a
+                             "weapon" sub-model, that should be declared explicitely in the
+                             sub-models list (to addd to the info structure Prefixes list)
+             @br @bold(NOTE) A MD3 model is generally composed by the following files:
+                             @br - a set of .md3 files that contains the various sub-model parts
+                             @br - a set of .skin files, matching with each sub-models
+                             @br - a set of texture files, matching with each sub-models, can be of
+                                   any type: bmp, jpg, pcx, ...
+                             @br - an animation file, that describes all the animations the model can
+                                   execute, composed as follow:
+                                   @longcode(
+                                             sex m/f
+                                             [frame start] [frame count] [frame loop] [fps]
+                                             0             39            0            20    // MODEL_WALK
+                                             ...
+                                             )
+                             @br
+                             Inside the dir, each md3 model can be identified by a group name, e.g.
+                             to load the Lara model, the following files may be found in dir:
+                             @br - lara_head.md3
+                             @br - lara_head.skin
+                             @br - lara_head.jpg
+                             @br - lara_lower.md3
+                             @br - lara_lower.skin
+                             @br - lara_lower.jpg
+                             @br - ...
+                             @br - lara_animations.cfg
+                             @br
+                             The way the names are composed may vary depending of the choices made
+                             by the model creator, for this reason the info structure provides
+                             templates for file names, that may be configured as needed
+            }
+            {$ENDREGION}
             function Load(const dir: UnicodeString;
                         const pInfo: TQRMD3GroupInfo;
                        const pColor: TQRColor;
@@ -1073,45 +1681,51 @@ type
                        modelOptions: TQRModelOptions;
                  framedModelOptions: TQRFramedModelOptions): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from memory dir
-            *@param pDir - memory dir containing all model streams to load
-            *@param pInfo - group info
-            *@param pColor - model color
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@return true on success, otherwise false
-            *@note Memory dir will be deleted internally, do not try to delete it from outside
-            *@note A standard md3 model is commonly composed of 3 sub-models, named "lower", "upper"
-            *      and "head". Additionaly the model may contain a "weapon" sub-model, that should
-            *      be declared explicitely in the sub-models list (to addd to the info structure
-            *      Prefixes list)
-            *@note A MD3 model is generally composed by the following files:
-            *      - a set of .md3 files that contains the various sub-model parts
-            *      - a set of .skin files, matching with each sub-models
-            *      - a set of texture files, matching with each sub-models, can be of any type: bmp,
-            *        jpg, pcx, ...
-            *      - an animation file, that describes all the animations the model can execute,
-            *        composed as follow:
-            *        sex m/f
-            *        [frame start] [frame count] [frame loop] [fps]
-            *        0             39            0            20    // MODEL_WALK
-            *        ...
-            *      Inside the dir, each md3 model can be identified by a group name, e.g. to load
-            *      the Lara model, the following files may be found in dir:
-            *      - lara_head.md3
-            *      - lara_head.skin
-            *      - lara_head.jpg
-            *      - lara_lower.md3
-            *      - lara_lower.skin
-            *      - lara_lower.jpg
-            *      - ...
-            *      - lara_animations.cfg
-            *      The way the names are composed may vary depending of the choices made by the model
-            *      creator, for this reason the info structure provides templates for file names,
-            *      that may be configured as needed
-            *}
+             Loads group from memory dir
+             @param(pDir Memory dir containing all model streams to load)
+             @param(pInfo Group info)
+             @param(pColor Model color)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Memory dir will be deleted internally, do not try to delete it from outside
+             @br @bold(NOTE) A standard md3 model is commonly composed of 3 sub-models, named
+                             "lower", "upper" and "head". Additionaly the model may contain a
+                             "weapon" sub-model, that should be declared explicitely in the
+                             sub-models list (to addd to the info structure Prefixes list)
+             @br @bold(NOTE) A MD3 model is generally composed by the following files:
+                             @br - a set of .md3 files that contains the various sub-model parts
+                             @br - a set of .skin files, matching with each sub-models
+                             @br - a set of texture files, matching with each sub-models, can be of
+                                   any type: bmp, jpg, pcx, ...
+                             @br - an animation file, that describes all the animations the model can
+                                   execute, composed as follow:
+                                   @longcode(
+                                             sex m/f
+                                             [frame start] [frame count] [frame loop] [fps]
+                                             0             39            0            20    // MODEL_WALK
+                                             ...
+                                             )
+                             @br
+                             Inside the dir, each md3 model can be identified by a group name, e.g.
+                             to load the Lara model, the following files may be found in dir:
+                             @br - lara_head.md3
+                             @br - lara_head.skin
+                             @br - lara_head.jpg
+                             @br - lara_lower.md3
+                             @br - lara_lower.skin
+                             @br - lara_lower.jpg
+                             @br - ...
+                             @br - lara_animations.cfg
+                             @br
+                             The way the names are composed may vary depending of the choices made
+                             by the model creator, for this reason the info structure provides
+                             templates for file names, that may be configured as needed
+            }
+            {$ENDREGION}
             function Load(const pDir: TQRMemoryDir;
                          const pInfo: TQRMD3GroupInfo;
                         const pColor: TQRColor;
@@ -1119,17 +1733,19 @@ type
                         modelOptions: TQRModelOptions;
                   framedModelOptions: TQRFramedModelOptions): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from package (.pk3 or .zip) file
-            *@param fileName - model package file name to load
-            *@param pColor - model color
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param team - team at which the model belongs (if available)
-            *@param customTeamName - custom team name, in case the team is custom
-            *@return true on success, otherwise false
-            *}
+             Loads group from package (.pk3 or .zip) file
+             @param(fileName Model package file name to load)
+             @param(pColor Model color)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(team Team at which the model belongs (if available))
+             @param(customTeamName Custom team name, in case the team is custom)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName;
                             const pColor: TQRColor;
                                   rhToLh: Boolean;
@@ -1138,18 +1754,21 @@ type
                                     team: EQRMD3PackageTeam = EQR_PT_MD3_Default;
                           customTeamName: UnicodeString = ''): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from package (.pk3 or .zip) stream
-            *@param pPackage - stream containing model package to load
-            *@param pColor - model color
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param team - team at which the model belongs (if available)
-            *@param customTeamName - custom team name, in case the team is custom
-            *@return true on success, otherwise false
-            *@note Package stream will be deleted internally, do not try to delete it from outside
-            *}
+             Loads group from package (.pk3 or .zip) stream
+             @param(pPackage Stream containing model package to load)
+             @param(pColor Model color)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(team Team at which the model belongs (if available))
+             @param(customTeamName Custom team name, in case the team is custom)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Package stream will be deleted internally, do not try to delete it from
+                             outside
+            }
+            {$ENDREGION}
             function Load(const pPackage: TStream;
                             const pColor: TQRColor;
                                   rhToLh: Boolean;
@@ -1158,44 +1777,74 @@ type
                                     team: EQRMD3PackageTeam = EQR_PT_MD3_Default;
                           customTeamName: UnicodeString = ''): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Selects animation to run for a sub-model
-            *@param name - sub-model name
-            *@param gesture - animation gesture to execute
-            *@return true on success, otherwise false
-            *}
+             Selects animation to run for a sub-model
+             @param(name Sub-model name)
+             @param(gesture Animation gesture to execute)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function SetAnimation(const name: UnicodeString;
                                      gesture: EQRMD3AnimationGesture): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Queries the job status
-            *@return job status
-            *}
-            function QueryJobStatus(): TQRModelJobStatus; override;
+             Queries the job status
+             @return(Job status)
+            }
+            {$ENDREGION}
+            function QueryJobStatus: TQRModelJobStatus; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws the group
-            *@param elapsedTime - elapsed time since last draw
-            *}
+             Draws the group
+             @param(elapsedTime Elapsed time since last draw)
+            }
+            {$ENDREGION}
             procedure Draw(const elapsedTime: Double); override;
 
-            { Properties }
-            property MemoryDir:                        TQRMemoryDir read GetMemoryDir;
-            property Icon:                             TBitmap      read GetIcon;
-            property Shader:                           TStream      read GetShader;
-            property Sound[index: EQRMD3PackageSound]: TStream      read GetSound;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the memory directory, @nil if not available
+            }
+            {$ENDREGION}
+            property MemoryDir: TQRMemoryDir read GetMemoryDir;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the icon, @nil if not available
+            }
+            {$ENDREGION}
+            property Icon: TBitmap read GetIcon;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the shader, @nil if not available
+            }
+            {$ENDREGION}
+            property Shader: TStream read GetShader;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the sound at index, @nil if not available
+            }
+            {$ENDREGION}
+            property Sound[index: EQRMD3PackageSound]: TStream read GetSound;
     end;
 
 implementation
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Helper
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD3Helper.Create();
+constructor TQRMD3Helper.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3Helper.Destroy();
+destructor TQRMD3Helper.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1205,7 +1854,7 @@ class function TQRMD3Helper.BuildName(const templateName,
                                                   prefix: UnicodeString): UnicodeString;
 begin
     // no template to build from?
-    if (templateName.IsEmpty) then
+    if (Length(templateName) = 0) then
     begin
         Result := prefix;
         Exit;
@@ -1232,7 +1881,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3AnimCfgFile
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD3AnimCfgFile.Create();
+constructor TQRMD3AnimCfgFile.Create;
 begin
     inherited Create;
 
@@ -1244,7 +1893,7 @@ begin
     m_ReadFootSteps  := False;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3AnimCfgFile.Destroy();
+destructor TQRMD3AnimCfgFile.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1290,14 +1939,14 @@ begin
     if (m_ReadHeadOffset) then
     begin
         // is word empty?
-        if (word.Length = 0) then
+        if (Length(word) = 0) then
         begin
             Result := False;
             Exit;
         end;
 
         // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to word.Length do
+        for i := 1 to Length(word) do
             if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
             begin
                 Result := False;
@@ -1305,7 +1954,7 @@ begin
             end;
 
         // search for head offset value to set
-        case (m_Column) of
+        case (Column) of
             0: m_HeadOffset.m_UnknownOffset1 := StrToInt(word);
             1: m_HeadOffset.m_UnknownOffset2 := StrToInt(word);
             2: m_HeadOffset.m_UnknownOffset3 := StrToInt(word);
@@ -1314,7 +1963,7 @@ begin
             Exit;
         end;
 
-        Inc(m_Column);
+        IncColumn;
     end
     else
     if (word = 'footsteps') then
@@ -1329,14 +1978,14 @@ begin
     else
     begin
         // is word empty?
-        if (word.Length = 0) then
+        if (Length(word) = 0) then
         begin
             Result := False;
             Exit;
         end;
 
         // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to word.Length do
+        for i := 1 to Length(word) do
             if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
             begin
                 Result := False;
@@ -1344,7 +1993,7 @@ begin
             end;
 
         // first item to parse?
-        if (Length(m_Items) = 0) then
+        if (GetItemCount = 0) then
         begin
             // store the start line, it will be used later to find the animation type
             m_StartLine := lineNb;
@@ -1352,10 +2001,10 @@ begin
         end;
 
         // get current item index
-        index := Length(m_Items);
+        index := GetItemCount;
 
         // first animation value?
-        if (m_Column = 0) then
+        if (Column = 0) then
         begin
             // get animation gesture (each line pos in file matchs with the IEGesture enumerator)
             gesture := (m_CurLine - m_StartLine);
@@ -1368,8 +2017,8 @@ begin
             end;
 
             // create and populate new item, and add it to list
-            SetLength(m_Items, index + 1);
-            m_Items[index].m_Gesture := gesture;
+            SetItemCount(index + 1);
+            Items[index].m_Gesture := gesture;
 
             Inc(m_CurLine);
         end
@@ -1377,23 +2026,23 @@ begin
             Dec(index);
 
         // search for animation item value to set
-        case (m_Column) of
-            0: m_Items[index].m_StartFrame      := StrToInt(word);
-            1: m_Items[index].m_FrameCount      := StrToInt(word);
-            2: m_Items[index].m_LoopingFrames   := StrToInt(word);
-            3: m_Items[index].m_FramesPerSecond := StrToInt(word);
+        case (Column) of
+            0: Items[index].m_StartFrame      := StrToInt(word);
+            1: Items[index].m_FrameCount      := StrToInt(word);
+            2: Items[index].m_LoopingFrames   := StrToInt(word);
+            3: Items[index].m_FramesPerSecond := StrToInt(word);
         else
             Result := False;
             Exit;
         end;
 
-        Inc(m_Column);
+        IncColumn;
     end;
 
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3AnimCfgFile.Clear();
+procedure TQRMD3AnimCfgFile.Clear;
 begin
     inherited Clear;
 
@@ -1410,17 +2059,17 @@ begin
     m_ReadFootSteps  := False;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3AnimCfgFile.GetGender(): EQRMD3Gender;
+function TQRMD3AnimCfgFile.GetGender: EQRMD3Gender;
 begin
     Result := m_Gender;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3AnimCfgFile.GetHeadOffset(): PQRMD3AnimCfgFileHeadOffset;
+function TQRMD3AnimCfgFile.GetHeadOffset: PQRMD3AnimCfgFileHeadOffset;
 begin
     Result := @m_HeadOffset;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3AnimCfgFile.GetFootSteps(): PQRMD3AnimCfgFileFootSteps;
+function TQRMD3AnimCfgFile.GetFootSteps: PQRMD3AnimCfgFileFootSteps;
 begin
     Result := @m_FootSteps;
 end;
@@ -1461,7 +2110,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Skin
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD3Skin.Create();
+constructor TQRMD3Skin.Create;
 begin
     inherited Create;
 
@@ -1469,7 +2118,7 @@ begin
     m_LinkKeys  := TQRMD3LinkKeys.Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3Skin.Destroy();
+destructor TQRMD3Skin.Destroy;
 begin
     // clear memory
     m_PathTable.Free;
@@ -1485,7 +2134,7 @@ var
     i:          NativeUInt;
 begin
     // no line to parse?
-    if (line.IsEmpty) then
+    if (Length(line) = 0) then
     begin
         Result := True;
         Exit;
@@ -1494,7 +2143,7 @@ begin
     readPath := False;
 
     // iterate through line chars
-    for i := 1 to line.Length do
+    for i := 1 to Length(line) do
     begin
         // dispatch char
         case (line[i]) of
@@ -1519,14 +2168,14 @@ begin
     end;
 
     // empty name?
-    if (name.IsEmpty) then
+    if (Length(name) = 0) then
     begin
         Result := False;
         Exit;
     end;
 
     // no path?
-    if (path.IsEmpty) then
+    if (Length(path) = 0) then
     begin
         // in this case, the line contains a link key. Check if the name key already exists
         if (m_LinkKeys.IndexOf(name) <> -1) then
@@ -1555,10 +2204,10 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3Skin.Clear();
+procedure TQRMD3Skin.Clear;
 begin
-    m_PathTable.Clear();
-    m_LinkKeys.Clear();
+    m_PathTable.Clear;
+    m_LinkKeys.Clear;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3Skin.GetPath(const name: UnicodeString): UnicodeString;
@@ -1836,7 +2485,7 @@ begin
     m_pPrefixes.Assign(pOther.m_pPrefixes);
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3GroupInfo.Destroy();
+destructor TQRMD3GroupInfo.Destroy;
 begin
     // clear memory
     m_pPrefixes.Free;
@@ -1856,7 +2505,7 @@ begin
     Result := m_pPrefixes[index];
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3GroupInfo.GetPrefixCount(): NativeInt;
+function TQRMD3GroupInfo.GetPrefixCount: NativeInt;
 begin
     Result := m_pPrefixes.Count;
 end;
@@ -1897,7 +2546,7 @@ begin
     m_fOnLoadTexture     :=  fOnLoadTexture;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD3Job.Destroy();
+destructor TQRMD3Job.Destroy;
 var
     i: NativeInt;
 begin
@@ -1956,7 +2605,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Job.GetFramedModelOptions(): TQRFramedModelOptions;
+function TQRMD3Job.GetFramedModelOptions: TQRFramedModelOptions;
 begin
     m_pLock.Lock;
     Result := m_FramedModelOptions;
@@ -1970,7 +2619,7 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3Job.LinkModel();
+procedure TQRMD3Job.LinkModel;
 var
     itemCount, tagCount, targetTagCount, srcIndex, dstIndex, i, j, k, l, m: NativeUInt;
     linkName, targetName, srcTagName, dstTagName:                           UnicodeString;
@@ -2047,7 +2696,7 @@ begin
                         dstIndex := l;
 
                         // search for source index by name. If not found, default index will be used
-                        if (not srcTagName.IsEmpty) then
+                        if (Length(srcTagName) > 0) then
                             for m := 0 to tagCount - 1 do
                                 if (dstTagName = UnicodeString(AnsiString(pParser.Tags[m].m_Name))) then
                                 begin
@@ -2056,7 +2705,7 @@ begin
                                 end;
 
                         // search for dest index by name. If not found, default index will be used
-                        if (not dstTagName.IsEmpty) then
+                        if (Length(dstTagName) > 0) then
                             for m := 0 to targetTagCount - 1 do
                                 if (srcTagName = UnicodeString(AnsiString(pTargetParser.Tags[m].m_Name))) then
                                 begin
@@ -2137,8 +2786,9 @@ begin
 
             try
                 m_TextureName     := meshName;
-                m_TextureFileName := texturePath.Substring(texturePos + 1,
-                                                           texturePath.Length - (texturePos + 1));
+                m_TextureFileName := System.Copy(texturePath,
+                                                 texturePos + 2,
+                                                 Length(texturePath) - (texturePos + 1));
             finally
                 m_pLock.Unlock;
             end;
@@ -2195,8 +2845,9 @@ begin
 
             try
                 m_TextureName     := meshName;
-                m_TextureFileName := texturePath.Substring(texturePos + 1,
-                                                           texturePath.Length - (texturePos + 1));
+                m_TextureFileName := System.Copy(texturePath,
+                                                 texturePos + 2,
+                                                 Length(texturePath) - (texturePos + 1));
             finally
                 m_pLock.Unlock;
             end;
@@ -2226,7 +2877,7 @@ var
     pItem, pStartItem, pEndItem: PQRModelAnimCfgItem;
     pAnimItem:                   TQRMD3AnimationItem;
 begin
-    animCount  := pAnimations.GetItemCount();
+    animCount  := pAnimations.GetItemCount;
     lowerDelta := 0;
 
     if (animCount = 0) then
@@ -2338,7 +2989,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3Job.OnLoadTexture();
+procedure TQRMD3Job.OnLoadTexture;
 var
     max:                 NativeUInt;
     loadFirst, loadNext: Boolean;
@@ -2389,7 +3040,7 @@ begin
                         begin
                             // notify that a texture is loading
                             if (Assigned(m_fOnLoadTexture)) then
-                                if (not m_fOnLoadTexture(m_pGroup,
+                                if (not m_fOnLoadTexture(GetGroup,
                                                          pItem.m_pModel,
                                                          pTexture,
                                                          pModelTexture,
@@ -2400,7 +3051,7 @@ begin
                         else
                         // notify that a texture is loading
                         if (Assigned(m_fOnLoadTexture)) then
-                            if (not m_fOnLoadTexture(m_pGroup,
+                            if (not m_fOnLoadTexture(GetGroup,
                                                      pItem.m_pModel,
                                                      nil,
                                                      pModelTexture,
@@ -2417,7 +3068,7 @@ begin
                 begin
                     // notify that a texture is loading
                     if (Assigned(m_fOnLoadTexture)) then
-                        if (not m_fOnLoadTexture(m_pGroup,
+                        if (not m_fOnLoadTexture(GetGroup,
                                                  pItem.m_pModel,
                                                  nil,
                                                  pModelTexture,
@@ -2446,14 +3097,14 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3Job.Cancel();
+procedure TQRMD3Job.Cancel;
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Job.IsCanceled(): Boolean;
+function TQRMD3Job.IsCanceled: Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
@@ -2483,7 +3134,7 @@ begin
     m_PrefixKeyword := prefixKeyword;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD3FileJob.Destroy();
+destructor TQRLoadMD3FileJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -2581,7 +3232,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD3FileJob.Process(): Boolean;
+function TQRLoadMD3FileJob.Process: Boolean;
 var
     vertexFormat:                                         TQRVertexFormat;
     pMesh:                                                PQRMesh;
@@ -2595,20 +3246,18 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // get sub-model group count. A sub-model group is usually composed of a model (.md3 file), a
         // skin (.skin file), and optional shader and texture files. All files belonging to sub-model
@@ -2700,9 +3349,7 @@ begin
             progressStep := (totalItemStep / totalStep);
 
             // model is loaded, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // set model color
             m_Items[i].m_pModel.Color := m_pColor;
@@ -2746,25 +3393,25 @@ begin
 
             try
                 textureLoaded := m_TextureLoaded;
-
-                // skin is loaded, add one step to progress
-                m_Progress := m_Progress + progressStep;
             finally
                 m_pLock.Unlock;
             end;
 
+            // skin is loaded, add one step to progress
+            Progress := Progress + progressStep;
+
             // do include colors?
-            if (EQR_MO_Without_Colors in m_ModelOptions) then
+            if (EQR_MO_Without_Colors in ModelOptions) then
                 vertexFormat := []
             else
                 vertexFormat := [EQR_VF_Colors];
 
             // normals loaded?
-            if (not(EQR_MO_Without_Normals in m_ModelOptions)) then
+            if (not(EQR_MO_Without_Normals in ModelOptions)) then
                 Include(vertexFormat, EQR_VF_Normals);
 
             // texture loaded?
-            if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+            if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
                 Include(vertexFormat, EQR_VF_TexCoords);
 
             // set vertex format
@@ -2774,9 +3421,7 @@ begin
             m_pItemDictionary.AddOrSetValue(modelName, @m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // do not create cache?
             if (not doCreateCache) then
@@ -2800,7 +3445,7 @@ begin
                     New(pMesh);
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // create AABB tree
                         pTree := TQRAABBTree.Create
                     else
@@ -2827,16 +3472,16 @@ begin
 
                     // add mesh to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.Mesh[m_Items[i].m_CacheIndex + j] := pMesh;
+                        SetMesh(m_Items[i].m_CacheIndex + j, pMesh);
                     except
                         Dispose(pMesh);
                     end;
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // add tree to cache, note that from now cache will take care of the pointer
                         try
-                            m_pCache.AABBTree[m_Items[i].m_CacheIndex + j] := pTree;
+                            SetTree(m_Items[i].m_CacheIndex + j, pTree);
                         except
                             pTree.Free;
                         end;
@@ -2845,22 +3490,18 @@ begin
                     Inc(cacheIndex);
 
                     // a new frame was cached, add one step to progress
-                    m_pLock.Lock;
-                    m_Progress := m_Progress + progressStep;
-                    m_pLock.Unlock;
+                    Progress := Progress + progressStep;
                 end;
             end;
         end;
 
-        LinkModel();
+        LinkModel;
 
         // calculate the value of a progress step
         progressStep := (totalItemStep / 2.0);
 
         // model was linked, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animation file name
         animFileName :=
@@ -2885,12 +3526,9 @@ begin
         end;
 
         // model is fully loaded
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -2919,7 +3557,7 @@ begin
     m_PrefixKeyword := prefixKeyword;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD3MemoryDirJob.Destroy();
+destructor TQRLoadMD3MemoryDirJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -3016,14 +3654,14 @@ begin
                                               pBitmap);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD3MemoryDirJob.GetMemoryDir(): TQRMemoryDir;
+function TQRLoadMD3MemoryDirJob.GetMemoryDir: TQRMemoryDir;
 begin
     m_pLock.Lock;
     Result := m_pDir;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD3MemoryDirJob.Process(): Boolean;
+function TQRLoadMD3MemoryDirJob.Process: Boolean;
 var
     pModelStream, pSkinStream, pAnimCfgStream:            TStream;
     vertexFormat:                                         TQRVertexFormat;
@@ -3038,20 +3676,18 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // get sub-model group count. A sub-model group is usually composed of a model (.md3 file), a
         // skin (.skin file), and optional shader and texture files. All files belonging to sub-model
@@ -3160,9 +3796,7 @@ begin
             progressStep := (totalItemStep / totalStep);
 
             // model is loaded, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // set model color
             m_Items[i].m_pModel.Color := m_pColor;
@@ -3221,25 +3855,25 @@ begin
 
             try
                 textureLoaded := m_TextureLoaded;
-
-                // skin is loaded, add one step to progress
-                m_Progress := m_Progress + progressStep;
             finally
                 m_pLock.Unlock;
             end;
 
+            // skin is loaded, add one step to progress
+            Progress := Progress + progressStep;
+
             // do include colors?
-            if (EQR_MO_Without_Colors in m_ModelOptions) then
+            if (EQR_MO_Without_Colors in ModelOptions) then
                 vertexFormat := []
             else
                 vertexFormat := [EQR_VF_Colors];
 
             // normals loaded?
-            if (not(EQR_MO_Without_Normals in m_ModelOptions)) then
+            if (not(EQR_MO_Without_Normals in ModelOptions)) then
                 Include(vertexFormat, EQR_VF_Normals);
 
             // texture loaded?
-            if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+            if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
                 Include(vertexFormat, EQR_VF_TexCoords);
 
             // set vertex format
@@ -3249,9 +3883,7 @@ begin
             m_pItemDictionary.AddOrSetValue(modelName, @m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
-            m_pLock.Lock;
-            m_Progress := m_Progress + progressStep;
-            m_pLock.Unlock;
+            Progress := Progress + progressStep;
 
             // do not create cache?
             if (not doCreateCache) then
@@ -3275,7 +3907,7 @@ begin
                     New(pMesh);
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // create AABB tree
                         pTree := TQRAABBTree.Create
                     else
@@ -3302,16 +3934,16 @@ begin
 
                     // add mesh to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.Mesh[m_Items[i].m_CacheIndex + j] := pMesh;
+                        SetMesh(m_Items[i].m_CacheIndex + j, pMesh);
                     except
                         Dispose(pMesh);
                     end;
 
                     // do ignore collisions?
-                    if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                    if (not(EQR_MO_No_Collision in ModelOptions)) then
                         // add tree to cache, note that from now cache will take care of the pointer
                         try
-                            m_pCache.AABBTree[m_Items[i].m_CacheIndex + j] := pTree;
+                            SetTree(m_Items[i].m_CacheIndex + j, pTree);
                         except
                             pTree.Free;
                         end;
@@ -3320,22 +3952,18 @@ begin
                     Inc(cacheIndex);
 
                     // a new frame was cached, add one step to progress
-                    m_pLock.Lock;
-                    m_Progress := m_Progress + progressStep;
-                    m_pLock.Unlock;
+                    Progress := Progress + progressStep;
                 end;
             end;
         end;
 
-        LinkModel();
+        LinkModel;
 
         // calculate the value of a progress step
         progressStep := (totalItemStep / 2.0);
 
         // model was linked, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animation file name
         animFileName := TQRMD3Helper.BuildName(m_pInfo.m_AnimTemplate,
@@ -3388,12 +4016,9 @@ begin
         end;
 
         // model is fully loaded
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -3455,7 +4080,7 @@ begin
     m_pPackage := pPackage;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD3PackageJob.Destroy();
+destructor TQRLoadMD3PackageJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -3470,7 +4095,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD3PackageJob.Unpack(): Boolean;
+function TQRLoadMD3PackageJob.Unpack: Boolean;
 var
     pZipFile:     TZipFile;
     pLocalHeader: TZipHeader;
@@ -3625,7 +4250,7 @@ begin
 
         repeat
             // get next image extension to load
-            extension := m_TextureExt[index];
+            extension := TextureExt[index];
 
             // build icon file name
             fileName := TQRMD3Helper.BuildName(m_pInfo.m_SkinTemplate,
@@ -3636,7 +4261,7 @@ begin
             iconExists := m_pDir.FileExists(fileName);
 
             Inc(index);
-        until (iconExists or (index >= Length(m_TextureExt)));
+        until (iconExists or (index >= TextureExtCount));
 
         // found a icon file to load?
         if (not iconExists) then
@@ -3755,7 +4380,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRLoadMD3PackageJob.OnUnpackModelExternally();
+procedure TQRLoadMD3PackageJob.OnUnpackModelExternally;
 begin
     m_pLock.Lock;
 
@@ -3769,7 +4394,7 @@ begin
 
         // call event
         m_ExternalUnpackHandled   := True;
-        m_ExternalUnpackSucceeded := m_fOnUnpackModel(m_pGroup,
+        m_ExternalUnpackSucceeded := m_fOnUnpackModel(GetGroup,
                                                       m_pPackage,
                                                       m_pDir,
                                                       m_ExternalUnpackHandled);
@@ -3779,23 +4404,21 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD3PackageJob.Process(): Boolean;
+function TQRLoadMD3PackageJob.Process: Boolean;
 begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
-    m_pLock.Lock;
-    m_Progress := 0.0;
-    m_pLock.Unlock;
+    Progress := 0.0;
 
     // unpack model package
-    if (not Unpack()) then
+    if (not Unpack) then
     begin
         Result := False;
         Exit;
@@ -4025,7 +4648,7 @@ var
     pTree, pNextTree: TQRAABBTree;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // no sub-model item?
@@ -4050,17 +4673,17 @@ begin
                                    TQRIsCanceledEvent(nil));
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             try
@@ -4073,17 +4696,17 @@ begin
                 GetDynamicMesh(pItem, pItem.m_pAnimation.InterpolationFrameIndex, pNextMesh^);
 
                 // draw mesh
-                m_fOnDrawItem(Self,
-                              pItem.m_pModel,
-                              pItem.m_Textures,
-                              matrix,
-                              pItem.m_pAnimation.FrameIndex,
-                              pItem.m_pAnimation.InterpolationFrameIndex,
-                              pItem.m_pAnimation.InterpolationFactor,
-                              pMesh,
-                              pNextMesh,
-                              nil,
-                              nil);
+                OnDrawItem(Self,
+                           pItem.m_pModel,
+                           pItem.m_Textures,
+                           matrix,
+                           pItem.m_pAnimation.FrameIndex,
+                           pItem.m_pAnimation.InterpolationFrameIndex,
+                           pItem.m_pAnimation.InterpolationFactor,
+                           pMesh,
+                           pNextMesh,
+                           nil,
+                           nil);
             finally
                 // clear memory
                 Dispose(pMesh);
@@ -4107,31 +4730,31 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   pTree,
+                   pNextTree);
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      pMesh,
-                      pNextMesh,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   pMesh,
+                   pNextMesh,
+                   pTree,
+                   pNextTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawCachedModel(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
@@ -4139,7 +4762,7 @@ var
     interpolatedMesh: TQRMesh;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // no sub-model item?
@@ -4163,31 +4786,31 @@ begin
                                        interpolatedMesh);
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             // draw mesh
-            m_fOnDrawItem(Self,
-                          pItem.m_pModel,
-                          pItem.m_Textures,
-                          matrix,
-                          pItem.m_pAnimation.FrameIndex,
-                          pItem.m_pAnimation.InterpolationFrameIndex,
-                          pItem.m_pAnimation.InterpolationFactor,
-                          m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                          m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       pItem.m_pModel,
+                       pItem.m_Textures,
+                       matrix,
+                       pItem.m_pAnimation.FrameIndex,
+                       pItem.m_pAnimation.InterpolationFrameIndex,
+                       pItem.m_pAnimation.InterpolationFactor,
+                       m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                       m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
+                       nil,
+                       nil);
     end
     else
     // do interpolate?
@@ -4200,31 +4823,31 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex])
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex])
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      pItem.m_pModel,
-                      pItem.m_Textures,
-                      matrix,
-                      pItem.m_pAnimation.FrameIndex,
-                      pItem.m_pAnimation.InterpolationFrameIndex,
-                      pItem.m_pAnimation.InterpolationFactor,
-                      m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex]);
+        OnDrawItem(Self,
+                   pItem.m_pModel,
+                   pItem.m_Textures,
+                   matrix,
+                   pItem.m_pAnimation.FrameIndex,
+                   pItem.m_pAnimation.InterpolationFrameIndex,
+                   pItem.m_pAnimation.InterpolationFactor,
+                   m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.Mesh[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[pItem.m_CacheIndex + pItem.m_pAnimation.InterpolationFrameIndex]);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.DrawMesh(const pItem: TQRMD3ModelItem; const matrix: TQRMatrix4x4);
@@ -4257,16 +4880,16 @@ begin
     then
         DrawDynamicModel(pItem, matrix)
     else
-    if (Assigned(m_fOnCustomDrawItem))
+    if (Assigned(OnCustomDrawItem))
     then
         // let user take care of drawing model
-        m_fOnCustomDrawItem(Self,
-                            pItem.m_pModel,
-                            pItem.m_Textures,
-                            matrix,
-                            pItem.m_pAnimation.FrameIndex,
-                            pItem.m_pAnimation.InterpolationFrameIndex,
-                            pItem.m_pAnimation.InterpolationFactor);
+        OnCustomDrawItem(Self,
+                         pItem.m_pModel,
+                         pItem.m_Textures,
+                         matrix,
+                         pItem.m_pAnimation.FrameIndex,
+                         pItem.m_pAnimation.InterpolationFrameIndex,
+                         pItem.m_pAnimation.InterpolationFactor);
 
     // get model parser
     pParser := pItem.m_pModel.Parser;
@@ -4328,7 +4951,7 @@ begin
         interpolatedQuat := quat.Slerp(nextQuat, interpolationFactor);
 
         // get resulting interpolated matrix
-        interpolatedMatrix := interpolatedQuat.GetMatrix();
+        interpolatedMatrix := interpolatedQuat.GetMatrix;
 
         // set interpolated position inside resulting matrix directly
         interpolatedMatrix.Table[3, 0] := pos.X;
@@ -4340,7 +4963,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Group.GetMemoryDir(): TQRMemoryDir;
+function TQRMD3Group.GetMemoryDir: TQRMemoryDir;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -4448,7 +5071,7 @@ begin
     Result := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD3Group.Clear();
+procedure TQRMD3Group.Clear;
 begin
     // delete model and his associated job, don't forget to unregister it from worker
     if (Assigned(m_pJob)) then
@@ -4460,7 +5083,7 @@ begin
     m_pPostponedGestures.Clear;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Group.IsEmpty(): Boolean;
+function TQRMD3Group.IsEmpty: Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
@@ -4473,7 +5096,7 @@ function TQRMD3Group.Load(const dir: UnicodeString;
                  framedModelOptions: TQRFramedModelOptions): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRLoadMD3FileJob.Create(Self,
@@ -4483,7 +5106,7 @@ begin
                                        pColor,
                                        modelOptions,
                                        framedModelOptions,
-                                       m_fOnLoadTexture);
+                                       OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -4500,7 +5123,7 @@ function TQRMD3Group.Load(const pDir: TQRMemoryDir;
 begin
     try
         // clear previous group instance
-        Clear();
+        Clear;
     except
         on e: Exception do
         begin
@@ -4520,7 +5143,7 @@ begin
                                             pColor,
                                             modelOptions,
                                             framedModelOptions,
-                                            m_fOnLoadTexture);
+                                            OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -4576,7 +5199,7 @@ begin
 
     try
         // clear previous group instance
-        Clear();
+        Clear;
     except
         on e: Exception do
         begin
@@ -4595,7 +5218,7 @@ begin
                                           pColor,
                                           modelOptions,
                                           framedModelOptions,
-                                          m_fOnLoadTexture,
+                                          OnLoadMeshTexture,
                                           team,
                                           customTeamName);
 
@@ -4663,23 +5286,23 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD3Group.QueryJobStatus(): TQRModelJobStatus;
+function TQRMD3Group.QueryJobStatus: TQRModelJobStatus;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
     begin
         // set default values
-        m_pJobStatus.Status   := EQR_JS_NotStarted;
-        m_pJobStatus.Progress := 0;
+        JobStatus.Status   := EQR_JS_NotStarted;
+        JobStatus.Progress := 0;
     end
     else
     begin
         // get status from running job
-        m_pJobStatus.Status   := m_pJob.GetStatus;
-        m_pJobStatus.Progress := Floor(m_pJob.Progress);
+        JobStatus.Status   := m_pJob.GetStatus;
+        JobStatus.Progress := Floor(m_pJob.Progress);
     end;
 
-    Result := m_pJobStatus;
+    Result := JobStatus;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.Draw(const elapsedTime: Double);
@@ -4733,7 +5356,7 @@ begin
         AnimateModel(elapsedTime, m_pJob.m_Items[i]);
 
     // get model matrix
-    modelMatrix := GetMatrix();
+    modelMatrix := GetMatrix;
 
     // draw all sub-models, recursively
     DrawMesh(m_pJob.m_Items[0], modelMatrix);

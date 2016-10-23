@@ -263,7 +263,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets then OnPause event
+             Gets or sets the OnPause event
             }
             {$ENDREGION}
             property OnPause: TQROnPlayerPauseEvent read m_fOnPause write m_fOnPause;
@@ -277,7 +277,7 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets OnChangeVolume event
+             Gets or sets the OnChangeVolume event
             }
             {$ENDREGION}
             property OnChangeVolume: TQROnPlayerChangeVolumeEvent read m_fOnChangeVolume write m_fOnChangeVolume;

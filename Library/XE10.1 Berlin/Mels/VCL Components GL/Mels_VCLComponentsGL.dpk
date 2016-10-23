@@ -25,7 +25,7 @@ package Mels_VCLComponentsGL;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Mels VCL Components GL - Provides the model and shape components'}
+{$DESCRIPTION 'Mels VCL components using OpenGL to draw them - runtime package'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -35,20 +35,19 @@ requires
   vcl,
   vclimg,
   Mels_Base,
-  Mels_Models,
-  DelphiGL;
+  Mels_Models;
 
 contains
-  UTQRVCLHelpersGL,
-  UTQRVCLMD2ModelComponentGL,
-  UTQRVCLModelComponentGL,
-  UTQRVCLModelComponentPropertiesGL,
-  UTQRVCLModelRendererGL,
-  UTQRVCLModelRenderSurfaceGL,
-  UTQRVCLModelShaderGL,
-  UTQRVCLSimpleRendererComponentGL,
-  UTQRDesignerHook,
-  UTQRVCLShapeComponentGL,
-  UTQRVCLMD3ModelComponentGL;
+  UTQRVCLHelpersGL in 'UTQRVCLHelpersGL.pas',
+  UTQRVCLMD2ModelComponentGL in 'UTQRVCLMD2ModelComponentGL.pas',
+  UTQRVCLModelComponentGL in 'UTQRVCLModelComponentGL.pas',
+  UTQRVCLModelComponentPropertiesGL in 'UTQRVCLModelComponentPropertiesGL.pas',
+  UTQRVCLModelRendererGL in 'UTQRVCLModelRendererGL.pas',
+  UTQRVCLModelRenderSurfaceGL in 'UTQRVCLModelRenderSurfaceGL.pas',
+  UTQRVCLModelShaderGL in 'UTQRVCLModelShaderGL.pas',
+  UTQRVCLSimpleRendererComponentGL in 'UTQRVCLSimpleRendererComponentGL.pas',
+  UTQRDesignerHook in 'UTQRDesignerHook.pas',
+  UTQRVCLShapeComponentGL in 'UTQRVCLShapeComponentGL.pas',
+  UTQRVCLMD3ModelComponentGL in 'UTQRVCLMD3ModelComponentGL.pas';
 
 end.

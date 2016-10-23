@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRFiles ---------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module provides the basic classes to work with files                        *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRFiles --------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides some additional features to facilitate the work with files.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRFiles;
 
 interface
@@ -17,119 +36,157 @@ uses System.SysUtils,
      UTQRHelpers;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Memory file dictionary, allows to associate a file name with a memory buffer, and use it as if
-    * it was a HDD file
+     Memory file dictionary, allows to associate a file name with a memory buffer, and use it as if
+     it was a HDD file
     }
+    {$ENDREGION}
     TQRMemoryFileDictionary = TDictionary<TFileName, TStream>;
 
+    {$REGION 'Documentation'}
     {**
-    * Memory directory, allows to create a structure closest to a dir that contains all files as
-    * memory buffers
-    *}
+     Memory directory, allows to create a structure closest to a dir that contains all files as
+     memory buffers
+    }
+    {$ENDREGION}
     TQRMemoryDir = class
-        protected
+        private
             m_pFiles:          TQRMemoryFileDictionary;
             m_DeleteOnDestroy: Boolean;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Constructor
-            *@param deleteOnDestroy - if true, added memory streams will be deleted while dir
-            *                         will be destroyed
-            *}
+             Constructor
+             @param(deleteOnDestroy If @true, added memory streams will be deleted while the dir
+                                    will be destroyed)
+            }
+            {$ENDREGION}
             constructor Create(deleteOnDestroy: Boolean); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
-            *}
-            destructor  Destroy(); override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor  Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Adds memory file
-            *@param fileName - memory file name
-            *@param pBuffer - memory buffer containing file data
-            *@param overwrite - if true, existing file will be overwritten
-            *@param caseSensitive - if true, file name will be case sensitive
-            *@return true on success, otherwise false
-            *}
+             Adds memory file
+             @param(fileName Memory file name)
+             @param(pBuffer Memory buffer containing file data)
+             @param(overwrite If t@rue, existing file will be overwritten)
+             @param(caseSensitive If @true, file name will be case sensitive)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function AddFile(const fileName: TFileName;
                                     pBuffer: TStream;
                                   overwrite: Boolean;
                               caseSensitive: Boolean = False): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets file
-            *@param fileName - memory file name to get
-            *@param caseSensitive - if true, file name will be case sensitive
-            *@return memory buffer containing file data, nil if not found or on error
-            *}
+             Gets file
+             @param(fileName Memory file name to get)
+             @param(caseSensitive If @true, file name will be case sensitive)
+             @return(Memory buffer containing file data, @nil if not found or on error)
+            }
+            {$ENDREGION}
             function GetFile(const fileName: TFileName;
                               caseSensitive: Boolean = False): TStream; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if file exists
-            *@param fileName - file name to check
-            *@param caseSensitive - if true, file name will be case sensitive
-            *@return true if file exists, otherwise false
-            *}
+             Checks if file exists
+             @param(fileName File name to check)
+             @param(caseSensitive If @true, file name will be case sensitive)
+             @return(@true if file exists, otherwise @false)
+            }
+            {$ENDREGION}
             function FileExists(const fileName: TFileName;
                                  caseSensitive: Boolean = False): Boolean; virtual;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Base class that provides tools to read and parse generic scripts
-    *}
+     Base class that provides tools to read and parse generic scripts
+    }
+    {$ENDREGION}
     TQRScript = class
         protected
+            {$REGION 'Documentation'}
             {**
-            * Parses script
-            *@param strings - string list containing loaded script file to parse
-            *@return true on success, otherwise false
-            *}
+             Parses script
+             @param(strings String list containing loaded script file to parse)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Parse(const strings: TStringList): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Parses a script line
-            *@param line - line to parse
-            *@param linbeNb - line number
-            *@return ture on success, otherwise false
-            *}
+             Parses a script line
+             @param(line Line to parse)
+             @param(linbeNb Line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function ParseLine(const line: UnicodeString;
                                    lineNb: NativeUInt): Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when script line should be parsed
-            *@param line - line to parse
-            *@param linbeNb - line number
-            *@return ture on success, otherwise false
-            *}
+             Called when script line should be parsed
+             @param(line Line to parse)
+             @param(linbeNb Line number)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function OnParseLine(const line: UnicodeString;
                                      lineNb: NativeUInt): Boolean; virtual; abstract;
 
         public
-            { Construction/Destruction }
-            constructor Create();  virtual;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears script
-            *}
-            procedure Clear(); virtual; abstract;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads script from file
-            *@param fileName - script file name
-            *@return true on success, otherwise false
-            *}
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Clears script
+            }
+            {$ENDREGION}
+            procedure Clear; virtual; abstract;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads script from file
+             @param(fileName Script file name)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads script from buffer
-            *@param pBuffer - buffer containing script file to read
-            *@param dataLength - buffer length to read
-            *@return true on success, otherwise false
-            *}
+             Loads script from buffer
+             @param(pBuffer Buffer containing script file to read)
+             @param(dataLength Buffer length to read)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const pBuffer: TStream; dataLength: NativeUInt): Boolean; overload; virtual;
     end;
 
@@ -145,7 +202,7 @@ begin
     m_DeleteOnDestroy := deleteOnDestroy;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMemoryDir.Destroy();
+destructor TQRMemoryDir.Destroy;
 var
     item:   TPair<TFileName, TStream>;
     pValue: TStream;
@@ -247,12 +304,12 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRScript
 //--------------------------------------------------------------------------------------------------
-constructor TQRScript.Create();
+constructor TQRScript.Create;
 begin
     inherited Create;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRScript.Destroy();
+destructor TQRScript.Destroy;
 begin
     inherited Destroy;
 end;
@@ -262,7 +319,7 @@ var
     i, lineCount: NativeUInt;
 begin
     // clear all previous data before parsing new
-    Clear();
+    Clear;
 
     // get line count
     lineCount := strings.Count;

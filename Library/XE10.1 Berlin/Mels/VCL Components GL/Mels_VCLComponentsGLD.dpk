@@ -25,7 +25,7 @@ package Mels_VCLComponentsGLD;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Mels VCL Components GL - Provides the model and shape components in design time'}
+{$DESCRIPTION 'Mels VCL components using OpenGL to draw them - design time package'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
@@ -34,12 +34,11 @@ requires
   vcl,
   vclimg,
   Mels_VCLComponentsGL,
-  DelphiGL,
   Mels_Base,
   Mels_Models,
   Mels_VCL;
 
 contains
-  UTQRVCLModelsGL_Register;
+  UTQRVCLModelsGL_Register in 'UTQRVCLModelsGL_Register.pas';
 
 end.

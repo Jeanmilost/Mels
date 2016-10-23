@@ -107,21 +107,57 @@ type
 
         {$REGION 'Documentation'}
         {**
-         Converts string to array of bytes
+         Converts a string to an array of bytes
          @param(str String to convert)
          @return(Array of bytes)
         }
         {$ENDREGION}
-        class function StrToByte(const str: String): TQRByteArray; static;
+        class function StrToByte(const str: string): TQRByteArray; static;
 
         {$REGION 'Documentation'}
         {**
-         Converts array of bytes to string
+         Converts an array of bytes to a string
          @param(bytes Array of bytes to convert)
          @return(String)
         }
         {$ENDREGION}
         class function ByteToStr(const bytes: TQRByteArray): string; static;
+
+        {$REGION 'Documentation'}
+        {**
+         Converts an ansi string to an array of bytes
+         @param(str String to convert)
+         @return(Array of bytes)
+        }
+        {$ENDREGION}
+        class function AnsiStrToByte(const str: AnsiString): TQRByteArray; static;
+
+        {$REGION 'Documentation'}
+        {**
+         Converts an array of bytes to an ansi string
+         @param(bytes Array of bytes to convert)
+         @return(Ansi string)
+        }
+        {$ENDREGION}
+        class function ByteToAnsiStr(const bytes: TQRByteArray): AnsiString; static;
+
+        {$REGION 'Documentation'}
+        {**
+         Converts an Unicode string to an array of bytes
+         @param(str String to convert)
+         @return(Array of bytes)
+        }
+        {$ENDREGION}
+        class function UniStrToByte(const str: UnicodeString): TQRByteArray; static;
+
+        {$REGION 'Documentation'}
+        {**
+         Converts an array of bytes to an Unicode string
+         @param(bytes Array of bytes to convert)
+         @return(Unicode string)
+        }
+        {$ENDREGION}
+        class function ByteToUniStr(const bytes: TQRByteArray): UnicodeString; static;
 
         {$REGION 'Documentation'}
         {**
@@ -319,44 +355,53 @@ begin
 
     Result := '';
 end;
-//--------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 class function TQRStringHelper.StrToByte(const str: string): TQRByteArray;
-var
-    i:      NativeInt;
-    strLen: NativeUInt;
 begin
-    // get string length to convert
-    strLen := Length(str);
+    SetLength(Result, Length(str));
 
-    // initialize memory for array of bytes
-    SetLength(Result, strLen);
-
-    // iterate through string chars and convert them to byte
-    for i := 0 to strLen - 1 do
-    begin
-        Result[i] := Ord(str[i + 1]);
-        Dec(Result[i], 48);
-    end;
+    if (Length(Result) > 0) then
+        Move(str[1], Result[0], Length(Result));
 end;
-//--------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 class function TQRStringHelper.ByteToStr(const bytes: TQRByteArray): string;
-var
-    i:         NativeInt;
-    strLen:    NativeUInt;
-    s:         string;
-    character: Char;
 begin
-    s      := '';
-    strLen := Length(bytes);
+    SetLength(Result, Length(bytes));
 
-    // iterate through bytes and convert them to chars, then add them to string
-    for i := strLen - 1 Downto 0 do
-    begin
-        character := Chr(bytes[i] + 48);
-        s         := character + s;
-    end;
+    if Length(Result) > 0 then
+        Move(bytes[0], Result[1], Length(bytes));
+end;
+//---------------------------------------------------------------------------
+class function TQRStringHelper.AnsiStrToByte(const str: AnsiString): TQRByteArray;
+begin
+    SetLength(Result, Length(str) * SizeOf(AnsiChar));
 
-    Result := s;
+    if (Length(Result) > 0) then
+        Move(str[1], Result[0], Length(Result));
+end;
+//---------------------------------------------------------------------------
+class function TQRStringHelper.ByteToAnsiStr(const bytes: TQRByteArray): AnsiString;
+begin
+    SetLength(Result, Length(bytes) div SizeOf(AnsiChar));
+
+    if Length(Result) > 0 then
+        Move(bytes[0], Result[1], Length(bytes));
+end;
+//---------------------------------------------------------------------------
+class function TQRStringHelper.UniStrToByte(const str: UnicodeString): TQRByteArray;
+begin
+    SetLength(Result, Length(str) * SizeOf(WideChar));
+
+    if (Length(Result) > 0) then
+        Move(str[1], Result[0], Length(Result));
+end;
+//---------------------------------------------------------------------------
+class function TQRStringHelper.ByteToUniStr(const bytes: TQRByteArray): UnicodeString;
+begin
+    SetLength(Result, Length(bytes) div SizeOf(WideChar));
+
+    if Length(Result) > 0 then
+        Move(bytes[0], Result[1], Length(bytes));
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRStringHelper.IsNumeric(digit: AnsiChar; isStrict: Boolean): Boolean;

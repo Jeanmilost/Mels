@@ -1,46 +1,95 @@
-{**************************************************************************************************
- * ==> UTQRDesignerHook --------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : Hook to listen and resend design time messages.                                  *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRDesignerHook -------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides a hook to listen and resend several design time messages. This is required
+           because some events, as the scrolling events, are required by the Mels components to e.g.
+           refresh their interface, however these messages are never dispatched in the Windows
+           message loop.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRDesignerHook;
 
 interface
 
 uses System.Classes,
+     System.SysUtils,
      UTQRDesignPatterns,
      Vcl.Controls,
      Winapi.Messages,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Designer hook messages that can be sent to observers
-    *@note Begins to 100 to not interfere with other messages. The allowed range for a new message
-    *      of type designer hook is between 100 and 199
-    *}
+     Designer hook messages that can be sent to observers
+     @value(EQR_DH_Message Message notifying that a monitored message was sent in the message loop
+                           of the hooked control)
+     @value(EQR_DH_Destroying Message notifying that the designer hook is being destroyed)
+     @br @bold(NOTE) These values begin on 100 to not interfere with other messages. The allowed
+                     range for a new designer hook message is between 100 and 199
+    }
+    {$ENDREGION}
     EQRDesignerHookMessages =
     (
         EQR_DH_Message = 100,
         EQR_DH_Destroying
     );
 
+    {$REGION 'Documentation'}
     {**
-    * Designer hook message info
-    *}
+     Designer hook message info
+    }
+    {$ENDREGION}
     TQRDesignerHookMsgInfo = record
+        {$REGION 'Documentation'}
+        {**
+         The message received in the hooked message loop
+        }
+        {$ENDREGION}
         m_Message: NativeUInt;
-        m_WParam:  WPARAM;
-        m_LParam:  LPARAM;
+
+        {$REGION 'Documentation'}
+        {**
+         The message WParam value
+        }
+        {$ENDREGION}
+        m_WParam: WPARAM;
+
+        {$REGION 'Documentation'}
+        {**
+         The message LParam value
+        }
+        {$ENDREGION}
+        m_LParam: LPARAM;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Hook for Embarcadero RAD Studio designer
-    *@note Descendent of TComponent to allow the hook to receive notifications
-    *}
+     Hook for Embarcadero RAD Studio designer
+     @br @bold(NOTE) Descendent of TComponent to allow the hook to receive notifications
+    }
+    {$ENDREGION}
     TQRDesignerHook = class sealed (TComponent, IQRSubject)
         private
             class var m_pInstance:      TQRDesignerHook;
@@ -50,66 +99,93 @@ type
                       m_Filters:        array of NativeUInt;
                       m_hPrevWndProc:   TWndMethod;
 
-            { Construction/Destruction }
-            constructor Create();  reintroduce;
-            destructor  Destroy(); reintroduce;
-            procedure   Free();    reintroduce;
-
+            {$REGION 'Documentation'}
             {**
-            * Called when a Windows message was received from hooked control
-            *@param pSender - event sender
-            *}
+             Called when a Windows message is received from hooked control
+             @param(pSender Event sender)
+            }
+            {$ENDREGION}
             procedure OnMessage(var message: TMessage);
 
         protected
+            {$REGION 'Documentation'}
             {**
-            * Called when observed component sent a notification
-            *@param pComponent - component that sent the notification
-            *@param operation - operation that observed component is currently doing
-            *}
+             Called when observed component sent a notification
+             @param(pComponent Component that sent the notification)
+             @param(operation Operation that observed component is currently doing)
+            }
+            {$ENDREGION}
             procedure Notification(pComponent: TComponent; operation: TOperation); override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Gets designer hook instance, creates one if still not created
-            *@return model cache instance
-            *}
-            class function GetInstance(): TQRDesignerHook; static;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Deletes designer hook instance
-            *@note This function is automatically called when unit is released
-            *}
-            class procedure DeleteInstance(); static;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Attaches observer
-            *@param pObserver - observer to attach
-            *}
+             Gets designer hook instance, creates one if still not created
+             @return(Model cache instance)
+            }
+            {$ENDREGION}
+            class function GetInstance: TQRDesignerHook; static;
+
+            {$REGION 'Documentation'}
+            {**
+             Deletes designer hook instance
+             @br @bold(NOTE) This function is automatically called when unit is released
+            }
+            {$ENDREGION}
+            class procedure DeleteInstance; static;
+
+            {$REGION 'Documentation'}
+            {**
+             Attaches observer
+             @param(pObserver Observer to attach)
+            }
+            {$ENDREGION}
             procedure Attach(pObserver: IQRObserver);
 
+            {$REGION 'Documentation'}
             {**
-            * Detaches observer
-            *@param pObserver - observer to detach
-            *}
+             Detaches observer
+             @param(pObserver Observer to detach)
+            }
+            {$ENDREGION}
             procedure Detach(pObserver: IQRObserver);
 
+            {$REGION 'Documentation'}
             {**
-            * Sets the designer control to hook
-            *@param pControl - designer control to hook
-            *}
+             Sets the designer control to hook
+             @param(pControl Designer control to hook)
+            }
+            {$ENDREGION}
             procedure SetHookedControl(pControl: TWinControl);
 
+            {$REGION 'Documentation'}
             {**
-            * Adds a filter
-            *@param filter - message filter to add
-            *}
+             Adds a filter
+             @param(filter Message filter to add)
+            }
+            {$ENDREGION}
             procedure AddFilter(filter: NativeUInt);
 
+            {$REGION 'Documentation'}
             {**
-            * Notifies all observers about an occurred event
-            *@param message - notification message
-            *}
+             Notifies all observers about an occurred event
+             @param(message Notification message)
+            }
+            {$ENDREGION}
             procedure Notify(message: TQRMessage);
     end;
 
@@ -117,8 +193,12 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRDesignerHook
 //--------------------------------------------------------------------------------------------------
-constructor TQRDesignerHook.Create();
+constructor TQRDesignerHook.Create;
 begin
+    // singleton was already initialized?
+    if (Assigned(m_pInstance)) then
+        raise Exception.Create('Cannot create many instances of a singleton class');
+
     // not really designed to be a component, so can set his owner to nil
     inherited Create(nil);
 
@@ -128,7 +208,7 @@ begin
     m_hPrevWndProc   := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRDesignerHook.Destroy();
+destructor TQRDesignerHook.Destroy;
 var
     message: TQRMessage;
 begin
@@ -147,13 +227,6 @@ begin
     Notify(message);
 
     inherited Destroy;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRDesignerHook.Free();
-begin
-    // check if self is already deleted, delete itself if not
-    if (Assigned(Self)) then
-        Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.OnMessage(var message: TMessage);
@@ -217,7 +290,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRDesignerHook.GetInstance(): TQRDesignerHook;
+class function TQRDesignerHook.GetInstance: TQRDesignerHook;
 var
     pInstance: TQRDesignerHook;
 begin
@@ -245,7 +318,7 @@ begin
     Result := m_pInstance;
 end;
 //--------------------------------------------------------------------------------------------------
-class procedure TQRDesignerHook.DeleteInstance();
+class procedure TQRDesignerHook.DeleteInstance;
 begin
     m_pInstance.Free;
     m_pInstance := nil;
@@ -355,7 +428,7 @@ finalization
 //--------------------------------------------------------------------------------------------------
 begin
     // free instance when application closes
-    TQRDesignerHook.DeleteInstance();
+    TQRDesignerHook.DeleteInstance;
 end;
 //--------------------------------------------------------------------------------------------------
 

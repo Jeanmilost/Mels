@@ -41,8 +41,8 @@ type
      VCL animation timer messages that can be sent to observers
      @value(EQR_AM_Animate Message notifying that a new animation frame should be generated)
      @value(EQR_AM_Destroying Message notifying that the animation timer is being destroyed)
-     @br @bold(NOTE) Values begins on 0 to not interfere with other messages. The allowed range for
-                     a new message of type animation is between 0 and 99
+     @br @bold(NOTE) These values begin on 0 to not interfere with other messages. The allowed range
+                     for a new animation timer message is between 0 and 99
     }
     {$ENDREGION}
     EQRVCLAnimationTimerMessages =

@@ -25,7 +25,7 @@ package Mels_VCL;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Mels VCL - Provides the features to manage models and shapes in a VCL context'}
+{$DESCRIPTION 'Mels VCL, provides the tools to work with the RAD Studio VCL library'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -37,15 +37,15 @@ requires
   Mels_Base;
 
 contains
-  UTQRLogging,
-  UTQRMD2ModelGroup,
-  UTQRMD3ModelGroup,
-  UTQRModelGroup,
-  UTQRThreading,
-  UTQRVCLAnimationTimer,
-  UTQRVCLGraphics,
-  UTQRVCLHelpers,
-  UTQRVCLModelRenderer,
-  UTQRShapeGroup;
+  UTQRLogging in 'UTQRLogging.pas',
+  UTQRMD2ModelGroup in 'UTQRMD2ModelGroup.pas',
+  UTQRMD3ModelGroup in 'UTQRMD3ModelGroup.pas',
+  UTQRModelGroup in 'UTQRModelGroup.pas',
+  UTQRThreading in 'UTQRThreading.pas',
+  UTQRVCLAnimationTimer in 'UTQRVCLAnimationTimer.pas',
+  UTQRVCLGraphics in 'UTQRVCLGraphics.pas',
+  UTQRVCLHelpers in 'UTQRVCLHelpers.pas',
+  UTQRVCLModelRenderer in 'UTQRVCLModelRenderer.pas',
+  UTQRShapeGroup in 'UTQRShapeGroup.pas';
 
 end.

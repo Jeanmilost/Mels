@@ -1,11 +1,30 @@
-{**************************************************************************************************
- * ==> UTQRMD2ModelGroup -------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : This module contains the classes used to load and link all MD2 files together.   *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> UTQRMD2ModelGroup ------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name provides the features to load and link all files composing the MD2 together.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit UTQRMD2ModelGroup;
 
 interface
@@ -33,10 +52,34 @@ uses System.Classes,
      Winapi.Windows;
 
 type
+    {$REGION 'Documentation'}
     {**
-    * Standard MD2 animation set, as commonly defined in the Quake engine
-    *@note These gestures are given for convenience, you are free to define your own gestures
-    *}
+     Standard MD2 animation set, as commonly defined in the Quake engine
+     @value(EQR_AG_MD2_Stand Selects the stand gesture to be played by the model)
+     @value(EQR_AG_MD2_Run Selects the run gesture to be played by the model)
+     @value(EQR_AG_MD2_Attack Selects the attack gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain1 Selects the pain nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain2 Selects the pain nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD2_Pain3 Selects the pain nb. 3 gesture to be played by the model)
+     @value(EQR_AG_MD2_Jump Selects the jump gesture to be played by the model)
+     @value(EQR_AG_MD2_Flip Selects the flip gesture to be played by the model)
+     @value(EQR_AG_MD2_Salute Selects the salute gesture to be played by the model)
+     @value(EQR_AG_MD2_Taunt Selects the taunt gesture to be played by the model)
+     @value(EQR_AG_MD2_Wave Selects the wave gesture to be played by the model)
+     @value(EQR_AG_MD2_Point Selects the point gesture to be played by the model)
+     @value(EQR_AG_MD2_CRStand Selects the crouching stand gesture to be played by the model)
+     @value(EQR_AG_MD2_CRWalk Selects the crouching walk gesture to be played by the model)
+     @value(EQR_AG_MD2_CRAttack Selects the crouching attack gesture to be played by the model)
+     @value(EQR_AG_MD2_CRPain Selects the crouching pain gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath Selects the death nb. 1 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath2 Selects the death nb. 2 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath3 Selects the death nb. 3 gesture to be played by the model)
+     @value(EQR_AG_MD2_CRDeath4 Selects the death nb. 4 gesture to be played by the model)
+     @br @bold(NOTE) These gestures are given for convenience, you are free to define your own
+                     gestures. However these gestures must match with those defined in the model.cfg
+                     file
+    }
+    {$ENDREGION}
     EQRMD2AnimationGesture =
     (
         EQR_AG_MD2_Stand = 0,
@@ -61,38 +104,59 @@ type
         EQR_AG_MD2_CRDeath4
     );
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 animation configuration file
-    *}
+     MD2 animation configuration file
+    }
+    {$ENDREGION}
     TQRMD2AnimCfgFile = class(TQRFramedModelAnimCfgFile)
-        protected
+        private
             m_StartLine: NativeUInt;
             m_CurLine:   NativeUInt;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Parses a word found in script line
-            *@param word - word to parse
-            *@param lineNb - current parsing line number
-            *@return true on success, otherwise false
-            *}
+             Parses a word found in script line
+             @param(word Word to parse)
+             @param(lineNb Current parsing line number)
+             @return(@true on success, otherwise @false)
+            }
             function ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears script
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Clears script
+            }
+            {$ENDREGION}
+            procedure Clear; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Generic MD2 job
-    *}
+     Generic MD2 job
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD2 job is designed to load all the files composing the MD2
+                     model, and provides the data to be used by the group
+    }
+    {$ENDREGION}
     TQRMD2Job = class(TQRModelJob)
-        protected
+        private
             m_pModel:             TQRMD2Model;
             m_Textures:           TQRTextures;
             m_pColor:             TQRColor;
@@ -107,79 +171,102 @@ type
             m_FramedModelOptions: TQRFramedModelOptions;
             m_fOnLoadTexture:     TQRLoadMeshTextureEvent;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets model
-            *@return model
-            *}
-            function GetModel(): TQRMD2Model; virtual;
+             Gets the model
+             @return(The model)
+            }
+            {$ENDREGION}
+            function GetModel: TQRMD2Model; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture
-            *@param index - texture index to get
-            *@return texture
-            *}
+             Gets a texture
+             @param(index The texture index to get)
+             @return(The texture)
+            }
+            {$ENDREGION}
             function GetTexture(index: NativeInt): TQRTexture; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets texture count
-            *@return texture
-            *}
-            function GetTextureCount(): NativeInt; virtual;
+             Gets the texture count
+             @return(The texture count)
+            }
+            {$ENDREGION}
+            function GetTextureCount: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets color
-            *@return color
-            *}
-            function GetColor(): TQRColor; virtual;
+             Gets the model color
+             @return(The model color)
+            }
+            {$ENDREGION}
+            function GetColor: TQRColor; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets animations
-            *@return animations
-            *}
-            function GetAnimations(): TQRMD2AnimCfgFile; virtual;
+             Gets animations
+             @return(Animations)
+            }
+            {$ENDREGION}
+            function GetAnimations: TQRMD2AnimCfgFile; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets default mesh
-            *@return default mesh
-            *}
-            function GetDefaultMesh(): PQRMesh; virtual;
+             Gets the default mesh
+             @return(The default mesh)
+            }
+            {$ENDREGION}
+            function GetDefaultMesh: PQRMesh; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets framed model options
-            *@return model options
-            *}
-            function GetFramedModelOptions(): TQRFramedModelOptions; virtual;
+             Gets the framed model options
+             @return(The model options)
+            }
+            {$ENDREGION}
+            function GetFramedModelOptions: TQRFramedModelOptions; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets framed model options
-            *@param options - model options
-            *}
+             Sets the framed model options
+             @param(options Model options)
+            }
+            {$ENDREGION}
             procedure SetFramedModelOptions(options: TQRFramedModelOptions); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when model texture should be loaded
-            *@note This function is executed on the calling thread side
-            *}
-            procedure OnLoadTexture(); virtual;
+             Called when model texture should be loaded
+             @br bold(NOTE) This function is executed on the calling thread side
+            }
+            {$ENDREGION}
+            procedure OnLoadTexture; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * called when default mesh (i.e. mesh to show during long operation) should be created
-            *}
-            procedure OnCreateDefaultMesh(); virtual;
+             Called when default mesh (i.e. mesh to show during long operation) should be created
+            }
+            {$ENDREGION}
+            procedure OnCreateDefaultMesh; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                          const pColor: TQRColor;
                          const pLight: TQRMD2Light;
@@ -189,72 +276,133 @@ type
                     defaultFrameIndex: NativeUInt;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Cancels the job
-            *}
-            procedure Cancel(); override;
+             Cancels the job
+            }
+            {$ENDREGION}
+            procedure Cancel; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if job was canceled
-            *@return true if job was canceled, otherwise false
-            *}
-            function IsCanceled(): Boolean; virtual;
+             Checks if job was canceled
+             @return(@true if job was canceled, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsCanceled: Boolean; virtual;
 
-            { Properties }
-            property Model:                     TQRMD2Model           read GetModel;
-            property Texture[index: NativeInt]: TQRTexture            read GetTexture;
-            property TextureCount:              NativeInt             read GetTextureCount;
-            property Color:                     TQRColor              read GetColor;
-            property Animations:                TQRMD2AnimCfgFile     read GetAnimations;
-            property DefaultMesh:               PQRMesh               read GetDefaultMesh;
-            property FramedModelOptions:        TQRFramedModelOptions read GetFramedModelOptions write SetFramedModelOptions;
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the model
+            }
+            {$ENDREGION}
+            property Model: TQRMD2Model read GetModel;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets texture at index
+            }
+            {$ENDREGION}
+            property Texture[index: NativeInt]: TQRTexture read GetTexture;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the texture count
+            }
+            {$ENDREGION}
+            property TextureCount: NativeInt read GetTextureCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the model color
+            }
+            {$ENDREGION}
+            property Color: TQRColor read GetColor;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the animations
+            }
+            {$ENDREGION}
+            property Animations: TQRMD2AnimCfgFile read GetAnimations;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the default mesh
+            }
+            {$ENDREGION}
+            property DefaultMesh: PQRMesh read GetDefaultMesh;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the framed model options
+            }
+            {$ENDREGION}
+            property FramedModelOptions: TQRFramedModelOptions read GetFramedModelOptions write SetFramedModelOptions;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD2 from file
-    *}
+     Job to load MD2 from file
+     @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
+                     by a worker. A MD2 job is designed to load all the files composing the MD2
+                     model, and provides the data to be used by the group
+    }
+    {$ENDREGION}
     TQRLoadMD2FileJob = class(TQRMD2Job)
-        protected
+        private
             m_Dir:  UnicodeString;
             m_Name: TFileName;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
-            *}
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param dir - dir containing all model files to load
-            *@param name - name that identifies the files belonging to model in the directory, e.g.
-            *              'Ogro' for Ogro.md2, Ogro.bmp, ...
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *}
+             Constructor
+             @param(pGroup Group that owns the job)
+             @param(dir Directory containing all the model files to load)
+             @param(name Name that identifies the files belonging to the model in the directory,
+                         e.g. 'Ogro' for Ogro.md2, Ogro.bmp, ...)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                             const dir: UnicodeString;
                            const name: TFileName;
@@ -266,65 +414,81 @@ type
                     defaultFrameIndex: NativeUInt;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD2 from memory dir
-    *}
+     Job to load MD2 from memory dir
+    }
+    {$ENDREGION}
     TQRLoadMD2MemoryDirJob = class(TQRMD2Job)
-        protected
+        private
             m_pDir: TQRMemoryDir;
             m_Name: TFileName;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Called before a texture is loaded
-            *@param pTexture - texture to load
-            *@param custom - if true, texture is a custom user, otherwise a texture belonging to model
-            *}
+             Called before a texture is loaded
+             @param(pTexture Texture to load)
+             @param(custom If @true, texture is a custom texture provided by the user, otherwise a
+                    texture belonging to model)
+            }
+            {$ENDREGION}
             procedure BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean); override;
 
+            {$REGION 'Documentation'}
             {**
-            * Called when a known texture should be loaded
-            *@param pTexture - texture to load
-            *@param pBitmap - bitmap containing loaded texture
-            *@return true on success, otherwise false
-            *}
+             Called when a known texture should be loaded
+             @param(pTexture Texture to load)
+             @param(pBitmap Bitmap containing the loaded texture)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
                                   pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the memory dir containing model files
-            *@return memory dir
-            *}
-            function GetMemoryDir(): TQRMemoryDir; virtual;
+             Gets the memory dir containing model files
+             @return(Memory dir)
+            }
+            {$ENDREGION}
+            function GetMemoryDir: TQRMemoryDir; virtual;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pDir - memory dir containing all model files to load
-            *@param name - name that identifies the files belonging to model in the directory, e.g.
-            *              'Ogro' for Ogro.md2, Ogro.bmp, ...
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *@note Memory dir will be deleted internally, do not try to delete it from outside
-            *}
+             Construction
+             @param(pGroup Group that owns the job)
+             @param(pDir Memory directory containing all model files to load)
+             @param(name Name that identifies the files belonging to model in the directory, e.g.
+                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+             @br @bold(NOTE) Memory dir will be deleted internally, do not try to delete it from outside
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                            const pDir: TQRMemoryDir;
                            const name: TFileName;
@@ -336,54 +500,73 @@ type
                     defaultFrameIndex: NativeUInt;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the memory directory
+            }
+            {$ENDREGION}
             property MemoryDir: TQRMemoryDir read GetMemoryDir;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * Job to load MD2 model from package (*.pk2 or .zip)
-    *@note Some zip archives may be detected as valid but fails while stream is extracted, by
-    *      returning an incoherent stream content (no error is shown when this happen). This seems
-    *      to be a limitation of the zip library provided with the Embarcadero Delphi compiler (XE7),
-    *      and happen sometimes with some packages created with old zippers, e.g. when
-    *      RequiredVersion is set to 10 and CompressionMethod is set to 0 in the returned TZipHeader
-    *      record. The solution for now is to extract and recreate the package using a recent zipper
-    *}
+     Job to load MD2 model from package (*.pk2 or .zip)
+     @br @bold(NOTE) Some zip archives may be detected as valid but fails while stream is extracted,
+                     by returning an incoherent stream content (no error is shown when this happen).
+                     This seems to be a limitation of the zip library provided with the Embarcadero
+                     Delphi compiler (XE7), and happen sometimes with some packages created with old
+                     zippers, e.g. when RequiredVersion is set to 10 and CompressionMethod is set to
+                     0 in the returned TZipHeader record. The solution for now is to extract and
+                     recreate the package using a recent zipper
+    }
+    {$ENDREGION}
     TQRLoadMD2PackageJob = class(TQRLoadMD2MemoryDirJob)
-        protected
+        private
             m_pPackage: TStream;
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Unpacks model package and prepare memory directory
-            *@return true on succes, otherwise false
-            *}
-            function Unpack(): Boolean;
+             Unpacks model package and prepare memory directory
+             @return(@true on succes, otherwise @false)
+            }
+            {$ENDREGION}
+            function Unpack: Boolean;
 
         public
+            {$REGION 'Documentation'}
             {**
-            * Construction
-            *@param pGroup - group that owns the job
-            *@param pPackage - stream containing package model to load
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param fOnLoadTexture - load texture callback function
-            *@throw exception if group is not defined
-            *@note Package stream will be deleted internally, do not try to delete it from outside
-            *}
+             Constructor
+             @param(pGroup Group that owns the job)
+             @param(pPackage Stream containing package model to load)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(fOnLoadTexture Load texture callback function)
+             @raises(Exception if group is not defined)
+             @br @bold(NOTE) Package stream will be deleted internally, do not try to delete it from
+                             outside
+            }
+            {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                        const pPackage: TStream;
                          const pColor: TQRColor;
@@ -394,23 +577,29 @@ type
                     defaultFrameIndex: NativeUInt;
                        fOnLoadTexture: TQRLoadMeshTextureEvent); reintroduce;
 
+            {$REGION 'Documentation'}
             {**
-            * Destructor
+             Destructor
             }
-            destructor Destroy(); override;
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Processes the job
-            *@returns true on success, otherwise false
-            *}
-            function Process(): Boolean; override;
+             Processes the job
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function Process: Boolean; override;
     end;
 
+    {$REGION 'Documentation'}
     {**
-    * MD2 model group, contains all items and functions needed to manage a complete MD2 model
-    *}
+     MD2 model group, contains all items and functions needed to manage a complete MD2 model
+    }
+    {$ENDREGION}
     TQRMD2Group = class(TQRFramedModelGroup)
-        protected
+        private
             m_pJob:             TQRMD2Job;               // contains in-memory model after job ends
             m_pAnimation:       TQRFramedModelAnimation; // current running animation
             m_Gesture:          NativeInt;               // current running gesture
@@ -422,103 +611,141 @@ type
             m_FPS:              NativeUInt;              // current gesture frame per seconds
             m_EndNotified:      Boolean;                 // if true, current animation reached end
 
+        protected
+            {$REGION 'Documentation'}
             {**
-            * Gets gesture
-            *@return gesture
-            *}
+             Gets the animation gesture
+             @return(The animation gesture)
+            }
+            {$ENDREGION}
             function GetGesture: NativeInt; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets animation gesture
-            *@param gesture - animation gesture index to set
-            *}
+             Sets the animation gesture
+             @param(gesture Animation gesture index to set)
+            }
+            {$ENDREGION}
             procedure SetGesture(gesture: NativeInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Sets gesture temporarly, runs only if gesture is completely cached
-            *@param gesture - animation gesture index to set
-            *}
+             Sets gesture temporarly, runs only if gesture is completely cached
+             @param(gesture Animation gesture index to set)
+            }
+            {$ENDREGION}
             procedure SetGestureIfAvailable(gesture: NativeInt); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Animates the model
-            *@param elapsedTime - elapsed time since last calculation
-            *}
+             Animates the model
+             @param(elapsedTime Elapsed time since last calculation)
+            }
+            {$ENDREGION}
             procedure AnimateModel(const elapsedTime: Double); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh
-            *@param index - mesh index to calculate and get
-            *@param[out] mesh - mesh
-            *}
+             Gets dynamic mesh
+             @param(index Mesh index to calculate and get)
+             @param(mesh @bold([out]) Mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMesh(index: NativeUInt; out mesh: TQRMesh); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets dynamic mesh, from cache if available, otherwise calculates and caches it
-            *@param index - mesh index to calculate and get
-            *@param[out] mesh - mesh
-            *@param[out] pTree - aligned-axis bounding box tree matching with mesh
-            *}
+             Gets dynamic mesh, from cache if available, otherwise calculates and caches it
+             @param(index Mesh index to calculate and get)
+             @param(mesh @bold([out]) Mesh)
+             @param(pTree @bold([out]) Aligned-axis bounding box tree matching with mesh)
+            }
+            {$ENDREGION}
             procedure GetDynamicMeshUseCache(index: NativeUInt;
                                          out pMesh: PQRMesh;
                                          out pTree: TQRAABBTree); virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws dynamic model
-            *}
-            procedure DrawDynamicModel(); virtual;
+             Draws dynamic model
+            }
+            {$ENDREGION}
+            procedure DrawDynamicModel; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws cached model
-            *}
-            procedure DrawCachedModel(); virtual;
+             Draws the cached model
+            }
+            {$ENDREGION}
+            procedure DrawCachedModel; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Gets the memory dir containing model files
-            *@return memory dir, nil if not found or on error
-            *}
-            function GetMemoryDir(): TQRMemoryDir; virtual;
+             Gets the memory dir containing model files
+             @return(memory dir, @nil if not found or on error)
+            }
+            {$ENDREGION}
+            function GetMemoryDir: TQRMemoryDir; virtual;
 
         public
-            { Construction/Destruction }
-            constructor Create();  override;
-            destructor  Destroy(); override;
-
+            {$REGION 'Documentation'}
             {**
-            * Clears group
-            *}
-            procedure Clear(); override;
+             Constructor
+            }
+            {$ENDREGION}
+            constructor Create; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if group is empty
-            *@return true if model is empty, otherwise false
-            *}
-            function IsEmpty(): Boolean; override;
+             Destructor
+            }
+            {$ENDREGION}
+            destructor Destroy; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from dir
-            *@param dir - dir containing all model files to load
-            *@param name - name that identifies the files belonging to model in the directory, e.g.
-            *              'Ogro' for Ogro.md2, Ogro.bmp, ...
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@return true on success, otherwise false
-            *@note A MD2 model is generally composed by the following files:
-            *      - a .md2 file that contains the model itself
-            *      - a texture file, can be of any type: bmp, jpg, pcx, ...
-            *      - an optional binary file that contains the normals table
-            *      In addition, this model system requires a configuration file for the animations,
-            *      that is composed as follow:
-            *      [frame start] [frame count] [frame loop] [fps]
-            *      0             39            39           15     // MODEL_WALK
-            *      40            45            45           10     // MODEL_WAIT
-            *      ...
-            *      If no animation file is provided, only the first model frame will be processed
-            *}
+             Clears group
+            }
+            {$ENDREGION}
+            procedure Clear; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Checks if group is empty
+             @return(@true if model is empty, otherwise @false)
+            }
+            {$ENDREGION}
+            function IsEmpty: Boolean; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Loads group from dir
+             @param(dir Directory containing all model files to load)
+             @param(name Name that identifies the files belonging to model in the directory, e.g.
+                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) A MD2 model is generally composed by the following files:
+                             @br - a .md2 file that contains the model itself
+                             @br - a texture file, can be of any type: bmp, jpg, pcx, ...
+                             @br - an optional binary file that contains the normals table
+                             @br In addition, this model system requires a configuration file for
+                             the animations, that is composed as follow:
+                             @longcode(
+                                       [frame start] [frame count] [frame loop] [fps]
+                                       0             39            39           15    // MODEL_WALK
+                                       40            45            45           10    // MODEL_WAIT
+                                       ...
+                                       )
+                             @br If no animation file is provided, only the first model frame will
+                             be processed
+            }
+            {$ENDREGION}
             function Load(const dir: UnicodeString;
                          const name: TFileName;
                        const pColor: TQRColor;
@@ -528,31 +755,36 @@ type
                  framedModelOptions: TQRFramedModelOptions;
                   defaultFrameIndex: NativeUInt = 0): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from memory dir
-            *@param pDir - memory dir containing all model streams to load
-            *@param name - name that identifies the files belonging to model in the directory, e.g.
-            *              'Ogro' for Ogro.md2, Ogro.bmp, ...
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@return true on success, otherwise false
-            *@note Memory dir will be deleted internally, do not try to delete it from outside
-            *@note A MD2 model is generally composed by the following files:
-            *      - a .md2 file that contains the model itself
-            *      - a texture file, can be of any type: bmp, jpg, pcx, ...
-            *      - an optional binary file that contains the normals table
-            *      In addition, this model system requires a configuration file for the animations,
-            *      that is composed as follow:
-            *      [frame start] [frame count] [frame loop] [fps]
-            *      0             39            39           15     // MODEL_WALK
-            *      40            45            45           10     // MODEL_WAIT
-            *      ...
-            *      If no animation file is provided, only the first model frame will be processed
-            *}
+             Loads group from memory dir
+             @param(pDir Memory directory containing all model streams to load)
+             @param(name Name that identifies the files belonging to model in the directory, e.g.
+                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Memory dir will be deleted internally, do not try to delete it from outside
+             @br @bold(NOTE) A MD2 model is generally composed by the following files:
+                             @br - a .md2 file that contains the model itself
+                             @br - a texture file, can be of any type: bmp, jpg, pcx, ...
+                             @br - an optional binary file that contains the normals table
+                             @br In addition, this model system requires a configuration file for
+                             the animations, that is composed as follow:
+                             @longcode(
+                                       [frame start] [frame count] [frame loop] [fps]
+                                       0             39            39           15    // MODEL_WALK
+                                       40            45            45           10    // MODEL_WAIT
+                                       ...
+                                       )
+                             @br If no animation file is provided, only the first model frame will
+                             be processed
+            }
+            {$ENDREGION}
             function Load(const pDir: TQRMemoryDir;
                           const name: TFileName;
                         const pColor: TQRColor;
@@ -562,17 +794,19 @@ type
                   framedModelOptions: TQRFramedModelOptions;
                    defaultFrameIndex: NativeUInt = 0): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from package (.pk2 or .zip) file
-            *@param fileName - model package file name to load
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@return true on success, otherwise false
-            *}
+             Loads group from package (.pk2 or .zip) file
+             @param(fileName Model package file name to load)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
             function Load(const fileName: TFileName;
                             const pColor: TQRColor;
                             const pLight: TQRMD2Light;
@@ -581,18 +815,20 @@ type
                       framedModelOptions: TQRFramedModelOptions;
                        defaultFrameIndex: NativeUInt = 0): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Loads group from package (.pk2 or .zip) stream
-            *@param pPackage - stream containing model package to load
-            *@param pColor - model color
-            *@param pLight - pre-calculated light, ignored if nil
-            *@param rhToLh - if true, right hand coordinated will be transformed to left hand
-            *@param modelOptions - model options to apply
-            *@param framedModelOptions - framed model options to apply
-            *@param defaultFrameIndex - index of the default frame to show while model is loaded
-            *@return true on success, otherwise false
-            *@note Package stream will be deleted internally, do not try to delete it from outside
-            *}
+             Loads group from package (.pk2 or .zip) stream
+             @param(pPackage Stream containing model package to load)
+             @param(pColor Model color)
+             @param(pLight Pre-calculated light, ignored if @nil)
+             @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
+             @param(modelOptions Model options to apply)
+             @param(framedModelOptions Framed model options to apply)
+             @param(defaultFrameIndex Index of the default frame to show while model is loaded)
+             @return(@true on success, otherwise @false)
+             @br @bold(NOTE) Package stream will be deleted internally, do not try to delete it from outside
+            }
+            {$ENDREGION}
             function Load(const pPackage: TStream;
                             const pColor: TQRColor;
                             const pLight: TQRMD2Light;
@@ -601,28 +837,44 @@ type
                       framedModelOptions: TQRFramedModelOptions;
                        defaultFrameIndex: NativeUInt = 0): Boolean; overload; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Checks if the model is loaded
-            *@return true if the model is loaded, otherwise false
-            *}
-            function Loaded(): Boolean; virtual;
+             Checks if the model is loaded
+             @return(@true if the model is loaded, otherwise @false)
+            }
+            {$ENDREGION}
+            function Loaded: Boolean; virtual;
 
+            {$REGION 'Documentation'}
             {**
-            * Queries the job status
-            *@return job status
-            *}
-            function QueryJobStatus(): TQRModelJobStatus; override;
+             Queries the job status
+             @return(Job status)
+            }
+            {$ENDREGION}
+            function QueryJobStatus: TQRModelJobStatus; override;
 
+            {$REGION 'Documentation'}
             {**
-            * Draws group
-            *@param elapsedTime - elapsed time since last draw
-            *}
+             Draws group
+             @param(elapsedTime Elapsed time since last draw)
+            }
+            {$ENDREGION}
             procedure Draw(const elapsedTime: Double); override;
 
-            { Properties }
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets animation gesture
+            }
+            {$ENDREGION}
             property Gesture: NativeInt read GetGesture write SetGesture;
 
-            { Properties }
+            {$REGION 'Documentation'}
+            {**
+             Gets the memory directory
+            }
+            {$ENDREGION}
             property MemoryDir: TQRMemoryDir read GetMemoryDir;
     end;
 
@@ -630,7 +882,7 @@ implementation
 //--------------------------------------------------------------------------------------------------
 // TQRMD2AnimCfgFile
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2AnimCfgFile.Create();
+constructor TQRMD2AnimCfgFile.Create;
 begin
     inherited Create;
 
@@ -638,7 +890,7 @@ begin
     m_CurLine   := 0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2AnimCfgFile.Destroy();
+destructor TQRMD2AnimCfgFile.Destroy;
 begin
     inherited Destroy;
 end;
@@ -649,14 +901,14 @@ var
     gesture: NativeInt;
 begin
     // nothing to parse?
-    if (word.IsEmpty) then
+    if (Length(word) = 0) then
     begin
         Result := True;
         Exit;
     end;
 
     // by default, each line contains 4 numeric values, that describes the animation
-    for i := 1 to word.Length do
+    for i := 1 to Length(word) do
         if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], False))) then
         begin
             Result := False;
@@ -664,7 +916,7 @@ begin
         end;
 
     // first item to parse?
-    if (Length(m_Items) = 0) then
+    if (GetItemCount = 0) then
     begin
         // store the start line, it will be used later to find the animation type
         m_StartLine := lineNb;
@@ -672,35 +924,35 @@ begin
     end;
 
     // first animation value?
-    if (m_Column = 0) then
+    if (Column = 0) then
     begin
         // get animation gesture (each line pos in file matchs with the IEGesture enumerator)
         gesture := (m_CurLine - m_StartLine);
 
         // create and populate new item, and add it to list
-        SetLength(m_Items, Length(m_Items) + 1);
-        m_Items[Length(m_Items) - 1].m_Gesture := gesture;
+        SetItemCount(GetItemCount + 1);
+        Items[GetItemCount - 1].m_Gesture := gesture;
 
         Inc(m_CurLine);
     end;
 
     // search for animation item value to set
-    case m_Column of
-        0: m_Items[Length(m_Items) - 1].m_StartFrame      := StrToInt(word);
-        1: m_Items[Length(m_Items) - 1].m_FrameCount      := StrToInt(word);
-        2: m_Items[Length(m_Items) - 1].m_LoopingFrames   := StrToInt(word);
-        3: m_Items[Length(m_Items) - 1].m_FramesPerSecond := StrToInt(word);
+    case Column of
+        0: Items[GetItemCount - 1].m_StartFrame      := StrToInt(word);
+        1: Items[GetItemCount - 1].m_FrameCount      := StrToInt(word);
+        2: Items[GetItemCount - 1].m_LoopingFrames   := StrToInt(word);
+        3: Items[GetItemCount - 1].m_FramesPerSecond := StrToInt(word);
     else
         Result := False;
         Exit;
     end;
 
-    Inc(m_Column);
+    IncColumn;
 
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2AnimCfgFile.Clear();
+procedure TQRMD2AnimCfgFile.Clear;
 begin
     inherited Clear;
 
@@ -739,7 +991,7 @@ begin
     m_fOnLoadTexture     := fOnLoadTexture;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Job.Destroy();
+destructor TQRMD2Job.Destroy;
 var
     i: NativeUInt;
 begin
@@ -769,7 +1021,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetModel(): TQRMD2Model;
+function TQRMD2Job.GetModel: TQRMD2Model;
 begin
     m_pLock.Lock;
     Result := m_pModel;
@@ -791,35 +1043,35 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetTextureCount(): NativeInt;
+function TQRMD2Job.GetTextureCount: NativeInt;
 begin
     m_pLock.Lock;
     Result := Length(m_Textures);
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetColor(): TQRColor;
+function TQRMD2Job.GetColor: TQRColor;
 begin
     m_pLock.Lock;
     Result := m_pColor;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetAnimations(): TQRMD2AnimCfgFile;
+function TQRMD2Job.GetAnimations: TQRMD2AnimCfgFile;
 begin
     m_pLock.Lock;
     Result := m_pAnimations;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetDefaultMesh(): PQRMesh;
+function TQRMD2Job.GetDefaultMesh: PQRMesh;
 begin
     m_pLock.Lock;
     Result := m_pDefaultMesh;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetFramedModelOptions(): TQRFramedModelOptions;
+function TQRMD2Job.GetFramedModelOptions: TQRFramedModelOptions;
 begin
     m_pLock.Lock;
     Result := m_FramedModelOptions;
@@ -833,7 +1085,7 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.OnLoadTexture();
+procedure TQRMD2Job.OnLoadTexture;
 var
     textureIndex:        NativeInt;
     max:                 NativeUInt;
@@ -877,7 +1129,7 @@ begin
                     begin
                         // notify that a texture is loading
                         if (Assigned(m_fOnLoadTexture)) then
-                            if (not m_fOnLoadTexture(m_pGroup,
+                            if (not m_fOnLoadTexture(GetGroup,
                                                      m_pModel,
                                                      pTexture,
                                                      m_Textures[textureIndex],
@@ -888,7 +1140,7 @@ begin
                     else
                     // notify that a texture is loading
                     if (Assigned(m_fOnLoadTexture)) then
-                        if (not m_fOnLoadTexture(m_pGroup,
+                        if (not m_fOnLoadTexture(GetGroup,
                                                  m_pModel,
                                                  nil,
                                                  m_Textures[textureIndex],
@@ -905,7 +1157,7 @@ begin
             begin
                 // notify that a texture is loading
                 if (Assigned(m_fOnLoadTexture)) then
-                    if (not m_fOnLoadTexture(m_pGroup,
+                    if (not m_fOnLoadTexture(GetGroup,
                                              m_pModel,
                                              nil,
                                              m_Textures[textureIndex],
@@ -927,7 +1179,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.OnCreateDefaultMesh();
+procedure TQRMD2Job.OnCreateDefaultMesh;
 begin
     m_pLock.Lock;
 
@@ -948,14 +1200,14 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.Cancel();
+procedure TQRMD2Job.Cancel;
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.IsCanceled(): Boolean;
+function TQRMD2Job.IsCanceled: Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
@@ -989,7 +1241,7 @@ begin
     m_Name := name;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2FileJob.Destroy();
+destructor TQRLoadMD2FileJob.Destroy;
 begin
     inherited Destroy;
 end;
@@ -1028,13 +1280,13 @@ begin
         // build texture file name
         fileName := TQRFileHelper.AppendDelimiter(pTexture.Dir) +
                     pTexture.FileName                           +
-                    m_TextureExt[index];
+                    TextureExt[index];
 
         // check if texture file exists
         textureExists := FileExists(fileName);
 
         Inc(index);
-    until (textureExists or (index >= Length(m_TextureExt)));
+    until (textureExists or (index >= TextureExtCount));
 
     // found a texture file to load?
     if (not textureExists) then
@@ -1064,7 +1316,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2FileJob.Process(): Boolean;
+function TQRLoadMD2FileJob.Process: Boolean;
 var
     modelName, normalsName, animCfgName: TFileName;
     pNormalsStream:                      TResourceStream;
@@ -1080,16 +1332,14 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // build model file name
         modelName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.md2';
@@ -1126,8 +1376,8 @@ begin
         frameCount := m_pModel.GetMeshCount;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // do create cache?
         if (doCreateCache) then
@@ -1141,9 +1391,7 @@ begin
         progressStep := (100.0 / totalStep);
 
         // model is loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // populate model options
         m_pModel.Color  := m_pColor;
@@ -1196,9 +1444,7 @@ begin
         end;
 
         // normals are loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // notify main interface that texture should be loaded, wait until function returns
         TThread.Synchronize(nil, OnLoadTexture);
@@ -1207,25 +1453,25 @@ begin
 
         try
             textureLoaded := m_TextureLoaded;
-
-            // texture is created, add one step to progress
-            m_Progress := m_Progress + progressStep;
         finally
             m_pLock.Unlock;
         end;
 
+        // texture is created, add one step to progress
+        Progress := Progress + progressStep;
+
         // do include colors?
-        if (EQR_MO_Without_Colors in m_ModelOptions) then
+        if (EQR_MO_Without_Colors in ModelOptions) then
             vertexFormat := []
         else
             vertexFormat := [EQR_VF_Colors];
 
         // normals loaded?
-        if (normalsLoaded and (not(EQR_MO_Without_Normals in m_ModelOptions))) then
+        if (normalsLoaded and (not(EQR_MO_Without_Normals in ModelOptions))) then
             Include(vertexFormat, EQR_VF_Normals);
 
         // texture loaded?
-        if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+        if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
             Include(vertexFormat, EQR_VF_TexCoords);
 
         // set vertex format
@@ -1237,9 +1483,7 @@ begin
             TThread.Synchronize(nil, OnCreateDefaultMesh);
 
         // model is configured and default mesh is created, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animations config file name
         animCfgName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.cfg';
@@ -1262,15 +1506,13 @@ begin
         // do not create cache?
         if (not doCreateCache) then
         begin
-            m_IsLoaded := True;
-            Result     := True;
+            IsLoaded := True;
+            Result   := True;
             Exit;
         end;
 
         // animations are loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // something to cache?
         if (frameCount > 0) then
@@ -1281,7 +1523,7 @@ begin
                 New(pMesh);
 
                 // do ignore collisions?
-                if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                if (not(EQR_MO_No_Collision in ModelOptions)) then
                     // create AABB tree
                     pTree := TQRAABBTree.Create
                 else
@@ -1308,32 +1550,27 @@ begin
 
                 // add mesh to cache, note that from now cache will take care of the pointer
                 try
-                    m_pCache.Mesh[i] := pMesh;
+                    SetMesh(i, pMesh);
                 except
                     Dispose(pMesh);
                 end;
 
                 // do ignore collisions?
-                if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                if (not(EQR_MO_No_Collision in ModelOptions)) then
                     // add tree to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.AABBTree[i] := pTree;
+                        SetTree(i, pTree);
                     except
                         pTree.Free;
                     end;
 
                 // a new frame was cached, add one step to progress
-                m_pLock.Lock;
-                m_Progress := m_Progress + progressStep;
-                m_pLock.Unlock;
+                Progress := Progress + progressStep;
             end;
 
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -1366,7 +1603,7 @@ begin
     m_Name := name;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2MemoryDirJob.Destroy();
+destructor TQRLoadMD2MemoryDirJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -1413,7 +1650,7 @@ begin
 
     repeat
         // get file extension
-        fileExt := m_TextureExt[index];
+        fileExt := TextureExt[index];
 
         // build texture file name
         fileName := pTexture.FileName + fileExt;
@@ -1422,7 +1659,7 @@ begin
         textureExists := m_pDir.FileExists(fileName);
 
         Inc(index);
-    until (textureExists or (index >= Length(m_TextureExt)));
+    until (textureExists or (index >= TextureExtCount));
 
     // found a texture file to load?
     if (not textureExists) then
@@ -1447,14 +1684,14 @@ begin
     Result := TQRModelGroupHelper.LoadTexture(pImageStream, fileExt, pBitmap);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2MemoryDirJob.GetMemoryDir(): TQRMemoryDir;
+function TQRLoadMD2MemoryDirJob.GetMemoryDir: TQRMemoryDir;
 begin
     m_pLock.Lock;
     Result := m_pDir;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2MemoryDirJob.Process(): Boolean;
+function TQRLoadMD2MemoryDirJob.Process: Boolean;
 var
     modelName, normalsName, animCfgName:          TFileName;
     pModelStream, pNormalsStream, pAnimCfgStream: TStream;
@@ -1471,16 +1708,14 @@ begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
     try
-        m_pLock.Lock;
-        m_Progress := 0.0;
-        m_pLock.Unlock;
+        Progress := 0.0;
 
         // build model file name
         modelName := m_Name + '.md2';
@@ -1531,8 +1766,8 @@ begin
         end;
 
         // check if cache should be created
-        doCreateCache := ((EQR_MO_Create_Cache   in m_ModelOptions) and
-                      not (EQR_MO_Dynamic_Frames in m_ModelOptions));
+        doCreateCache := ((EQR_MO_Create_Cache   in ModelOptions) and
+                      not (EQR_MO_Dynamic_Frames in ModelOptions));
 
         // get mesh count
         frameCount := m_pModel.GetMeshCount;
@@ -1549,9 +1784,7 @@ begin
         progressStep := (100.0 / totalStep);
 
         // model is loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // populate model options
         m_pModel.Color  := m_pColor;
@@ -1611,9 +1844,7 @@ begin
         end;
 
         // normals are loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // notify main interface that texture should be loaded, wait until function returns
         TThread.Synchronize(nil, OnLoadTexture);
@@ -1622,25 +1853,25 @@ begin
 
         try
             textureLoaded := m_TextureLoaded;
-
-            // texture is created, add one step to progress
-            m_Progress := m_Progress + progressStep;
         finally
             m_pLock.Unlock;
         end;
 
+        // texture is created, add one step to progress
+        Progress := Progress + progressStep;
+
         // do include colors?
-        if (EQR_MO_Without_Colors in m_ModelOptions) then
+        if (EQR_MO_Without_Colors in ModelOptions) then
             vertexFormat := []
         else
             vertexFormat := [EQR_VF_Colors];
 
         // normals loaded?
-        if (normalsLoaded and (not(EQR_MO_Without_Normals in m_ModelOptions))) then
+        if (normalsLoaded and (not(EQR_MO_Without_Normals in ModelOptions))) then
             Include(vertexFormat, EQR_VF_Normals);
 
         // texture loaded?
-        if (textureLoaded and (not(EQR_MO_Without_Textures in m_ModelOptions))) then
+        if (textureLoaded and (not(EQR_MO_Without_Textures in ModelOptions))) then
             Include(vertexFormat, EQR_VF_TexCoords);
 
         // set vertex format
@@ -1652,9 +1883,7 @@ begin
             TThread.Synchronize(nil, OnCreateDefaultMesh);
 
         // model is configured and default mesh is created, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // build animations config file name
         animCfgName := m_Name + '.cfg';
@@ -1684,15 +1913,13 @@ begin
         // do not create cache?
         if (not doCreateCache) then
         begin
-            m_IsLoaded := True;
-            Result     := True;
+            IsLoaded := True;
+            Result   := True;
             Exit;
         end;
 
         // animations are loaded, add one step to progress
-        m_pLock.Lock;
-        m_Progress := m_Progress + progressStep;
-        m_pLock.Unlock;
+        Progress := Progress + progressStep;
 
         // something to cache?
         if (frameCount > 0) then
@@ -1703,7 +1930,7 @@ begin
                 New(pMesh);
 
                 // do ignore collisions?
-                if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                if (not(EQR_MO_No_Collision in ModelOptions)) then
                     // create AABB tree
                     pTree := TQRAABBTree.Create
                 else
@@ -1729,32 +1956,27 @@ begin
 
                 // add mesh to cache, note that from now cache will take care of the pointer
                 try
-                    m_pCache.Mesh[i] := pMesh;
+                    SetMesh(i, pMesh);
                 except
                     Dispose(pMesh);
                 end;
 
                 // do ignore collisions?
-                if (not(EQR_MO_No_Collision in m_ModelOptions)) then
+                if (not(EQR_MO_No_Collision in ModelOptions)) then
                     // add tree to cache, note that from now cache will take care of the pointer
                     try
-                        m_pCache.AABBTree[i] := pTree;
+                        SetTree(i, pTree);
                     except
                         pTree.Free;
                     end;
 
                 // a new frame was cached, add one step to progress
-                m_pLock.Lock;
-                m_Progress := m_Progress + progressStep;
-                m_pLock.Unlock;
+                Progress := Progress + progressStep;
             end;
 
-        m_pLock.Lock;
-        m_Progress := 100.0;
-        m_pLock.Unlock;
-
-        m_IsLoaded := True;
-        Result     := True;
+        Progress := 100.0;
+        IsLoaded := True;
+        Result   := True;
     finally
         TThread.Synchronize(nil, OnAfterLoadModel);
     end;
@@ -1790,7 +2012,7 @@ begin
     m_pPackage := pPackage;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2PackageJob.Destroy();
+destructor TQRLoadMD2PackageJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -1804,7 +2026,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2PackageJob.Unpack(): Boolean;
+function TQRLoadMD2PackageJob.Unpack: Boolean;
 var
     pZipFile:     TZipFile;
     pLocalHeader: TZipHeader;
@@ -1909,23 +2131,21 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2PackageJob.Process(): Boolean;
+function TQRLoadMD2PackageJob.Process: Boolean;
 begin
     // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
-    if (m_IsLoaded) then
+    if (IsLoaded) then
     begin
         Result := True;
         Exit;
     end;
 
-    m_pLock.Lock;
-    m_Progress := 0.0;
-    m_pLock.Unlock;
+    Progress := 0.0;
 
     // unpack model package
-    if (not Unpack()) then
+    if (not Unpack) then
     begin
         Result := False;
         Exit;
@@ -1936,7 +2156,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD2Group
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Group.Create();
+constructor TQRMD2Group.Create;
 begin
     inherited Create;
 
@@ -1950,10 +2170,10 @@ begin
     m_LoopFrame        :=  0;
     m_FPS              :=  0;
     m_EndNotified      :=  False;
-    m_SwapYZ           :=  True;
+    SwapYZ             :=  True;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Group.Destroy();
+destructor TQRMD2Group.Destroy;
 begin
     // delete model and his associated job, don't forget to unregister it from worker
     if (Assigned(m_pJob)) then
@@ -2292,14 +2512,14 @@ begin
         end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.DrawDynamicModel();
+procedure TQRMD2Group.DrawDynamicModel;
 var
     pMesh, pNextMesh: PQRMesh;
     interpolatedMesh: TQRMesh;
     pTree, pNextTree: TQRAABBTree;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // can use dynamic cache?
@@ -2316,17 +2536,17 @@ begin
                                  TQRIsCanceledEvent(nil));
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          m_pJob.Model,
-                          m_pJob.m_Textures,
-                          GetMatrix(),
-                          m_pAnimation.FrameIndex,
-                          m_pAnimation.InterpolationFrameIndex,
-                          m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       m_pJob.Model,
+                       m_pJob.m_Textures,
+                       GetMatrix,
+                       m_pAnimation.FrameIndex,
+                       m_pAnimation.InterpolationFrameIndex,
+                       m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             try
@@ -2339,17 +2559,17 @@ begin
                 GetDynamicMesh(m_pAnimation.InterpolationFrameIndex, pNextMesh^);
 
                 // draw mesh
-                m_fOnDrawItem(Self,
-                              m_pJob.Model,
-                              m_pJob.m_Textures,
-                              GetMatrix(),
-                              m_pAnimation.FrameIndex,
-                              m_pAnimation.InterpolationFrameIndex,
-                              m_pAnimation.InterpolationFactor,
-                              pMesh,
-                              pNextMesh,
-                              nil,
-                              nil);
+                OnDrawItem(Self,
+                           m_pJob.Model,
+                           m_pJob.m_Textures,
+                           GetMatrix,
+                           m_pAnimation.FrameIndex,
+                           m_pAnimation.InterpolationFrameIndex,
+                           m_pAnimation.InterpolationFactor,
+                           pMesh,
+                           pNextMesh,
+                           nil,
+                           nil);
             finally
                 // clear memory
                 Dispose(pMesh);
@@ -2373,39 +2593,39 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      m_pJob.Model,
-                      m_pJob.m_Textures,
-                      GetMatrix(),
-                      m_pAnimation.FrameIndex,
-                      m_pAnimation.InterpolationFrameIndex,
-                      m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   m_pJob.Model,
+                   m_pJob.m_Textures,
+                   GetMatrix,
+                   m_pAnimation.FrameIndex,
+                   m_pAnimation.InterpolationFrameIndex,
+                   m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   pTree,
+                   pNextTree);
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      m_pJob.Model,
-                      m_pJob.m_Textures,
-                      GetMatrix(),
-                      m_pAnimation.FrameIndex,
-                      m_pAnimation.InterpolationFrameIndex,
-                      m_pAnimation.InterpolationFactor,
-                      pMesh,
-                      pNextMesh,
-                      pTree,
-                      pNextTree);
+        OnDrawItem(Self,
+                   m_pJob.Model,
+                   m_pJob.m_Textures,
+                   GetMatrix,
+                   m_pAnimation.FrameIndex,
+                   m_pAnimation.InterpolationFrameIndex,
+                   m_pAnimation.InterpolationFactor,
+                   pMesh,
+                   pNextMesh,
+                   pTree,
+                   pNextTree);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.DrawCachedModel();
+procedure TQRMD2Group.DrawCachedModel;
 var
     interpolatedMesh: TQRMesh;
 begin
     // nothing to draw?
-    if (not Assigned(m_fOnDrawItem)) then
+    if (not Assigned(OnDrawItem)) then
         Exit;
 
     // collision buffers were created?
@@ -2421,31 +2641,31 @@ begin
                                        interpolatedMesh);
 
             // draw mesh
-            m_fOnDrawItem(Self,
-                          m_pJob.Model,
-                          m_pJob.m_Textures,
-                          GetMatrix(),
-                          m_pAnimation.FrameIndex,
-                          m_pAnimation.InterpolationFrameIndex,
-                          m_pAnimation.InterpolationFactor,
-                          @interpolatedMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       m_pJob.Model,
+                       m_pJob.m_Textures,
+                       GetMatrix,
+                       m_pAnimation.FrameIndex,
+                       m_pAnimation.InterpolationFrameIndex,
+                       m_pAnimation.InterpolationFactor,
+                       @interpolatedMesh,
+                       nil,
+                       nil,
+                       nil);
         end
         else
             // draw mesh
-            m_fOnDrawItem(Self,
-                          m_pJob.Model,
-                          m_pJob.m_Textures,
-                          GetMatrix(),
-                          m_pAnimation.FrameIndex,
-                          m_pAnimation.InterpolationFrameIndex,
-                          m_pAnimation.InterpolationFactor,
-                          m_pJob.Mesh[m_pAnimation.FrameIndex],
-                          m_pJob.Mesh[m_pAnimation.InterpolationFrameIndex],
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       m_pJob.Model,
+                       m_pJob.m_Textures,
+                       GetMatrix,
+                       m_pAnimation.FrameIndex,
+                       m_pAnimation.InterpolationFrameIndex,
+                       m_pAnimation.InterpolationFactor,
+                       m_pJob.Mesh[m_pAnimation.FrameIndex],
+                       m_pJob.Mesh[m_pAnimation.InterpolationFrameIndex],
+                       nil,
+                       nil);
     end
     else
     // do interpolate?
@@ -2458,34 +2678,34 @@ begin
                                    interpolatedMesh);
 
         // draw mesh
-        m_fOnDrawItem(Self,
-                      m_pJob.Model,
-                      m_pJob.m_Textures,
-                      GetMatrix(),
-                      m_pAnimation.FrameIndex,
-                      m_pAnimation.InterpolationFrameIndex,
-                      m_pAnimation.InterpolationFactor,
-                      @interpolatedMesh,
-                      nil,
-                      m_pJob.AABBTree[m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex])
+        OnDrawItem(Self,
+                   m_pJob.Model,
+                   m_pJob.m_Textures,
+                   GetMatrix,
+                   m_pAnimation.FrameIndex,
+                   m_pAnimation.InterpolationFrameIndex,
+                   m_pAnimation.InterpolationFactor,
+                   @interpolatedMesh,
+                   nil,
+                   m_pJob.AABBTree[m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex])
     end
     else
         // draw mesh
-        m_fOnDrawItem(Self,
-                      m_pJob.Model,
-                      m_pJob.m_Textures,
-                      GetMatrix(),
-                      m_pAnimation.FrameIndex,
-                      m_pAnimation.InterpolationFrameIndex,
-                      m_pAnimation.InterpolationFactor,
-                      m_pJob.Mesh[m_pAnimation.FrameIndex],
-                      m_pJob.Mesh[m_pAnimation.InterpolationFrameIndex],
-                      m_pJob.AABBTree[m_pAnimation.FrameIndex],
-                      m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex]);
+        OnDrawItem(Self,
+                   m_pJob.Model,
+                   m_pJob.m_Textures,
+                   GetMatrix,
+                   m_pAnimation.FrameIndex,
+                   m_pAnimation.InterpolationFrameIndex,
+                   m_pAnimation.InterpolationFactor,
+                   m_pJob.Mesh[m_pAnimation.FrameIndex],
+                   m_pJob.Mesh[m_pAnimation.InterpolationFrameIndex],
+                   m_pJob.AABBTree[m_pAnimation.FrameIndex],
+                   m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex]);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.GetMemoryDir(): TQRMemoryDir;
+function TQRMD2Group.GetMemoryDir: TQRMemoryDir;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -2512,7 +2732,7 @@ begin
     Result := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.Clear();
+procedure TQRMD2Group.Clear;
 begin
     // previous job was created?
     if (Assigned(m_pJob)) then
@@ -2538,7 +2758,7 @@ begin
     m_pAnimation.Loop                    := False;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.IsEmpty(): Boolean;
+function TQRMD2Group.IsEmpty: Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
@@ -2553,7 +2773,7 @@ function TQRMD2Group.Load(const dir: UnicodeString;
                   defaultFrameIndex: NativeUInt): Boolean;
 begin
     // clear previous group instance
-    Clear();
+    Clear;
 
     // prepare model job to load from file
     m_pJob := TQRLoadMD2FileJob.Create(Self,
@@ -2565,7 +2785,7 @@ begin
                                        modelOptions,
                                        framedModelOptions,
                                        defaultFrameIndex,
-                                       m_fOnLoadTexture);
+                                       OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -2584,7 +2804,7 @@ function TQRMD2Group.Load(const pDir: TQRMemoryDir;
 begin
     try
         // clear previous group instance
-        Clear();
+        Clear;
     except
         on e: Exception do
         begin
@@ -2606,7 +2826,7 @@ begin
                                             modelOptions,
                                             framedModelOptions,
                                             defaultFrameIndex,
-                                            m_fOnLoadTexture);
+                                            OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -2668,7 +2888,7 @@ begin
 
     try
         // clear previous group instance
-        Clear();
+        Clear;
     except
         on e: Exception do
         begin
@@ -2689,7 +2909,7 @@ begin
                                           modelOptions,
                                           framedModelOptions,
                                           defaultFrameIndex,
-                                          m_fOnLoadTexture);
+                                          OnLoadMeshTexture);
 
     // execute the job
     TQRModelWorker.GetInstance.StartJob(m_pJob);
@@ -2697,7 +2917,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Loaded(): Boolean;
+function TQRMD2Group.Loaded: Boolean;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -2716,23 +2936,23 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.QueryJobStatus(): TQRModelJobStatus;
+function TQRMD2Group.QueryJobStatus: TQRModelJobStatus;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
     begin
         // set default values
-        m_pJobStatus.Status   := EQR_JS_NotStarted;
-        m_pJobStatus.Progress := 0;
+        JobStatus.Status   := EQR_JS_NotStarted;
+        JobStatus.Progress := 0;
     end
     else
     begin
         // get status from running job
-        m_pJobStatus.Status   := m_pJob.GetStatus;
-        m_pJobStatus.Progress := Floor(m_pJob.Progress);
+        JobStatus.Status   := m_pJob.GetStatus;
+        JobStatus.Progress := Floor(m_pJob.Progress);
     end;
 
-    Result := m_pJobStatus;
+    Result := JobStatus;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD2Group.Draw(const elapsedTime: Double);
@@ -2759,27 +2979,27 @@ begin
             // animate model
             AnimateModel(elapsedTime);
 
-            DrawCachedModel();
+            DrawCachedModel;
             Exit;
         end;
 
         // do show default frame while job is processed?
         if ((EQR_FO_Show_Default_Frame in m_pJob.FramedModelOptions) and
              Assigned(m_pJob.DefaultMesh)                            and
-             Assigned(m_fOnDrawItem))
+             Assigned(OnDrawItem))
         then
             // draw default mesh (waiting for cache is fully created)
-            m_fOnDrawItem(Self,
-                          m_pJob.Model,
-                          m_pJob.m_Textures,
-                          GetMatrix(),
-                          0,
-                          0,
-                          0.0,
-                          m_pJob.DefaultMesh,
-                          nil,
-                          nil,
-                          nil);
+            OnDrawItem(Self,
+                       m_pJob.Model,
+                       m_pJob.m_Textures,
+                       GetMatrix,
+                       0,
+                       0,
+                       0.0,
+                       m_pJob.DefaultMesh,
+                       nil,
+                       nil,
+                       nil);
 
         Exit;
     end;
@@ -2794,23 +3014,23 @@ begin
     // can draw model from a previously built cache, do generate frames dynamically, or let user
     // take care of frames creation?
     if (EQR_MO_Create_Cache in m_pJob.ModelOptions) then
-        DrawCachedModel()
+        DrawCachedModel
     else
     if ((EQR_MO_Dynamic_Frames          in m_pJob.ModelOptions) or
         (EQR_MO_Dynamic_Frames_No_Cache in m_pJob.ModelOptions))
     then
-        DrawDynamicModel()
+        DrawDynamicModel
     else
-    if (Assigned(m_fOnCustomDrawItem))
+    if (Assigned(OnCustomDrawItem))
     then
         // let user take care of drawing model
-        m_fOnCustomDrawItem(Self,
-                            m_pJob.Model,
-                            m_pJob.m_Textures,
-                            GetMatrix(),
-                            m_pAnimation.FrameIndex,
-                            m_pAnimation.InterpolationFrameIndex,
-                            m_pAnimation.InterpolationFactor);
+        OnCustomDrawItem(Self,
+                         m_pJob.Model,
+                         m_pJob.m_Textures,
+                         GetMatrix,
+                         m_pAnimation.FrameIndex,
+                         m_pAnimation.InterpolationFrameIndex,
+                         m_pAnimation.InterpolationFactor);
 end;
 //--------------------------------------------------------------------------------------------------
 
