@@ -432,6 +432,15 @@ type
             procedure Assign(pSource: TPersistent); override;
 
         // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD3
+            }
+            {$ENDREGION}
+            property MD3: TQRMD3Group read m_pMD3;
+
+        // Properties
         published
             {$REGION 'Documentation'}
             {**
@@ -1327,7 +1336,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1340,7 +1349,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end
@@ -1352,7 +1361,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pNextAABBTree);
+            OnDetectCollisions(Self, matrix, pNextAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1365,7 +1374,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree);
+        OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.Assign(pSource: TPersistent);

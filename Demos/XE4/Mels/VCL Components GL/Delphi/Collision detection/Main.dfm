@@ -25,7 +25,6 @@ object MainForm: TMainForm
     Color.Blue = 0
     Color.WinColor = 0
     AlphaBlending.Enabled = False
-    Antialiasing = EQR_AM_FSAA_4x
     OnDetectCollisions = m2ModelDetectCollisions
     Align = alClient
     Model.Scaling.X = 1.000000000000000000
@@ -36,11 +35,18 @@ object MainForm: TMainForm
     Model.RotationX = -1.580000042915344000
     Model.RotationY = -0.779999971389770500
     Model.SwapYZ = False
+    PreCalculatedLight.Ambient.Red = 128
+    PreCalculatedLight.Ambient.Green = 128
+    PreCalculatedLight.Ambient.Blue = 128
+    PreCalculatedLight.Ambient.VCLColor = clGray
+    PreCalculatedLight.Ambient.WinColor = 8421504
+    PreCalculatedLight.Direction.X = 1.580000042915344000
+    PreCalculatedLight.Direction.Y = 0.779999971389770500
     PreCalculatedLight.Enabled = False
     PackageName = 
       'C:\Private\Devel\Mels\trunk\Demos\XE4\Mels\VCL Components GL\Del' +
       'phi\Collision detection\Resources\Models\marvin.pk2'
-    ModelOptions = [EQR_MO_Dynamic_Frames]
+    ModelOptions = [EQR_MO_Create_Cache]
     FramedModelOptions = []
     Package = {
       504B03041400000008004B553D48D0954C1F32020000A00700000A0000006D61

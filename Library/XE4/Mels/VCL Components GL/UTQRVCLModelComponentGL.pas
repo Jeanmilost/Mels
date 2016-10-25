@@ -163,11 +163,15 @@ type
      @param(pSender Event sender)
      @param(modelMatrix Model matrix)
      @param(pAABBTree Model aligned-axis bounding box tree)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
     }
     {$ENDREGION}
     TQRDetectCollisionsEvent = procedure(pSender: TObject;
                                const modelMatrix: TQRMatrix4x4;
-                                       pAABBTree: TQRAABBTree) of object;
+                                       pAABBTree: TQRAABBTree;
+                                       pRenderer: TQRVCLModelRendererGL;
+                                         pShader: TQRVCLModelShaderGL) of object;
 
     {$REGION 'Documentation'}
     {**
