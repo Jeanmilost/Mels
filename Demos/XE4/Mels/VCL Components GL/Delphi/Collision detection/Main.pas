@@ -79,7 +79,7 @@ type
     end;
 
 var
-  MainForm: TMainForm;
+    MainForm: TMainForm;
 
 implementation
 //--------------------------------------------------------------------------------------------------

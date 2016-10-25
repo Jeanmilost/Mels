@@ -4,8 +4,8 @@ object MainForm: TMainForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Collision detection'
-  ClientHeight = 410
-  ClientWidth = 410
+  ClientHeight = 400
+  ClientWidth = 400
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,13 +13,14 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object m2Model: TQRVCLMD2ModelGL
     Left = 0
     Top = 0
-    Width = 410
-    Height = 410
+    Width = 400
+    Height = 400
     Color.Red = 0
     Color.Green = 0
     Color.Blue = 0

@@ -612,6 +612,76 @@ type
             }
             {$ENDREGION}
             property Enabled;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCanResize event
+            }
+            {$ENDREGION}
+            property OnCanResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnResize event
+            }
+            {$ENDREGION}
+            property OnResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnClick event
+            }
+            {$ENDREGION}
+            property OnClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDblClick event
+            }
+            {$ENDREGION}
+            property OnDblClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseActivate event
+            }
+            {$ENDREGION}
+            property OnMouseActivate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseDown event
+            }
+            {$ENDREGION}
+            property OnMouseDown;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseEnter event
+            }
+            {$ENDREGION}
+            property OnMouseEnter;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseLeave event
+            }
+            {$ENDREGION}
+            property OnMouseLeave;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseMove event
+            }
+            {$ENDREGION}
+            property OnMouseMove;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseUp event
+            }
+            {$ENDREGION}
+            property OnMouseUp;
     end;
 
     {$REGION 'Documentation'}
