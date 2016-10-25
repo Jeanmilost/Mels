@@ -1182,7 +1182,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1195,7 +1195,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end
@@ -1207,7 +1207,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pNextAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pNextAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1220,7 +1220,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree, Renderer, Shader);
+        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Assign(pSource: TPersistent);

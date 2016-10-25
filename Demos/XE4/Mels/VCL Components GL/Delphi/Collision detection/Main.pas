@@ -1,42 +1,109 @@
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
+
+{**
+ @abstract(@name contains the collision detection demo main form.)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit Main;
 
 interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, UTQR3D, UTQRGeometry, UTQRCollision, UTQRVCLModelComponentGL,
-  UTQRVCLMD2ModelComponentGL,
-  UTQRVCLModelRendererGL, UTQRVCLModelShaderGL, Winapi.OpenGL;
+uses System.Classes,
+     System.SysUtils,
+     System.Variants,
+     Vcl.Graphics,
+     Vcl.Controls,
+     Vcl.Forms,
+     Vcl.Dialogs,
+     UTQR3D,
+     UTQRGeometry,
+     UTQRCollision,
+     UTQRVCLModelComponentGL,
+     UTQRVCLMD2ModelComponentGL,
+     UTQRVCLModelRendererGL,
+     UTQRVCLModelShaderGL,
+     Winapi.OpenGL,
+     Winapi.Messages,
+     Winapi.Windows;
 
 type
-  TMainForm = class(TForm)
-    m2Model: TQRVCLMD2ModelGL;
-    procedure m2ModelDetectCollisions(pSender: TObject; const modelMatrix: TQRMatrix4x4;
-      pAABBTree: TQRAABBTree; pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
+    {**
+     Main form class
+    }
+    TMainForm = class(TForm)
+        published
+            m2Model: TQRVCLMD2ModelGL;
 
-  private
-    procedure DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4; pAABBTree: TQRAABBTree;
-            pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
+            procedure m2ModelDetectCollisions(pSender: TObject;
+                               const projectionMatrix,
+                                          modelMatrix: TQRMatrix4x4;
+                                            pAABBTree: TQRAABBTree;
+                                            pRenderer: TQRVCLModelRendererGL;
+                                              pShader: TQRVCLModelShaderGL);
 
-  public
-    { Public declarations }
-  end;
+        private
+            {**
+             Detect collisions between the mouse pointer and the model and draw polyons in collision
+             @param(pSender Event sender)
+             @param(projectionMatrix Projection (or word) matrix used to render the model)
+             @param(modelMatrix Model matrix)
+             @param(pAABBTree Model aligned-axis bounding box tree)
+             @param(pRenderer OpenGL renderer)
+             @param(pShader OpenGL shader)
+            }
+            procedure DetectAndDrawCollisions(const projectionMatrix,
+                                                         modelMatrix: TQRMatrix4x4;
+                                                           pAABBTree: TQRAABBTree;
+                                                           pRenderer: TQRVCLModelRendererGL;
+                                                             pShader: TQRVCLModelShaderGL);
+    end;
 
 var
   MainForm: TMainForm;
 
 implementation
-
+//--------------------------------------------------------------------------------------------------
+// Resources
+//--------------------------------------------------------------------------------------------------
 {$R *.dfm}
-
-procedure TMainForm.m2ModelDetectCollisions(pSender: TObject; const modelMatrix: TQRMatrix4x4;
-  pAABBTree: TQRAABBTree; pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
+//--------------------------------------------------------------------------------------------------
+// TMainForm
+//--------------------------------------------------------------------------------------------------
+procedure TMainForm.m2ModelDetectCollisions(pSender: TObject;
+                             const projectionMatrix,
+                                        modelMatrix: TQRMatrix4x4;
+                                          pAABBTree: TQRAABBTree;
+                                          pRenderer: TQRVCLModelRendererGL;
+                                            pShader: TQRVCLModelShaderGL);
 begin
-    DetectAndDrawCollisions(modelMatrix, pAABBTree, pRenderer, pShader);
+    DetectAndDrawCollisions(projectionMatrix, modelMatrix, pAABBTree, pRenderer, pShader);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4; pAABBTree: TQRAABBTree;
-        pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
+procedure TMainForm.DetectAndDrawCollisions(const projectionMatrix,
+                                                       modelMatrix: TQRMatrix4x4;
+                                                         pAABBTree: TQRAABBTree;
+                                                         pRenderer: TQRVCLModelRendererGL;
+                                                           pShader: TQRVCLModelShaderGL);
 var
     rect:                                        TQRRect;
     rayPos, rayDir:                              TQRVector3D;
@@ -58,15 +125,8 @@ begin
     rayPos := pRenderer.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    // this is a lazy way to correct a perspective issue. In fact, the real model size differs from
-    // its image on the screen, but it is placed in a such manner that it seems perfectly framed on
-    // the screen. In the model coordinates, the ray location is beyond the mouse coordinate. To
-    // correct that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(0.19);
-
-    invertMatrix := modelMatrix.Inverse(determinant);
+    // transform the ray to be on the same coordinate system as the model
+    invertMatrix := modelMatrix.Multiply(projectionMatrix).Inverse(determinant);
     rayPos       := invertMatrix.Transform(rayPos);
     rayDir       := invertMatrix.Transform(rayDir);
 
@@ -170,5 +230,6 @@ begin
         end;
     end;
 end;
+//--------------------------------------------------------------------------------------------------
 
 end.
