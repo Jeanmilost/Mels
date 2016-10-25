@@ -45,9 +45,8 @@ var
     mesh:                                        TQRMesh;
     textures:                                    TQRTextures;
     invertMatrix:                                TQRMatrix4x4;
+    determinant:                                 Single;
     polygonCount, polygonToDrawCount, i, offset: NativeUInt;
-
-    determinant: Single;
 begin
     if (not Assigned(pAABBTree)) then
         Exit;
@@ -59,15 +58,13 @@ begin
     rayPos := pRenderer.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    rayPos.Y := rayPos.Y - 0.075;
-
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
+    // this is a lazy way to correct a perspective issue. In fact, the real model size differs from
+    // its image on the screen, but it is placed in a such manner that it seems perfectly framed on
+    // the screen. In the model coordinates, the ray location is beyond the mouse coordinate. To
+    // correct that, a ratio is needed to
     // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
     // not always well detected), but this is efficient for the majority of cases
-    //rayPos.MulAndAssign(42.5);
-    rayPos.MulAndAssign(25.0);
+    rayPos.MulAndAssign(0.19);
 
     invertMatrix := modelMatrix.Inverse(determinant);
     rayPos       := invertMatrix.Transform(rayPos);
