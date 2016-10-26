@@ -49,7 +49,8 @@ uses System.Classes,
      UTQRVCLModelRenderSurfaceGL,
      UTQRVCLModelComponentPropertiesGL,
      UTQRVCLHelpersGL,
-     UTQRDesignerHook,       UTQRVCLHelpers,
+     UTQRDesignerHook,
+     UTQRVCLHelpers,
      Vcl.Graphics,
      Vcl.Imaging.pngimage,
      Vcl.Controls,
@@ -198,6 +199,7 @@ type
             m_SupportsGDI:          Boolean;
             m_LogMessageLoop:       Boolean;
             m_Allowed:              Boolean;
+            m_Loaded:               Boolean;
             m_fOnConfigureOpenGL:   TQRConfigureOpenGL;
             m_fOnLoadTexture:       TQRLoadMeshTextureEvent;
             m_fOnCreateSceneMatrix: TQRCreateSceneMatrix;
@@ -270,6 +272,14 @@ type
             }
             {$ENDREGION}
             procedure Loaded; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets if the model was successfully loaded and is ready to use
+             @param (value If @true, the model was fully loaded and is ready to use)
+            }
+            {$ENDREGION}
+            procedure SetModelLoaded(value: Boolean); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -494,7 +504,18 @@ type
              is ready to use
             }
             {$ENDREGION}
-            property Allowed: Boolean read m_Allowed;
+            property IsAllowed: Boolean read m_Allowed;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets if the model was successfully loaded
+             @br @bold(NOTE) This value is set to true only after the model was successfully loaded.
+                             This means that this property may return false even in a normal
+                             circumstance, and should never be interpreted as an error, but only as
+                             an indication that the model is still not ready
+            }
+            {$ENDREGION}
+            property IsLoaded: Boolean read m_Loaded;
 
             {$REGION 'Documentation'}
             {**
@@ -615,6 +636,13 @@ type
 
             {$REGION 'Documentation'}
             {**
+             Gets or sets the popup menu to show when component is right clicked
+            }
+            {$ENDREGION}
+            property PopupMenu;
+
+            {$REGION 'Documentation'}
+            {**
              Gets or sets the OnCanResize event
             }
             {$ENDREGION}
@@ -626,6 +654,13 @@ type
             }
             {$ENDREGION}
             property OnResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnContextPopup event
+            }
+            {$ENDREGION}
+            property OnContextPopup;
 
             {$REGION 'Documentation'}
             {**
@@ -682,6 +717,41 @@ type
             }
             {$ENDREGION}
             property OnMouseUp;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnEnter event
+            }
+            {$ENDREGION}
+            property OnEnter;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnExit event
+            }
+            {$ENDREGION}
+            property OnExit;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyDown event
+            }
+            {$ENDREGION}
+            property OnKeyDown;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyPress event
+            }
+            {$ENDREGION}
+            property OnKeyPress;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyUp event
+            }
+            {$ENDREGION}
+            property OnKeyUp;
     end;
 
     {$REGION 'Documentation'}
@@ -905,6 +975,7 @@ begin
     m_SupportsGDI          := True;
     m_LogMessageLoop       := False;
     m_Allowed              := False;
+    m_Loaded               := False;
     m_fOnConfigureOpenGL   := nil;
     m_fOnLoadTexture       := nil;
     m_fOnCreateSceneMatrix := nil;
@@ -963,11 +1034,24 @@ begin
     case (message.Msg) of
         WM_ERASEBKGND:
         begin
-            // as scene background is always filled by OpenGL, ignore message to prevent ugly
-            // flickering while scene is drawn. NOTE user is responsible to clear background before
-            // drawing a transparent or translucent scene, by handling the OnInitializeScene event
-            message.Result := 0;
-            Exit;
+            if (m_Allowed and m_Loaded) then
+            begin
+                // as scene background is always filled by OpenGL, ignore message to prevent ugly
+                // flickering while scene is drawn. NOTE user is responsible to clear background before
+                // drawing a transparent or translucent scene, by handling the OnInitializeScene event
+                message.Result := 0;
+                Exit;
+            end;
+
+            // get the device context to use
+            hDC := message.WParam;
+
+            // do use the provided device context?
+            if ((hDC <> 0) and (m_hBackgroundBrush <> 0)) then
+            begin
+                FillRect(hDC, TRect.Create(0, 0, ClientWidth, ClientHeight), m_hBackgroundBrush);
+                Exit;
+            end;
         end;
 
         WM_PAINT:
@@ -1100,6 +1184,11 @@ begin
             pControlToHook := pControlToHook.Parent;
         end;
     end
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRVCLModelComponentGL.SetModelLoaded(value: Boolean);
+begin
+    m_Loaded := value;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Resize;

@@ -1258,6 +1258,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
+    SetModelLoaded(True);
+
     // invalidate model to repaint it
     Invalidate;
 end;
@@ -1563,6 +1565,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
 
@@ -1689,6 +1693,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
@@ -1820,6 +1826,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
@@ -1999,6 +2007,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
 
@@ -2177,6 +2187,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
 
@@ -2327,6 +2339,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);

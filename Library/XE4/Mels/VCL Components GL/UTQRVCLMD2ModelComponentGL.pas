@@ -880,6 +880,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // reset stream position to start
     m_pPackage.Position := 0;
 
@@ -942,7 +944,7 @@ var
     uniform: GLint;
 begin
     // OpenGL was not initialized correctly?
-    if (not Allowed) then
+    if (not IsAllowed) then
     begin
         Result := False;
         Exit;
@@ -987,6 +989,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
+    SetModelLoaded(True);
+
     // no animation is running or component is in design time?
     if (NoAnimation or (csDesigning in ComponentState)) then
         // invalidate model to repaint it
