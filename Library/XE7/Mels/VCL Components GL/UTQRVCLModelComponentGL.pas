@@ -159,13 +159,19 @@ type
     {**
      Called when collisions should be detected on the model
      @param(pSender Event sender)
+     @param(projectionMatrix Projection (or word) matrix used to render the model)
      @param(modelMatrix Model matrix)
      @param(pAABBTree Model aligned-axis bounding box tree)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
     }
     {$ENDREGION}
     TQRDetectCollisionsEvent = procedure(pSender: TObject;
-                               const modelMatrix: TQRMatrix4x4;
-                                       pAABBTree: TQRAABBTree) of object;
+                          const projectionMatrix,
+                                     modelMatrix: TQRMatrix4x4;
+                                       pAABBTree: TQRAABBTree;
+                                       pRenderer: TQRVCLModelRendererGL;
+                                         pShader: TQRVCLModelShaderGL) of object;
 
     {$REGION 'Documentation'}
     {**
@@ -604,6 +610,76 @@ type
             }
             {$ENDREGION}
             property Enabled;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCanResize event
+            }
+            {$ENDREGION}
+            property OnCanResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnResize event
+            }
+            {$ENDREGION}
+            property OnResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnClick event
+            }
+            {$ENDREGION}
+            property OnClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDblClick event
+            }
+            {$ENDREGION}
+            property OnDblClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseActivate event
+            }
+            {$ENDREGION}
+            property OnMouseActivate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseDown event
+            }
+            {$ENDREGION}
+            property OnMouseDown;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseEnter event
+            }
+            {$ENDREGION}
+            property OnMouseEnter;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseLeave event
+            }
+            {$ENDREGION}
+            property OnMouseLeave;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseMove event
+            }
+            {$ENDREGION}
+            property OnMouseMove;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseUp event
+            }
+            {$ENDREGION}
+            property OnMouseUp;
     end;
 
     {$REGION 'Documentation'}

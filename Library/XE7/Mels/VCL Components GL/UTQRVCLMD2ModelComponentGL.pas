@@ -329,6 +329,15 @@ type
             procedure Assign(pSource: TPersistent); override;
 
         // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD2
+            }
+            {$ENDREGION}
+            property MD2: TQRMD2Group read m_pMD2;
+
+        // Properties
         published
             {$REGION 'Documentation'}
             {**
@@ -1171,7 +1180,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1184,7 +1193,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end
@@ -1196,7 +1205,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pNextAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pNextAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1209,7 +1218,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree);
+        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Assign(pSource: TPersistent);

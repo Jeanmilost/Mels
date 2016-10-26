@@ -262,6 +262,16 @@ type
             {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the shape
+            }
+            {$ENDREGION}
+            property Shape: TQRShapeGroup read m_pShape;
+
+        // Properties
         published
             {$REGION 'Documentation'}
             {**
@@ -1429,7 +1439,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree);
+        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.Assign(pSource: TPersistent);
