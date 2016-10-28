@@ -55,11 +55,6 @@ type
      Main form
     }
     TMainForm = class(TForm)
-    procedure spSaturnLoadTexture(pSender: TObject; hDC, hGLRC: NativeUInt;
-      pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
-    function spSaturnCreateSceneMatrix(pSender: TObject; var projectionMatrix,
-      viewMatrix: TQRMatrix4x4; hDC, hGLRC: NativeUInt; pRenderer: TQRVCLModelRendererGL;
-      pShader: TQRVCLModelShaderGL): Boolean;
         published
             sbMain: TScrollBox;
             paMercury: TPanel;
@@ -109,20 +104,37 @@ type
             laNeptune: TLabel;
             laNeptuneDesc: TLabel;
 
-            procedure tiAnimationTimer(pSender: TObject);
+            function spSaturnCreateSceneMatrix(pSender: TObject;
+                                  var projectionMatrix,
+                                            viewMatrix: TQRMatrix4x4;
+                                            hDC, hGLRC: NativeUInt;
+                                             pRenderer: TQRVCLModelRendererGL;
+                                               pShader: TQRVCLModelShaderGL): Boolean;
+            procedure spSaturnLoadTexture(pSender: TObject;
+                                       hDC, hGLRC: NativeUInt;
+                                        pRenderer: TQRVCLModelRendererGL;
+                                          pShader: TQRVCLModelShaderGL);
             procedure spSaturnAfterDrawScene(pSender: TObject;
                                           hDC, hGLRC: NativeUInt;
                                            pRenderer: TQRVCLModelRendererGL;
                                              pShader: TQRVCLModelShaderGL);
+            procedure tiAnimationTimer(pSender: TObject);
 
         private
             m_Rings:        TQRMesh;
             m_RingTextures: TQRTextures;
             m_Angle:        Single;
 
-            procedure GenerateRing(triangleAmount: Integer;
-                         innerRadius, outerRadius: Single;
-                                         out mesh: TQRMesh);
+            {**
+             Generates a ring
+             @param(slices Number of slices composing the ring)
+             @param(innerRadius Inner radius)
+             @param(outerRadius Outer radius)
+             @param(mesh @bold([out]) Generated ring mesh)
+            }
+            procedure GenerateRing(slices: NativeUInt;
+                 innerRadius, outerRadius: Single;
+                                 out mesh: TQRMesh);
 
         public
             {**
@@ -157,6 +169,7 @@ begin
     SetLength(m_RingTextures, 1);
     m_RingTextures[0] := TQRTexture.Create;
 
+    // generate a ring for the Saturn planet
     GenerateRing(20, 0.8, 1.6, m_Rings);
 end;
 //--------------------------------------------------------------------------------------------------
@@ -164,8 +177,116 @@ destructor TMainForm.Destroy;
 begin
     inherited Destroy;
 
+    // delete the Saturn planet ring
     m_RingTextures[0].Free;
     SetLength(m_Rings, 0);
+end;
+//--------------------------------------------------------------------------------------------------
+function TMainForm.spSaturnCreateSceneMatrix(pSender: TObject;
+                                var projectionMatrix,
+                                          viewMatrix: TQRMatrix4x4;
+                                          hDC, hGLRC: NativeUInt;
+                                           pRenderer: TQRVCLModelRendererGL;
+  pShader: TQRVCLModelShaderGL): Boolean;
+var
+    position, direction, up: TQRVector3D;
+begin
+    // create projection matrix (will not be modified while execution)
+    projectionMatrix := pRenderer.GetOrtho(-1.0, 1.0, -1.0, 1.0, -100.0, 100.0);
+
+    position  := TQRVector3D.Create(0.0, 0.0, 0.0);
+    direction := TQRVector3D.Create(0.0, 0.0, 1.0);
+    up        := TQRVector3D.Create(0.0, 1.0, 0.0);
+
+    // create view matrix (will not be modified while execution)
+    viewMatrix := pRenderer.LookAtLH(position, direction, up);
+
+    // load projection matrix and initialize it
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity;
+
+    // apply projection matrix
+    glLoadMatrix(PGLfloat(projectionMatrix.GetPtr));
+
+    // load model view matrix and initialize it
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity;
+
+    // apply model view matrix
+    glLoadMatrix(PGLfloat(viewMatrix.GetPtr));
+
+    Result := True;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TMainForm.spSaturnLoadTexture(pSender: TObject;
+                                     hDC, hGLRC: NativeUInt;
+                                      pRenderer: TQRVCLModelRendererGL;
+                                        pShader: TQRVCLModelShaderGL);
+var
+    pixels:      TQRByteArray;
+    pixelFormat: GLenum;
+    pPicture:    TPicture;
+    pBitmap:     Vcl.Graphics.TBitmap;
+begin
+    try
+        // load source picture from file
+        pPicture := TPicture.Create;
+        pPicture.LoadFromFile('C:\\Private\\Devel\\Mels\\trunk\\Demos\\XE4\\Mels\\VCL Components GL\\Delphi\\Planetarium\\Resources\\Textures\\texture_saturn_ring.png');
+
+        // create and configure destination bitmap
+        pBitmap             := Vcl.Graphics.TBitmap.Create;
+        pBitmap.PixelFormat := pf32bit;
+        pBitmap.AlphaFormat := afPremultiplied;
+
+        TQRVCLPictureHelper.ToBitmap(pPicture, pBitmap);
+
+        // select pixel format to use
+        if (pBitmap.PixelFormat = pf32bit) then
+            pixelFormat := GL_RGBA
+        else
+            pixelFormat := GL_RGB;
+
+        try
+            // convert bitmap to pixel array, and create OpenGL texture from array
+            TQRVCLPictureHelper.BytesFromBitmap(pBitmap, pixels, false, false);
+            m_RingTextures[0].Index := pRenderer.CreateTexture(pBitmap.Width,
+                                                               pBitmap.Height,
+                                                               pixelFormat,
+                                                               pixels,
+                                                               GL_NEAREST,
+                                                               GL_NEAREST,
+                                                               GL_TEXTURE_2D);
+        finally
+            SetLength(pixels, 0);
+        end;
+    finally
+        pBitmap.Free;
+        pPicture.Free;
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TMainForm.spSaturnAfterDrawScene(pSender: TObject;
+                                        hDC, hGLRC: NativeUInt;
+                                         pRenderer: TQRVCLModelRendererGL;
+                                           pShader: TQRVCLModelShaderGL);
+begin
+    // enable alpha blending and configure a semi transparent effect on the ring
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_SRC_COLOR);
+
+    // draw the ring
+    pRenderer.Draw(m_Rings,
+                   TQRVector3D.Create(0.0, 0.0, -0.5),
+                   4.5,
+                   0.16,
+                   0.0,
+                   TQRVector3D.Create(1.0, 1.0, 1.0),
+                   m_RingTextures);
+
+    // disable alpha blending
+    glDisable(GL_BLEND);
+
+    glFlush;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.tiAnimationTimer(pSender: TObject);
@@ -214,153 +335,35 @@ begin
     spNeptune.Invalidate;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TMainForm.spSaturnLoadTexture(pSender: TObject; hDC, hGLRC: NativeUInt;
-  pRenderer: TQRVCLModelRendererGL; pShader: TQRVCLModelShaderGL);
+procedure TMainForm.GenerateRing(slices: NativeUInt;
+               innerRadius, outerRadius: Single;
+                               out mesh: TQRMesh);
 var
-    pixels:      TQRByteArray;
-    pixelFormat: GLenum;
-    pPicture:    TPicture;
-    pBitmap:     Vcl.Graphics.TBitmap;
+    i, offset: NativeUInt;
 begin
-    try
-        pPicture := TPicture.Create;
-        pPicture.LoadFromFile('C:\\Private\\Devel\\Mels\\trunk\\Demos\\XE4\\Mels\\VCL Components GL\\Delphi\\Planetarium\\Resources\\Textures\\texture_saturn_ring.png');
-
-        pBitmap             := Vcl.Graphics.TBitmap.Create;
-        pBitmap.PixelFormat := pf32bit;
-        pBitmap.AlphaFormat := afPremultiplied;
-
-        TQRVCLPictureHelper.ToBitmap(pPicture, pBitmap);
-
-        // select pixel format to use
-        if (pBitmap.PixelFormat = pf32bit) then
-            pixelFormat := GL_RGBA
-        else
-            pixelFormat := GL_RGB;
-
-        try
-            // convert bitmap to pixel array, and create OpenGL texture from array
-            TQRVCLPictureHelper.BytesFromBitmap(pBitmap, pixels, false, false);
-            m_RingTextures[0].Index := pRenderer.CreateTexture(pBitmap.Width,
-                                                               pBitmap.Height,
-                                                               pixelFormat,
-                                                               pixels,
-                                                               GL_NEAREST,
-                                                               GL_NEAREST,
-                                                               GL_TEXTURE_2D);
-        finally
-            SetLength(pixels, 0);
-        end;
-    finally
-        pBitmap.Free;
-        pPicture.Free;
-    end;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TMainForm.spSaturnAfterDrawScene(pSender: TObject;
-                                        hDC, hGLRC: NativeUInt;
-                                         pRenderer: TQRVCLModelRendererGL;
-                                           pShader: TQRVCLModelShaderGL);
-begin
-    {REM
-    // OpenGL should be enabled
-    if ((hDC = 0) or (hGLRC = 0)) then
-        Exit;
-
-    // make render context as OpenGL current context
-    if (not wglMakeCurrent(hDC, hGLRC)) then
-        Exit;
-    }
-
-//    glEnable(GL_CULL_FACE);
-    //glCullFace(GL_NONE);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_SRC_COLOR);
-
-    //glEnable(GL_CULL_FACE);
-    //glCullFace(GL_FRONT_AND_BACK);
-
-    //glDisable(GL_DEPTH_TEST);
-
-    pRenderer.Draw(m_Rings,
-                   TQRVector3D.Create(0.0, 0.0, -0.5),//Default(TQRVector3D),
-                   4.5,
-                   0.16,
-                   0.0,
-                   TQRVector3D.Create(1.0, 1.0, 1.0),
-                   m_RingTextures);
-
-    //glCullFace(GL_BACK);
-    //glEnable(GL_DEPTH_TEST);
-    glDisable(GL_BLEND);
-
-    glFlush;
-end;
-
-function TMainForm.spSaturnCreateSceneMatrix(pSender: TObject; var projectionMatrix,
-  viewMatrix: TQRMatrix4x4; hDC, hGLRC: NativeUInt; pRenderer: TQRVCLModelRendererGL;
-  pShader: TQRVCLModelShaderGL): Boolean;
-var
-    position, direction, up: TQRVector3D;
-begin
-    // create projection matrix (will not be modified while execution)
-    projectionMatrix := pRenderer.GetOrtho(-1.0, 1.0, -1.0, 1.0, -100.0, 100.0);
-
-    position  := TQRVector3D.Create(0.0, 0.0, 0.0);
-    direction := TQRVector3D.Create(0.0, 0.0, 1.0);
-    up        := TQRVector3D.Create(0.0, 1.0, 0.0);
-
-    // create view matrix (will not be modified while execution)
-    viewMatrix := pRenderer.LookAtLH(position, direction, up);
-
-    // load projection matrix and initialize it
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity;
-
-    // apply projection matrix
-    glLoadMatrix(PGLfloat(projectionMatrix.GetPtr));
-
-    // load model view matrix and initialize it
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity;
-
-    // apply model view matrix
-    glLoadMatrix(PGLfloat(viewMatrix.GetPtr));
-
-    Result := True;
-end;
-
-//--------------------------------------------------------------------------------------------------
-procedure TMainForm.GenerateRing(triangleAmount: Integer;
-                       innerRadius, outerRadius: Single;
-                                       out mesh: TQRMesh);
-var
-    i:      Integer;
-    offset: NativeUInt;
-begin
+    // create and populate a vertex buffer for the ring
     SetLength(mesh, 1);
-
     mesh[0].m_Type      := EQR_VT_TriangleStrip;
     mesh[0].m_CoordType := EQR_VC_XYZ;
     mesh[0].m_Stride    := 5;
     Include(mesh[0].m_Format, EQR_VF_TexCoords);
-    SetLength(mesh[0].m_Buffer, (triangleAmount + 1) * (mesh[0].m_Stride * 2));
+    SetLength(mesh[0].m_Buffer, (slices + 1) * (mesh[0].m_Stride * 2));
 
     offset := 0;
 
-    for i := 0 to triangleAmount do
+    // calculate the ring vertex positions and texture coordinates
+    for i := 0 to slices do
     begin
-        mesh[0].m_Buffer[offset]     := outerRadius * Cos((i * 2.0 * PI) / triangleAmount);
-        mesh[0].m_Buffer[offset + 1] := outerRadius * Sin((i * 2.0 * PI) / triangleAmount);
+        mesh[0].m_Buffer[offset]     := outerRadius * Cos((i * 2.0 * PI) / slices);
+        mesh[0].m_Buffer[offset + 1] := outerRadius * Sin((i * 2.0 * PI) / slices);
         mesh[0].m_Buffer[offset + 2] := 0.0;
-        mesh[0].m_Buffer[offset + 3] := i * (1.0 / triangleAmount);
+        mesh[0].m_Buffer[offset + 3] := i * (1.0 / slices);
         mesh[0].m_Buffer[offset + 4] := 1.0;
 
-        mesh[0].m_Buffer[offset + 5] := innerRadius * Cos((i * 2.0 * PI) / triangleAmount);
-        mesh[0].m_Buffer[offset + 6] := innerRadius * Sin((i * 2.0 * PI) / triangleAmount);
+        mesh[0].m_Buffer[offset + 5] := innerRadius * Cos((i * 2.0 * PI) / slices);
+        mesh[0].m_Buffer[offset + 6] := innerRadius * Sin((i * 2.0 * PI) / slices);
         mesh[0].m_Buffer[offset + 7] := 0.0;
-        mesh[0].m_Buffer[offset + 8] := i * (1.0 / triangleAmount);
+        mesh[0].m_Buffer[offset + 8] := i * (1.0 / slices);
         mesh[0].m_Buffer[offset + 9] := 0.0;
 
         // go to next polygon
