@@ -3,6 +3,9 @@
         <ProjectGuid>{A0BC469C-FE61-462C-A2AE-C07AC428B945}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -29,6 +32,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="DelphiGL">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
+    </Target>
+    <Target Name="DelphiGL:Clean">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiGL:Make">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
@@ -84,13 +96,13 @@
         <MSBuild Projects="Planetarium.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;Planetarium"/>
+        <CallTarget Targets="DelphiGL;Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;Planetarium"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;Planetarium:Clean"/>
+        <CallTarget Targets="DelphiGL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;Planetarium:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;Planetarium:Make"/>
+        <CallTarget Targets="DelphiGL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;Planetarium:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

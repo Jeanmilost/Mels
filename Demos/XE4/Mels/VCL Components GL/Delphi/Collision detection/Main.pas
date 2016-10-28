@@ -158,9 +158,8 @@ begin
         Exit;
 
     try
+        // create a vertex buffer and populate it with polygons in collisions
         SetLength(mesh, 1);
-
-        //TQRVertex vertex;
         mesh[0].m_Type      := EQR_VT_Triangles;
         mesh[0].m_CoordType := EQR_VC_XYZ;
         mesh[0].m_Stride    := 7;

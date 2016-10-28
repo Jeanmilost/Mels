@@ -964,7 +964,13 @@ begin
         // notify user that scene matrix (i.e. projection and view matrix) are about to be created
         if (Assigned(OnCreateSceneMatrix)) then
             // user defined his own matrix?
-            if (OnCreateSceneMatrix(Self, ProjectionMatrix^, ViewMatrix^)) then
+            if (OnCreateSceneMatrix(Self,
+                                    ProjectionMatrix^,
+                                    ViewMatrix^,
+                                    hDC,
+                                    RenderSurface.GLContext,
+                                    Renderer,
+                                    Shader)) then
                 Exit;
 
         // create projection matrix
@@ -1161,13 +1167,6 @@ var
     pixelFormat: GLenum;
     hDC:         THandle;
 begin
-    // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
-    begin
-        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
-        Exit;
-    end;
-
     // no model?
     if (not Assigned(pModel)) then
     begin
@@ -1233,6 +1232,14 @@ begin
         finally
             SetLength(pixels, 0);
         end;
+
+        // notify user that a texture should be loaded for the model
+        if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
+            OnLoadTexture(Self,
+                          hDC,
+                          RenderSurface.GLContext,
+                          Renderer,
+                          Shader);
     finally
         ReleaseDC(WindowHandle, hDC);
     end;
