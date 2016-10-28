@@ -1278,13 +1278,6 @@ var
     hDC:         THandle;
     pSrcBitmap:  Vcl.Graphics.TBitmap;
 begin
-    // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
-    begin
-        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
-        Exit;
-    end;
-
     // no model?
     if (not Assigned(pModel)) then
     begin
@@ -1358,6 +1351,14 @@ begin
         finally
             pSrcBitmap.Free;
         end;
+
+        // notify user that a texture should be loaded for the model
+        if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
+            OnLoadTexture(Self,
+                          hDC,
+                          RenderSurface.GLContext,
+                          Renderer,
+                          Shader);
     finally
         ReleaseDC(WindowHandle, hDC);
     end;

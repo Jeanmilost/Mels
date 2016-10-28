@@ -21,6 +21,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 400
     Height = 400
+    Cursor = crCross
     Color.Red = 0
     Color.Green = 0
     Color.Blue = 0

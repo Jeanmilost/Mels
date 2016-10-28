@@ -262,6 +262,16 @@ type
             {$ENDREGION}
             procedure Assign(pSource: TPersistent); override;
 
+        // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the shape
+            }
+            {$ENDREGION}
+            property Shape: TQRShapeGroup read m_pShape;
+
+        // Properties
         published
             {$REGION 'Documentation'}
             {**
@@ -1246,6 +1256,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
+    SetModelLoaded(True);
+
     // invalidate model to repaint it
     Invalidate;
 end;
@@ -1266,13 +1278,6 @@ var
     hDC:         THandle;
     pSrcBitmap:  Vcl.Graphics.TBitmap;
 begin
-    // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
-    begin
-        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
-        Exit;
-    end;
-
     // no model?
     if (not Assigned(pModel)) then
     begin
@@ -1346,6 +1351,14 @@ begin
         finally
             pSrcBitmap.Free;
         end;
+
+        // notify user that a texture should be loaded for the model
+        if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
+            OnLoadTexture(Self,
+                          hDC,
+                          RenderSurface.GLContext,
+                          Renderer,
+                          Shader);
     finally
         ReleaseDC(WindowHandle, hDC);
     end;
@@ -1429,7 +1442,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree);
+        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.Assign(pSource: TPersistent);
@@ -1550,6 +1563,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
@@ -1677,6 +1692,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
@@ -1808,6 +1825,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
@@ -1987,6 +2006,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
 
@@ -2165,6 +2186,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);
 
@@ -2315,6 +2338,8 @@ begin
             Exit;
         end;
     end;
+
+    SetModelLoaded(False);
 
     // apply basic changes to model before loading it
     m_pModel.Apply(m_pShape);

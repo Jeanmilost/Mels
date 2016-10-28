@@ -101,12 +101,34 @@ type
      @param(pSender - event sender)
      @param(projectionMatrix @bold([in, out]) Projection matrix to use)
      @param(viewMatrix @bold([in, out]) View matrix to use)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
      @return(@true to use user defined matrix instead of default, otherwise @false)
     }
     {$ENDREGION}
     TQRCreateSceneMatrix = function(pSender: TObject;
                        var projectionMatrix,
-                                 viewMatrix: TQRMatrix4x4): Boolean of object;
+                                 viewMatrix: TQRMatrix4x4;
+                                 hDC, hGLRC: THandle;
+                                  pRenderer: TQRVCLModelRendererGL;
+                                    pShader: TQRVCLModelShaderGL): Boolean of object;
+
+    {$REGION 'Documentation'}
+    {**
+     Called when texture should be loaded
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+    }
+    {$ENDREGION}
+    TQRLoadTextureEvent = procedure(pSender: TObject;
+                                 hDC, hGLRC: THandle;
+                                  pRenderer: TQRVCLModelRendererGL;
+                                    pShader: TQRVCLModelShaderGL) of object;
 
     {$REGION 'Documentation'}
     {**
@@ -199,7 +221,7 @@ type
             m_Allowed:              Boolean;
             m_Loaded:               Boolean;
             m_fOnConfigureOpenGL:   TQRConfigureOpenGL;
-            m_fOnLoadTexture:       TQRLoadMeshTextureEvent;
+            m_fOnLoadTexture:       TQRLoadTextureEvent;
             m_fOnCreateSceneMatrix: TQRCreateSceneMatrix;
             m_fOnInitializeScene:   TQRInitializeSceneEvent;
             m_fOnBeforeDrawScene:   TQRBeforeDrawSceneEvent;
@@ -557,10 +579,10 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the OnLoad Texture event
+             Gets or sets the OnLoadTexture event
             }
             {$ENDREGION}
-            property OnLoadTexture: TQRLoadMeshTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
+            property OnLoadTexture: TQRLoadTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
 
             {$REGION 'Documentation'}
             {**
@@ -1369,7 +1391,13 @@ begin
             // notify user that scene matrix (i.e. projection and view matrix) are about to be created
             if (Assigned(m_fOnCreateSceneMatrix)) then
                 // user defined his own matrix?
-                if (m_fOnCreateSceneMatrix(Self, m_ProjectionMatrix, m_ViewMatrix)) then
+                if (m_fOnCreateSceneMatrix(Self,
+                                           m_ProjectionMatrix,
+                                           m_ViewMatrix,
+                                           hDC,
+                                           RenderSurface.GLContext,
+                                           m_pRenderer,
+                                           m_pShader)) then
                     Exit;
 
             // create projection matrix (will not be modified while execution)

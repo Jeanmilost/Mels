@@ -430,6 +430,15 @@ type
             procedure Assign(pSource: TPersistent); override;
 
         // Properties
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets the MD3
+            }
+            {$ENDREGION}
+            property MD3: TQRMD3Group read m_pMD3;
+
+        // Properties
         published
             {$REGION 'Documentation'}
             {**
@@ -953,7 +962,13 @@ begin
         // notify user that scene matrix (i.e. projection and view matrix) are about to be created
         if (Assigned(OnCreateSceneMatrix)) then
             // user defined his own matrix?
-            if (OnCreateSceneMatrix(Self, ProjectionMatrix^, ViewMatrix^)) then
+            if (OnCreateSceneMatrix(Self,
+                                    ProjectionMatrix^,
+                                    ViewMatrix^,
+                                    hDC,
+                                    RenderSurface.GLContext,
+                                    Renderer,
+                                    Shader)) then
                 Exit;
 
         // create projection matrix
@@ -1055,6 +1070,8 @@ begin
         end;
     end;
 
+    SetModelLoaded(False);
+
     // reset stream position to start
     pPackage.Position := 0;
 
@@ -1085,7 +1102,7 @@ var
     uniform: GLint;
 begin
     // OpenGL was not initialized correctly?
-    if (not Allowed) then
+    if (not IsAllowed) then
     begin
         Result := False;
         Exit;
@@ -1130,6 +1147,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.OnAfterLoadModelEvent(const pGroup: TQRModelGroup);
 begin
+    SetModelLoaded(True);
+
     // no animation is running or component is in design time?
     if (NoAnimation or (csDesigning in ComponentState)) then
         // invalidate model to repaint it
@@ -1146,13 +1165,6 @@ var
     pixelFormat: GLenum;
     hDC:         THandle;
 begin
-    // notify user that a texture should be loaded for the model
-    if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
-    begin
-        Result := OnLoadTexture(pGroup, pModel, pBitmap, pTexture, loadNext);
-        Exit;
-    end;
-
     // no model?
     if (not Assigned(pModel)) then
     begin
@@ -1218,6 +1230,14 @@ begin
         finally
             SetLength(pixels, 0);
         end;
+
+        // notify user that a texture should be loaded for the model
+        if ((not(csDesigning in ComponentState)) and Assigned(OnLoadTexture)) then
+            OnLoadTexture(Self,
+                          hDC,
+                          RenderSurface.GLContext,
+                          Renderer,
+                          Shader);
     finally
         ReleaseDC(WindowHandle, hDC);
     end;
@@ -1325,7 +1345,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1338,7 +1358,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 
         Exit;
     end
@@ -1350,7 +1370,7 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, matrix, pNextAABBTree);
+            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pNextAABBTree, Renderer, Shader);
 
         Exit;
     end;
@@ -1363,7 +1383,7 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, matrix, pAABBTree);
+        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD3ModelGL.Assign(pSource: TPersistent);

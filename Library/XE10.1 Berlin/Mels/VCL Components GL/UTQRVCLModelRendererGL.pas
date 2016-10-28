@@ -170,7 +170,7 @@ type
              @return(Converted point in the OpenGL space)
             }
             {$ENDREGION}
-            function MousePosToGLPoint(hWnd: THandle; out viewRect: TQRRect): TQRVector3D; virtual;
+            function MousePosToGLPoint(hWnd: THandle; const viewRect: TQRRect): TQRVector3D; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -510,7 +510,7 @@ begin
     glViewport(0, 0, clientWidth, clientHeight);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRVCLModelRendererGL.MousePosToGLPoint(hWnd: THandle; out viewRect: TQRRect): TQRVector3D;
+function TQRVCLModelRendererGL.MousePosToGLPoint(hWnd: THandle; const viewRect: TQRRect): TQRVector3D;
 var
     p:                                         TPoint;
     clientRect:                                TRect;

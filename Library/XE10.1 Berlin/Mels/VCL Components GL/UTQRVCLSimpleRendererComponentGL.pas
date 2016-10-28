@@ -113,6 +113,9 @@ begin
     inherited Create(pOwner);
 
     m_fOnDrawScene := nil;
+
+    // nothing to load because it's done by the user
+    SetModelLoaded(True);
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLSimpleRendererGL.Destroy;
@@ -125,7 +128,7 @@ var
     hDC: THandle;
 begin
     // OpenGL was not initialized correctly?
-    if (not Allowed) then
+    if (not IsAllowed) then
         Exit;
 
     // notify that optional OpenGL configuration can be enabled

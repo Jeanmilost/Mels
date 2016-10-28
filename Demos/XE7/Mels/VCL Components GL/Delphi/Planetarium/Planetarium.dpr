@@ -1,5 +1,7 @@
 program Planetarium;
 
+{$R 'Main.res' 'Main.rc'}
+
 uses
   Vcl.Forms,
   Main in 'Main.pas' {MainForm};

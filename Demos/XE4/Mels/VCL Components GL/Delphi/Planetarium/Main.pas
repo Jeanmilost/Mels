@@ -33,6 +33,7 @@ uses System.Classes,
      System.Variants,
      Vcl.Graphics,
      Vcl.Imaging.jpeg,
+     Vcl.Imaging.pngimage,
      Vcl.Controls,
      Vcl.ExtCtrls,
      Vcl.StdCtrls,
@@ -157,6 +158,7 @@ implementation
 // Resources
 //--------------------------------------------------------------------------------------------------
 {$R *.dfm}
+{$R Main.res}
 //--------------------------------------------------------------------------------------------------
 // TMainForm
 //--------------------------------------------------------------------------------------------------
@@ -223,22 +225,51 @@ procedure TMainForm.spSaturnLoadTexture(pSender: TObject;
                                       pRenderer: TQRVCLModelRendererGL;
                                         pShader: TQRVCLModelShaderGL);
 var
-    pixels:      TQRByteArray;
-    pixelFormat: GLenum;
-    pPicture:    TPicture;
-    pBitmap:     Vcl.Graphics.TBitmap;
+    hPackageInstance: THandle;
+    pPNG:             TPngImage;
+    pBitmap:          Vcl.Graphics.TBitmap;
+    pStream:          TResourceStream;
+    pixelFormat:      GLenum;
+    pixels:           TQRByteArray;
 begin
+    pPNG    := nil;
+    pBitmap := nil;
+    pStream := nil;
+
     try
-        // load source picture from file
-        pPicture := TPicture.Create;
-        pPicture.LoadFromFile('C:\\Private\\Devel\\Mels\\trunk\\Demos\\XE4\\Mels\\VCL Components GL\\Delphi\\Planetarium\\Resources\\Textures\\texture_saturn_ring.png');
+        pPNG := TPngImage.Create;
+
+        try
+            // get module instance at which this control belongs
+            hPackageInstance := FindClassHInstance(TMainForm);
+
+            // found module and package containing the texture JPEG image to load?
+            if ((hPackageInstance <> 0) and
+                (FindResource(hPackageInstance, PChar('ID_SATURN_RING_TEXTURE'), RT_RCDATA) <> 0))
+            then
+            begin
+                // load JPEG texture image from stream
+                pStream := TResourceStream.Create(hPackageInstance,
+                                                  PChar('ID_SATURN_RING_TEXTURE'),
+                                                  RT_RCDATA);
+                pPNG.LoadFromStream(pStream);
+            end;
+        finally
+            // delete resource stream, if needed
+            pStream.Free
+        end;
+
+        // failed to load JPEG image?
+        if ((pPNG.Width = 0) or (pPNG.Height = 0)) then
+            Exit;
 
         // create and configure destination bitmap
         pBitmap             := Vcl.Graphics.TBitmap.Create;
         pBitmap.PixelFormat := pf32bit;
         pBitmap.AlphaFormat := afPremultiplied;
-
-        TQRVCLPictureHelper.ToBitmap(pPicture, pBitmap);
+        pBitmap.Width       := pPNG.Width;
+        pBitmap.Height      := pPNG.Height;
+        pBitmap.Canvas.Draw(0, 0, pPNG);
 
         // select pixel format to use
         if (pBitmap.PixelFormat = pf32bit) then
@@ -261,7 +292,7 @@ begin
         end;
     finally
         pBitmap.Free;
-        pPicture.Free;
+        pPNG.Free;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -279,7 +310,7 @@ begin
                    TQRVector3D.Create(0.0, 0.0, -0.5),
                    4.5,
                    0.16,
-                   0.0,
+                   m_Angle,
                    TQRVector3D.Create(1.0, 1.0, 1.0),
                    m_RingTextures);
 

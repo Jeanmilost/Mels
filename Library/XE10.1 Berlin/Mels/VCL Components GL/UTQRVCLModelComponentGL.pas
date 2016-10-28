@@ -49,7 +49,8 @@ uses System.Classes,
      UTQRVCLModelRenderSurfaceGL,
      UTQRVCLModelComponentPropertiesGL,
      UTQRVCLHelpersGL,
-     UTQRDesignerHook,       UTQRVCLHelpers,
+     UTQRDesignerHook,
+     UTQRVCLHelpers,
      Vcl.Graphics,
      Vcl.Imaging.pngimage,
      Vcl.Controls,
@@ -100,12 +101,34 @@ type
      @param(pSender - event sender)
      @param(projectionMatrix @bold([in, out]) Projection matrix to use)
      @param(viewMatrix @bold([in, out]) View matrix to use)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
      @return(@true to use user defined matrix instead of default, otherwise @false)
     }
     {$ENDREGION}
     TQRCreateSceneMatrix = function(pSender: TObject;
                        var projectionMatrix,
-                                 viewMatrix: TQRMatrix4x4): Boolean of object;
+                                 viewMatrix: TQRMatrix4x4;
+                                 hDC, hGLRC: THandle;
+                                  pRenderer: TQRVCLModelRendererGL;
+                                    pShader: TQRVCLModelShaderGL): Boolean of object;
+
+    {$REGION 'Documentation'}
+    {**
+     Called when texture should be loaded
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @param(hGLRC OpenGL render context)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
+    }
+    {$ENDREGION}
+    TQRLoadTextureEvent = procedure(pSender: TObject;
+                                 hDC, hGLRC: THandle;
+                                  pRenderer: TQRVCLModelRendererGL;
+                                    pShader: TQRVCLModelShaderGL) of object;
 
     {$REGION 'Documentation'}
     {**
@@ -159,13 +182,19 @@ type
     {**
      Called when collisions should be detected on the model
      @param(pSender Event sender)
+     @param(projectionMatrix Projection (or word) matrix used to render the model)
      @param(modelMatrix Model matrix)
      @param(pAABBTree Model aligned-axis bounding box tree)
+     @param(pRenderer OpenGL renderer)
+     @param(pShader OpenGL shader)
     }
     {$ENDREGION}
     TQRDetectCollisionsEvent = procedure(pSender: TObject;
-                               const modelMatrix: TQRMatrix4x4;
-                                       pAABBTree: TQRAABBTree) of object;
+                          const projectionMatrix,
+                                     modelMatrix: TQRMatrix4x4;
+                                       pAABBTree: TQRAABBTree;
+                                       pRenderer: TQRVCLModelRendererGL;
+                                         pShader: TQRVCLModelShaderGL) of object;
 
     {$REGION 'Documentation'}
     {**
@@ -190,8 +219,9 @@ type
             m_SupportsGDI:          Boolean;
             m_LogMessageLoop:       Boolean;
             m_Allowed:              Boolean;
+            m_Loaded:               Boolean;
             m_fOnConfigureOpenGL:   TQRConfigureOpenGL;
-            m_fOnLoadTexture:       TQRLoadMeshTextureEvent;
+            m_fOnLoadTexture:       TQRLoadTextureEvent;
             m_fOnCreateSceneMatrix: TQRCreateSceneMatrix;
             m_fOnInitializeScene:   TQRInitializeSceneEvent;
             m_fOnBeforeDrawScene:   TQRBeforeDrawSceneEvent;
@@ -262,6 +292,14 @@ type
             }
             {$ENDREGION}
             procedure Loaded; override;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets if the model was successfully loaded and is ready to use
+             @param (value If @true, the model was fully loaded and is ready to use)
+            }
+            {$ENDREGION}
+            procedure SetModelLoaded(value: Boolean); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -486,7 +524,18 @@ type
              is ready to use
             }
             {$ENDREGION}
-            property Allowed: Boolean read m_Allowed;
+            property IsAllowed: Boolean read m_Allowed;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets if the model was successfully loaded
+             @br @bold(NOTE) This value is set to true only after the model was successfully loaded.
+                             This means that this property may return false even in a normal
+                             circumstance, and should never be interpreted as an error, but only as
+                             an indication that the model is still not ready
+            }
+            {$ENDREGION}
+            property IsLoaded: Boolean read m_Loaded;
 
             {$REGION 'Documentation'}
             {**
@@ -530,10 +579,10 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets or sets the OnLoad Texture event
+             Gets or sets the OnLoadTexture event
             }
             {$ENDREGION}
-            property OnLoadTexture: TQRLoadMeshTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
+            property OnLoadTexture: TQRLoadTextureEvent read m_fOnLoadTexture write m_fOnLoadTexture;
 
             {$REGION 'Documentation'}
             {**
@@ -604,6 +653,125 @@ type
             }
             {$ENDREGION}
             property Enabled;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the popup menu to show when component is right clicked
+            }
+            {$ENDREGION}
+            property PopupMenu;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnCanResize event
+            }
+            {$ENDREGION}
+            property OnCanResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnResize event
+            }
+            {$ENDREGION}
+            property OnResize;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnContextPopup event
+            }
+            {$ENDREGION}
+            property OnContextPopup;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnClick event
+            }
+            {$ENDREGION}
+            property OnClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnDblClick event
+            }
+            {$ENDREGION}
+            property OnDblClick;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseActivate event
+            }
+            {$ENDREGION}
+            property OnMouseActivate;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseDown event
+            }
+            {$ENDREGION}
+            property OnMouseDown;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseEnter event
+            }
+            {$ENDREGION}
+            property OnMouseEnter;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseLeave event
+            }
+            {$ENDREGION}
+            property OnMouseLeave;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseMove event
+            }
+            {$ENDREGION}
+            property OnMouseMove;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnMouseUp event
+            }
+            {$ENDREGION}
+            property OnMouseUp;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnEnter event
+            }
+            {$ENDREGION}
+            property OnEnter;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnExit event
+            }
+            {$ENDREGION}
+            property OnExit;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyDown event
+            }
+            {$ENDREGION}
+            property OnKeyDown;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyPress event
+            }
+            {$ENDREGION}
+            property OnKeyPress;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnKeyUp event
+            }
+            {$ENDREGION}
+            property OnKeyUp;
     end;
 
     {$REGION 'Documentation'}
@@ -827,6 +995,7 @@ begin
     m_SupportsGDI          := True;
     m_LogMessageLoop       := False;
     m_Allowed              := False;
+    m_Loaded               := False;
     m_fOnConfigureOpenGL   := nil;
     m_fOnLoadTexture       := nil;
     m_fOnCreateSceneMatrix := nil;
@@ -885,11 +1054,24 @@ begin
     case (message.Msg) of
         WM_ERASEBKGND:
         begin
-            // as scene background is always filled by OpenGL, ignore message to prevent ugly
-            // flickering while scene is drawn. NOTE user is responsible to clear background before
-            // drawing a transparent or translucent scene, by handling the OnInitializeScene event
-            message.Result := 0;
-            Exit;
+            if (m_Allowed and m_Loaded) then
+            begin
+                // as scene background is always filled by OpenGL, ignore message to prevent ugly
+                // flickering while scene is drawn. NOTE user is responsible to clear background before
+                // drawing a transparent or translucent scene, by handling the OnInitializeScene event
+                message.Result := 0;
+                Exit;
+            end;
+
+            // get the device context to use
+            hDC := message.WParam;
+
+            // do use the provided device context?
+            if ((hDC <> 0) and (m_hBackgroundBrush <> 0)) then
+            begin
+                FillRect(hDC, TRect.Create(0, 0, ClientWidth, ClientHeight), m_hBackgroundBrush);
+                Exit;
+            end;
         end;
 
         WM_PAINT:
@@ -1022,6 +1204,11 @@ begin
             pControlToHook := pControlToHook.Parent;
         end;
     end
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRVCLModelComponentGL.SetModelLoaded(value: Boolean);
+begin
+    m_Loaded := value;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Resize;
@@ -1204,7 +1391,13 @@ begin
             // notify user that scene matrix (i.e. projection and view matrix) are about to be created
             if (Assigned(m_fOnCreateSceneMatrix)) then
                 // user defined his own matrix?
-                if (m_fOnCreateSceneMatrix(Self, m_ProjectionMatrix, m_ViewMatrix)) then
+                if (m_fOnCreateSceneMatrix(Self,
+                                           m_ProjectionMatrix,
+                                           m_ViewMatrix,
+                                           hDC,
+                                           RenderSurface.GLContext,
+                                           m_pRenderer,
+                                           m_pShader)) then
                     Exit;
 
             // create projection matrix (will not be modified while execution)

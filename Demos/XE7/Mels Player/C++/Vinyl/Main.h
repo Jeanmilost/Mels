@@ -36,6 +36,7 @@ class TMainForm : public TForm
         TImage *imPause;
         TImage *imStop;
 
+        void __fastcall FormCreate(TObject* pSender);
         void __fastcall tiAnimationTimer(TObject* pSender);
         void __fastcall imStartClick(TObject* pSender);
         void __fastcall imPauseClick(TObject* pSender);
