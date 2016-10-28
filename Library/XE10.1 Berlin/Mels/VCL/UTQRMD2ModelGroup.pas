@@ -122,6 +122,7 @@ type
              @param(lineNb Current parsing line number)
              @return(@true on success, otherwise @false)
             }
+            {$ENDREGION}
             function ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean; override;
 
         public
@@ -1320,7 +1321,7 @@ function TQRLoadMD2FileJob.Process: Boolean;
 var
     modelName, normalsName, animCfgName: TFileName;
     pNormalsStream:                      TResourceStream;
-    hPackageInstance:                    NativeUInt;
+    hPackageInstance:                    THandle;
     frameCount, i:                       NativeUInt;
     normalsLoaded, textureLoaded:        Boolean;
     vertexFormat:                        TQRVertexFormat;

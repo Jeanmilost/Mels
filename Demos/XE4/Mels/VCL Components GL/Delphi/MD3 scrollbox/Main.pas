@@ -69,7 +69,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.btSaveToFileClick(pSender: TObject);
 var
-    pBitmap: TBitmap;
+    pBitmap: Vcl.Graphics.TBitmap;
 begin
     if (not sdSave.Execute) then
         Exit;
@@ -78,7 +78,7 @@ begin
 
     try
         // create a bitmap to receive the model
-        pBitmap             := TBitmap.Create;
+        pBitmap             := Vcl.Graphics.TBitmap.Create;
         pBitmap.PixelFormat := pf32bit;
         pBitmap.AlphaFormat := afPremultiplied;
         pBitmap.SetSize(100, 100);

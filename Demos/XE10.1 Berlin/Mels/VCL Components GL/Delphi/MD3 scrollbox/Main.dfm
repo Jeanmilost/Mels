@@ -192,7 +192,6 @@ object MainForm: TMainForm
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
-      Zoom = 100
     end
     object btSaveToFile: TButton
       AlignWithMargins = True
