@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{C344157A-F94E-4361-A013-D663EF9DD92D}</ProjectGuid>
         <MainSource>DelphiAL.dpk</MainSource>
-        <ProjectVersion>16.0</ProjectVersion>
+        <ProjectVersion>18.1</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
@@ -155,7 +155,6 @@
             <Deployment/>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">True</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

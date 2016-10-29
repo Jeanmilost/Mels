@@ -42,7 +42,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <SanitizedProjectName>Shapes</SanitizedProjectName>
-        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\XE10.1 Berlin\Mels\Base\Win32\Debug;..\..\..\..\..\..\Library\XE10.1 Berlin\Mels\Models\Win32\Debug;..\..\..\..\..\..\Library\XE10.1 Berlin\Mels\VCL\Win32\Debug;..\..\..\..\..\..\Library\XE10.1 Berlin\Mels\VCL Components GL\Win32\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\10.1\Mels\Base\Win32\Debug;..\..\..\..\..\..\Library\10.1\Mels\Models\Win32\Debug;..\..\..\..\..\..\Library\10.1\Mels\VCL\Win32\Debug;..\..\..\..\..\..\Library\10.1\Mels\VCL Components GL\Win32\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <Manifest_File>None</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>..\..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
