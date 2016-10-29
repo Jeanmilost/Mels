@@ -31,9 +31,9 @@ __fastcall TMainForm::TMainForm(TComponent* pOwner) :
 void __fastcall TMainForm::FormCreate(TObject* pSender)
 {
     // get music from resources
-    std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance, ID_MUSIC, L"DATA"));
+    std::auto_ptr<TResourceStream> pMusic(new TResourceStream((int)HInstance, ID_MUSIC, L"DATA"));
     std::auto_ptr<TMemoryStream>   pBuffer(new TMemoryStream());
-    pBuffer->CopyFrom(pVertexPrg.get(), pVertexPrg->Size);
+    pBuffer->CopyFrom(pMusic.get(), pMusic->Size);
 
     // load music
     if (!mpPlayer->Open((unsigned char*)pBuffer->Memory, pBuffer->Size))
