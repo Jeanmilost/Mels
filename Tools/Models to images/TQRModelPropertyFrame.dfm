@@ -1,0 +1,579 @@
+object QRModelPropertyFrame: TQRModelPropertyFrame
+  Left = 0
+  Top = 0
+  Width = 350
+  Height = 500
+  TabOrder = 0
+  object laAntialiasing: TLabel
+    Left = 0
+    Top = 124
+    Width = 350
+    Height = 13
+    Align = alTop
+    Caption = 'Antialiasing'
+    ExplicitTop = 161
+    ExplicitWidth = 54
+  end
+  object gbTexture: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 350
+    Height = 74
+    Align = alTop
+    Caption = 'Texture'
+    TabOrder = 0
+    object laTextureFileName: TLabel
+      AlignWithMargins = True
+      Left = 7
+      Top = 20
+      Width = 336
+      Height = 13
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alTop
+      Caption = 'File name'
+      ExplicitWidth = 45
+    end
+    object paTextureFileName: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 43
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      object TEdit
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 291
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alClient
+        ReadOnly = True
+        TabOrder = 0
+        ExplicitTop = -5
+      end
+      object btTextureFileNameBrowse: TButton
+        AlignWithMargins = True
+        Left = 296
+        Top = 0
+        Width = 40
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alRight
+        Caption = '...'
+        TabOrder = 1
+      end
+    end
+  end
+  object gbAlphaBlending: TGroupBox
+    Left = 0
+    Top = 74
+    Width = 350
+    Height = 50
+    Align = alTop
+    Caption = 'Alpha blending'
+    TabOrder = 1
+    object paAlphaBlendingGlobalLevel: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 20
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitLeft = 14
+      ExplicitTop = 28
+      object laAlphaBlendingGlobalLevel: TLabel
+        AlignWithMargins = True
+        Left = 220
+        Top = 0
+        Width = 54
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Global level'
+        Layout = tlCenter
+        ExplicitLeft = 169
+        ExplicitHeight = 13
+      end
+      object edAlphaBlendingGlobalLevel: TEdit
+        AlignWithMargins = True
+        Left = 274
+        Top = 0
+        Width = 45
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 17
+        Margins.Bottom = 0
+        Align = alClient
+        Alignment = taRightJustify
+        NumbersOnly = True
+        ReadOnly = True
+        TabOrder = 0
+        Text = '255'
+        ExplicitLeft = 59
+        ExplicitWidth = 260
+      end
+      object udAlphaBlendingGlobalLevel: TUpDown
+        Left = 319
+        Top = 0
+        Width = 17
+        Height = 21
+        Associate = edAlphaBlendingGlobalLevel
+        Max = 255
+        Position = 255
+        TabOrder = 1
+      end
+      object ckEnabled: TCheckBox
+        Left = 0
+        Top = 0
+        Width = 220
+        Height = 21
+        Align = alLeft
+        Caption = 'Enabled'
+        TabOrder = 2
+      end
+    end
+  end
+  object cbAntialiasing: TComboBox
+    Left = 0
+    Top = 137
+    Width = 350
+    Height = 21
+    Align = alTop
+    ItemIndex = 3
+    TabOrder = 2
+    Text = 'Full screen antialiasing 8x'
+    Items.Strings = (
+      'None'
+      'Full screen antialiasing 2x'
+      'Full screen antialiasing 4x'
+      'Full screen antialiasing 8x')
+    ExplicitLeft = 248
+    ExplicitTop = 312
+    ExplicitWidth = 145
+  end
+  object gbColors: TGroupBox
+    Left = 0
+    Top = 158
+    Width = 350
+    Height = 50
+    Align = alTop
+    Caption = 'Colors'
+    TabOrder = 3
+    object paColorsBackground: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 20
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitLeft = 14
+      ExplicitTop = 28
+      object laColorsBackground: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 56
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Background'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object laColorsModel: TLabel
+        AlignWithMargins = True
+        Left = 282
+        Top = 0
+        Width = 28
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alRight
+        Caption = 'Model'
+        Layout = tlCenter
+        ExplicitLeft = 136
+        ExplicitTop = -8
+      end
+      object paColorsBackgroundColor: TPanel
+        AlignWithMargins = True
+        Left = 61
+        Top = 0
+        Width = 21
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alLeft
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Color = clBlack
+        ParentBackground = False
+        TabOrder = 0
+        ExplicitLeft = 115
+        ExplicitTop = -3
+      end
+      object paColorsModelColor: TPanel
+        AlignWithMargins = True
+        Left = 315
+        Top = 0
+        Width = 21
+        Height = 21
+        Margins.Left = 5
+        Margins.Top = 0
+        Margins.Right = 0
+        Margins.Bottom = 0
+        Align = alRight
+        BevelKind = bkFlat
+        BevelOuter = bvNone
+        Color = clWhite
+        ParentBackground = False
+        TabOrder = 1
+      end
+    end
+  end
+  object gbModelPosition: TGroupBox
+    Left = 0
+    Top = 208
+    Width = 350
+    Height = 145
+    Align = alTop
+    Caption = 'Model position'
+    TabOrder = 4
+    object laModelPositionPosition: TLabel
+      Left = 2
+      Top = 15
+      Width = 346
+      Height = 13
+      Align = alTop
+      Caption = 'Position'
+      ExplicitWidth = 37
+    end
+    object laModelPositionRotation: TLabel
+      Left = 2
+      Top = 54
+      Width = 346
+      Height = 13
+      Align = alTop
+      Caption = 'Rotation'
+      ExplicitWidth = 41
+    end
+    object laModelPositionScaling: TLabel
+      Left = 2
+      Top = 93
+      Width = 346
+      Height = 13
+      Align = alTop
+      Caption = 'Scaling'
+      ExplicitWidth = 33
+    end
+    object paModelPositionPosition: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 33
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+      ExplicitLeft = 47
+      ExplicitTop = 36
+      object laModelPositionPositionX: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'X'
+        Layout = tlCenter
+        ExplicitLeft = 88
+        ExplicitTop = 8
+        ExplicitHeight = 13
+      end
+      object laModelPositionPositionY: TLabel
+        AlignWithMargins = True
+        Left = 116
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Y'
+        Layout = tlCenter
+        ExplicitLeft = 67
+        ExplicitHeight = 13
+      end
+      object laModelPositionPositionZ: TLabel
+        AlignWithMargins = True
+        Left = 232
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Z'
+        Layout = tlCenter
+        ExplicitLeft = 190
+        ExplicitHeight = 13
+      end
+      object edModelPositionPositionX: TEdit
+        Left = 11
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 0
+      end
+      object edModelPositionPositionY: TEdit
+        Left = 127
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 1
+      end
+      object edModelPositionPositionZ: TEdit
+        Left = 243
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 2
+      end
+    end
+    object paModelPositionRotation: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 72
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 1
+      ExplicitLeft = 6
+      ExplicitTop = 101
+      object laModelPositionRotationX: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'X'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object laModelPositionRotationY: TLabel
+        AlignWithMargins = True
+        Left = 116
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Y'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object laModelPositionRotationZ: TLabel
+        AlignWithMargins = True
+        Left = 232
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Z'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object edModelPositionRotationX: TEdit
+        Left = 11
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 0
+      end
+      object edModelPositionRotationY: TEdit
+        Left = 127
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 1
+      end
+      object edModelPositionRotationZ: TEdit
+        Left = 243
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 2
+      end
+    end
+    object paModelPositionScaling: TPanel
+      AlignWithMargins = True
+      Left = 7
+      Top = 111
+      Width = 336
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 0
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 2
+      ExplicitLeft = -10
+      ExplicitTop = 140
+      object laModelPositionScalingX: TLabel
+        AlignWithMargins = True
+        Left = 0
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 0
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'X'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object laModelPositionScalingY: TLabel
+        AlignWithMargins = True
+        Left = 116
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Y'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object laModelPositionScalingZ: TLabel
+        AlignWithMargins = True
+        Left = 232
+        Top = 0
+        Width = 6
+        Height = 21
+        Margins.Left = 15
+        Margins.Top = 0
+        Margins.Right = 5
+        Margins.Bottom = 0
+        Align = alLeft
+        Caption = 'Z'
+        Layout = tlCenter
+        ExplicitHeight = 13
+      end
+      object edModelPositionScalingX: TEdit
+        Left = 11
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 0
+      end
+      object edModelPositionScalingY: TEdit
+        Left = 127
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 1
+      end
+      object edModelPositionScalingZ: TEdit
+        Left = 243
+        Top = 0
+        Width = 90
+        Height = 21
+        Align = alLeft
+        TabOrder = 2
+      end
+    end
+  end
+  object gbModelOptions: TGroupBox
+    Left = 0
+    Top = 353
+    Width = 350
+    Height = 105
+    Align = alTop
+    Caption = 'Model options'
+    TabOrder = 5
+    ExplicitLeft = 128
+    ExplicitTop = 432
+    ExplicitWidth = 185
+  end
+end
