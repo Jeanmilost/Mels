@@ -177,7 +177,10 @@ begin
         Exit;
 
     if (ExtractFileExt(odOpen.FileName) <> '.wav') then
+    begin
+        MessageDlg('File is not a wav sound.', mtError, [mbOK], 0);
         Exit;
+    end;
 
     pFile  := nil;
     pSound := nil;
