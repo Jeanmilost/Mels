@@ -146,7 +146,7 @@ begin
             // is polygon intersecting ray?
             if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygons[i])) then
             begin
-                // ad polygon in collision to resulting list
+                // add polygon in collision to resulting list
                 SetLength(polygonToDraw, Length(polygonToDraw) + 1);
                 polygonToDraw[Length(polygonToDraw) - 1] := polygons[i];
             end;
