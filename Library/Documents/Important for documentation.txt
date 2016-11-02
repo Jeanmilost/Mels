@@ -1,5 +1,0 @@
-- Les utilisateurs de XE4 et antérieur doivent installer le composant DelphiGL fourni dans les Externals. Les utilisateurs de XE5? et supérieur doivent utiliser les headers natifs du compilateur
-- Ajouter DelphiGL.dcp sour required dans le projet Eklid_VCLComponentsGL si XE4 ou antérieur est utilisé
-- Déplacer TQRMD2MdlGroup.res depuis le dir Eklid VCL vers C:\Users\Public\Documents\RAD Studio\11.0\Dcp
-- Documenter que afDefined ne peut pas être utilisé pour peindre vers un canvas externe
-- Documenter que l'antialiasgin ralentit le processus de dessin
