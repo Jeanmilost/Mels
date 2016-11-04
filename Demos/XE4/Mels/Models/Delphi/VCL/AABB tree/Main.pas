@@ -43,11 +43,13 @@ uses System.Classes,
      Vcl.Menus,
      Winapi.Messages,
      Winapi.Windows,
-     UTQRHelpers,
      UTQRSmartPointer,
+     UTQRHelpers,
+     UTQRGraphics,
      UTQR3D,
      UTQRGeometry,
      UTQRCollision,
+     UTQRShapes,
      UTQROpenGLHelper,
      {$IF CompilerVersion <= 25}
         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
@@ -102,21 +104,6 @@ type
             }
             procedure ConfigOpenGL;
 
-            {**
-             Creates a sphere
-             @param(radius Sphere radius)
-             @param(slices Slices (longitude) number)
-             @param(stacks Stacks (latitude) number)
-             @param(color Color in RGBA format)
-             @param(vertex Vertex format to use to generate mesh)
-             @param(mesh @bold([out]) Mesh representing sphere)
-            }
-            procedure CreateSphere(radius: Single;
-                           slices, stacks: NativeInt;
-                                    color: NativeUInt;
-                               var vertex: TQRVertex;
-                                 out mesh: TQRMesh);
-
         protected
             {**
              Prepares and draws OpenGL scene
@@ -163,9 +150,8 @@ implementation
 //--------------------------------------------------------------------------------------------------
 constructor TMainForm.Create(pOwner: TComponent);
 var
-    vertex:       TQRVertex;
-    polygons:     TQRPolygons;
-    meshCount, i: NativeUInt;
+    pColor:       IQRSmartPointer<TQRColor>;
+    pSphereModel: IQRSmartPointer<TQRSphereModel>;
 begin
     inherited Create(pOwner);
 
@@ -178,24 +164,20 @@ begin
     m_Theta                := 0.0;
     m_Rotate               := False;
 
-    Include(vertex.m_Format, EQR_VF_Colors);
+    pColor := TQRSmartPointer<TQRColor>.Create(TQRColor.Create(0, 0, 255, 255));
 
     // create a demo blue sphere
-    CreateSphere(1.0, 20, 20, $FFFF, vertex, m_Mesh);
+    pSphereModel              := TQRSmartPointer<TQRSphereModel>.Create();
+    pSphereModel.Slices       := 20;
+    pSphereModel.Stacks       := 20;
+    pSphereModel.Radius       := 1.0;
+    pSphereModel.Color        := pColor;
+    pSphereModel.VertexFormat := [EQR_VF_Colors];
 
-    meshCount := Length(m_Mesh);
-
-    // iterate through sphere meshes
-    if (meshCount > 0) then
-        for i := 0 to meshCount - 1 do
-            // get collide polygons
-            TQRCollisionHelper.GetPolygons(m_Mesh[i], polygons);
-
-    m_CollidePolygonsCount := Length(polygons);
-
-    // create and populate aligned-axis bounding box tree
+    // create aligned-axis bounding box tree
     m_pAABBTree := TQRAABBTree.Create;
-    m_pAABBTree.Populate(polygons);
+
+    pSphereModel.GetMesh(m_Mesh, m_pAABBTree);
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TMainForm.Destroy;
@@ -226,7 +208,7 @@ begin
     end;
 
     // configure OpenGL
-    ConfigOpenGL();
+    ConfigOpenGL;
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, false);
 
     // from now, OpenGL will draw scene every time the thread do nothing else
@@ -269,186 +251,6 @@ begin
     // enable culling
     glDisable(GL_CULL_FACE);
     glCullFace(GL_NONE);
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TMainForm.CreateSphere(radius: Single;
-                         slices, stacks: NativeInt;
-                                  color: NativeUInt;
-                             var vertex: TQRVertex;
-                               out mesh: TQRMesh);
-var
-    i,
-    j,
-    meshIndex,
-    fanLength,
-    index:     Integer;
-    majorStep,
-    minorStep,
-    a,
-    b,
-    r0,
-    r1,
-    z0,
-    z1,
-    c,
-    x,
-    y,
-    si,
-    sj,
-    sStacks,
-    sSlices,
-    rf,
-    gf,
-    bf,
-    af:        Single;
-    stride:    NativeUInt;
-begin
-    // configure vertex format
-    vertex.m_CoordType := EQR_VC_XYZ;
-    vertex.m_Type      := EQR_VT_TriangleStrip;
-    vertex.m_Stride    := vertex.CalculateStride();
-
-    stride := vertex.m_Stride;
-
-    // initialize basic values
-    majorStep := (PI         / slices);
-    minorStep := ((2.0 * PI) / stacks);
-
-    // iterate through vertex slices
-    for i := 0 to slices do
-    begin
-        // calculate values for next slice
-        a  := i      * majorStep;
-        b  := a      + majorStep;
-        r0 := radius * Sin(a);
-        r1 := radius * Sin(b);
-        z0 := radius * Cos(a);
-        z1 := radius * Cos(b);
-
-        // calculate current index and slice fan length
-        meshIndex := Length(mesh);
-        fanLength := (stacks + 1) * stride * 2;
-
-        // adde new mesh in output array
-        SetLength(mesh, Length(mesh) + 1);
-
-        // populate mesh
-        mesh[meshIndex] := vertex.Clone;
-        SetLength(mesh[meshIndex].m_Buffer, fanLength);
-
-        index := 0;
-
-        // iterate through vertex stacks
-        for j := 0 to stacks do
-        begin
-            c := j * minorStep;
-            x := Cos(c);
-            y := Sin(c);
-
-            // set vertex data
-            mesh[meshIndex].m_Buffer[index]     := x * r0;
-            mesh[meshIndex].m_Buffer[index + 1] := y * r0;
-            mesh[meshIndex].m_Buffer[index + 2] := z0;
-
-            Inc(index, 3);
-
-            // do generate normals?
-            if (EQR_VF_Normals in vertex.m_Format) then
-            begin
-                // set normals
-                mesh[meshIndex].m_Buffer[index]     := (x * r0) / radius;
-                mesh[meshIndex].m_Buffer[index + 1] := (y * r0) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] := z0       / radius;
-
-                Inc(index, 3);
-            end;
-
-            // do generate texture coordinates?
-            if (EQR_VF_TexCoords in vertex.m_Format) then
-            begin
-                // convert cardinal values to single to avoid rounding error while dividing values
-                si      := i;
-                sj      := j;
-                sStacks := stacks;
-                sSlices := slices;
-
-                // add texture coordinates data to buffer
-                mesh[meshIndex].m_Buffer[index]     := (sj / sStacks);
-                mesh[meshIndex].m_Buffer[index + 1] := (si / sSlices);
-
-                Inc(index, 2);
-            end;
-
-            // do generate colors?
-            if (EQR_VF_Colors in vertex.m_Format) then
-            begin
-                // calculate the RGBA values and convert them to single
-                rf := ((color shr 24) and $FF);
-                gf := ((color shr 16) and $FF);
-                bf := ((color shr 8)  and $FF);
-                af :=  (color         and $FF);
-
-                // set color data
-                mesh[meshIndex].m_Buffer[index]     := rf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 1] := gf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 2] := bf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 3] := af / 255.0;
-
-                Inc(index, 4);
-            end;
-
-            mesh[meshIndex].m_Buffer[index]     := x * r1;
-            mesh[meshIndex].m_Buffer[index + 1] := y * r1;
-            mesh[meshIndex].m_Buffer[index + 2] := z1;
-
-            Inc(index, 3);
-
-            // do generate normals?
-            if (EQR_VF_Normals in vertex.m_Format) then
-            begin
-                // set normals
-                mesh[meshIndex].m_Buffer[index]     := (x * r1) / radius;
-                mesh[meshIndex].m_Buffer[index + 1] := (y * r1) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] :=  z1      / radius;
-
-                Inc(index, 3);
-            end;
-
-            // do generate texture coordinates?
-            if (EQR_VF_TexCoords in vertex.m_Format) then
-            begin
-                // convert cardinal values to single to avoid rounding error while dividing values
-                si      := i;
-                sj      := j;
-                sStacks := stacks;
-                sSlices := slices;
-
-                // add texture coordinates data to buffer
-                mesh[meshIndex].m_Buffer[index]     :=  (sj        / sStacks);
-                mesh[meshIndex].m_Buffer[index + 1] := ((si + 1.0) / sSlices);
-
-                Inc(index, 2);
-            end;
-
-            // do generate colors?
-            if (EQR_VF_Colors in vertex.m_Format) then
-            begin
-                // calculate the RGBA values and convert them to single
-                rf := ((color shr 24) and $FF);
-                gf := ((color shr 16) and $FF);
-                bf := ((color shr 8)  and $FF);
-                af :=  (color         and $FF);
-
-                // set color data
-                mesh[meshIndex].m_Buffer[index]     := rf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 1] := gf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 2] := bf / 255.0;
-                mesh[meshIndex].m_Buffer[index + 3] := af / 255.0;
-
-                Inc(index, 4);
-            end;
-        end;
-    end;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.RenderGLScene;
@@ -517,8 +319,6 @@ begin
     // rotate ray position and direction
     rayPos := rotateMatrix.Transform(rayPos);
     rayDir := rotateMatrix.Transform(rayDir);
-
-    pRay := nil;
 
     // create and populate ray from mouse position
     pRay     := TQRSmartPointer<TQRRay>.Create();

@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Aligned-Axis Bounding Box tree'
+  Caption = 'MainForm'
   ClientHeight = 410
   ClientWidth = 410
   Color = clBtnFace
@@ -15,7 +15,6 @@ object MainForm: TMainForm
   OldCreateOrder = False
   PopupMenu = pmOptions
   Position = poScreenCenter
-  Scaled = False
   OnPaint = FormPaint
   OnShow = FormShow
   PixelsPerInch = 96
@@ -135,6 +134,7 @@ object MainForm: TMainForm
     Top = 16
     object acRotate: TAction
       Category = 'Navigation'
+      Caption = 'acRotate'
       ShortCut = 16466
       OnExecute = acRotateExecute
     end
