@@ -1,10 +1,23 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : 3D ray picking with AABB tree simplification demo main form                      *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
 #include <vcl.h>
 #pragma hdrstop
@@ -82,8 +95,11 @@ void __fastcall TMainForm::FormShow(TObject* pSender)
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(Handle, m_hDC, m_hRC))
     {
-        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.", mtError,
-                TMsgDlgButtons() << mbOK, 0);;
+        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.",
+                   mtError,
+                   TMsgDlgButtons() << mbOK,
+                   0);
+
         Application->Terminate();
         return;
     }
@@ -133,11 +149,12 @@ void __fastcall TMainForm::DrawScene(const double& elapsedTime)
     // do rotate sphere?
     if (m_Rotate)
     {
-        // calculate full max angle (i.e. 360°)
-        const float fullAngle = M_PI * 2.0f;
-
         // calculate next rotation angle
-        m_Theta = (m_Theta + 0.008f > fullAngle) ? ((m_Theta + 0.008f) - fullAngle) : m_Theta + 0.008f;
+        m_Theta = m_Theta + (0.001 * elapsedTime);
+
+        // correct it if out of bounds
+        if (m_Theta > (M_PI * 2.0))
+            m_Theta -= (M_PI * 2.0);
     }
 
     TQRTextures textures;
@@ -306,8 +323,8 @@ void TMainForm::CreateSphere(float       radius,
     for (i = 0; i <= slices; ++i)
     {
         // calculate values for next slice
-        a  = i * majorStep;
-        b  = a + majorStep;
+        a  = i      * majorStep;
+        b  = a      + majorStep;
         r0 = radius * std::sinf(a);
         r1 = radius * std::sinf(b);
         z0 = radius * std::cosf(a);
