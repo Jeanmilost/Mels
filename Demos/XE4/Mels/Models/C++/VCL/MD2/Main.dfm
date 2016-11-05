@@ -24,6 +24,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 589
     Height = 527
+    Cursor = crCross
     Align = alClient
     BevelOuter = bvNone
     Color = clBlack

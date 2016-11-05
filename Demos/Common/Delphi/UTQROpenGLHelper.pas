@@ -32,16 +32,16 @@ interface
 uses System.SysUtils,
      System.Math,
      Vcl.Graphics,
-     Winapi.Windows,
      UTQRHelpers,
      UTQR3D,
      UTQRGeometry,
+     Winapi.Windows,
      {$IF CompilerVersion <= 25}
-        // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-        // because the OpenGL include provided by Embarcadero is incomplete
-        XE7.OpenGL;
+         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+         // because the OpenGL include provided by Embarcadero is incomplete
+         XE7.OpenGL;
      {$ELSE}
-        Winapi.OpenGL;
+         Winapi.OpenGL;
      {$ENDIF}
 
 const
@@ -162,7 +162,8 @@ type
         {**
          Converts mouse position to OpenGL point (i.e. a point in the OpenGL space)
          @param(hWnd Handle of the window or control on which mouse is hoving)
-         @param(viewRect OpenGL view rectangle)         @return(Converted point in the OpenGL space)
+         @param(viewRect OpenGL view rectangle)
+         @return(Converted point in the OpenGL space)
         }
         {$ENDREGION}
         class function MousePosToGLPoint(hWnd: THandle; const viewRect: TQRRect): TQRVector3D; static;
