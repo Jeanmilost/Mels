@@ -137,12 +137,10 @@ class TMainForm : public TForm
         /**
         * Loads MD2 model
         *@param toggleLight - if true, pre-calculated light will be toggled
-        *@param fullScreen - if true, application will be opened in full screen mode
         *@param useShader - if true, shader will be used
-        *@param collisions - if true, collisions are detected and visible
         *@return true on success, otherwise false
         */
-        bool LoadModel(bool toggleLight, bool fullScreen, bool useShader, bool collisions);
+        bool LoadModel(bool toggleLight, bool useShader);
 
         /**
         * Gets frame from local cache

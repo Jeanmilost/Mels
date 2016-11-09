@@ -68,7 +68,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& projectionMatrix,
 
     float determinant;
 
-    // transform the ray to be on the same coordinate system as the model
+    // transform the ray to be on the same coordinates system as the model
     TQRMatrix4x4 invertMatrix =
             const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(projectionMatrix).Inverse(determinant);
     rayPos                    = invertMatrix.Transform(rayPos);

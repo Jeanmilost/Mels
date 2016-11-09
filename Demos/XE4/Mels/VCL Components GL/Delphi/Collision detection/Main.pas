@@ -125,7 +125,7 @@ begin
     rayPos := pRenderer.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    // transform the ray to be on the same coordinate system as the model
+    // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(projectionMatrix).Inverse(determinant);
     rayPos       := invertMatrix.Transform(rayPos);
     rayDir       := invertMatrix.Transform(rayDir);

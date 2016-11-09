@@ -34,6 +34,9 @@
 #include "QR_MathsHelper.h"
 #include "QR_OpenGLHelper.h"
 
+// interface
+#include "TOptions.h"
+
 // resources
 #include "Resources.rh"
 
@@ -51,7 +54,7 @@ bool        TMainForm::m_FullScreen               = false;
 bool        TMainForm::m_UseShader                = true;
 bool        TMainForm::m_UsePreCalculatedLighting = true;
 bool        TMainForm::m_Collisions               = true;
-std::size_t TMainForm::m_FPS                      = 15;
+std::size_t TMainForm::m_FPS                      = 12;
 //--------------------------------------------------------------------------------------------------
 // TMainForm::IFrame
 //--------------------------------------------------------------------------------------------------
@@ -120,6 +123,39 @@ __fastcall TMainForm::~TMainForm()
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject* pSender)
 {
+    // show options
+    std::auto_ptr<TOptions> pOptions(new TOptions(this));
+    pOptions->ckFullScreen->Checked               = m_FullScreen;
+    pOptions->ckUseShader->Checked                = m_UseShader;
+    pOptions->ckUsePreCalculatedLighting->Checked = m_UsePreCalculatedLighting;
+    pOptions->ckCollisions->Checked               = m_Collisions;
+    pOptions->edFPS->Text                         = ::IntToStr((int)m_FPS);
+    pOptions->ShowModal();
+
+    // apply options
+    m_FullScreen               = pOptions->ckFullScreen->Checked;
+    m_UseShader                = pOptions->ckUseShader->Checked;
+    m_UsePreCalculatedLighting = pOptions->ckUsePreCalculatedLighting->Checked;
+    m_Collisions               = pOptions->ckCollisions->Checked;
+    m_FPS                      = ::StrToInt(pOptions->edFPS->Text);
+
+    // do show model in full screen?
+    if (m_FullScreen)
+    {
+        BorderStyle = bsNone;
+        WindowState = wsMaximized;
+        ::ShowCursor(m_Collisions);
+    }
+    else
+    {
+        BorderStyle = bsSizeable;
+        WindowState = wsNormal;
+        ::ShowCursor(true);
+    }
+
+    // select correct cursor to use
+    paRendering->Cursor = m_Collisions ? crCross : crDefault;
+
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(paRendering->Handle, m_hDC, m_hRC))
     {
@@ -153,7 +189,7 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     ConfigOpenGL();
 
     // load MD2 model
-    if (!LoadModel(m_UsePreCalculatedLighting, m_FullScreen, m_UseShader, m_Collisions))
+    if (!LoadModel(m_UsePreCalculatedLighting, m_UseShader))
     {
         MessageDlg("Failed to load MD2 model.\r\n\r\nApplication will close.",
                    mtError,
@@ -288,27 +324,13 @@ bool TMainForm::BuildShader(TStream* pVertexPrg, TStream* pFragmentPrg, QR_Shade
     return pShader->Link(false);
 }
 //--------------------------------------------------------------------------------------------------
-bool TMainForm::LoadModel(bool toggleLight, bool fullScreen, bool useShader, bool collisions)
+bool TMainForm::LoadModel(bool toggleLight, bool useShader)
 {
     // delete cached frames, if any
     for (IFrames::iterator it = m_Frames.begin(); it != m_Frames.end(); ++it)
         delete it->second;
 
     m_Frames.clear();
-
-    // do show model in full screen?
-    if (fullScreen)
-    {
-        BorderStyle = bsNone;
-        WindowState = wsMaximized;
-        ::ShowCursor(collisions);
-    }
-    else
-    {
-        BorderStyle = bsSizeable;
-        WindowState = wsNormal;
-        ::ShowCursor(true);
-    }
 
     // do use shader?
     if (useShader)
@@ -394,9 +416,10 @@ bool TMainForm::LoadModel(bool toggleLight, bool fullScreen, bool useShader, boo
 
     // create model matrix
     m_ModelMatrix = TQRMatrix4x4::Identity();
-    m_ModelMatrix.Translate(TQRVector3D(0.0f, 0.0f, -100.0f));
-    m_ModelMatrix.Rotate(-M_PI_2, TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
-    m_ModelMatrix.Rotate(-M_PI_4, TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
+    m_ModelMatrix.Translate(TQRVector3D(0.0, 0.0, -0.65));
+    m_ModelMatrix.Rotate(-(M_PI / 2.0), TQRVector3D(1.0, 0.0, 0.0)); // -90°
+    m_ModelMatrix.Rotate(-(M_PI / 4.0), TQRVector3D(0.0, 0.0, 1.0)); // -45°
+    m_ModelMatrix.Scale(TQRVector3D(0.0075, 0.0075, 0.0075));
 
     std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
     LoadTexture(pTexture.get());
@@ -430,38 +453,19 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
         return;
 
     // calculate client rect in OpenGL coordinates
-    TQRRect rect(-1.0f, 1.0f, 2.0f, 2.0f);
+    TQRRect rect(-1.2, 1.2, 2.4, 2.4);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir(0.0f, 0.0f, 1.0f);
+    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
 
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(42.5f);
+    float determinant;
 
-    // create X rotation matrix
-    TQRMatrix4x4 rotateMatrixX = TQRMatrix4x4::Identity();
-    rotateMatrixX.Rotate(M_PI_2, TQRVector3D(1.0f, 0.0f, 0.0f));
-
-    // create Y rotation matrix
-    TQRMatrix4x4 rotateMatrixY = TQRMatrix4x4::Identity();
-    rotateMatrixY.Rotate(0.0, TQRVector3D(0.0f, 1.0f, 0.0f));
-
-    // create Z rotation matrix
-    TQRMatrix4x4 rotateMatrixZ = TQRMatrix4x4::Identity();
-    rotateMatrixZ.Rotate(M_PI_4, TQRVector3D(0.0f, 0.0f, 1.0f));
-
-    // apply rotation to ray
-    rayPos = rotateMatrixX.Transform(rayPos);
-    rayPos = rotateMatrixY.Transform(rayPos);
-    rayPos = rotateMatrixZ.Transform(rayPos);
-    rayDir = rotateMatrixX.Transform(rayDir);
-    rayDir = rotateMatrixY.Transform(rayDir);
-    rayDir = rotateMatrixZ.Transform(rayDir);
+    // transform the ray to be on the same coordinates system as the model
+    TQRMatrix4x4 invertMatrix =
+            const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
+    rayPos       = invertMatrix.Transform(rayPos);
+    rayDir       = invertMatrix.Transform(rayDir);
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());
@@ -650,6 +654,8 @@ bool TMainForm::LoadTexture(TQRTexture* pTexture)
 {
     if (!pTexture)
         return false;
+
+    pTexture->Name = L"qr_md2";
 
     // load texture image from resources
     std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,

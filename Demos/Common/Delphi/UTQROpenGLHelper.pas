@@ -39,8 +39,14 @@ uses System.SysUtils,
      {$IF CompilerVersion <= 25}
          // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
          // because the OpenGL include provided by Embarcadero is incomplete
+         {$IFDEF USE_SHADER}
+             XE7.OpenGLext,
+         {$ENDIF}
          XE7.OpenGL;
      {$ELSE}
+         {$IFDEF USE_SHADER}
+             Winapi.OpenGLext,
+         {$ENDIF}
          Winapi.OpenGL;
      {$ENDIF}
 
@@ -1635,7 +1641,7 @@ end;
         index := -1;
 
         // iterate through textures belonging to model
-        for i := 0 to textureCount do
+        for i := 0 to textureCount - 1 do
             // found a texture to draw?
             if (Assigned(textures[i]) and (textures[i].Enabled) and (textures[i].Name = modelName)) then
             begin
