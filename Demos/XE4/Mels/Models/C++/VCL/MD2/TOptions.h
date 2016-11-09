@@ -46,13 +46,12 @@ class TOptions : public TForm
         TUpDown *udFPS;
         TButton *btOk;
 
-        void __fastcall btOkClick(TObject* pSender);
         void __fastcall FormCreate(TObject* pSender);
+        void __fastcall edFPSExit(TObject* pSender);
+        void __fastcall btOkClick(TObject* pSender);
 
     public:
         __fastcall TOptions(TComponent* pOwner);
-
-    private:
 };
 extern PACKAGE TOptions* Options;
 #endif

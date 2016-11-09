@@ -574,7 +574,7 @@ begin
     // no window or control?
     if (hWnd = 0) then
     begin
-        Result := TQRVector3D.Create(0.0, 0.0, 0.0);
+        Result := Default(TQRVector3D);
         Exit;
     end;
 
@@ -584,7 +584,7 @@ begin
     // convert to window or control client coordinates
     if (not ScreenToClient(hWnd, p)) then
     begin
-        Result := TQRVector3D.Create(0.0, 0.0, 0.0);
+        Result := Default(TQRVector3D);
         Exit;
     end;
 
@@ -597,6 +597,13 @@ begin
     // calculate client width and height
     clientWidth  := (clientRect.right  - clientRect.left);
     clientHeight := (clientRect.bottom - clientRect.top);
+
+    // invalid client width or height?
+    if ((clientWidth = 0.0) or (clientHeight = 0.0)) then
+    begin
+        Result := Default(TQRVector3D);
+        Exit;
+    end;
 
     // convert mouse position to OpenGL position
     Result := TQRVector3D.Create(viewRect.Min.X + ((mouseX * viewRect.Width)  / clientWidth),

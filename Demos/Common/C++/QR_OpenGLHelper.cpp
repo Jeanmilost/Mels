@@ -278,6 +278,10 @@ TQRVector3D QR_OpenGLHelper::MousePosToGLPoint(HWND hWnd, TQRRect& viewRect)
     const float clientWidth  = (clientRect.right  - clientRect.left);
     const float clientHeight = (clientRect.bottom - clientRect.top);
 
+    // invalid client width or height?
+    if (!clientWidth || !clientHeight)
+        return TQRVector3D();
+
     // convert mouse position to OpenGL position
     return TQRVector3D(viewRect.Min->X + ((mouseX * viewRect.Width)  / clientWidth),
                        viewRect.Min->Y - ((mouseY * viewRect.Height) / clientHeight),

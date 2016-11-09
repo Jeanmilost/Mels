@@ -44,18 +44,6 @@
 #pragma resource "*.dfm"
 
 //--------------------------------------------------------------------------------------------------
-// Global defines
-//--------------------------------------------------------------------------------------------------
-#define GL_CLAMP_TO_EDGE 0x812F
-//--------------------------------------------------------------------------------------------------
-// Global values
-//--------------------------------------------------------------------------------------------------
-bool        TMainForm::m_FullScreen               = false;
-bool        TMainForm::m_UseShader                = true;
-bool        TMainForm::m_UsePreCalculatedLighting = true;
-bool        TMainForm::m_Collisions               = true;
-std::size_t TMainForm::m_FPS                      = 12;
-//--------------------------------------------------------------------------------------------------
 // TMainForm::IFrame
 //--------------------------------------------------------------------------------------------------
 TMainForm::IFrame::IFrame(bool useCollisions) :
@@ -88,9 +76,14 @@ __fastcall TMainForm::TMainForm(TComponent* pOwner) :
     m_pMD2(NULL),
     m_pColorShader(NULL),
     m_pTextureShader(NULL),
-    m_PreviousTime(::GetTickCount()),
     m_InterpolationFactor(0.0),
-    m_FrameIndex(0)
+    m_PreviousTime(::GetTickCount()),
+    m_FrameIndex(0),
+    m_FPS(12),
+    m_FullScreen(false),
+    m_UseShader(true),
+    m_UsePreCalculatedLighting(true),
+    m_Collisions(true)
 {}
 //--------------------------------------------------------------------------------------------------
 __fastcall TMainForm::~TMainForm()
@@ -152,6 +145,8 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
         WindowState = wsNormal;
         ::ShowCursor(true);
     }
+
+    BringToFront();
 
     // select correct cursor to use
     paRendering->Cursor = m_Collisions ? crCross : crDefault;

@@ -50,6 +50,7 @@ uses System.Classes,
      UTQRMD2,
      UTQRShaderOpenGL,
      UTQROpenGLHelper,
+     UTOptions,
      {$IF CompilerVersion <= 25}
          // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
          // because the OpenGL include provided by Embarcadero is incomplete
@@ -98,24 +99,24 @@ type
             IFrames = TObjectDictionary<NativeUInt, IFrame>;
 
         private
-            class var m_FullScreen:               Boolean;
-            class var m_UseShader:                Boolean;
-            class var m_UsePreCalculatedLighting: Boolean;
-            class var m_Collisions:               Boolean;
-            class var m_FPS:                      NativeUInt;
-                      m_pFrames:                  IFrames;
-                      m_hDC:                      THandle;
-                      m_hRC:                      THandle;
-                      m_pMD2:                     TQRMD2Model;
-                      m_pColorShader:             TQRShaderOpenGL;
-                      m_pTextureShader:           TQRShaderOpenGL;
-                      m_Textures:                 TQRTextures;
-                      m_ProjectionMatrix:         TQRMatrix4x4;
-                      m_ViewMatrix:               TQRMatrix4x4;
-                      m_ModelMatrix:              TQRMatrix4x4;
-                      m_PreviousTime:             NativeUInt;
-                      m_FrameIndex:               NativeUInt;
-                      m_InterpolationFactor:      Double;
+            m_pFrames:                  IFrames;
+            m_hDC:                      THandle;
+            m_hRC:                      THandle;
+            m_pMD2:                     TQRMD2Model;
+            m_pColorShader:             TQRShaderOpenGL;
+            m_pTextureShader:           TQRShaderOpenGL;
+            m_Textures:                 TQRTextures;
+            m_ProjectionMatrix:         TQRMatrix4x4;
+            m_ViewMatrix:               TQRMatrix4x4;
+            m_ModelMatrix:              TQRMatrix4x4;
+            m_InterpolationFactor:      Double;
+            m_PreviousTime:             NativeUInt;
+            m_FrameIndex:               NativeUInt;
+            m_FPS:                      NativeUInt;
+            m_FullScreen:               Boolean;
+            m_UseShader:                Boolean;
+            m_UsePreCalculatedLighting: Boolean;
+            m_Collisions:               Boolean;
 
             {**
              Configures OpenGL
@@ -259,15 +260,20 @@ constructor TMainForm.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
 
-    m_hDC                 := 0;
-    m_hRC                 := 0;
-    m_pMD2                := nil;
-    m_pColorShader        := nil;
-    m_pTextureShader      := nil;
-    m_pFrames             := IFrames.Create([doOwnsValues]);
-    m_PreviousTime        := GetTickCount;
-    m_InterpolationFactor := 0.0;
-    m_FrameIndex          := 0;
+    m_pFrames                  := IFrames.Create([doOwnsValues]);
+    m_hDC                      := 0;
+    m_hRC                      := 0;
+    m_pMD2                     := nil;
+    m_pColorShader             := nil;
+    m_pTextureShader           := nil;
+    m_InterpolationFactor      := 0.0;
+    m_PreviousTime             := GetTickCount;
+    m_FrameIndex               := 0;
+    m_FPS                      := 12;
+    m_FullScreen               := False;
+    m_UseShader                := True;
+    m_UsePreCalculatedLighting := True;
+    m_Collisions               := True;
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TMainForm.Destroy;
@@ -291,7 +297,25 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormCreate(pSender: TObject);
+var
+    pOptions: IQRSmartPointer<TOptions>;
 begin
+    // show options
+    pOptions                                    := TQRSmartPointer<TOptions>.Create(TOptions.Create(Self));
+    pOptions.ckFullScreen.Checked               := m_FullScreen;
+    pOptions.ckUseShader.Checked                := m_UseShader;
+    pOptions.ckUsePreCalculatedLighting.Checked := m_UsePreCalculatedLighting;
+    pOptions.ckCollisions.Checked               := m_Collisions;
+    pOptions.edFPS.Text                         := IntToStr(m_FPS);
+    pOptions.ShowModal();
+
+    // apply options
+    m_FullScreen               := pOptions.ckFullScreen.Checked;
+    m_UseShader                := pOptions.ckUseShader.Checked;
+    m_UsePreCalculatedLighting := pOptions.ckUsePreCalculatedLighting.Checked;
+    m_Collisions               := pOptions.ckCollisions.Checked;
+    m_FPS                      := StrToInt(pOptions.edFPS.Text);
+
     // do show model in full screen?
     if (m_FullScreen) then
     begin
@@ -305,6 +329,8 @@ begin
         WindowState := wsNormal;
         ShowCursor(True);
     end;
+
+    BringToFront;
 
     // select correct cursor to use
     if (m_Collisions) then
@@ -1030,20 +1056,6 @@ begin
               m_InterpolationFactor,
               m_UseShader,
               m_Collisions);
-end;
-//--------------------------------------------------------------------------------------------------
-
-initialization
-//--------------------------------------------------------------------------------------------------
-// Main
-//--------------------------------------------------------------------------------------------------
-begin
-    // demo configuration switches
-    TMainForm.m_FullScreen               := False;
-    TMainForm.m_UseShader                := True;
-    TMainForm.m_UsePreCalculatedLighting := True;
-    TMainForm.m_Collisions               := True;
-    TMainForm.m_FPS                      := 12;
 end;
 //--------------------------------------------------------------------------------------------------
 

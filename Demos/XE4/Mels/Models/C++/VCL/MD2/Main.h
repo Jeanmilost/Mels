@@ -101,24 +101,24 @@ class TMainForm : public TForm
 
         typedef std::map<std::size_t, IFrame*> IFrames;
 
-        static bool        m_FullScreen;
-        static bool        m_UseShader;
-        static bool        m_UsePreCalculatedLighting;
-        static bool        m_Collisions;
-        static std::size_t m_FPS;
-        IFrames            m_Frames;
-        HDC                m_hDC;
-        HGLRC              m_hRC;
-        TQRMD2Model*       m_pMD2;
-        QR_Shader_OpenGL*  m_pColorShader;
-        QR_Shader_OpenGL*  m_pTextureShader;
-        TQRTextures        m_Textures;
-        TQRMatrix4x4       m_ProjectionMatrix;
-        TQRMatrix4x4       m_ViewMatrix;
-        TQRMatrix4x4       m_ModelMatrix;
-        std::time_t        m_PreviousTime;
-        double             m_InterpolationFactor;
-        std::size_t        m_FrameIndex;
+        IFrames           m_Frames;
+        HDC               m_hDC;
+        HGLRC             m_hRC;
+        TQRMD2Model*      m_pMD2;
+        QR_Shader_OpenGL* m_pColorShader;
+        QR_Shader_OpenGL* m_pTextureShader;
+        TQRTextures       m_Textures;
+        TQRMatrix4x4      m_ProjectionMatrix;
+        TQRMatrix4x4      m_ViewMatrix;
+        TQRMatrix4x4      m_ModelMatrix;
+        double            m_InterpolationFactor;
+        std::time_t       m_PreviousTime;
+        std::size_t       m_FrameIndex;
+        std::size_t       m_FPS;
+        bool              m_FullScreen;
+        bool              m_UseShader;
+        bool              m_UsePreCalculatedLighting;
+        bool              m_Collisions;
 
         /**
         * Configures OpenGL
@@ -189,14 +189,14 @@ class TMainForm : public TForm
         *@param useShader - whether or not shader are used to draw model
         *@param collisions - whether or not collisions are visible
         */
-        void DrawModel(TQRMD2Model*         pModel,
-                       const TQRTextures    textures,
-                       const TQRMatrix4x4&  matrix,
-                       NativeInt            index,
-                       NativeInt            nextIndex,
-                       const double         interpolationFactor,
-                       bool                 useShader,
-                       bool                 collisions);
+        void DrawModel(TQRMD2Model*        pModel,
+                       const TQRTextures   textures,
+                       const TQRMatrix4x4& matrix,
+                       NativeInt           index,
+                       NativeInt           nextIndex,
+                       const double        interpolationFactor,
+                       bool                useShader,
+                       bool                collisions);
 };
 extern PACKAGE TMainForm* MainForm;
 #endif
