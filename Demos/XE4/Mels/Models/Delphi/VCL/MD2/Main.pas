@@ -623,10 +623,10 @@ begin
         Exit;
 
     frameAdded := False;
+    Result     := IFrame.Create(useCollision);
 
     try
         // frame still not cached, create and add it
-        Result := IFrame.Create(useCollision);
         pModel.GetMesh(index, Result.m_pMesh, Result.m_pAABBTree);
         m_pFrames.Add(index, Result);
         frameAdded := True;
