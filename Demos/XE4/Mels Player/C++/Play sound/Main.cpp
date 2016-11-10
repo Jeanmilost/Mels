@@ -33,14 +33,14 @@
 #pragma link "UTQRPlayerAL"
 #pragma resource "*.dfm"
 
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 TMainForm* MainForm;
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* pOwner) :
     TForm(pOwner),
     m_Paused(false)
 {}
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormCreate(TObject* pSender)
 {
     // load sound from resources
@@ -63,7 +63,7 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
         Application->Terminate();
     }
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::btPlayClick(TObject* pSender)
 {
     btPause->Enabled = true;
@@ -72,7 +72,7 @@ void __fastcall TMainForm::btPlayClick(TObject* pSender)
 
     plPlayer->Play();
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::btPauseClick(TObject* pSender)
 {
     if (plPlayer->IsPlaying())
@@ -86,7 +86,7 @@ void __fastcall TMainForm::btPauseClick(TObject* pSender)
         plPlayer->Play();
     }
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::btStopClick(TObject* pSender)
 {
     btPause->Enabled = false;
@@ -95,7 +95,7 @@ void __fastcall TMainForm::btStopClick(TObject* pSender)
 
     plPlayer->Stop();
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::btSelectClick(TObject* pSender)
 {
     if (!odOpen->Execute())
@@ -129,7 +129,7 @@ void __fastcall TMainForm::btSelectClick(TObject* pSender)
 
     edFileName->Text = odOpen->FileName;
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::tiTimerTimer(TObject* pSender)
 {
     if (plPlayer->IsPlaying() || m_Paused)
@@ -138,4 +138,4 @@ void __fastcall TMainForm::tiTimerTimer(TObject* pSender)
     btPause->Enabled = false;
     btStop->Enabled  = false;
 }
-//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
