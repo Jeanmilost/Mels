@@ -1,10 +1,23 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : 3D ray picking with AABB tree simplification demo main form                      *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
 #ifndef MainH
 #define MainH
@@ -49,16 +62,16 @@ class TMainForm : public TForm
         TPanel *paCollisionResult;
         TLabel *laHighestHit;
 
+        void __fastcall FormShow(TObject* pSender);
         void __fastcall FormPaint(TObject* pSender);
         void __fastcall acRotateExecute(TObject* pSender);
-        void __fastcall FormShow(TObject* pSender);
 
     public:
         /**
         * Constructor
         *@param pOwner - form owner
         */
-        __fastcall TMainForm(TComponent* Owner);
+        __fastcall TMainForm(TComponent* pOwner);
 
         /**
         * Destructor
@@ -99,7 +112,7 @@ class TMainForm : public TForm
         /**
         * Shows collision detection status
         *@param toTest - polygons to test count
-        *@aram inCollision - polygons in collision count
+        *@param inCollision - polygons in collision count
         */
         void ShowStatus(int toTest, int inCollision) const;
 

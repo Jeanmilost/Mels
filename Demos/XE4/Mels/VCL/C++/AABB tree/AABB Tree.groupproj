@@ -3,6 +3,9 @@
         <ProjectGuid>{F37C3A7B-17DD-4F32-8328-515B25C08270}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -23,6 +26,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="DelphiGL">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
+    </Target>
+    <Target Name="DelphiGL:Clean">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiGL:Make">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
@@ -60,13 +72,13 @@
         <MSBuild Projects="AABBTree.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;AABBTree"/>
+        <CallTarget Targets="DelphiGL;Mels_Base;Mels_Models;Mels_VCL;AABBTree"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;AABBTree:Clean"/>
+        <CallTarget Targets="DelphiGL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;AABBTree:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;AABBTree:Make"/>
+        <CallTarget Targets="DelphiGL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;AABBTree:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

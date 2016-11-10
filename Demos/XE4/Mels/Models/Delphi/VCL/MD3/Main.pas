@@ -195,8 +195,8 @@ type
         protected
             {**
              Called when application do nothing
-             @param pSender - event sender
-             @param[in, out] done - if true, loop will be considered as completed
+             @param(pSender Event sender)
+             @param(done @bold([in, out]) If @true, loop will be considered as completed)
             }
             procedure OnIdle(pSender: TObject; var done: Boolean); virtual;
 
