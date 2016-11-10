@@ -200,23 +200,19 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
-    // do use shader?
-    if (m_UseShader)
-    {
-        // create projection matrix (will not be modified while execution)
-        m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                            ClientWidth,
-                                                            ClientHeight,
-                                                            1.0f,
-                                                            200.0f);
+    // create projection matrix (will not be modified while execution)
+    m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
+                                                        ClientWidth,
+                                                        ClientHeight,
+                                                        1.0f,
+                                                        200.0f);
 
-        TQRVector3D position(0.0f, 0.0f, 0.0f);
-        TQRVector3D direction(0.0f, 0.0f, 1.0f);
-        TQRVector3D up(0.0f, 1.0f, 0.0f);
+    TQRVector3D position(0.0f, 0.0f, 0.0f);
+    TQRVector3D direction(0.0f, 0.0f, 1.0f);
+    TQRVector3D up(0.0f, 1.0f, 0.0f);
 
-        // create view matrix (will not be modified while execution)
-        m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
-    }
+    // create view matrix (will not be modified while execution)
+    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_UseShader);
 }

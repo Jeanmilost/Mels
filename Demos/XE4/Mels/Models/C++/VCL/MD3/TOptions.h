@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> MD3 --------------------------------------------------------------------------------------*
+// * ==> TOptions ---------------------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -19,42 +19,33 @@
 // * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
 // *************************************************************************************************
 
-#include <vcl.h>
-#pragma hdrstop
+#ifndef TOptionsH
+#define TOptionsH
 
-// system
-#include <tchar.h>
+// vcl
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.ExtCtrls.hpp>
 
-//--------------------------------------------------------------------------------------------------
-USEFORM("Main.cpp", MainForm);
-USEFORM("TOptions.cpp", Options);
-//---------------------------------------------------------------------------
-int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
+/**
+* MD2 demo options
+*/
+class TOptions : public TForm
 {
-    try
-    {
-         Application->Initialize();
-         Application->MainFormOnTaskBar = true;
-         Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->CreateForm(__classid(TOptions), &Options);
-         Application->Run();
-    }
-    catch (Exception &exception)
-    {
-         Application->ShowException(&exception);
-    }
-    catch (...)
-    {
-         try
-         {
-             throw Exception("");
-         }
-         catch (Exception &exception)
-         {
-             Application->ShowException(&exception);
-         }
-    }
+    __published:
+        TCheckBox *ckFullScreen;
+        TCheckBox *ckUseShader;
+        TCheckBox *ckCollisions;
+        TButton *btOk;
 
-    return 0;
-}
-//--------------------------------------------------------------------------------------------------
+        void __fastcall FormCreate(TObject* pSender);
+        void __fastcall btOkClick(TObject* pSender);
+
+    public:
+        __fastcall TOptions(TComponent* pOwner);
+};
+extern PACKAGE TOptions* Options;
+#endif

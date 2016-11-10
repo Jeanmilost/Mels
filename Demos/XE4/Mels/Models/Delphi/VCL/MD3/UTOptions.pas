@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> MD3 --------------------------------------------------------------------------------------*
+// * ==> UTOptions --------------------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -19,42 +19,65 @@
 // * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
 // *************************************************************************************************
 
-#include <vcl.h>
-#pragma hdrstop
-
-// system
-#include <tchar.h>
-
-//--------------------------------------------------------------------------------------------------
-USEFORM("Main.cpp", MainForm);
-USEFORM("TOptions.cpp", Options);
-//---------------------------------------------------------------------------
-int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
-{
-    try
-    {
-         Application->Initialize();
-         Application->MainFormOnTaskBar = true;
-         Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->CreateForm(__classid(TOptions), &Options);
-         Application->Run();
-    }
-    catch (Exception &exception)
-    {
-         Application->ShowException(&exception);
-    }
-    catch (...)
-    {
-         try
-         {
-             throw Exception("");
-         }
-         catch (Exception &exception)
-         {
-             Application->ShowException(&exception);
-         }
-    }
-
-    return 0;
+{**
+ @abstract(@name contains the MD2 demo options form.)
+ @image(Resources/Images/Documentation/Mels.svg)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
 }
+unit UTOptions;
+
+interface
+
+uses System.Classes,
+     System.SysUtils,
+     System.Variants,
+     Vcl.Graphics,
+     Vcl.Controls,
+     Vcl.StdCtrls,
+     Vcl.ComCtrls,
+     Vcl.ExtCtrls,
+     Vcl.Forms,
+     Vcl.Dialogs,
+     Winapi.Windows,
+     Winapi.Messages;
+
+type
+    {**
+     MD2 demo options
+    }
+    TOptions = class(TForm)
+        published
+            ckFullScreen: TCheckBox;
+            ckUseShader: TCheckBox;
+            ckCollisions: TCheckBox;
+            btOk: TButton;
+
+            procedure FormCreate(pSender: TObject);
+            procedure btOkClick(pSender: TObject);
+    end;
+
+var
+    Options: TOptions;
+
+implementation
 //--------------------------------------------------------------------------------------------------
+// Resources
+//--------------------------------------------------------------------------------------------------
+{$R *.dfm}
+//--------------------------------------------------------------------------------------------------
+// TOptions
+//--------------------------------------------------------------------------------------------------
+procedure TOptions.FormCreate(pSender: TObject);
+begin
+    // to see form in taskbar even if main form is still not created
+    SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TOptions.btOkClick(pSender: TObject);
+begin
+    Close;
+end;
+//--------------------------------------------------------------------------------------------------
+
+end.

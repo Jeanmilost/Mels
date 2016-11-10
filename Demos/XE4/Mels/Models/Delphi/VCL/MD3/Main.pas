@@ -20,7 +20,7 @@
 // *************************************************************************************************
 
 {**
- @abstract(@name contains the MD2 demo main form.)
+ @abstract(@name contains the MD3 demo main form.)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }
@@ -46,7 +46,7 @@ uses System.Classes,
      UTQRGeometry,
      UTQRCollision,
      UTQRModel,
-     UTQRMD2,
+     UTQRMD3,
      UTQRShaderOpenGL,
      UTQROpenGLHelper,
      UTOptions,
@@ -62,7 +62,7 @@ uses System.Classes,
 
 type
     {**
-     Main form class
+     MD3 demo main form
     }
     TMainForm = class(TForm)
         published
@@ -70,7 +70,7 @@ type
 
             procedure FormCreate(pSender: TObject);
             procedure FormResize(pSender: TObject);
-            procedure FormKeyPress(pSender: TObject; var key: Char);
+            procedure FormKeyPress(pSender: TObject; var Key: Char);
             procedure FormPaint(pSender: TObject);
 
         private type
@@ -101,7 +101,7 @@ type
             m_pFrames:                  IFrames;
             m_hDC:                      THandle;
             m_hRC:                      THandle;
-            m_pMD2:                     TQRMD2Model;
+            m_pMD3:                     TQRMD3Model;
             m_pColorShader:             TQRShaderOpenGL;
             m_pTextureShader:           TQRShaderOpenGL;
             m_Textures:                 TQRTextures;
@@ -133,12 +133,11 @@ type
                                                   pShader: TQRShaderOpenGL): Boolean;
 
             {**
-             Loads MD2 model
-             @param(toggleLight If @true, pre-calculated light will be toggled)
+             Loads MD3 model
              @param(useShader If @true, shader will be used)
              @return(@true on success, otherwise @false)
             }
-            function LoadModel(toggleLight, useShader: Boolean): Boolean;
+            function LoadModel(useShader: Boolean): Boolean;
 
             {**
              Gets frame from local cache
@@ -147,7 +146,7 @@ type
              @param(useCollision If @true, collisions are used)
              @return(Frame)
             }
-            function GetFrame(index: NativeUInt; pModel: TQRMD2Model; useCollision: Boolean): IFrame;
+            function GetFrame(index: NativeUInt; pModel: TQRMD3Model; useCollision: Boolean): IFrame;
 
             {**
              Detects collision with mouse pointer and draws the polygons in collision
@@ -186,7 +185,7 @@ type
              @param(useShader Whether or not shader are used to draw model)
              @param(collisions Whether or not collisions are visible)
             }
-            procedure DrawModel(pModel: TQRMD2Model;
+            procedure DrawModel(pModel: TQRMD3Model;
                         const textures: TQRTextures;
                           const matrix: TQRMatrix4x4;
                       index, nextIndex: NativeInt;
@@ -262,7 +261,7 @@ begin
     m_pFrames                  := IFrames.Create([doOwnsValues]);
     m_hDC                      := 0;
     m_hRC                      := 0;
-    m_pMD2                     := nil;
+    m_pMD3                     := nil;
     m_pColorShader             := nil;
     m_pTextureShader           := nil;
     m_InterpolationFactor      := 0.0;
@@ -293,8 +292,8 @@ begin
     // delete texture shader
     m_pTextureShader.Free;
 
-    // delete MD2 model
-    m_pMD2.Free;
+    // delete MD3 model
+    m_pMD3.Free;
 
     // shutdown OpenGL
     TQROpenGLHelper.DisableOpenGL(Handle, m_hDC, m_hRC);
@@ -307,20 +306,16 @@ var
     pOptions: IQRSmartPointer<TOptions>;
 begin
     // show options
-    pOptions                                    := TQRSmartPointer<TOptions>.Create(TOptions.Create(Self));
-    pOptions.ckFullScreen.Checked               := m_FullScreen;
-    pOptions.ckUseShader.Checked                := m_UseShader;
-    pOptions.ckUsePreCalculatedLighting.Checked := m_UsePreCalculatedLighting;
-    pOptions.ckCollisions.Checked               := m_Collisions;
-    pOptions.edFPS.Text                         := IntToStr(m_FPS);
+    pOptions                      := TQRSmartPointer<TOptions>.Create(TOptions.Create(Self));
+    pOptions.ckFullScreen.Checked := m_FullScreen;
+    pOptions.ckUseShader.Checked  := m_UseShader;
+    pOptions.ckCollisions.Checked := m_Collisions;
     pOptions.ShowModal();
 
     // apply options
-    m_FullScreen               := pOptions.ckFullScreen.Checked;
-    m_UseShader                := pOptions.ckUseShader.Checked;
-    m_UsePreCalculatedLighting := pOptions.ckUsePreCalculatedLighting.Checked;
-    m_Collisions               := pOptions.ckCollisions.Checked;
-    m_FPS                      := StrToInt(pOptions.edFPS.Text);
+    m_FullScreen := pOptions.ckFullScreen.Checked;
+    m_UseShader  := pOptions.ckUseShader.Checked;
+    m_Collisions := pOptions.ckCollisions.Checked;
 
     // do show model in full screen?
     if (m_FullScreen) then
@@ -363,10 +358,10 @@ begin
     // configure OpenGL
     ConfigOpenGL;
 
-    // load MD2 model
-    if (not LoadModel(m_UsePreCalculatedLighting, m_UseShader)) then
+    // load MD3 model
+    if (not LoadModel(m_UseShader)) then
     begin
-        MessageDlg('Failed to load MD2 model.\r\n\r\nApplication will close.',
+        MessageDlg('Failed to load MD3 model.\r\n\r\nApplication will close.',
                    mtError,
                    [mbOK],
                    0);
@@ -433,13 +428,11 @@ begin
     Result := pShader.Link(False);
 end;
 //--------------------------------------------------------------------------------------------------
-function TMainForm.LoadModel(toggleLight, useShader: Boolean): Boolean;
+function TMainForm.LoadModel(useShader: Boolean): Boolean;
 var
     hPackageInstance:                                  THandle;
     pVertexPrg, pFragmentPrg, pModelStream, pNTStream: TResourceStream;
-    pModelColor, pAmbient, pColor:                     TQRColor;
-    direction:                                         TQRVector3D;
-    pLight:                                            TQRMD2Light;
+    pColor:                                            TQRColor;
     pTexture:                                          TQRTexture;
 begin
     // delete cached frames, if any
@@ -529,73 +522,40 @@ begin
             end;
     end;
 
-    // create MD2 model, if needed
-    if (not Assigned(m_pMD2)) then
-        m_pMD2 := TQRMD2Model.Create;
+    // create MD3 model, if needed
+    if (not Assigned(m_pMD3)) then
+        m_pMD3 := TQRMD3Model.Create;
 
     pColor       := nil;
-    pAmbient     := nil;
-    pModelColor  := nil;
     pModelStream := nil;
     pNTStream    := nil;
     pTexture     := nil;
 
     try
-        // load MD2 model from resources
-        if (FindResource(hPackageInstance, PChar('ID_MD2_MODEL'), RT_RCDATA) <> 0)
+        // load MD3 model from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_MODEL'), RT_RCDATA) <> 0)
         then
             pModelStream := TResourceStream.Create(hPackageInstance,
-                                                   PChar('ID_MD2_MODEL'),
+                                                   PChar('ID_MD3_MODEL'),
                                                    RT_RCDATA);
 
-        // found resource containing the fragment shader program to load?
-        if (FindResource(hPackageInstance, PChar('ID_MD2_NORMALS_TABLE'), RT_RCDATA) <> 0)
-        then
-            pNTStream := TResourceStream.Create(hPackageInstance,
-                                                PChar('ID_MD2_NORMALS_TABLE'),
-                                                RT_RCDATA);
-
-        pModelColor := TQRColor.Create(255, 255, 255, 255);
+        pColor := TQRColor.Create(255, 255, 255, 255);
 
         // load model
-        if (not m_pMD2.Load(pModelStream, pModelStream.Size)) then
+        if (not m_pMD3.Load(pModelStream, pModelStream.Size)) then
         begin
             Result := False;
             Exit;
         end;
 
-        // load normals table
-        if (not m_pMD2.LoadNormals(pNTStream, pNTStream.Size)) then
-        begin
-            Result := False;
-            Exit;
-        end;
-
-        m_pMD2.VertexFormat := [EQR_VF_TexCoords, EQR_VF_Colors];
-
-         // do toggle light?
-        if (toggleLight) then
-        begin
-            pAmbient  := TQRColor.Create(32, 32, 32, 255);
-            pColor    := TQRColor.Create(255, 255, 255, 255);
-            direction := TQRVector3D.Create(1.0, 0.0, 0.0);
-
-            // configure precalculated light
-            pLight           := TQRMD2Light.Create;
-            pLight.Ambient   := pAmbient;
-            pLight.Color     := pColor;
-            pLight.Direction := @direction;
-            pLight.Enabled   := True;
-
-            m_pMD2.PreCalculatedLight := pLight;
-        end;
+        m_pMD3.VertexFormat := [EQR_VF_TexCoords, EQR_VF_Colors];
 
         // create model matrix
         m_ModelMatrix := TQRMatrix4x4.Identity;
-        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, 0.0, -0.65));
-        m_ModelMatrix.Rotate(-(PI / 2.0), TQRVector3D.Create(1.0, 0.0, 0.0)); // -90°
+        m_ModelMatrix.Translate(TQRVector3D.Create(-0.18, -0.1, -0.7));
+        m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(1.0, 0.0, 0.0)); // -90°
         m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
-        m_ModelMatrix.Scale(TQRVector3D.Create(0.0075, 0.0075, 0.0075));
+        m_ModelMatrix.Scale(TQRVector3D.Create(0.015, 0.015, 0.015));
 
         pTexture := TQRTexture.Create;
         LoadTexture(pTexture);
@@ -604,17 +564,15 @@ begin
         pTexture := nil;
     finally
         pTexture.Free;
-        pColor.Free;
-        pAmbient.Free;
-        pModelColor.Free;
-        pModelStream.Free;
         pNTStream.Free;
+        pModelStream.Free;
+        pColor.Free;
     end;
 
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TMainForm.GetFrame(index: NativeUInt; pModel: TQRMD2Model; useCollision: Boolean): IFrame;
+function TMainForm.GetFrame(index: NativeUInt; pModel: TQRMD3Model; useCollision: Boolean): IFrame;
 var
     frameAdded: Boolean;
 begin
@@ -659,11 +617,15 @@ begin
         Exit;
 
     // calculate client rect in OpenGL coordinates
-    rect := TQRRect.Create(-1.2, 1.2, 2.4, 2.4);
+    rect := TQRRect.Create(-1.0, 1.25, 2.05, 2.35);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
+
+    // correct the ray position to follow the object location
+    rayPos.X := rayPos.X + 0.18;
+    rayPos.Y := rayPos.Y + 0.1;
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
@@ -857,7 +819,7 @@ begin
         Exit;
     end;
 
-    pTexture.Name := 'qr_md2';
+    pTexture.Name := 'watercan';
 
     // get module instance at which this form belongs
     hPackageInstance := FindClassHInstance(TMainForm);
@@ -875,10 +837,10 @@ begin
 
     try
         // found resource containing the vertex shader program to load?
-        if (FindResource(hPackageInstance, PChar('ID_MD2_TEXTURE'), RT_RCDATA) <> 0)
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE'), RT_RCDATA) <> 0)
         then
             pStream := TResourceStream.Create(hPackageInstance,
-                                              PChar('ID_MD2_TEXTURE'),
+                                              PChar('ID_MD3_TEXTURE'),
                                               RT_RCDATA);
 
         if (not Assigned(pStream)) then
@@ -887,7 +849,7 @@ begin
             Exit;
         end;
 
-        // load MD2 texture
+        // load MD3 texture
         pBitmap := Vcl.Graphics.TBitmap.Create;
         pBitmap.LoadFromStream(pStream);
 
@@ -916,7 +878,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TMainForm.DrawModel(pModel: TQRMD2Model;
+procedure TMainForm.DrawModel(pModel: TQRMD3Model;
                       const textures: TQRTextures;
                         const matrix: TQRMatrix4x4;
                     index, nextIndex: NativeInt;
@@ -1027,41 +989,13 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.Draw(const elapsedTime: Double);
-var
-    timeInterval:          Double;
-    frameCount, nextIndex: NativeUInt;
 begin
-    // calculate time interval between each frames
-    timeInterval := (1000.0 / m_FPS);
-
-    // calculate how many frames must be incremented since the last rendering
-    m_InterpolationFactor := m_InterpolationFactor + (elapsedTime / timeInterval);
-
-    // should increment one frame or more?
-    if (m_InterpolationFactor >= 1.0) then
-    begin
-        // calculate number of frames to increment
-        frameCount := Trunc(m_InterpolationFactor);
-
-        // calculate interpolation factor (should always be between 0 and 1)
-        m_InterpolationFactor := m_InterpolationFactor - frameCount;
-
-        // move frame index to next frame to show
-        m_FrameIndex := m_FrameIndex + frameCount;
-    end;
-
-    // limit index to 39 frames
-    m_FrameIndex := m_FrameIndex mod 39;
-
-    // calculate next frame
-    nextIndex := ((m_FrameIndex + 1) mod 39);
-
     // draw model
-    DrawModel(m_pMD2,
+    DrawModel(m_pMD3,
               m_Textures,
               m_ModelMatrix,
-              m_FrameIndex,
-              nextIndex,
+              0,
+              0,
               m_InterpolationFactor,
               m_UseShader,
               m_Collisions);

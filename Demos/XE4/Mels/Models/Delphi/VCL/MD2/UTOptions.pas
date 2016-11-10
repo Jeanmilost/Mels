@@ -21,7 +21,6 @@
 
 {**
  @abstract(@name contains the MD2 demo options form.)
- @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2016, this file is part of the Mels library)
 }
@@ -72,7 +71,7 @@ implementation
 //--------------------------------------------------------------------------------------------------
 {$R *.dfm}
 //--------------------------------------------------------------------------------------------------
-// TMainForm.IFrame
+// TOptions
 //--------------------------------------------------------------------------------------------------
 procedure TOptions.FormCreate(pSender: TObject);
 begin

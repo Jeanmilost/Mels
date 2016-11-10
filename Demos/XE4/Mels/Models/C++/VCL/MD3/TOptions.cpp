@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> MD3 --------------------------------------------------------------------------------------*
+// * ==> TOptions ---------------------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -22,39 +22,30 @@
 #include <vcl.h>
 #pragma hdrstop
 
-// system
-#include <tchar.h>
+#include "TOptions.h"
+
+#pragma package(smart_init)
+#pragma resource "*.dfm"
 
 //--------------------------------------------------------------------------------------------------
-USEFORM("Main.cpp", MainForm);
-USEFORM("TOptions.cpp", Options);
-//---------------------------------------------------------------------------
-int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
+// Global defines
+//--------------------------------------------------------------------------------------------------
+TOptions* Options;
+//--------------------------------------------------------------------------------------------------
+// TOptions
+//--------------------------------------------------------------------------------------------------
+__fastcall TOptions::TOptions(TComponent* pOwner) :
+    TForm(pOwner)
+{}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::FormCreate(TObject* pSender)
 {
-    try
-    {
-         Application->Initialize();
-         Application->MainFormOnTaskBar = true;
-         Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->CreateForm(__classid(TOptions), &Options);
-         Application->Run();
-    }
-    catch (Exception &exception)
-    {
-         Application->ShowException(&exception);
-    }
-    catch (...)
-    {
-         try
-         {
-             throw Exception("");
-         }
-         catch (Exception &exception)
-         {
-             Application->ShowException(&exception);
-         }
-    }
-
-    return 0;
+    // to see form in taskbar even if main form is still not created
+    ::SetWindowLong(Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btOkClick(TObject* pSender)
+{
+    Close();
 }
 //--------------------------------------------------------------------------------------------------
