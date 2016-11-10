@@ -26,8 +26,8 @@
 #include <tchar.h>
 
 //--------------------------------------------------------------------------------------------------
-USEFORM("Main.cpp", MainForm);
 USEFORM("TOptions.cpp", Options);
+USEFORM("Main.cpp", MainForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -36,7 +36,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
          Application->Initialize();
          Application->MainFormOnTaskBar = true;
          Application->CreateForm(__classid(TMainForm), &MainForm);
-         Application->CreateForm(__classid(TOptions), &Options);
          Application->Run();
     }
     catch (Exception &exception)
