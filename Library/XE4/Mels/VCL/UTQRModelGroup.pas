@@ -1055,7 +1055,7 @@ type
              @return(Texture extension count)
             }
             {$ENDREGION}
-            function GetTextureExtCount(): NativeInt; virtual;
+            function GetTextureExtCount: NativeInt; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -2200,7 +2200,7 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetTextureExtCount(): NativeInt;
+function TQRModelJob.GetTextureExtCount: NativeInt;
 begin
     REsult := Length(m_TextureExt);
 end;

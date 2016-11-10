@@ -83,8 +83,11 @@ void __fastcall TMainForm::FormShow(TObject* pSender)
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(Handle, m_hDC, m_hRC))
     {
-        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.", mtError,
-                TMsgDlgButtons() << mbOK, 0);;
+        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.",
+                   mtError,
+                   TMsgDlgButtons() << mbOK,
+                   0);
+
         Application->Terminate();
         return;
     }
@@ -151,7 +154,7 @@ void __fastcall TMainForm::DrawScene(const double& elapsedTime)
         const float fullAngle = M_PI * 2.0f;
 
         // calculate next rotation angle
-        m_Theta = (m_Theta + 0.008f > fullAngle) ? ((m_Theta + 0.008f) - fullAngle) : m_Theta + 0.008f;
+        m_Theta = (m_Theta + 0.001f > fullAngle) ? ((m_Theta + 0.001f) - fullAngle) : m_Theta + 0.001f;
     }
 
     m_pSphere->RotationY = m_Theta;

@@ -14,6 +14,7 @@ object Options: TOptions
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -46,7 +47,6 @@ object Options: TOptions
     Align = alTop
     Caption = 'Collisions'
     TabOrder = 2
-    ExplicitTop = 72
   end
   object btOk: TButton
     Left = 129

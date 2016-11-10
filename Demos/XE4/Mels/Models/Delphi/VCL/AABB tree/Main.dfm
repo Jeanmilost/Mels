@@ -15,6 +15,7 @@ object MainForm: TMainForm
   OldCreateOrder = False
   PopupMenu = pmOptions
   Position = poScreenCenter
+  Scaled = False
   OnPaint = FormPaint
   OnShow = FormShow
   PixelsPerInch = 96

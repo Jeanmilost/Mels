@@ -14,7 +14,6 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = pmOptions
-  Position = poScreenCenter
   Scaled = False
   OnPaint = FormPaint
   OnShow = FormShow
