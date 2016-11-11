@@ -2235,6 +2235,15 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetGroup: TQRModelGroup;
 begin
+    // return nil in case the job was canceled, because the group may be deleted externally and no
+    // more valid, even if the job persists. This happen e.g. when the job is executing while his
+    // group is deleted, and is postponed to be deleted after his execution ends
+    if (GetStatus = EQR_JS_Canceled) then
+    begin
+        Result := nil;
+        Exit;
+    end;
+
     m_pLock.Lock;
     Result := m_pGroup;
     m_pLock.Unlock;
