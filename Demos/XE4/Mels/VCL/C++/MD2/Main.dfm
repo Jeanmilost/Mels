@@ -14,6 +14,7 @@ object MainForm: TMainForm
   OldCreateOrder = False
   PopupMenu = pmOptions
   Position = poScreenCenter
+  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnPaint = FormPaint
@@ -33,6 +34,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 589
     Height = 510
+    Cursor = crCross
     Align = alClient
     BevelOuter = bvNone
     Color = clBlack

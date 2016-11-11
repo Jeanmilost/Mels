@@ -63,6 +63,12 @@ class TOptions : public TForm
         */
         __fastcall ~TOptions();
 
+        /**
+        * Checks if application is closing
+        *@return true if application is closing, otherwise false
+        */
+        bool IsAppClosing() const;
+
     protected:
         /**
         * Options form message loop
@@ -73,6 +79,7 @@ class TOptions : public TForm
     private:
         TQRMD2Group* m_pMD2;
         bool         m_ModelRendered;
+        bool         m_Closing;
 
         /**
         * Resets interface to default values

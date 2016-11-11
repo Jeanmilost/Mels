@@ -29,10 +29,6 @@
 #pragma resource "*.dfm"
 
 //--------------------------------------------------------------------------------------------------
-// Global defines
-//--------------------------------------------------------------------------------------------------
-#define GL_CLAMP_TO_EDGE 0x812F
-//--------------------------------------------------------------------------------------------------
 // TMainForm::IFrame
 //--------------------------------------------------------------------------------------------------
 TMainForm::IFrame::IFrame(bool useCollisions) :
@@ -107,6 +103,9 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     m_pOptions = new TOptions(this);
     m_pOptions->ShowModal();
 
+    if (m_pOptions->IsAppClosing())
+        return;
+
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(paRendering->Handle, m_hDC, m_hRC))
     {
@@ -125,8 +124,11 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
         // initialize GLEW
         if (glewInit() != GLEW_OK)
         {
-            MessageDlg("Could not initialize GLEW library.\r\n\r\nApplication will close.", mtError,
-                    TMsgDlgButtons() << mbOK, 0);
+            MessageDlg("Could not initialize GLEW library.\r\n\r\nApplication will close.",
+                       mtError,
+                       TMsgDlgButtons() << mbOK,
+                       0);
+
             Application->Terminate();
             return;
         }
@@ -138,8 +140,11 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     // load MD2 model
     if (!LoadModel(m_pOptions->ckPreCalculateLight->Checked))
     {
-        MessageDlg("Failed to load MD2 model.\r\n\r\nApplication will close.", mtError,
-                TMsgDlgButtons() << mbOK, 0);
+        MessageDlg("Failed to load MD2 model.\r\n\r\nApplication will close.",
+                   mtError,
+                   TMsgDlgButtons() << mbOK,
+                   0);
+
         Application->Terminate();
         return;
     }
@@ -150,23 +155,19 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
-    // do use shader?
-    if (m_pOptions->ckUseShader->Checked)
-    {
-        // create projection matrix (will not be modified while execution)
-        m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                            ClientWidth,
-                                                            ClientHeight,
-                                                            1.0f,
-                                                            200.0f);
+    // create projection matrix (will not be modified while execution)
+    m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
+                                                        ClientWidth,
+                                                        ClientHeight,
+                                                        1.0f,
+                                                        200.0f);
 
-        TQRVector3D position(0.0f, 0.0f, 0.0f);
-        TQRVector3D direction(0.0f, 0.0f, 1.0f);
-        TQRVector3D up(0.0f, 1.0f, 0.0f);
+    TQRVector3D position(0.0f, 0.0f, 0.0f);
+    TQRVector3D direction(0.0f, 0.0f, 1.0f);
+    TQRVector3D up(0.0f, 1.0f, 0.0f);
 
-        // create view matrix (will not be modified while execution)
-        m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
-    }
+    // create view matrix (will not be modified while execution)
+    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_pOptions->ckUseShader->Checked);
 }
@@ -279,6 +280,11 @@ bool TMainForm::LoadModel(bool toggleLight)
         WindowState = wsNormal;
         ::ShowCursor(true);
     }
+
+    BringToFront();
+
+    // select correct cursor to use
+    paRendering->Cursor = (m_pOptions->ckShowCollisions->Checked ? crCross : crDefault);
 
     // do use shader?
     if (m_pOptions->ckUseShader->Checked)

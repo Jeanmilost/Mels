@@ -32,7 +32,8 @@ TOptions* Options;
 __fastcall TOptions::TOptions(TComponent* pOwner) :
     TForm(pOwner),
     m_pMD2(NULL),
-    m_ModelRendered(false)
+    m_ModelRendered(false),
+    m_Closing(false)
 {
     LoadPreview();
 }
@@ -82,6 +83,7 @@ void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::btQuitClick(TObject* pSender)
 {
+    m_Closing = true;
     Application->Terminate();
 }
 //--------------------------------------------------------------------------------------------------
@@ -94,6 +96,11 @@ void __fastcall TOptions::btCancelClick(TObject* pSender)
 void __fastcall TOptions::btOKClick(TObject* pSender)
 {
     Close();
+}
+//--------------------------------------------------------------------------------------------------
+bool TOptions::IsAppClosing() const
+{
+    return m_Closing;
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::WndProc(TMessage& message)

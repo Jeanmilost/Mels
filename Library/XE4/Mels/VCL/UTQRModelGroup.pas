@@ -2281,6 +2281,9 @@ begin
     m_pLock.Lock;
 
     try
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         if (not Assigned(m_pGroup)) then
             Exit;
 

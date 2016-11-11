@@ -1098,6 +1098,9 @@ begin
     try
         m_TextureLoaded := False;
 
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         loadFirst := True;
         loadNext  := True;
         max       := 0;

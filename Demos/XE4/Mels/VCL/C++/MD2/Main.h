@@ -65,13 +65,8 @@ class TMainForm : public TForm
 
     protected:
         /**
-        * Configure OpenGL with correct format descriptor
-        */
-        void __fastcall SetPixelFormatDescriptor();
-
-        /**
         * Called when thread do nothing else
-        *@param pSEnder - event sender
+        *@param pSender - event sender
         *@param[in, out] done - if true, idle loop was ternimated and may do nothing else
         */
         void __fastcall IdleLoop(TObject* pSender, bool& done);
