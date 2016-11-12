@@ -592,7 +592,7 @@ begin
 
         // create model matrix
         m_ModelMatrix := TQRMatrix4x4.Identity;
-        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, 0.0, -0.65));
+        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, 0.0, -1.5));
         m_ModelMatrix.Rotate(-(PI / 2.0), TQRVector3D.Create(1.0, 0.0, 0.0)); // -90°
         m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
         m_ModelMatrix.Scale(TQRVector3D.Create(0.0075, 0.0075, 0.0075));
@@ -659,11 +659,18 @@ begin
         Exit;
 
     // calculate client rect in OpenGL coordinates
-    rect := TQRRect.Create(-1.2, 1.2, 2.4, 2.4);
+    rect := TQRRect.Create(-1.0, 1.0, 2.0, 2.0);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
+
+    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
+    // image on the screen, but it is placed very far in relation to the screen. In the model
+    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
+    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
+    // not always well detected), but this is efficient for the majority of cases
+    rayPos.MulAndAssign(1.5);
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);

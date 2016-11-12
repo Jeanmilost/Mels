@@ -43,6 +43,7 @@ class TOptions : public TForm
         TPanel *paMain;
         TTimer *tiDrawPreview;
         TCheckBox *ckPreCalculateLight;
+        TCheckBox *ckUseOrthoMatrix;
 
         void __fastcall FormCreate(TObject* pSender);
         void __fastcall rgCacheOptionsClick(TObject* pSender);

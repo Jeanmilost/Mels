@@ -49,6 +49,9 @@ void __fastcall TOptions::edFPSExit(TObject *Sender)
     // check if FPS is out of bounds
     if (::StrToInt(edFPS->Text) > udFPS->Max)
         edFPS->Text = ::IntToStr(udFPS->Max);
+    else
+    if (::StrToInt(edFPS->Text) < udFPS->Min)
+        edFPS->Text = ::IntToStr(udFPS->Min);
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::btOkClick(TObject* pSender)

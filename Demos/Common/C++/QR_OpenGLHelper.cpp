@@ -163,6 +163,40 @@ void QR_OpenGLHelper::CreateViewport(int clientWidth, int clientHeight, bool cre
     glLoadIdentity();
 }
 //--------------------------------------------------------------------------------------------------
+TQRMatrix4x4 QR_OpenGLHelper::GetOrtho(float left,
+                                       float right,
+                                       float bottom,
+                                       float top,
+                                       float zNear,
+                                       float zFar)
+{
+    // OpenGL specifications                                    can be rewritten as
+    // |   2/(r-l)       0             0            0  |        |  2/(r-l)      0            0            0  |
+    // |   0             2/(t-b)       0            0  |   =>   |  0            2/(t-b)      0            0  |
+    // |   0             0            -2/(f-n)      0  |        |  0            0            2/(n-f)      0  |
+    // |  -(r+l)/(r-l)  -(t+b)/(t-b)  -(f+n)/(f-n)  1  |        |  (r+l)/(l-r)  (t+b)/(b-t)  (f+n)/(n-f)  1  |
+
+    // are input values out of bounds?
+    if ((left == right) || (bottom == top) || (zNear == zFar))
+        throw "Incorrect input values - cannot create orthogonal matrix";
+
+    // calculate matrix component values
+    const float prl = right  + left;
+    const float mrl = right  - left;
+    const float mlr = left   - right;
+    const float ptb = top    + bottom;
+    const float mtb = top    - bottom;
+    const float mbt = bottom - top;
+    const float pfn = zFar   + zNear;
+    const float mnf = zNear  - zFar;
+
+    // build matrix
+    return TQRMatrix4x4(2.0 / mrl, 0.0,       0.0,       0.0,
+                        0.0,       2.0 / mtb, 0.0,       0.0,
+                        0.0,       0.0,       2.0 / mnf, 0.0,
+                        prl / mlr, ptb / mbt, pfn / mnf, 1.0);
+}
+//--------------------------------------------------------------------------------------------------
 TQRMatrix4x4 QR_OpenGLHelper::GetFrustum(float left,
                                          float right,
                                          float bottom,
@@ -170,12 +204,11 @@ TQRMatrix4x4 QR_OpenGLHelper::GetFrustum(float left,
                                          float zNear,
                                          float zFar)
 {
-    // OpenGL specifications                                     can be rewritten as
-    // |  2n/(r-l)    0        (r+l)/(r-l)       0      |        |  2n/(r-l)    0        (r+l)/(r-l)       0      |
-    // |     0     2n/(t-b)    (t+b)/(t-b)       0      |   =>   |     0     2n/(t-b)    (t+b)/(t-b)       0      |
-    // |     0        0       -(f+n)/(f-n)  -2fn/(f-n)  |        |     0        0        (f+n)/(n-f)   2fn/(n-f)  |
-    // |     0        0            -1            0      |        |     0        0            -1            0      |
-    // invalid for n <= 0, f <= 0, l = r, b = t, or n = f
+    // OpenGL specifications                                   can be rewritten as
+    // |  2n/(r-l)     0             0             0  |        |  2n/(r-l)     0            0             0  |
+    // |  0            2n/(t-b)      0             0  |   =>   |  0            2n/(t-b)     0             0  |
+    // |  (r+l)/(r-l)  (t+b)/(t-b)  -(f+n)/(f-n)  -1  |        |  (r+l)/(r-l)  (t+b)/(t-b)  (f+n)/(n-f)  -1  |
+    // |  0            0            -2fn/(f-n)     0  |        |  0            0            2fn/(n-f)     0  |
 
     // are input values out of bounds?
     if ((zNear <= 0.0f) || (zFar <= 0.0f) || (left == right) || (bottom == top) || (zNear == zFar))
@@ -192,10 +225,10 @@ TQRMatrix4x4 QR_OpenGLHelper::GetFrustum(float left,
     const float mtb  = top   - bottom;
 
     // build matrix
-    return TQRMatrix4x4(x2n / mrl, 0.0f,       prl / mrl, 0.0f,
-                        0.0f,      x2n / mtb,  ptb / mtb, 0.0f,
-                        0.0f,      0.0f,       pfn / mnf, x2nf / mnf,
-                        0.0f,      0.0f,      -1.0f,      0.0f);
+    return TQRMatrix4x4(x2n / mrl, 0.0,       0.0,         0.0,
+                        0.0,       x2n / mtb, 0.0,         0.0,
+                        prl / mrl, ptb / mtb, pfn  / mnf, -1.0,
+                        0.0,       0.0,       x2nf / mnf,  0.0);
 }
 //--------------------------------------------------------------------------------------------------
 TQRMatrix4x4 QR_OpenGLHelper::GetProjection(float fov,

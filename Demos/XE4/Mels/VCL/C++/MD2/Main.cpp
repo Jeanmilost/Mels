@@ -17,9 +17,10 @@
 #include <memory>
 #include <string>
 
-// qr engine
+// mels
 #include "QR_MathsHelper.h"
 #include "QR_OpenGLHelper.h"
+#include <UTQRModelRenderer.hpp>
 
 // resources
 #include "Resources.rh"
@@ -106,6 +107,25 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     if (m_pOptions->IsAppClosing())
         return;
 
+    // do show model in full screen?
+    if (m_pOptions->ckFullScreen->Checked)
+    {
+        BorderStyle = bsNone;
+        WindowState = wsMaximized;
+        ::ShowCursor(m_pOptions->ckShowCollisions && m_pOptions->rgCacheOptions->ItemIndex != 1);
+    }
+    else
+    {
+        BorderStyle = bsSizeable;
+        WindowState = wsNormal;
+        ::ShowCursor(true);
+    }
+
+    BringToFront();
+
+    // select correct cursor to use
+    paRendering->Cursor = (m_pOptions->ckShowCollisions->Checked ? crCross : crDefault);
+
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(paRendering->Handle, m_hDC, m_hRC))
     {
@@ -156,11 +176,19 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                        ClientWidth,
-                                                        ClientHeight,
-                                                        1.0f,
-                                                        200.0f);
+    if (m_pOptions->ckUseOrthoMatrix->Checked)
+        m_ProjectionMatrix = TQRModelRenderer::GetOrtho(-1.0f,
+                                                         1.0f,
+                                                        -1.0f,
+                                                         1.0f,
+                                                         1.0f,
+                                                         200.0f);
+    else
+        m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
+                                                            ClientWidth,
+                                                            ClientHeight,
+                                                            1.0f,
+                                                            200.0f);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
@@ -170,6 +198,15 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_pOptions->ckUseShader->Checked);
+
+    // configure matrices for OpenGL direct mode
+    if (!m_pOptions->ckUseShader->Checked && m_pOptions->ckUseOrthoMatrix->Checked)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f, 200.0f);
+        glMatrixMode(GL_MODELVIEW);
+    }
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormKeyPress(TObject* pSender, WideChar& key)
@@ -266,25 +303,6 @@ bool TMainForm::LoadModel(bool toggleLight)
         delete it->second;
 
     m_Frames.clear();
-
-    // do show model in full screen?
-    if (m_pOptions->ckFullScreen->Checked)
-    {
-        BorderStyle = bsNone;
-        WindowState = wsMaximized;
-        ::ShowCursor(m_pOptions->ckShowCollisions && m_pOptions->rgCacheOptions->ItemIndex != 1);
-    }
-    else
-    {
-        BorderStyle = bsSizeable;
-        WindowState = wsNormal;
-        ::ShowCursor(true);
-    }
-
-    BringToFront();
-
-    // select correct cursor to use
-    paRendering->Cursor = (m_pOptions->ckShowCollisions->Checked ? crCross : crDefault);
 
     // do use shader?
     if (m_pOptions->ckUseShader->Checked)
@@ -459,10 +477,23 @@ bool TMainForm::LoadModel(bool toggleLight)
     if (toggleLight)
         pLight.release();
 
-    // place model into 3D world
-    *m_pMD2->Translation = TQRVector3D(0.0f, 0.0f, -100.0f);
-    m_pMD2->RotationX    = -M_PI_2; // -90°
-    m_pMD2->RotationZ    = -M_PI_4; // -45°
+    // orthogonal matrix is used?
+    if (m_pOptions->ckUseOrthoMatrix->Checked)
+    {
+        // place model into 3D world
+        *m_pMD2->Translation = TQRVector3D(0.0f, 0.05f, -10.0f);
+        *m_pMD2->Scaling     = TQRVector3D(0.03f, 0.03f, 0.03f);
+    }
+    else
+    {
+        // place model into 3D world
+        *m_pMD2->Translation = TQRVector3D(0.0f, 0.05f, -1.0f);
+        *m_pMD2->Scaling     = TQRVector3D(0.01f, 0.01f, 0.01f);
+    }
+
+    // rotate model
+    m_pMD2->RotationX = -M_PI_2; // -90°
+    m_pMD2->RotationZ = -M_PI_4; // -45°
 
     // set gesture to run
     m_pMD2->Gesture = 0;
@@ -519,34 +550,27 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir(0.0f, 0.0f, 1.0f);
+    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
 
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(42.5f);
+    // correct the ray position to be conform to the model position
+    rayPos.Y -= 0.025f;
 
-    // create X rotation matrix
-    TQRMatrix4x4 rotateMatrixX = TQRMatrix4x4::Identity();
-    rotateMatrixX.Rotate(-m_pMD2->RotationX, TQRVector3D(1.0f, 0.0f, 0.0f));
+    // orthogonal matrix is used?
+    if (!m_pOptions->ckUseOrthoMatrix->Checked)
+        // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
+        // its image on the screen, but it is placed very far in relation to the screen. In the model
+        // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
+        // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
+        // feet are not always well detected), but this is efficient for the majority of cases
+        rayPos.MulAndAssign(2.0f);
 
-    // create Y rotation matrix
-    TQRMatrix4x4 rotateMatrixY = TQRMatrix4x4::Identity();
-    rotateMatrixY.Rotate(-m_pMD2->RotationY, TQRVector3D(0.0f, 1.0f, 0.0f));
+    float determinant;
 
-    // create Z rotation matrix
-    TQRMatrix4x4 rotateMatrixZ = TQRMatrix4x4::Identity();
-    rotateMatrixZ.Rotate(-m_pMD2->RotationZ, TQRVector3D(0.0f, 0.0f, 1.0f));
-
-    // apply rotation to ray
-    rayPos = rotateMatrixX.Transform(rayPos);
-    rayPos = rotateMatrixY.Transform(rayPos);
-    rayPos = rotateMatrixZ.Transform(rayPos);
-    rayDir = rotateMatrixX.Transform(rayDir);
-    rayDir = rotateMatrixY.Transform(rayDir);
-    rayDir = rotateMatrixZ.Transform(rayDir);
+    // transform the ray to be on the same coordinates system as the model
+    TQRMatrix4x4 invertMatrix =
+            const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
+    rayPos       = invertMatrix.Transform(rayPos);
+    rayDir       = invertMatrix.Transform(rayDir);
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());

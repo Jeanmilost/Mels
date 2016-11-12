@@ -86,6 +86,23 @@ class QR_OpenGLHelper
         static void CreateViewport(int clientWidth, int clientHeight, bool createPerspective);
 
         /**
+        * Gets orthogonal projection matrix (glOrtho() OpenGL equivalent)
+        *@param left - viewport left edge
+        *@param right - viewport right edge
+        *@param bottom - viewport bottom edge
+        *@param top - viewport top edge
+        *@param zNear - near clipping plane
+        *@param zFar - far clipping plane
+        *@return matrix
+        */
+        static TQRMatrix4x4 GetOrtho(float left,
+                                     float right,
+                                     float bottom,
+                                     float top,
+                                     float zNear,
+                                     float zFar);
+
+        /**
         * Gets frustum projection matrix (glFrustum() OpenGL equivalent)
         *@param left - viewport left edge
         *@param right - viewport right edge

@@ -83,7 +83,10 @@ procedure TOptions.edFPSExit(pSender: TObject);
 begin
     // check if FPS is out of bounds
     if (StrToInt(edFPS.Text) > udFPS.Max) then
-        edFPS.Text := IntToStr(udFPS.Max);
+        edFPS.Text := IntToStr(udFPS.Max)
+    else
+    if (StrToInt(edFPS.Text) < udFPS.Min) then
+        edFPS.Text := IntToStr(udFPS.Min);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TOptions.btOkClick(pSender: TObject);

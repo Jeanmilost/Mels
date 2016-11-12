@@ -407,10 +407,10 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
 
     // create model matrix
     m_ModelMatrix = TQRMatrix4x4::Identity();
-    m_ModelMatrix.Translate(TQRVector3D(0.0, 0.0, -0.65));
-    m_ModelMatrix.Rotate(-(M_PI / 2.0), TQRVector3D(1.0, 0.0, 0.0)); // -90°
-    m_ModelMatrix.Rotate(-(M_PI / 4.0), TQRVector3D(0.0, 0.0, 1.0)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.0075, 0.0075, 0.0075));
+    m_ModelMatrix.Translate(TQRVector3D(0.0, 0.0, -1.5f));
+    m_ModelMatrix.Rotate(-(M_PI / 2.0f), TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
+    m_ModelMatrix.Rotate(-(M_PI / 4.0f), TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
+    m_ModelMatrix.Scale(TQRVector3D(0.0075f, 0.0075f, 0.0075f));
 
     std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
     LoadTexture(pTexture.get());
@@ -444,11 +444,18 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
         return;
 
     // calculate client rect in OpenGL coordinates
-    TQRRect rect(-1.2, 1.2, 2.4, 2.4);
+    TQRRect rect(-1.0f, 1.0f, 2.0f, 2.0f);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
+    TQRVector3D rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
+
+    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
+    // image on the screen, but it is placed very far in relation to the screen. In the model
+    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
+    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
+    // not always well detected), but this is efficient for the majority of cases
+    rayPos.MulAndAssign(1.5f);
 
     float determinant;
 

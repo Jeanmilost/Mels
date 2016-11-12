@@ -4,7 +4,7 @@ object Options: TOptions
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Marvin - Options'
-  ClientHeight = 357
+  ClientHeight = 381
   ClientWidth = 408
   Color = clBtnFace
   DoubleBuffered = True
@@ -23,12 +23,13 @@ object Options: TOptions
     Left = 0
     Top = 0
     Width = 103
-    Height = 322
+    Height = 346
     Align = alLeft
     BevelOuter = bvNone
     Ctl3D = False
     ParentCtl3D = False
     TabOrder = 0
+    ExplicitHeight = 322
     object imPreview: TImage
       Left = 0
       Top = 0
@@ -46,10 +47,11 @@ object Options: TOptions
     Left = 103
     Top = 0
     Width = 305
-    Height = 322
+    Height = 346
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitHeight = 322
     object gbLoadOptions: TGroupBox
       AlignWithMargins = True
       Left = 5
@@ -89,7 +91,7 @@ object Options: TOptions
       Left = 5
       Top = 210
       Width = 295
-      Height = 87
+      Height = 106
       Margins.Left = 5
       Margins.Top = 25
       Margins.Right = 5
@@ -104,6 +106,8 @@ object Options: TOptions
         Height = 17
         Align = alTop
         Caption = 'Show collisions with mouse pointer'
+        Checked = True
+        State = cbChecked
         TabOrder = 2
       end
       object ckUseShader: TCheckBox
@@ -135,6 +139,17 @@ object Options: TOptions
         Caption = 'Pre-calculate light'
         TabOrder = 1
       end
+      object ckUseOrthoMatrix: TCheckBox
+        Left = 2
+        Top = 83
+        Width = 291
+        Height = 17
+        Align = alTop
+        Caption = 'Use orthogonal matrix'
+        TabOrder = 4
+        ExplicitLeft = 3
+        ExplicitTop = 106
+      end
     end
     object rgCacheOptions: TRadioGroup
       AlignWithMargins = True
@@ -161,7 +176,7 @@ object Options: TOptions
   object paButtons: TPanel
     AlignWithMargins = True
     Left = 5
-    Top = 327
+    Top = 351
     Width = 398
     Height = 25
     Margins.Left = 5
@@ -171,6 +186,7 @@ object Options: TOptions
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitTop = 327
     object btOK: TButton
       AlignWithMargins = True
       Left = 323

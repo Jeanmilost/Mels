@@ -14,6 +14,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   PixelsPerInch = 96
   TextHeight = 13
   object m2Model: TQRVCLMD2ModelGL
@@ -34,7 +35,7 @@ object MainForm: TMainForm
     Model.Scaling.Y = 0.007499999832361937
     Model.Scaling.Z = 0.007499999832361937
     Model.Translation.Y = 0.017999999225139620
-    Model.Translation.Z = -0.500000000000000000
+    Model.Translation.Z = -1.100000023841858000
     Model.RotationX = -1.580000042915344000
     Model.RotationY = -0.779999971389770500
     Model.SwapYZ = False
