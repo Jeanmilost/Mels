@@ -36,7 +36,5 @@ object MainForm: TMainForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 0
-    ExplicitWidth = 589
-    ExplicitHeight = 527
   end
 end

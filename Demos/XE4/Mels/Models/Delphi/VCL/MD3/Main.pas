@@ -97,6 +97,35 @@ type
 
             IFrames = TObjectDictionary<NativeUInt, IFrame>;
 
+            {**
+             Item associating a texture identifier with a model name
+            }
+            ITextureItem = class
+                private
+                    m_ID:   NativeUInt;
+                    m_Name: UnicodeString;
+
+                public
+                    {**
+                     Constructor
+                    }
+                    constructor Create; overload; virtual;
+
+                    {**
+                     Constructor
+                     @param(id Texture identifier)
+                     @param(name Texture name to link with, as defined in model)
+                    }
+                    constructor Create(id: NativeUInt; const name: UnicodeString); overload; virtual;
+
+                    {**
+                     Destructor
+                    }
+                    destructor Destroy; override;
+            end;
+
+            ITextureTable = TList<ITextureItem>;
+
         private
             m_pFrames:                  IFrames;
             m_hDC:                      THandle;
@@ -168,10 +197,10 @@ type
 
             {**
              Loads model texture
-             @param(pTexture Texture info)
+             @param(textureTable Texture table)
              @return(@true on success, otherwise @false)
             }
-            function LoadTexture(pTexture: TQRTexture): Boolean;
+            function LoadTexture(const textureTable: ITextureTable): Boolean;
 
             {**
              Draws model
@@ -249,6 +278,28 @@ destructor TMainForm.IFrame.Destroy;
 begin
     m_pAABBTree.Free;
 
+    inherited Destroy;
+end;
+//--------------------------------------------------------------------------------------------------
+// TMainForm.ITextureItem
+//--------------------------------------------------------------------------------------------------
+constructor TMainForm.ITextureItem.Create;
+begin
+    inherited Create;
+
+    m_ID := 0;
+end;
+//--------------------------------------------------------------------------------------------------
+constructor TMainForm.ITextureItem.Create(id: NativeUInt; const name: UnicodeString);
+begin
+    inherited Create;
+
+    m_ID   := id;
+    m_Name := name;
+end;
+//--------------------------------------------------------------------------------------------------
+destructor TMainForm.ITextureItem.Destroy;
+begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -379,11 +430,12 @@ var
     position, direction, up: TQRVector3D;
 begin
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQROpenGLHelper.GetProjection(45.0,
-                                                        ClientWidth,
-                                                        ClientHeight,
-                                                        1.0,
-                                                        200.0);
+    m_ProjectionMatrix := TQROpenGLHelper.GetOrtho(-1.0,
+                                                    1.0,
+                                                   -1.0,
+                                                    1.0,
+                                                   -100.0,
+                                                    100.0);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -392,7 +444,17 @@ begin
     // create view matrix (will not be modified while execution)
     m_ViewMatrix := TQROpenGLHelper.LookAtLH(position, direction, up);
 
+    // create viewport
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, not m_UseShader);
+
+    // configure matrices for OpenGL direct mode
+    if (not m_UseShader) then
+    begin
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-1.0, 1.0, -1.0, 1.0, -100.0, 100.0);
+        glMatrixMode(GL_MODELVIEW);
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormKeyPress(pSender: TObject; var key: Char);
@@ -430,10 +492,10 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TMainForm.LoadModel(useShader: Boolean): Boolean;
 var
-    hPackageInstance:                                  THandle;
-    pVertexPrg, pFragmentPrg, pModelStream, pNTStream: TResourceStream;
-    pColor:                                            TQRColor;
-    pTexture:                                          TQRTexture;
+    hPackageInstance:                       THandle;
+    pVertexPrg, pFragmentPrg, pModelStream: TResourceStream;
+    pColor:                                 TQRColor;
+    textureTable:                           ITextureTable;
 begin
     // delete cached frames, if any
     m_pFrames.Clear;
@@ -528,8 +590,7 @@ begin
 
     pColor       := nil;
     pModelStream := nil;
-    pNTStream    := nil;
-    pTexture     := nil;
+    textureTable := nil;
 
     try
         // load MD3 model from resources
@@ -552,19 +613,29 @@ begin
 
         // create model matrix
         m_ModelMatrix := TQRMatrix4x4.Identity;
-        m_ModelMatrix.Translate(TQRVector3D.Create(-0.18, -0.1, -0.7));
-        m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(1.0, 0.0, 0.0)); // -90°
-        m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
-        m_ModelMatrix.Scale(TQRVector3D.Create(0.015, 0.015, 0.015));
+        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, -0.6, -1.0));
+        m_ModelMatrix.Rotate(-(PI / 4), TQRVector3D.Create(1.0, 0.0, 0.0)); // -45°
+        m_ModelMatrix.Rotate(-(PI / 4), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
+        m_ModelMatrix.Scale(TQRVector3D.Create(0.02, 0.02, 0.02));
 
-        pTexture := TQRTexture.Create;
-        LoadTexture(pTexture);
-        SetLength(m_Textures, 1);
-        m_Textures[0] := pTexture;
-        pTexture := nil;
+        textureTable := ITextureTable.Create;
+
+        // link texture to use with model parts
+        textureTable.Add(ITextureItem.Create(3, 'lower_glass'));
+        textureTable.Add(ITextureItem.Create(1, 'clock_face'));
+        textureTable.Add(ITextureItem.Create(3, 'clock_glass'));
+        textureTable.Add(ITextureItem.Create(2, 'feet'));
+        textureTable.Add(ITextureItem.Create(2, 'pendulam'));
+        textureTable.Add(ITextureItem.Create(4, 'small_hand'));
+        textureTable.Add(ITextureItem.Create(0, 'big_hand'));
+        textureTable.Add(ITextureItem.Create(2, 'balance'));
+        textureTable.Add(ITextureItem.Create(2, 'clock_body'));
+        textureTable.Add(ITextureItem.Create(2, 'clock_face_top'));
+
+        // load all textures
+        LoadTexture(textureTable);
     finally
-        pTexture.Free;
-        pNTStream.Free;
+        textureTable.Free;
         pModelStream.Free;
         pColor.Free;
     end;
@@ -617,15 +688,11 @@ begin
         Exit;
 
     // calculate client rect in OpenGL coordinates
-    rect := TQRRect.Create(-1.0, 1.25, 2.05, 2.35);
+    rect := TQRRect.Create(-1.0, 1.0, 2.0, 2.0);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
-
-    // correct the ray position to follow the object location
-    rayPos.X := rayPos.X + 0.18;
-    rayPos.Y := rayPos.Y + 0.1;
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
@@ -805,22 +872,19 @@ begin
     pShader.Use(False);
 end;
 //--------------------------------------------------------------------------------------------------
-function TMainForm.LoadTexture(pTexture: TQRTexture): Boolean;
+function TMainForm.LoadTexture(const textureTable: ITextureTable): Boolean;
 var
-    hPackageInstance: THandle;
-    pixelFormat:      Integer;
-    pStream:          TResourceStream;
-    pBitmap:          Vcl.Graphics.TBitmap;
-    pPixels:          PByte;
+    hPackageInstance:       THandle;
+    pixelFormat,
+    i:                      Integer;
+    pTextureBHandStream,
+    pTextureClockFaceStream,
+    pTextureGFClockStream,
+    pTextureGlassPaneStream,
+    pTextureSHandStream:    TResourceStream;
+    pBitmap:                Vcl.Graphics.TBitmap;
+    pPixels:                PByte;
 begin
-    if (not Assigned(pTexture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
-
-    pTexture.Name := 'watercan';
-
     // get module instance at which this form belongs
     hPackageInstance := FindClassHInstance(TMainForm);
 
@@ -831,48 +895,135 @@ begin
         Exit;
     end;
 
-    pStream := nil;
-    pBitmap := nil;
-    pPixels := nil;
+    pTextureBHandStream     := nil;
+    pTextureClockFaceStream := nil;
+    pTextureGFClockStream   := nil;
+    pTextureGlassPaneStream := nil;
+    pTextureSHandStream     := nil;
+    pBitmap                 := nil;
+    pPixels                 := nil;
 
     try
-        // found resource containing the vertex shader program to load?
-        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE'), RT_RCDATA) <> 0)
+        // load big hand texture image from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE_BHAND'), RT_RCDATA) <> 0)
         then
-            pStream := TResourceStream.Create(hPackageInstance,
-                                              PChar('ID_MD3_TEXTURE'),
-                                              RT_RCDATA);
+            pTextureBHandStream := TResourceStream.Create(hPackageInstance,
+                                                          PChar('ID_MD3_TEXTURE_BHAND'),
+                                                          RT_RCDATA);
 
-        if (not Assigned(pStream)) then
+        if (not Assigned(pTextureBHandStream)) then
         begin
             Result := False;
             Exit;
         end;
 
-        // load MD3 texture
-        pBitmap := Vcl.Graphics.TBitmap.Create;
-        pBitmap.LoadFromStream(pStream);
+        // load clock face texture image from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE_CLOCK_FACE'), RT_RCDATA) <> 0)
+        then
+            pTextureClockFaceStream := TResourceStream.Create(hPackageInstance,
+                                                              PChar('ID_MD3_TEXTURE_CLOCK_FACE'),
+                                                              RT_RCDATA);
 
-        if (pBitmap.PixelFormat = pf32bit) then
-            pixelFormat := GL_RGBA
-        else
-            pixelFormat := GL_RGB;
+        if (not Assigned(pTextureClockFaceStream)) then
+        begin
+            Result := False;
+            Exit;
+        end;
 
-        // convert bitmap to pixel array, and create OpenGL texture from array
-        TQROpenGLHelper.BytesFromBitmap(pBitmap, pPixels, false, false);
-        pTexture.Index := TQROpenGLHelper.CreateTexture(pBitmap.Width,
-                                                        pBitmap.Height,
-                                                        pixelFormat,
-                                                        pPixels,
-                                                        GL_NEAREST,
-                                                        GL_NEAREST,
-                                                        GL_TEXTURE_2D);
+        // load clock texture image from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE_GF_CLOCK'), RT_RCDATA) <> 0)
+        then
+            pTextureGFClockStream := TResourceStream.Create(hPackageInstance,
+                                                            PChar('ID_MD3_TEXTURE_GF_CLOCK'),
+                                                            RT_RCDATA);
+
+        if (not Assigned(pTextureGFClockStream)) then
+        begin
+            Result := False;
+            Exit;
+        end;
+
+        // load glass pane texture image from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE_GLASS_PANE'), RT_RCDATA) <> 0)
+        then
+            pTextureGlassPaneStream := TResourceStream.Create(hPackageInstance,
+                                                              PChar('ID_MD3_TEXTURE_GLASS_PANE'),
+                                                              RT_RCDATA);
+
+        if (not Assigned(pTextureGlassPaneStream)) then
+        begin
+            Result := False;
+            Exit;
+        end;
+
+        // load small hand texture image from resources
+        if (FindResource(hPackageInstance, PChar('ID_MD3_TEXTURE_SHAND'), RT_RCDATA) <> 0)
+        then
+            pTextureSHandStream := TResourceStream.Create(hPackageInstance,
+                                                          PChar('ID_MD3_TEXTURE_SHAND'),
+                                                          RT_RCDATA);
+
+        if (not Assigned(pTextureSHandStream)) then
+        begin
+            Result := False;
+            Exit;
+        end;
+
+        // iterate through textures to create
+        for i := 0 to textureTable.Count - 1 do
+        begin
+            try
+                // reset stream positions
+                pTextureBHandStream.Position     := 0;
+                pTextureClockFaceStream.Position := 0;
+                pTextureGFClockStream.Position   := 0;
+                pTextureGlassPaneStream.Position := 0;
+                pTextureSHandStream.Position     := 0;
+
+                // assign texture to list, and create and populate new texture
+                SetLength(m_Textures, Length(m_Textures) + 1);
+                m_Textures[i]      := TQRTexture.Create;
+                m_Textures[i].Name := textureTable[i].m_Name;
+
+                // create texture bitmap
+                pBitmap := Vcl.Graphics.TBitmap.Create;
+
+                // load MD3 texture
+                case (textureTable[i].m_ID) of
+                    0: pBitmap.LoadFromStream(pTextureBHandStream);
+                    1: pBitmap.LoadFromStream(pTextureClockFaceStream);
+                    2: pBitmap.LoadFromStream(pTextureGFClockStream);
+                    3: pBitmap.LoadFromStream(pTextureGlassPaneStream);
+                    4: pBitmap.LoadFromStream(pTextureSHandStream);
+                end;
+
+                if (pBitmap.PixelFormat = pf32bit) then
+                    pixelFormat := GL_RGBA
+                else
+                    pixelFormat := GL_RGB;
+
+                // convert bitmap to pixel array, and create OpenGL texture from array
+                TQROpenGLHelper.BytesFromBitmap(pBitmap, pPixels, false, false);
+                m_Textures[i].Index := TQROpenGLHelper.CreateTexture(pBitmap.Width,
+                                                                     pBitmap.Height,
+                                                                     pixelFormat,
+                                                                     pPixels,
+                                                                     GL_NEAREST,
+                                                                     GL_NEAREST,
+                                                                     GL_TEXTURE_2D);
+            finally
+                if (Assigned(pPixels)) then
+                    FreeMem(pPixels);
+
+                pBitmap.Free;
+            end;
+        end;
     finally
-        if (Assigned(pPixels)) then
-            FreeMem(pPixels);
-
-        pBitmap.Free;
-        pStream.Free;
+        pTextureBHandStream.Free;
+        pTextureClockFaceStream.Free;
+        pTextureGFClockStream.Free;
+        pTextureGlassPaneStream.Free;
+        pTextureSHandStream.Free;
     end;
 
     Result := True;

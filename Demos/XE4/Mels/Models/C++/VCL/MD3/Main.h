@@ -210,12 +210,11 @@ class TMainForm : public TForm
         void PrepareShaderToDrawModel(QR_Shader_OpenGL* pShader, const TQRTextures& textures);
 
         /**
-        * Loads model texture
-        *@param pTextures - texture list to populate
+        * Loads model textures
         *@param textureTable - texture table
         *@return true on success, otherwise false
         */
-        bool LoadTexture(TQRTextures* pTextures, const ITextureTable& textureTable);
+        bool LoadTexture(const ITextureTable& textureTable);
 
         /**
         * Draws model

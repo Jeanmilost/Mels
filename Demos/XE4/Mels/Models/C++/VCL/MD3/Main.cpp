@@ -390,7 +390,7 @@ bool TMainForm::LoadModel(bool useShader)
     textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"clock_face_top"));
 
     // load all textures
-    LoadTexture(&m_Textures, textureTable);
+    LoadTexture(textureTable);
 
     return true;
 }
@@ -429,8 +429,8 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
     // transform the ray to be on the same coordinates system as the model
     TQRMatrix4x4 invertMatrix =
             const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
-    rayPos       = invertMatrix.Transform(rayPos);
-    rayDir       = invertMatrix.Transform(rayDir);
+    rayPos                    = invertMatrix.Transform(rayPos);
+    rayDir                    = invertMatrix.Transform(rayDir);
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());
@@ -616,11 +616,8 @@ void TMainForm::PrepareShaderToDrawModel(QR_Shader_OpenGL* pShader, const TQRTex
     pShader->Use(false);
 }
 //--------------------------------------------------------------------------------------------------
-bool TMainForm::LoadTexture(TQRTextures* pTextures, const ITextureTable& textureTable)
+bool TMainForm::LoadTexture(const ITextureTable& textureTable)
 {
-    if (!pTextures)
-        return false;
-
     // load textures image from resources
     std::auto_ptr<TResourceStream> pTextureBHandStream(new TResourceStream((int)HInstance,
                                                                            ID_MD3_TEXTURE_BHAND,

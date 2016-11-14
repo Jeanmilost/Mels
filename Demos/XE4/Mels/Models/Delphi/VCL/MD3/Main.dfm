@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Watercan - MD3 renderer'
+  Caption = 'Cabinet with glass pane - MD3 renderer'
   ClientHeight = 527
   ClientWidth = 589
   Color = clBtnFace
