@@ -1,9 +1,11 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Watercan - MD3 renderer'
-  ClientHeight = 527
-  ClientWidth = 589
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsDialog
+  Caption = 'Cabinet with glass pane - MD3 renderer'
+  ClientHeight = 537
+  ClientWidth = 599
   Color = clBtnFace
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -23,8 +25,8 @@ object MainForm: TMainForm
   object paRendering: TPanel
     Left = 0
     Top = 0
-    Width = 589
-    Height = 527
+    Width = 599
+    Height = 537
     Cursor = crCross
     Align = alClient
     BevelOuter = bvNone
@@ -34,5 +36,7 @@ object MainForm: TMainForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 0
+    ExplicitWidth = 589
+    ExplicitHeight = 527
   end
 end

@@ -32,6 +32,7 @@
 #include <Vcl.ExtCtrls.hpp>
 
 // std
+#include <vector>
 #include <map>
 #include <time.h>
 
@@ -100,11 +101,47 @@ class TMainForm : public TForm
             TQRMesh*     m_pMesh;
             TQRAABBTree* m_pAABBTree;
 
+            /**
+            * Constructor
+            *@param useCollisions - if true, collision will be used
+            */
             IFrame(bool useCollisions);
+
+            /**
+            * Destructor
+            */
             virtual ~IFrame();
         };
 
         typedef std::map<std::size_t, IFrame*> IFrames;
+
+        /**
+        * Item associating a texture identifier with a model name
+        */
+        struct ITextureItem
+        {
+            std::size_t  m_ID;
+            std::wstring m_Name;
+
+            /**
+            * Constructor
+            */
+            ITextureItem();
+
+            /**
+            * Constructor
+            *@param id - texture identifier
+            *@param name - texture name to link with, as defined in model
+            */
+            ITextureItem(std::size_t id, const std::wstring& name);
+
+            /**
+            * Destructor
+            */
+            virtual ~ITextureItem();
+        };
+
+        typedef std::vector<ITextureItem> ITextureTable;
 
         IFrames           m_Frames;
         HDC               m_hDC;
@@ -174,10 +211,11 @@ class TMainForm : public TForm
 
         /**
         * Loads model texture
-        *@param pTexture - texture info
+        *@param pTextures - texture list to populate
+        *@param textureTable - texture table
         *@return true on success, otherwise false
         */
-        bool LoadTexture(TQRTexture* pTexture);
+        bool LoadTexture(TQRTextures* pTextures, const ITextureTable& textureTable);
 
         /**
         * Draws model

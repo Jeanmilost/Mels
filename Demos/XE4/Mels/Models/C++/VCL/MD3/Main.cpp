@@ -66,6 +66,20 @@ TMainForm::IFrame::~IFrame()
         delete m_pAABBTree;
 }
 //--------------------------------------------------------------------------------------------------
+// TMainForm::ITextureItem
+//--------------------------------------------------------------------------------------------------
+TMainForm::ITextureItem::ITextureItem() :
+    m_ID(0)
+{}
+//--------------------------------------------------------------------------------------------------
+TMainForm::ITextureItem::ITextureItem(std::size_t id, const std::wstring& name) :
+    m_ID(id),
+    m_Name(name)
+{}
+//--------------------------------------------------------------------------------------------------
+TMainForm::ITextureItem::~ITextureItem()
+{}
+//--------------------------------------------------------------------------------------------------
 // TMainForm
 //--------------------------------------------------------------------------------------------------
 TMainForm* MainForm;
@@ -190,11 +204,12 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                        ClientWidth,
-                                                        ClientHeight,
-                                                        1.0f,
-                                                        200.0f);
+    m_ProjectionMatrix = QR_OpenGLHelper::GetOrtho(-1.0f,
+                                                    1.0f,
+                                                   -1.0f,
+                                                    1.0f,
+                                                   -100.0f,
+                                                    100.0f);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
@@ -203,7 +218,17 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     // create view matrix (will not be modified while execution)
     m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
 
+    // create viewport
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_UseShader);
+
+    // configure matrices for OpenGL direct mode
+    if (!m_UseShader)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -100.0f, 100.0f);
+        glMatrixMode(GL_MODELVIEW);
+    }
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormKeyPress(TObject* pSender, WideChar& key)
@@ -346,16 +371,26 @@ bool TMainForm::LoadModel(bool useShader)
 
     // create model matrix
     m_ModelMatrix = TQRMatrix4x4::Identity();
-    m_ModelMatrix.Translate(TQRVector3D(-0.18f, -0.1f, -0.7f));
+    m_ModelMatrix.Translate(TQRVector3D(0.0f, -0.6f, -1.0f));
     m_ModelMatrix.Rotate(-M_PI_4, TQRVector3D(1.0f, 0.0f, 0.0f)); // -45°
     m_ModelMatrix.Rotate(-M_PI_4, TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.015, 0.015, 0.015));
+    m_ModelMatrix.Scale(TQRVector3D(0.02f, 0.02f, 0.02f));
 
-    std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
-    LoadTexture(pTexture.get());
-    m_Textures.Length = 1;
-    m_Textures[0]     = pTexture.get();
-    pTexture.release();
+    // link texture to use with model parts
+    ITextureTable textureTable;
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GLASS_PANE, L"lower_glass"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_CLOCK_FACE, L"clock_face"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GLASS_PANE, L"clock_glass"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"feet"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"pendulam"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_SHAND,      L"small_hand"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_BHAND,      L"big_hand"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"balance"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"clock_body"));
+    textureTable.push_back(ITextureItem(ID_MD3_TEXTURE_GF_CLOCK,   L"clock_face_top"));
+
+    // load all textures
+    LoadTexture(&m_Textures, textureTable);
 
     return true;
 }
@@ -383,15 +418,11 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
         return;
 
     // calculate client rect in OpenGL coordinates
-    TQRRect rect(-1.0, 1.25, 2.05, 2.35);
+    TQRRect rect(-1.0, 1.0, 2.0, 2.0);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
     TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
-
-    // correct the ray position to follow the object location
-    rayPos.X += 0.18f;
-    rayPos.Y += 0.1f;
 
     float determinant;
 
@@ -585,40 +616,79 @@ void TMainForm::PrepareShaderToDrawModel(QR_Shader_OpenGL* pShader, const TQRTex
     pShader->Use(false);
 }
 //--------------------------------------------------------------------------------------------------
-bool TMainForm::LoadTexture(TQRTexture* pTexture)
+bool TMainForm::LoadTexture(TQRTextures* pTextures, const ITextureTable& textureTable)
 {
-    if (!pTexture)
+    if (!pTextures)
         return false;
 
-    pTexture->Name = L"watercan";
+    // load textures image from resources
+    std::auto_ptr<TResourceStream> pTextureBHandStream(new TResourceStream((int)HInstance,
+                                                                           ID_MD3_TEXTURE_BHAND,
+                                                                           L"DATA"));
+    std::auto_ptr<TResourceStream> pTextureClockFaceStream(new TResourceStream((int)HInstance,
+                                                                               ID_MD3_TEXTURE_CLOCK_FACE,
+                                                                               L"DATA"));
+    std::auto_ptr<TResourceStream> pTextureGFClockStream(new TResourceStream((int)HInstance,
+                                                                             ID_MD3_TEXTURE_GF_CLOCK,
+                                                                             L"DATA"));
+    std::auto_ptr<TResourceStream> pTextureGlassPaneStream(new TResourceStream((int)HInstance,
+                                                                               ID_MD3_TEXTURE_GLASS_PANE,
+                                                                               L"DATA"));
+    std::auto_ptr<TResourceStream> pTextureSHandStream(new TResourceStream((int)HInstance,
+                                                                           ID_MD3_TEXTURE_SHAND,
+                                                                           L"DATA"));
 
-    // load texture image from resources
-    std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,
-                                                                      ID_MD3_TEXTURE,
-                                                                      L"DATA"));
-
-    // load MD3 texture
-    std::auto_ptr<TBitmap> pBitmap(new TBitmap());
-    pBitmap->LoadFromStream(pTextureStream.get());
-
-    BYTE* pPixels = NULL;
-
-    try
+    // iterate through textures to create
+    for (std::size_t i = 0; i < textureTable.size(); ++i)
     {
-        // convert bitmap to pixel array, and create OpenGL texture from array
-        QR_OpenGLHelper::BytesFromBitmap(pBitmap.get(), pPixels, false, false);
-        pTexture->Index = QR_OpenGLHelper::CreateTexture(pBitmap->Width,
-                                                         pBitmap->Height,
-                                                         pBitmap->PixelFormat == pf32bit ? GL_RGBA : GL_RGB,
-                                                         pPixels,
-                                                         GL_NEAREST,
-                                                         GL_NEAREST,
-                                                         GL_TEXTURE_2D);
-    }
-    __finally
-    {
-        if (pPixels)
-            delete[] pPixels;
+        // reset stream positions
+        pTextureBHandStream->Position     = 0;
+        pTextureClockFaceStream->Position = 0;
+        pTextureGFClockStream->Position   = 0;
+        pTextureGlassPaneStream->Position = 0;
+        pTextureSHandStream->Position     = 0;
+
+        // create and populate new texture
+        std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
+        pTexture->Name = textureTable[i].m_Name.c_str();
+
+        // create texture bitmap
+        std::auto_ptr<TBitmap> pBitmap(new TBitmap());
+
+        // load MD3 texture
+        switch (textureTable[i].m_ID)
+        {
+            case ID_MD3_TEXTURE_BHAND:      pBitmap->LoadFromStream(pTextureBHandStream.get());     break;
+            case ID_MD3_TEXTURE_CLOCK_FACE: pBitmap->LoadFromStream(pTextureClockFaceStream.get()); break;
+            case ID_MD3_TEXTURE_GF_CLOCK:   pBitmap->LoadFromStream(pTextureGFClockStream.get());   break;
+            case ID_MD3_TEXTURE_GLASS_PANE: pBitmap->LoadFromStream(pTextureGlassPaneStream.get()); break;
+            case ID_MD3_TEXTURE_SHAND:      pBitmap->LoadFromStream(pTextureSHandStream.get());     break;
+        }
+
+        BYTE* pPixels = NULL;
+
+        try
+        {
+            // convert bitmap to pixel array, and create OpenGL texture from array
+            QR_OpenGLHelper::BytesFromBitmap(pBitmap.get(), pPixels, false, false);
+            pTexture->Index = QR_OpenGLHelper::CreateTexture(pBitmap->Width,
+                                                             pBitmap->Height,
+                                                             pBitmap->PixelFormat == pf32bit ? GL_RGBA : GL_RGB,
+                                                             pPixels,
+                                                             GL_NEAREST,
+                                                             GL_NEAREST,
+                                                             GL_TEXTURE_2D);
+        }
+        __finally
+        {
+            if (pPixels)
+                delete[] pPixels;
+        }
+
+        // assign texture to list
+        m_Textures.Length += 1;
+        m_Textures[i]      = pTexture.get();
+        pTexture.release();
     }
 
     return true;
