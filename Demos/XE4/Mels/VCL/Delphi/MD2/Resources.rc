@@ -1,0 +1,14 @@
+// MD2 model
+ID_MD2_MODEL                           RCDATA    "Resources\Models\marvin.md2"
+ID_MD2_TEXTURE                         RCDATA    "Resources\Models\marvin.bmp"
+ID_MD2_NORMALS_TABLE                   RCDATA    "Resources\Models\marvin.bin"
+ID_MD2_ANIM_CFG                        RCDATA    "Resources\Models\marvin.cfg"
+
+// shader
+ID_DEFAULT_VERTEX_SHADER               RCDATA    "Resources\Shader\default_vertex.glsl"
+ID_DEFAULT_FRAGMENT_SHADER             RCDATA    "Resources\Shader\default_fragment.glsl"
+ID_INTERPOLATED_VERTEX_SHADER          RCDATA    "Resources\Shader\interpolated_vertex.glsl"
+ID_INTERPOLATED_FRAGMENT_SHADER        RCDATA    "Resources\Shader\interpolated_fragment.glsl"
+ID_COLLIDE_POLYGONS_VERTEX_SHADER      RCDATA    "Resources\Shader\collide_polys_vertex.glsl"
+ID_COLLIDE_POLYGONS_FRAGMENT_SHADER    RCDATA    "Resources\Shader\collide_polys_fragment.glsl"
+

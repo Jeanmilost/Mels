@@ -407,7 +407,7 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
 
     // create model matrix
     m_ModelMatrix = TQRMatrix4x4::Identity();
-    m_ModelMatrix.Translate(TQRVector3D(0.0, 0.0, -1.5f));
+    m_ModelMatrix.Translate(TQRVector3D(0.0f, 0.0f, -1.5f));
     m_ModelMatrix.Rotate(-(M_PI / 2.0f), TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
     m_ModelMatrix.Rotate(-(M_PI / 4.0f), TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
     m_ModelMatrix.Scale(TQRVector3D(0.0075f, 0.0075f, 0.0075f));

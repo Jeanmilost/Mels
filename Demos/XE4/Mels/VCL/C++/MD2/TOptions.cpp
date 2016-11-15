@@ -60,6 +60,28 @@ void __fastcall TOptions::rgCacheOptionsClick(TObject* pSender)
     ckShowCollisions->Enabled      = (rgCacheOptions->ItemIndex != 1);
 }
 //--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::ckUseOrthoMatrixClick(TObject* pSender)
+{
+    ckFullScreen->Enabled = !ckUseOrthoMatrix->Checked;
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btQuitClick(TObject* pSender)
+{
+    m_Closing = true;
+    Application->Terminate();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btCancelClick(TObject* pSender)
+{
+    Reset();
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btOKClick(TObject* pSender)
+{
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
 {
     // model already rendered?
@@ -79,23 +101,6 @@ void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
 
     // draw model
     m_pMD2->Draw(0.0);
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btQuitClick(TObject* pSender)
-{
-    m_Closing = true;
-    Application->Terminate();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btCancelClick(TObject* pSender)
-{
-    Reset();
-    Close();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btOKClick(TObject* pSender)
-{
-    Close();
 }
 //--------------------------------------------------------------------------------------------------
 bool TOptions::IsAppClosing() const
@@ -158,9 +163,9 @@ void TOptions::LoadPreview()
     pModelStream.release();
 
     // place model into 3D world
-    *pMD2->Translation = TQRVector3D(0.0f, 0.0f, -100.0f);
-    pMD2->RotationX    = -M_PI_2; // -90°
-    pMD2->RotationZ    = -M_PI_4; // -45°
+    *pMD2->Translation =  TQRVector3D(0.0f, 0.0f, -100.0f);
+     pMD2->RotationX   = -M_PI_2; // -90°
+     pMD2->RotationZ   = -M_PI_4; // -45°
 
     // set gesture to run
     pMD2->Gesture = 0;

@@ -108,17 +108,25 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
         return;
 
     // do show model in full screen?
-    if (m_pOptions->ckFullScreen->Checked)
+    if (m_pOptions->ckFullScreen->Checked && !m_pOptions->ckUseOrthoMatrix->Checked)
     {
         BorderStyle = bsNone;
         WindowState = wsMaximized;
-        ::ShowCursor(m_pOptions->ckShowCollisions && m_pOptions->rgCacheOptions->ItemIndex != 1);
+        ::ShowCursor(m_pOptions->ckShowCollisions->Checked && m_pOptions->rgCacheOptions->ItemIndex != 1);
     }
     else
     {
         BorderStyle = bsSizeable;
         WindowState = wsNormal;
         ::ShowCursor(true);
+    }
+
+    // use orthogonal matrix?
+    if (m_pOptions->ckUseOrthoMatrix->Checked)
+    {
+        // stop form resizing as perspective may be distorted by the viewport
+        BorderStyle = bsSingle;
+        BorderIcons >> biMaximize;
     }
 
     BringToFront();
@@ -170,7 +178,7 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     }
 
     // from now, OpenGL will draw scene every time the thread do nothing else
-    Application->OnIdle = IdleLoop;
+    Application->OnIdle = OnIdle;
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
@@ -244,7 +252,7 @@ void __fastcall TMainForm::miNextAnimClick(TObject* pSender)
     m_pMD2->Gesture = m_Gesture;
 }
 //--------------------------------------------------------------------------------------------------
-void __fastcall TMainForm::IdleLoop(TObject* pSender, bool& done)
+void __fastcall TMainForm::OnIdle(TObject* pSender, bool& done)
 {
     done = false;
     RenderGLScene();
@@ -405,7 +413,7 @@ bool TMainForm::LoadModel(bool toggleLight)
     }
 
     // if shader is used, interpolation will be done on the shader side
-    if (!m_pOptions->ckUseShader)
+    if (!m_pOptions->ckUseShader->Checked)
         framedModelOptions << EQR_FO_Interpolate;
 
      std::auto_ptr<TQRMD2Light> pLight;
@@ -481,14 +489,14 @@ bool TMainForm::LoadModel(bool toggleLight)
     if (m_pOptions->ckUseOrthoMatrix->Checked)
     {
         // place model into 3D world
-        *m_pMD2->Translation = TQRVector3D(0.0f, 0.05f, -10.0f);
-        *m_pMD2->Scaling     = TQRVector3D(0.03f, 0.03f, 0.03f);
+        *m_pMD2->Translation = TQRVector3D(0.0f,  0.05f, -10.0f);
+        *m_pMD2->Scaling     = TQRVector3D(0.03f, 0.03f,  0.03f);
     }
     else
     {
         // place model into 3D world
-        *m_pMD2->Translation = TQRVector3D(0.0f, 0.05f, -1.0f);
-        *m_pMD2->Scaling     = TQRVector3D(0.01f, 0.01f, 0.01f);
+        *m_pMD2->Translation = TQRVector3D(0.0f,    0.0f,    -1.5f);
+        *m_pMD2->Scaling     = TQRVector3D(0.0075f, 0.0075f,  0.0075f);
     }
 
     // rotate model
@@ -552,9 +560,6 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
     TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
 
-    // correct the ray position to be conform to the model position
-    rayPos.Y -= 0.025f;
-
     // orthogonal matrix is used?
     if (!m_pOptions->ckUseOrthoMatrix->Checked)
         // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
@@ -562,7 +567,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
         // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
         // feet are not always well detected), but this is efficient for the majority of cases
-        rayPos.MulAndAssign(2.0f);
+        rayPos.MulAndAssign(1.5f);
 
     float determinant;
 
@@ -650,8 +655,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         m_pCollidePolysShader->Use(true);
 
         // get perspective (or projection) matrix slot from shader
-        GLint uniform = QR_OpenGLHelper::GetUniform(m_pCollidePolysShader,
-                                                    EQR_SA_PerspectiveMatrix);
+        GLint uniform = QR_OpenGLHelper::GetUniform(m_pCollidePolysShader, EQR_SA_PerspectiveMatrix);
 
         // found it?
         if (uniform == -1)
@@ -914,7 +918,7 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
     if (interpolationFactor <= 0.0)
     {
         // get frame to draw
-        IFrame* pFrame      = GetFrame(index, pMD2Model, m_pOptions->ckShowCollisions);
+        IFrame* pFrame      = GetFrame(index, pMD2Model, m_pOptions->ckShowCollisions->Checked);
                 pMeshToDraw = pFrame->m_pMesh;
                 pAABBTree   = pFrame->m_pAABBTree;
     }
@@ -922,15 +926,15 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
     if (interpolationFactor >= 1.0)
     {
         // get frame to draw
-        IFrame* pFrame      = GetFrame(nextIndex, pMD2Model, m_pOptions->ckShowCollisions);
+        IFrame* pFrame      = GetFrame(nextIndex, pMD2Model, m_pOptions->ckShowCollisions->Checked);
                 pMeshToDraw = pFrame->m_pMesh;
                 pAABBTree   = pFrame->m_pAABBTree;
     }
     else
     {
         // get frame to draw, and frame to interpolate with
-        IFrame* pFrame     = GetFrame(index,     pMD2Model, m_pOptions->ckShowCollisions);
-        IFrame* pNextFrame = GetFrame(nextIndex, pMD2Model, m_pOptions->ckShowCollisions);
+        IFrame* pFrame     = GetFrame(index,     pMD2Model, m_pOptions->ckShowCollisions->Checked);
+        IFrame* pNextFrame = GetFrame(nextIndex, pMD2Model, m_pOptions->ckShowCollisions->Checked);
 
         // do use shader?
         if (!m_pOptions->ckUseShader->Checked)

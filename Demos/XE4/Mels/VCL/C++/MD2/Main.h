@@ -69,7 +69,7 @@ class TMainForm : public TForm
         *@param pSender - event sender
         *@param[in, out] done - if true, idle loop was ternimated and may do nothing else
         */
-        void __fastcall IdleLoop(TObject* pSender, bool& done);
+        void __fastcall OnIdle(TObject* pSender, bool& done);
 
         /**
         * Renders (i.e. prepares and draws) scene

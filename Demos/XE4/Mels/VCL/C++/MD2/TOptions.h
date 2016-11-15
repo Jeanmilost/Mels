@@ -47,6 +47,7 @@ class TOptions : public TForm
 
         void __fastcall FormCreate(TObject* pSender);
         void __fastcall rgCacheOptionsClick(TObject* pSender);
+        void __fastcall ckUseOrthoMatrixClick(TObject* pSender);
         void __fastcall btQuitClick(TObject* pSender);
         void __fastcall btCancelClick(TObject* pSender);
         void __fastcall btOKClick(TObject* pSender);
@@ -73,7 +74,7 @@ class TOptions : public TForm
     protected:
         /**
         * Options form message loop
-        *@param message- message sent by Windows
+        *@param message - message sent by Windows
         */
         void __fastcall WndProc(TMessage& message);
 
