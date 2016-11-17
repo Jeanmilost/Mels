@@ -83,7 +83,6 @@ type
 
             procedure FormCreate(pSender: TObject);
             procedure rgCacheOptionsClick(pSender: TObject);
-            procedure ckUseOrthoMatrixClick(pSender: TObject);
             procedure btQuitClick(pSender: TObject);
             procedure btCancelClick(pSender: TObject);
             procedure btOKClick(pSender: TObject);
@@ -204,11 +203,6 @@ begin
     ckShowDefaultFrame.Enabled    :=  gbLoadOptions.Enabled;
     ckRunGestureWhenReady.Enabled :=  gbLoadOptions.Enabled;
     ckShowCollisions.Enabled      := (rgCacheOptions.ItemIndex <> 1);
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TOptions.ckUseOrthoMatrixClick(pSender: TObject);
-begin
-    ckFullScreen.Enabled := not ckUseOrthoMatrix.Checked;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TOptions.btQuitClick(pSender: TObject);

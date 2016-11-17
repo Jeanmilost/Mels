@@ -203,13 +203,19 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
+    const float fov   = 45.0f;
+    const float zNear = 0.1f;
+    const float zFar  = 100.0f;
+
+    // calculate aspect ratio
+    const GLfloat aspectRatio = (GLfloat)ClientWidth / (GLfloat)(ClientHeight ? ClientHeight : 1);
+
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetOrtho(-1.0f,
-                                                    1.0f,
-                                                   -1.0f,
-                                                    1.0f,
-                                                   -100.0f,
-                                                    100.0f);
+    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(fov,
+                                                         aspectRatio,
+                                                         zNear,
+                                                         zFar,
+                                                         true);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
@@ -219,14 +225,17 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
 
     // create viewport
-    QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_UseShader);
+    QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, False);
 
     // configure matrices for OpenGL direct mode
     if (!m_UseShader)
     {
+        const float maxY = zNear * std::tanf(fov * M_PI / 360.0f);
+        const float maxX = maxY  * aspectRatio;
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -100.0f, 100.0f);
+        glOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar);
         glMatrixMode(GL_MODELVIEW);
     }
 }
@@ -371,10 +380,10 @@ bool TMainForm::LoadModel(bool useShader)
 
     // create model matrix
     m_ModelMatrix = TQRMatrix4x4::Identity();
-    m_ModelMatrix.Translate(TQRVector3D(0.0f, -0.6f, -1.0f));
+    m_ModelMatrix.Translate(TQRVector3D(0.0f, -0.03f, -1.5f));
     m_ModelMatrix.Rotate(-M_PI_4, TQRVector3D(1.0f, 0.0f, 0.0f)); // -45°
     m_ModelMatrix.Rotate(-M_PI_4, TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.02f, 0.02f, 0.02f));
+    m_ModelMatrix.Scale(TQRVector3D(0.001f, 0.001f, 0.001f));
 
     // link texture to use with model parts
     ITextureTable textureTable;
@@ -423,6 +432,9 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
     TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
+
+    // correct the ray position to be conform with the model
+    rayPos.Y += 0.35f;
 
     float determinant;
 

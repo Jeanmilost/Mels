@@ -200,12 +200,14 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
+    // calculate aspect ratio
+    const GLfloat aspectRatio = (GLfloat)ClientWidth / (GLfloat)(ClientHeight ? ClientHeight : 1);
+
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                        ClientWidth,
-                                                        ClientHeight,
-                                                        1.0f,
-                                                        200.0f);
+    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(45.0f,
+                                                         aspectRatio,
+                                                         1.0f,
+                                                         200.0f);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
@@ -410,7 +412,7 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
     m_ModelMatrix.Translate(TQRVector3D(0.0f, 0.0f, -1.5f));
     m_ModelMatrix.Rotate(-(M_PI / 2.0f), TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
     m_ModelMatrix.Rotate(-(M_PI / 4.0f), TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.0075f, 0.0075f, 0.0075f));
+    m_ModelMatrix.Scale(TQRVector3D(0.015f, 0.015f, 0.015f));
 
     std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
     LoadTexture(pTexture.get());
@@ -455,7 +457,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
     // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
     // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
     // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(1.5f);
+    rayPos.MulAndAssign(1.4f);
 
     float determinant;
 

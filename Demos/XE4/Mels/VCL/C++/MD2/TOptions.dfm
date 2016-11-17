@@ -146,7 +146,6 @@ object Options: TOptions
         Align = alTop
         Caption = 'Use orthogonal matrix'
         TabOrder = 4
-        OnClick = ckUseOrthoMatrixClick
       end
     end
     object rgCacheOptions: TRadioGroup

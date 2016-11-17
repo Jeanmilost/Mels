@@ -96,21 +96,21 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets projection (or camera) matrix
+             Gets perspective matrix
              @param(fov Field of view, in degrees)
-             @param(width View width, generally the same as window width)
-             @param(height View height, generally the same as window height)
+             @param(aspectRatio Aspect ratio, generally width divided by height)
              @param(zNear Near plane clipping)
              @param(zFar Far plane clipping)
+             @param(ortho If @true, an orthogonal matrix will be used instead of frustum)
              @return(Matrix)
              @br @bold(NOTE) This function returns the exactly same matrix as gluPerspective
             }
             {$ENDREGION}
-            class function GetProjection(fov,
-                                         width,
-                                         height,
-                                         zNear,
-                                         zFar: Single): TQRMatrix4x4; static;
+            class function GetPerspective(fov,
+                                  aspectRatio,
+                                        zNear,
+                                         zFar: Single;
+                                        ortho: Boolean = False): TQRMatrix4x4; static;
 
             {$REGION 'Documentation'}
             {**
@@ -291,27 +291,22 @@ begin
                                   0.0,       0.0,       x2nf / mnf,  0.0);
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRModelRenderer.GetProjection(fov,
-                                              width,
-                                              height,
-                                              zNear,
-                                              zFar: Single): TQRMatrix4x4;
+class function TQRModelRenderer.GetPerspective(fov,
+                                       aspectRatio,
+                                             zNear,
+                                              zFar: Single;
+                                             ortho: Boolean): TQRMatrix4x4;
 var
-    aspect, top, bottom, right, left: Single;
+    maxX, maxY: Single;
 begin
-    // width or height out of bounds?
-    if ((width = 0.0) or (height = 0.0)) then
-        raise Exception.Create('Invalid width or height');
+    maxY := zNear * Tan(fov * PI / 360.0);
+    maxX := maxY  * aspectRatio;
 
-    // configure matrix values to use
-    aspect :=  width / height;
-    top    :=  0.5 * Tan((fov * PI) / 360.0);
-    bottom := -top;
-    right  :=  aspect * top;
-    left   := -right;
-
-    // build and return camera matrix
-    Result := GetFrustum(left, right, bottom, top, zNear, zFar);
+    // do use orthogonal perspective?
+    if (ortho) then
+        Result := GetOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar)
+    else
+        Result := GetFrustum(-maxX, maxX, -maxY, maxY, zNear, zFar);
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelRenderer.LookAtLH(const position, direction, up: TQRVector3D): TQRMatrix4x4;

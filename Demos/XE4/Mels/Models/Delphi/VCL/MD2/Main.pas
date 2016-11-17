@@ -381,14 +381,28 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormResize(pSender: TObject);
 var
-    position, direction, up: TQRVector3D;
+    widthF, heightF, aspectRatio: GLfloat;
+    position, direction, up:      TQRVector3D;
 begin
+    widthF  := ClientWidth;
+    heightF := ClientHeight;
+
+    // is width out of bounds?
+    if (widthF = 0.0) then
+        widthF := 1.0;
+
+    // is height out of bounds?
+    if (heightF = 0.0) then
+        heightF := 1.0;
+
+    // calculate aspect ratio
+    aspectRatio := widthF / heightF;
+
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQROpenGLHelper.GetProjection(45.0,
-                                                        ClientWidth,
-                                                        ClientHeight,
-                                                        1.0,
-                                                        200.0);
+    m_ProjectionMatrix := TQROpenGLHelper.GetPerspective(45.0,
+                                                         aspectRatio,
+                                                         1.0,
+                                                         200.0);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -595,7 +609,7 @@ begin
         m_ModelMatrix.Translate(TQRVector3D.Create(0.0, 0.0, -1.5));
         m_ModelMatrix.Rotate(-(PI / 2.0), TQRVector3D.Create(1.0, 0.0, 0.0)); // -90°
         m_ModelMatrix.Rotate(-(PI / 4.0), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
-        m_ModelMatrix.Scale(TQRVector3D.Create(0.0075, 0.0075, 0.0075));
+        m_ModelMatrix.Scale(TQRVector3D.Create(0.015, 0.015, 0.015));
 
         pTexture := TQRTexture.Create;
         LoadTexture(pTexture);
@@ -670,7 +684,7 @@ begin
     // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
     // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
     // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(1.5);
+    rayPos.MulAndAssign(1.4);
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
@@ -1016,7 +1030,7 @@ var
     elapsedTime: Double;
 begin
     // calculate time interval
-    now            := GetTickCount;
+    now            :=  GetTickCount;
     elapsedTime    := (now - m_PreviousTime);
     m_PreviousTime :=  now;
 

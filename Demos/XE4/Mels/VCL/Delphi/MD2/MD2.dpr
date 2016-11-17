@@ -15,6 +15,5 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TOptions, Options);
   Application.Run;
 end.

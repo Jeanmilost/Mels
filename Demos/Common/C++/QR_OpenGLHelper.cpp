@@ -155,7 +155,7 @@ void QR_OpenGLHelper::CreateViewport(int clientWidth, int clientHeight, bool cre
     glLoadIdentity();
 
     // apply perspective correction
-    GLfloat aspect = (GLfloat)clientWidth / (GLfloat)clientHeight;
+    const GLfloat aspect = (GLfloat)clientWidth / (GLfloat)clientHeight;
     gluPerspective(45.0f, aspect, 0.1f, 10000.0f);
 
     // load model view matrix and initialize it
@@ -231,25 +231,20 @@ TQRMatrix4x4 QR_OpenGLHelper::GetFrustum(float left,
                         0.0,       0.0,       x2nf / mnf,  0.0);
 }
 //--------------------------------------------------------------------------------------------------
-TQRMatrix4x4 QR_OpenGLHelper::GetProjection(float fov,
-                                            float width,
-                                            float height,
-                                            float zNear,
-                                            float zFar)
+TQRMatrix4x4 QR_OpenGLHelper::GetPerspective(float fov,
+                                             float aspectRatio,
+                                             float zNear,
+                                             float zFar,
+                                             bool  ortho)
 {
-    // width or height out of bounds?
-    if ((width == 0.0f) || (height == 0.0f))
-        throw "Invalid width or height";
+    const float maxY = zNear * std::tanf(fov * M_PI / 360.0);
+    const float maxX = maxY  * aspectRatio;
 
-    // configure matrix values to use
-    const float aspect =  width / height;
-    const float top    =  0.5f * tan((fov * M_PI) / 360.0f);
-    const float bottom = -top;
-    const float right  =  aspect * top;
-    const float left   = -right;
-
-    // build and return camera matrix
-    return GetFrustum(left, right, bottom, top, zNear, zFar);
+    // do use orthogonal perspective?
+    if (ortho)
+        return GetOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar);
+    else
+        return GetFrustum(-maxX, maxX, -maxY, maxY, zNear, zFar);
 }
 //--------------------------------------------------------------------------------------------------
 TQRMatrix4x4 QR_OpenGLHelper::LookAtLH(TQRVector3D& position,

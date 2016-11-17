@@ -60,11 +60,6 @@ void __fastcall TOptions::rgCacheOptionsClick(TObject* pSender)
     ckShowCollisions->Enabled      = (rgCacheOptions->ItemIndex != 1);
 }
 //--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::ckUseOrthoMatrixClick(TObject* pSender)
-{
-    ckFullScreen->Enabled = !ckUseOrthoMatrix->Checked;
-}
-//--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::btQuitClick(TObject* pSender)
 {
     m_Closing = true;

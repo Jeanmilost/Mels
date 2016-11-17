@@ -26,7 +26,6 @@ object Options: TOptions
     Height = 17
     Align = alTop
     Caption = 'Full screen'
-    Enabled = False
     TabOrder = 0
   end
   object ckUseShader: TCheckBox

@@ -120,20 +120,20 @@ class QR_OpenGLHelper
                                        float zFar);
 
         /**
-        * Gets projection (or camera) matrix
+        * Gets perspective matrix
         *@param fov - field of view, in degrees
-        *@param width - view width, generally the same as window width
-        *@param height - view height, generally the same as window height
+        *@param aspectRatio - aspect ratio, generally width divided by height
         *@param zNear - near plane clipping
         *@param zFar - far plane clipping
+        *@param ortho - if true, an orthogonal matrix will be used instead of frustum
         *@return matrix
         *@note This function returns the exactly same matrix as gluPerspective
         */
-        static TQRMatrix4x4 GetProjection(float fov,
-                                          float width,
-                                          float height,
-                                          float zNear,
-                                          float zFar);
+        static TQRMatrix4x4 GetPerspective(float fov,
+                                           float aspectRatio,
+                                           float zNear,
+                                           float zFar,
+                                           bool  ortho = false);
 
         /**
         * Creates combined look at matrix (left hand system)

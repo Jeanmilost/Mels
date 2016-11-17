@@ -16,6 +16,7 @@ object MainForm: TMainForm
   Position = poScreenCenter
   Scaled = False
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   OnPaint = FormPaint
   OnResize = FormResize
   PixelsPerInch = 96

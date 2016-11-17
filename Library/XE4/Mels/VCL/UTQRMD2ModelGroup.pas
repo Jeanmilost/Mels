@@ -2632,6 +2632,12 @@ begin
     if (not Assigned(OnDrawItem)) then
         Exit;
 
+    // are indexes out of bounds?
+    if ((m_pAnimation.FrameIndex              >= m_pJob.MeshCount) or
+        (m_pAnimation.InterpolationFrameIndex >= m_pJob.MeshCount))
+    then
+        Exit;
+
     // collision buffers were created?
     if (EQR_MO_No_Collision in m_pJob.ModelOptions) then
     begin

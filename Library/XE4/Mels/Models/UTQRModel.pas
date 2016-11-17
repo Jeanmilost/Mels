@@ -160,6 +160,22 @@ type
             {$ENDREGION}
             procedure SetTree(index: NativeUInt; pTree: TQRAABBTree); virtual;
 
+            {$REGION 'Documentation'}
+            {**
+             Gets the mesh count
+             @return(The mesh count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the aligned-axis bounding box tree count
+             @return(The aligned-axis bounding box tree count)
+            }
+            {$ENDREGION}
+            function GetAABBTreeCount: NativeUInt; virtual;
+
         public
             {$REGION 'Documentation'}
             {**
@@ -190,6 +206,20 @@ type
             }
             {$ENDREGION}
             property AABBTree[index: NativeUInt]: TQRAABBTree read GetTree write SetTree;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the mesh count
+            }
+            {$ENDREGION}
+            property MeshCount: NativeUInt read GetMeshCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the aligned-axis bounding box tree count
+            }
+            {$ENDREGION}
+            property AABBTreeCount: NativeUInt read GetAABBTreeCount;
     end;
 
     {$REGION 'Documentation'}
@@ -688,6 +718,16 @@ begin
     // cache tree, clear the previous entry if exists. Be careful, the cache will take the ownership
     // of the received tree, so don't try to delete it externally
     m_pAABBTreeCache.Add(index, pTree);
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelCache.GetMeshCount: NativeUInt;
+begin
+    Result := m_pMeshCache.Count;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelCache.GetAABBTreeCount: NativeUInt;
+begin
+    Result := m_pAABBTreeCache.Count;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelParser

@@ -31,6 +31,7 @@ interface
 uses System.Classes,
      System.UITypes,
      System.SysUtils,
+     System.Math,
      System.Variants,
      System.Generics.Collections,
      Vcl.Graphics,
@@ -427,15 +428,33 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormResize(pSender: TObject);
 var
-    position, direction, up: TQRVector3D;
+    fov, zNear, zFar, widthF, heightF, aspectRatio, maxX, maxY: GLfloat;
+    position, direction, up:                                    TQRVector3D;
 begin
+    fov   := 45.0;
+    zNear := 0.1;
+    zFar  := 100.0;
+
+    widthF  := ClientWidth;
+    heightF := ClientHeight;
+
+    // is width out of bounds?
+    if (widthF = 0.0) then
+        widthF := 1.0;
+
+    // is height out of bounds?
+    if (heightF = 0.0) then
+        heightF := 1.0;
+
+    // calculate aspect ratio
+    aspectRatio := widthF / heightF;
+
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQROpenGLHelper.GetOrtho(-1.0,
-                                                    1.0,
-                                                   -1.0,
-                                                    1.0,
-                                                   -100.0,
-                                                    100.0);
+    m_ProjectionMatrix := TQROpenGLHelper.GetPerspective(fov,
+                                                         aspectRatio,
+                                                         zNear,
+                                                         zFar,
+                                                         True);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -450,9 +469,12 @@ begin
     // configure matrices for OpenGL direct mode
     if (not m_UseShader) then
     begin
+        maxY := zNear * Tan(fov * PI / 360.0);
+        maxX := maxY  * aspectRatio;
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(-1.0, 1.0, -1.0, 1.0, -100.0, 100.0);
+        glOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar);
         glMatrixMode(GL_MODELVIEW);
     end;
 end;
@@ -613,10 +635,10 @@ begin
 
         // create model matrix
         m_ModelMatrix := TQRMatrix4x4.Identity;
-        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, -0.6, -1.0));
+        m_ModelMatrix.Translate(TQRVector3D.Create(0.0, -0.03, -1.5));
         m_ModelMatrix.Rotate(-(PI / 4), TQRVector3D.Create(1.0, 0.0, 0.0)); // -45°
         m_ModelMatrix.Rotate(-(PI / 4), TQRVector3D.Create(0.0, 0.0, 1.0)); // -45°
-        m_ModelMatrix.Scale(TQRVector3D.Create(0.02, 0.02, 0.02));
+        m_ModelMatrix.Scale(TQRVector3D.Create(0.001, 0.001, 0.001));
 
         textureTable := ITextureTable.Create;
 
@@ -693,6 +715,9 @@ begin
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
+
+    // correct the ray position to be conform with the model
+    rayPos.Y := rayPos.Y + 0.35;
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);

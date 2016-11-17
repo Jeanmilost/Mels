@@ -1059,6 +1059,22 @@ type
 
             {$REGION 'Documentation'}
             {**
+             Gets the cached mesh item count
+             @return(The cached mesh item count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached aligned-axis bounding box tree item count
+             @return(The cached aligned-axis bounding box tree item count)
+            }
+            {$ENDREGION}
+            function GetAABBTreeCount: NativeUInt; virtual;
+
+            {$REGION 'Documentation'}
+            {**
              Gets mesh at index
              @param(index Index)
              @return(Mesh, @nil if not found or on error)
@@ -1209,6 +1225,20 @@ type
 
         // Properties
         public
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached mesh item count
+            }
+            {$ENDREGION}
+            property MeshCount: NativeUInt read GetMeshCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached aligned-axis bounding box tree item count
+            }
+            {$ENDREGION}
+            property AABBTreeCount: NativeUInt read GetAABBTreeCount;
+
             {$REGION 'Documentation'}
             {**
              Gets or sets the mesh at index
@@ -2203,6 +2233,20 @@ end;
 function TQRModelJob.GetTextureExtCount: NativeInt;
 begin
     REsult := Length(m_TextureExt);
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetMeshCount: NativeUInt;
+begin
+    m_pLock.Lock;
+    Result := m_pCache.MeshCount;
+    m_pLock.Unlock;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetAABBTreeCount: NativeUInt;
+begin
+    m_pLock.Lock;
+    Result := m_pCache.AABBTreeCount;
+    m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetMesh(index: NativeUInt): PQRMesh;

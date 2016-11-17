@@ -30,6 +30,7 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     System.Math,
      System.Generics.Collections,
      System.Variants,
      Vcl.Graphics,
@@ -109,20 +110,19 @@ type
             IFrames = TObjectDictionary<NativeUInt, IFrame>;
 
         private
-            m_pFrames:              IFrames;
-            m_pOptions:             TOptions;
-            m_hDC:                  THandle;
-            m_hRC:                  THandle;
-            m_pMD2:                 TQRMD2Group;
-            m_pShader:              TQRShaderOpenGL;
-            m_pInterpolationShader: TQRShaderOpenGL;
-            m_pCollidePolysShader:  TQRShaderOpenGL;
-            m_ProjectionMatrix:     TQRMatrix4x4;
-            m_ViewMatrix:           TQRMatrix4x4;
-            m_PreviousTime:         NativeUInt;
-            m_Gesture:              Integer;
-            m_AnimCached:           Boolean;
-            m_Cached:               Boolean;
+            m_pFrames:          IFrames;
+            m_pOptions:         TOptions;
+            m_hDC:              THandle;
+            m_hRC:              THandle;
+            m_pMD2:             TQRMD2Group;
+            m_pTextureShader:   TQRShaderOpenGL;
+            m_pColorShader:     TQRShaderOpenGL;
+            m_ProjectionMatrix: TQRMatrix4x4;
+            m_ViewMatrix:       TQRMatrix4x4;
+            m_PreviousTime:     NativeUInt;
+            m_Gesture:          Integer;
+            m_AnimCached:       Boolean;
+            m_Cached:           Boolean;
 
             {**
              Configures OpenGL
@@ -163,12 +163,9 @@ type
              Detects collision with mouse pointer and draws the polygons in collision
              @param(modelMatrix Model matrix)
              @param(pAABBTree Aligned-axis bounding box tree)
-             @param(useShader Whether or not shader are used to draw model)
-             @param(collisions Whether or not collisions are visible)
             }
             procedure DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
-                                                const pAABBTree: TQRAABBTree;
-                                          useShader, collisions: Boolean);
+                                                const pAABBTree: TQRAABBTree);
 
             {**
              Prepres the shader to draw the model
@@ -297,32 +294,28 @@ constructor TMainForm.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
 
-    m_pFrames              := IFrames.Create([doOwnsValues]);
-    m_pOptions             := nil;
-    m_hDC                  := 0;
-    m_hRC                  := 0;
-    m_pMD2                 := nil;
-    m_pShader              := nil;
-    m_pInterpolationShader := nil;
-    m_pCollidePolysShader  := nil;
-    m_PreviousTime         := GetTickCount;
-    m_Gesture              := 0;
-    m_AnimCached           := False;
-    m_Cached               := False;
+    m_pFrames        := IFrames.Create([doOwnsValues]);
+    m_pOptions       := nil;
+    m_hDC            := 0;
+    m_hRC            := 0;
+    m_pMD2           := nil;
+    m_pTextureShader := nil;
+    m_pColorShader   := nil;
+    m_PreviousTime   := GetTickCount;
+    m_Gesture        := 0;
+    m_AnimCached     := False;
+    m_Cached         := False;
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TMainForm.Destroy;
 begin
     m_pFrames.Free;
 
-    // delete shader
-    m_pShader.Free;
+    // delete texture shader
+    m_pTextureShader.Free;
 
-    // delete shader used to interpolate meshes
-    m_pInterpolationShader.Free;
-
-    // delete shader used to show polygons in collision with mouse pointer
-    m_pCollidePolysShader.Free;
+    // delete color shader
+    m_pColorShader.Free;
 
     // delete MD2 model
     m_pMD2.Free;
@@ -343,7 +336,7 @@ begin
         Exit;
 
     // do show model in full screen?
-    if (m_pOptions.ckFullScreen.Checked and (not m_pOptions.ckUseOrthoMatrix.Checked)) then
+    if (m_pOptions.ckFullScreen.Checked) then
     begin
         BorderStyle := bsNone;
         WindowState := wsMaximized;
@@ -354,14 +347,6 @@ begin
         BorderStyle := bsSizeable;
         WindowState := wsNormal;
         ShowCursor(True);
-    end;
-
-    // use orthogonal matrix?
-    if (m_pOptions.ckUseOrthoMatrix.Checked) then
-    begin
-        // stop form resizing as perspective may be distorted by the viewport
-        BorderStyle := bsSingle;
-        BorderIcons := BorderIcons - [biMaximize];
     end;
 
     BringToFront;
@@ -409,22 +394,33 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormResize(pSender: TObject);
 var
-    position, direction, up: TQRVector3D;
+    position, direction, up:      TQRVector3D;
+    fov, zNear, zFar, maxX, maxY: Single;
+    widthF, heightF, aspect:      GLfloat;
 begin
+    fov   := 45.0;
+    zNear := 1.0;
+    zFar  := 200.0;
+
+    widthF  := ClientWidth;
+    heightF := ClientHeight;
+
+    // is width out of bounds?
+    if (widthF = 0.0) then
+        widthF := 1.0;
+
+    // is height out of bounds?
+    if (heightF = 0.0) then
+        heightF := 1.0;
+
+    aspect  := widthF / heightF;
+
     // create projection matrix (will not be modified while execution)
-    if (m_pOptions.ckUseOrthoMatrix.Checked) then
-        m_ProjectionMatrix := TQRModelRenderer.GetOrtho(-1.0,
-                                                         1.0,
-                                                        -1.0,
-                                                         1.0,
-                                                         1.0,
-                                                         200.0)
-    else
-        m_ProjectionMatrix := TQRModelRenderer.GetProjection(45.0,
-                                                             ClientWidth,
-                                                             ClientHeight,
-                                                             1.0,
-                                                             200.0);
+    m_ProjectionMatrix := TQRModelRenderer.GetPerspective(fov,
+                                                          aspect,
+                                                          zNear,
+                                                          zFar,
+                                                          m_pOptions.ckUseOrthoMatrix.Checked);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -436,11 +432,14 @@ begin
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, not m_pOptions.ckUseShader.Checked);
 
     // configure matrices for OpenGL direct mode
-    if (not m_pOptions.ckUseShader.Checked and m_pOptions.ckUseOrthoMatrix.Checked) then
+    if (m_pOptions.ckUseOrthoMatrix.Checked) then
     begin
+        maxY := zNear * Tan(fov * PI / 360.0);
+        maxX := maxY  * aspect;
+
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity;
-        glOrtho(-1.0, 1.0, -1.0, 1.0, 1.0, 200.0);
+        glOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar);
         glMatrixMode(GL_MODELVIEW);
     end;
 end;
@@ -534,28 +533,28 @@ begin
         pVertexPrg   := nil;
         pFragmentPrg := nil;
 
-        // default shader still not loaded?
-        if (not Assigned(m_pShader)) then
+        // texture shader still not loaded?
+        if (not Assigned(m_pTextureShader)) then
             try
                 // found resource containing the vertex shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_DEFAULT_VERTEX_SHADER'), RT_RCDATA) <> 0)
+                if (FindResource(hPackageInstance, PChar('ID_TEXTURE_VERTEX_SHADER'), RT_RCDATA) <> 0)
                 then
                     pVertexPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_DEFAULT_VERTEX_SHADER'),
+                                                         PChar('ID_TEXTURE_VERTEX_SHADER'),
                                                          RT_RCDATA);
 
                 // found resource containing the fragment shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_DEFAULT_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
+                if (FindResource(hPackageInstance, PChar('ID_TEXTURE_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_DEFAULT_FRAGMENT_SHADER'),
+                                                         PChar('ID_TEXTURE_FRAGMENT_SHADER'),
                                                          RT_RCDATA);
 
-                // create default shader
-                m_pShader := TQRShaderOpenGL.Create;
+                // create texture shader
+                m_pTextureShader := TQRShaderOpenGL.Create;
 
                 // try to build shader
-                if (not BuildShader(pVertexPrg, pFragmentPrg, m_pShader)) then
+                if (not BuildShader(pVertexPrg, pFragmentPrg, m_pTextureShader)) then
                 begin
                     Result := False;
                     Exit;
@@ -569,63 +568,28 @@ begin
         pVertexPrg   := nil;
         pFragmentPrg := nil;
 
-        // interpolation shader still not loaded?
-        if (not Assigned(m_pInterpolationShader)) then
+        // color shader still not loaded?
+        if (not Assigned(m_pColorShader)) then
             try
                 // found resource containing the vertex shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_INTERPOLATED_VERTEX_SHADER'), RT_RCDATA) <> 0)
+                if (FindResource(hPackageInstance, PChar('ID_COLOR_VERTEX_SHADER'), RT_RCDATA) <> 0)
                 then
                     pVertexPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_INTERPOLATED_VERTEX_SHADER'),
+                                                         PChar('ID_COLOR_VERTEX_SHADER'),
                                                          RT_RCDATA);
 
                 // found resource containing the fragment shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_INTERPOLATED_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
+                if (FindResource(hPackageInstance, PChar('ID_COLOR_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_INTERPOLATED_FRAGMENT_SHADER'),
+                                                         PChar('ID_COLOR_FRAGMENT_SHADER'),
                                                          RT_RCDATA);
 
-                // create interpolation shader
-                m_pInterpolationShader := TQRShaderOpenGL.Create;
+                // create color shader
+                m_pColorShader := TQRShaderOpenGL.Create;
 
                 // try to build shader
-                if (not BuildShader(pVertexPrg, pFragmentPrg, m_pInterpolationShader)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
-            finally
-                // delete resource streams, if needed
-                pVertexPrg.Free;
-                pFragmentPrg.Free;
-            end;
-
-        pVertexPrg   := nil;
-        pFragmentPrg := nil;
-
-        // collide shader still not loaded?
-        if (not Assigned(m_pCollidePolysShader)) then
-            try
-                // found resource containing the vertex shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_COLLIDE_POLYGONS_VERTEX_SHADER'), RT_RCDATA) <> 0)
-                then
-                    pVertexPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_COLLIDE_POLYGONS_VERTEX_SHADER'),
-                                                         RT_RCDATA);
-
-                // found resource containing the fragment shader program to load?
-                if (FindResource(hPackageInstance, PChar('ID_COLLIDE_POLYGONS_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
-                then
-                    pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_COLLIDE_POLYGONS_FRAGMENT_SHADER'),
-                                                         RT_RCDATA);
-
-                // create collide shader
-                m_pCollidePolysShader := TQRShaderOpenGL.Create;
-
-                // try to build shader
-                if (not BuildShader(pVertexPrg, pFragmentPrg, m_pCollidePolysShader)) then
+                if (not BuildShader(pVertexPrg, pFragmentPrg, m_pColorShader)) then
                 begin
                     Result := False;
                     Exit;
@@ -788,15 +752,15 @@ begin
         // orthogonal matrix is used?
         if (m_pOptions.ckUseOrthoMatrix.Checked) then
         begin
-            // place model into 3D world
-            m_pMD2.Translation^ := TQRVector3D.Create(0.0,  0.05, -10.0);
-            m_pMD2.Scaling^     := TQRVector3D.Create(0.03, 0.03,  0.03);
+            // translate and scale model
+            m_pMD2.Translation^ := TQRVector3D.Create(0.0,   0.0,   -1.5);
+            m_pMD2.Scaling^     := TQRVector3D.Create(0.015, 0.015,  0.015);
         end
         else
         begin
-            // place model into 3D world
-            m_pMD2.Translation^ := TQRVector3D.Create(0.0,    0.0,    -1.5);
-            m_pMD2.Scaling^     := TQRVector3D.Create(0.0075, 0.0075,  0.0075);
+            // translate and scale model
+            m_pMD2.Translation^ := TQRVector3D.Create(0.0,  0.05, -1.5);
+            m_pMD2.Scaling^     := TQRVector3D.Create(0.02, 0.02,  0.02);
         end;
 
         // rotate model
@@ -874,8 +838,7 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
-                                              const pAABBTree: TQRAABBTree;
-                                        useShader, collisions: Boolean);
+                                              const pAABBTree: TQRAABBTree);
 var
     rect:                                        TQRRect;
     rayPos, rayDir:                              TQRVector3D;
@@ -888,7 +851,7 @@ var
     polygonCount, polygonToDrawCount, i, offset: NativeUInt;
     uniform:                                     GLint;
 begin
-    if ((not collisions) or (not Assigned(pAABBTree))) then
+    if ((not m_pOptions.ckShowCollisions.Checked) or (not Assigned(pAABBTree))) then
         Exit;
 
     // calculate client rect in OpenGL coordinates
@@ -898,12 +861,19 @@ begin
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(1.5);
+    // orthogonal matrix is used?
+    if (not m_pOptions.ckUseOrthoMatrix.Checked) then
+    begin
+        // update ray position to match with the model
+        rayPos.Y := rayPos.Y + 0.025;
+
+        // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
+        // its image on the screen, but it is placed very far in relation to the screen. In the model
+        // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
+        // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
+        // feet are not always well detected), but this is efficient for the majority of cases
+        rayPos.MulAndAssign(1.35);
+    end;
 
     // transform the ray to be on the same coordinates system as the model
     invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
@@ -978,13 +948,13 @@ begin
     end;
 
     // do use shader?
-    if (useShader) then
+    if (m_pOptions.ckUseShader.Checked) then
     begin
         // bind shader program
-        m_pCollidePolysShader.Use(True);
+        m_pColorShader.Use(True);
 
         // get perspective (or projection) matrix slot from shader
-        uniform := TQROpenGLHelper.GetUniform(m_pCollidePolysShader, EQR_SA_PerspectiveMatrix);
+        uniform := TQROpenGLHelper.GetUniform(m_pColorShader, EQR_SA_PerspectiveMatrix);
 
         // found it?
         if (uniform = -1) then
@@ -994,7 +964,7 @@ begin
         glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(m_ProjectionMatrix.GetPtr));
 
         // get view (or camera) matrix slot from shader
-        uniform := TQROpenGLHelper.GetUniform(m_pCollidePolysShader, EQR_SA_CameraMatrix);
+        uniform := TQROpenGLHelper.GetUniform(m_pColorShader, EQR_SA_CameraMatrix);
 
         // found it?
         if (uniform = -1) then
@@ -1004,7 +974,7 @@ begin
         glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(m_ViewMatrix.GetPtr));
 
         // unbind shader program
-        m_pCollidePolysShader.Use(False);
+        m_pColorShader.Use(False);
 
         // configure OpenGL to draw polygons in collision
         glDisable(GL_TEXTURE_2D);
@@ -1012,7 +982,7 @@ begin
         glDisable(GL_DEPTH_TEST);
 
         // draw mesh
-        TQROpenGLHelper.Draw(mesh, modelMatrix, textures, m_pCollidePolysShader);
+        TQROpenGLHelper.Draw(mesh, modelMatrix, textures, m_pColorShader);
 
         // restore previous OpenGL parameters
         glEnable(GL_DEPTH_TEST);
@@ -1144,7 +1114,8 @@ procedure TMainForm.OnDrawModelItem(const pGroup: TQRModelGroup;
                           const pMesh, pNextMesh: PQRMesh;
                   const pAABBTree, pNextAABBTree: TQRAABBTree);
 var
-    mesh: TQRMesh;
+    mesh:            TQRMesh;
+    pNextMeshToDraw: PQRMesh;
 begin
     if (not Assigned(pModel)) then
         Exit;
@@ -1152,95 +1123,50 @@ begin
     if (not Assigned(pMesh)) then
         Exit;
 
-    // do interpolate frames?
-    if ((not Assigned(pNextMesh)) or (interpolationFactor <= 0.0)) then
-    begin
-        // do use shader?
-        if (m_pOptions.ckUseShader.Checked) then
-        begin
-            // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pShader, textures);
-
-            // draw mesh
-            TQROpenGLHelper.Draw(pMesh^, matrix, textures, m_pShader);
-        end
-        else
-            // draw mesh
-            TQROpenGLHelper.Draw(pMesh^, matrix, textures);
-
-        DetectAndDrawCollisions(matrix,
-                                pAABBTree,
-                                m_pOptions.ckUseShader.Checked,
-                                m_pOptions.ckShowCollisions.Checked);
-
-        Exit;
-    end
+    if (not Assigned(pNextMesh)) then
+        pNextMeshToDraw := pMesh
     else
-    if (interpolationFactor >= 1.0) then
-    begin
-        // do use shader?
-        if (m_pOptions.ckUseShader.Checked) then
-        begin
-            // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pShader, textures);
-
-            // draw mesh
-            TQROpenGLHelper.Draw(pNextMesh^, matrix, textures, m_pShader);
-        end
-        else
-            // draw mesh
-            TQROpenGLHelper.Draw(pNextMesh^, matrix, textures);
-
-        DetectAndDrawCollisions(matrix,
-                                pNextAABBTree,
-                                m_pOptions.ckUseShader.Checked,
-                                m_pOptions.ckShowCollisions.Checked);
-
-        Exit;
-    end;
+        pNextMeshToDraw := pNextMesh;
 
     // do use shader?
     if (m_pOptions.ckUseShader.Checked) then
     begin
         // prepare shader to draw the model
-        PrepareShaderToDrawModel(m_pInterpolationShader, textures);
+        PrepareShaderToDrawModel(m_pTextureShader, textures);
 
         // draw mesh
         TQROpenGLHelper.Draw(pMesh^,
-                             pNextMesh^,
+                             pNextMeshToDraw^,
                              matrix,
                              interpolationFactor,
                              textures,
-                             m_pInterpolationShader);
+                             m_pTextureShader);
     end
     else
     begin
         // get next frame to draw
-        TQRModelHelper.Interpolate(interpolationFactor, pMesh^, pNextMesh^, mesh);
+        TQRModelHelper.Interpolate(interpolationFactor, pMesh^, pNextMeshToDraw^, mesh);
 
         // draw mesh
         TQROpenGLHelper.Draw(mesh, matrix, textures);
     end;
 
-    DetectAndDrawCollisions(matrix,
-                            pAABBTree,
-                            m_pOptions.ckUseShader.Checked,
-                            m_pOptions.ckShowCollisions.Checked);
+    DetectAndDrawCollisions(matrix, pAABBTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.OnDrawCustomModelItem(const pGroup: TQRModelGroup;
-                                      pModel: TQRModel;
-                              const textures: TQRTextures;
-                                const matrix: TQRMatrix4x4;
-                            index, nextIndex: NativeInt;
-                   const interpolationFactor: Double);
+                                                pModel: TQRModel;
+                                        const textures: TQRTextures;
+                                          const matrix: TQRMatrix4x4;
+                                      index, nextIndex: NativeInt;
+                             const interpolationFactor: Double);
 var
     pMD2Model:                    TQRMD2Model;
-    meshCount:                    NativeUInt;
+    meshCount:                    NativeInt;
     pMeshToDraw, pNextMeshToDraw: PQRMesh;
     pAABBTree:                    TQRAABBTree;
-    pFrame, pNextFrame:           IFrame;
     interpolated:                 Boolean;
+    pFrame, pNextFrame:           IFrame;
 begin
     // no model to draw?
     if (not Assigned(pModel)) then
@@ -1262,27 +1188,9 @@ begin
 
     pMeshToDraw     := nil;
     pNextMeshToDraw := nil;
-    pAABBTree       := nil;
     interpolated    := False;
 
-    // do interpolate frames?
-    if (interpolationFactor <= 0.0) then
-    begin
-        // get frame to draw
-        pFrame      := GetFrame(index, pMD2Model, m_pOptions.ckShowCollisions.Checked);
-        pMeshToDraw := @pFrame.m_pMesh;
-        pAABBTree   := @pFrame.m_pAABBTree;
-    end
-    else
-    if (interpolationFactor >= 1.0) then
-    begin
-        // get frame to draw
-        pFrame      := GetFrame(nextIndex, pMD2Model, m_pOptions.ckShowCollisions.Checked);
-        pMeshToDraw := @pFrame.m_pMesh;
-        pAABBTree   := @pFrame.m_pAABBTree;
-    end
-    else
-    begin
+    try
         // get frame to draw, and frame to interpolate with
         pFrame     := GetFrame(index,     pMD2Model, m_pOptions.ckShowCollisions.Checked);
         pNextFrame := GetFrame(nextIndex, pMD2Model, m_pOptions.ckShowCollisions.Checked);
@@ -1308,17 +1216,16 @@ begin
         end;
 
         // get aligned-axis bounding box tree to use to detect collisions
-        pAABBTree := @pFrame.m_pAABBTree;
-    end;
+        pAABBTree := pFrame.m_pAABBTree;
 
-    // do use shader?
-    if (m_pOptions.ckUseShader.Checked) then
-    begin
-        // do interpolate meshes on the shader side?
-        if ((not interpolated) and Assigned(pNextMeshToDraw)) then
+        // do use shader?
+        if (not m_pOptions.ckUseShader.Checked) then
+            // draw mesh
+            TQROpenGLHelper.Draw(pMeshToDraw^, matrix, textures)
+        else
         begin
             // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pInterpolationShader, textures);
+            PrepareShaderToDrawModel(m_pTextureShader, textures);
 
             // draw mesh
             TQROpenGLHelper.Draw(pMeshToDraw^,
@@ -1326,28 +1233,14 @@ begin
                                  matrix,
                                  interpolationFactor,
                                  textures,
-                                 m_pInterpolationShader);
-        end
-        else
-        begin
-            // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pShader, textures);
-
-            // draw mesh
-            TQROpenGLHelper.Draw(pMeshToDraw^, matrix, textures, m_pShader);
+                                 m_pTextureShader);
         end;
-    end
-    else
-        // draw mesh
-        TQROpenGLHelper.Draw(pMeshToDraw^, matrix, textures);
+    finally
+        if (interpolated) then
+            Dispose(pMeshToDraw);
+    end;
 
-    if (interpolated) then
-        Dispose(pMeshToDraw);
-
-    DetectAndDrawCollisions(matrix,
-                            pAABBTree,
-                            m_pOptions.ckUseShader.Checked,
-                            m_pOptions.ckShowCollisions.Checked);
+    DetectAndDrawCollisions(matrix, pAABBTree);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.OnIdle(pSender: TObject; var done: Boolean);
@@ -1362,8 +1255,13 @@ var
     now:         NativeUInt;
     elapsedTime: Double;
 begin
+    if ((m_hDC = 0) or (m_hRC = 0)) then
+        Exit;
+
+    wglMakeCurrent(m_hDC, m_hRC);
+
     // calculate time interval
-    now            := GetTickCount;
+    now            :=  GetTickCount;
     elapsedTime    := (now - m_PreviousTime);
     m_PreviousTime :=  now;
 
