@@ -68,9 +68,8 @@ __fastcall TMainForm::TMainForm(TComponent* pOwner) :
     m_hDC(NULL),
     m_hRC(NULL),
     m_pMD3(NULL),
-    m_pShader(NULL),
-    m_pInterpolationShader(NULL),
-    m_pCollidePolysShader(NULL),
+    m_pTextureShader(NULL),
+    m_pColorShader(NULL),
     m_PreviousTime(::GetTickCount()),
     m_CurTorsoGesture(0),
     m_CurLegsGesture(0),
@@ -93,17 +92,13 @@ __fastcall TMainForm::~TMainForm()
 
     m_Cache.clear();
 
-    // delete shader
-    if (m_pShader)
-        delete m_pShader;
+    // delete texture shader
+    if (m_pTextureShader)
+        delete m_pTextureShader;
 
-    // delete shader used to interpolate meshes
-    if (m_pInterpolationShader)
-        delete m_pInterpolationShader;
-
-    // delete shader used to show polygons in collision with mouse pointer
-    if (m_pCollidePolysShader)
-        delete m_pCollidePolysShader;
+    // delete color shader
+    if (m_pColorShader)
+        delete m_pColorShader;
 
     // delete MD3 model
     if (m_pMD3)
@@ -118,6 +113,25 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     // create and show options to user
     m_pOptions = new TOptions(this);
     m_pOptions->ShowModal();
+
+    // do show model in full screen?
+    if (m_pOptions->ckFullScreen->Checked)
+    {
+        BorderStyle = bsNone;
+        WindowState = wsMaximized;
+        ::ShowCursor(m_pOptions->ckShowCollisions && m_pOptions->rgCacheOptions->ItemIndex != 1);
+    }
+    else
+    {
+        BorderStyle = bsSizeable;
+        WindowState = wsNormal;
+        ::ShowCursor(true);
+    }
+
+    // select correct cursor to use
+    paRendering->Cursor = (m_pOptions->ckShowCollisions->Checked ? crCross : crDefault);
+
+    BringToFront();
 
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(paRendering->Handle, m_hDC, m_hRC))
@@ -162,25 +176,41 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
 {
-    // do use shader?
-    if (m_pOptions->ckUseShader->Checked)
+    const float   fov    = 45.0f;
+    const float   zNear  = 1.0f;
+    const float   zFar   = 200.0f;
+    const GLfloat aspect = (GLfloat)ClientWidth / (ClientHeight ? (GLfloat)ClientHeight : 1.0f);
+
+    // create projection matrix (will not be modified while execution)
+    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(fov,
+                                                         aspect,
+                                                         zNear,
+                                                         zFar,
+                                                         m_pOptions->ckUseOrthoMatrix->Checked);
+
+    TQRVector3D position(0.0f, 0.0f, 0.0f);
+    TQRVector3D direction(0.0f, 0.0f, 1.0f);
+    TQRVector3D up(0.0f, 1.0f, 0.0f);
+
+    // create view matrix (will not be modified while execution)
+    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+
+    QR_OpenGLHelper::CreateViewport(ClientWidth,
+                                    ClientHeight,
+                                    !m_pOptions->ckUseShader->Checked &&
+                                    !m_pOptions->ckUseOrthoMatrix->Checked);
+
+    // configure matrices for OpenGL direct mode
+    if (m_pOptions->ckUseOrthoMatrix->Checked)
     {
-        // create projection matrix (will not be modified while execution)
-        m_ProjectionMatrix = QR_OpenGLHelper::GetProjection(45.0f,
-                                                            ClientWidth,
-                                                            ClientHeight,
-                                                            1.0f,
-                                                            200.0f);
+        const float maxY = zNear * std::tanf(fov * M_PI / 360.0);
+        const float maxX = maxY  * aspect;
 
-        TQRVector3D position(0.0f, 0.0f, 0.0f);
-        TQRVector3D direction(0.0f, 0.0f, 1.0f);
-        TQRVector3D up(0.0f, 1.0f, 0.0f);
-
-        // create view matrix (will not be modified while execution)
-        m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar);
+        glMatrixMode(GL_MODELVIEW);
     }
-
-    QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_pOptions->ckUseShader->Checked);
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormKeyPress(TObject* pSender, WideChar& key)
@@ -263,6 +293,11 @@ void __fastcall TMainForm::RenderGLScene()
     const double      elapsedTime    = (now - m_PreviousTime);
                       m_PreviousTime = now;
 
+    if (!m_hDC || !m_hRC)
+        return;
+
+    wglMakeCurrent(m_hDC, m_hRC);
+
     // clear scene
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -316,77 +351,44 @@ bool TMainForm::LoadModel()
 
     m_Cache.clear();
 
-    // do show model in full screen?
-    if (m_pOptions->ckFullScreen->Checked)
-    {
-        BorderStyle = bsNone;
-        WindowState = wsMaximized;
-        ::ShowCursor(m_pOptions->ckShowCollisions && m_pOptions->rgCacheOptions->ItemIndex != 1);
-    }
-    else
-    {
-        BorderStyle = bsSizeable;
-        WindowState = wsNormal;
-        ::ShowCursor(true);
-    }
-
     // do use shader?
     if (m_pOptions->ckUseShader->Checked)
     {
-        // default shader still not loaded?
-        if (!m_pShader)
+        // color shader still not loaded?
+        if (!m_pColorShader)
         {
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
-                                                                          ID_DEFAULT_VERTEX_SHADER,
+                                                                          ID_COLOR_VERTEX_SHADER,
                                                                           L"DATA"));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
-                                                                            ID_DEFAULT_FRAGMENT_SHADER,
+                                                                            ID_COLOR_FRAGMENT_SHADER,
                                                                             L"DATA"));
 
-            // create shader used to draw model
-            m_pShader = new QR_Shader_OpenGL();
+            // create color shader
+            m_pColorShader = new QR_Shader_OpenGL();
 
             // try to build shader
-            if (!BuildShader(pVertexPrg.get(), pFragmentPrg.get(), m_pShader))
+            if (!BuildShader(pVertexPrg.get(), pFragmentPrg.get(), m_pColorShader))
                 return false;
         }
 
-        // interpolated shader still not loaded?
-        if (!m_pInterpolationShader)
+        // texture shader still not loaded?
+        if (!m_pTextureShader)
         {
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
-                                                                          ID_INTERPOLATED_VERTEX_SHADER,
+                                                                          ID_TEXTURE_VERTEX_SHADER,
                                                                           L"DATA"));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
-                                                                            ID_INTERPOLATED_FRAGMENT_SHADER,
+                                                                            ID_TEXTURE_FRAGMENT_SHADER,
                                                                             L"DATA"));
 
-            // create shader used to draw interpolated model
-            m_pInterpolationShader = new QR_Shader_OpenGL();
+            // create texture shader
+            m_pTextureShader = new QR_Shader_OpenGL();
 
             // try to build shader
-            if (!BuildShader(pVertexPrg.get(), pFragmentPrg.get(), m_pInterpolationShader))
-                return false;
-        }
-
-        // polygons in collision shader still not loaded?
-        if (!m_pCollidePolysShader)
-        {
-            // load shader programs from resource
-            std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
-                                                                          ID_COLLIDE_POLYGONS_VERTEX_SHADER,
-                                                                          L"DATA"));
-            std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
-                                                                            ID_COLLIDE_POLYGONS_FRAGMENT_SHADER,
-                                                                            L"DATA"));
-
-            // create shader used to show polygons in collision with mouse cursor
-            m_pCollidePolysShader = new QR_Shader_OpenGL();
-
-            // try to build shader
-            if (!BuildShader(pVertexPrg.get(), pFragmentPrg.get(), m_pCollidePolysShader))
+            if (!BuildShader(pVertexPrg.get(), pFragmentPrg.get(), m_pTextureShader))
                 return false;
         }
     }
@@ -458,17 +460,30 @@ bool TMainForm::LoadModel()
         pModelStream.release();
     }
 
+    // orthogonal matrix is used?
+    if (m_pOptions->ckUseOrthoMatrix->Checked)
+    {
+        // translate and scale model
+        *m_pMD3->Translation = TQRVector3D(0.0f,   -0.06f,  -1.5f);
+        *m_pMD3->Scaling     = TQRVector3D(0.011f,  0.011f,  0.011f);
+    }
+    else
+    {
+        // translate and scale model
+        *m_pMD3->Translation = TQRVector3D(0.0f,   -0.1f,   -1.5f);
+        *m_pMD3->Scaling     = TQRVector3D(0.015f,  0.015f,  0.015f);
+    }
+
+    // rotate model
+     m_pMD3->RotationX = -M_PI_2; // -90°
+     m_pMD3->RotationY = -M_PI_4; // -45°
+
     m_CurTorsoGesture = EQR_AG_MD3_Torso_Stand;
     m_CurLegsGesture  = EQR_AG_MD3_Legs_Walk;
 
     // set default animation gesture
     m_pMD3->SetAnimation(L"upper", (EQRMD3AnimationGesture)m_CurTorsoGesture);
     m_pMD3->SetAnimation(L"lower", (EQRMD3AnimationGesture)m_CurLegsGesture);
-
-    // place model into 3D world
-    *m_pMD3->Translation = TQRVector3D(0.0f, -5.0f, -100.0f);
-     m_pMD3->RotationX   = -M_PI_2; // -90°
-     m_pMD3->RotationY   = -M_PI_4; // -45°
 
     return true;
 }
@@ -547,37 +562,35 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir(0.0f, 0.0f, 1.0f);
+    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
 
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(42.5f);
-
-    // workaround to access to matrix inside a constant function
-    TQRMatrix4x4* pModelMatrix = const_cast<TQRMatrix4x4*>(&modelMatrix);
-
-    // could cast matrix?
-    if (!pModelMatrix)
-        return;
+    // orthogonal matrix is used?
+    if (!m_pOptions->ckUseOrthoMatrix->Checked)
+    {
+        // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
+        // its image on the screen, but it is placed very far in relation to the screen. In the model
+        // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
+        // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
+        // feet are not always well detected), but this is efficient for the majority of cases
+        rayPos.MulAndAssign(TQRVector3D(0.8f, 0.6f, 0.8f));
+    }
+    else
+        // here the correction is also applied because the correction was distorted while the
+        // position is removed below
+        rayPos.MulAndAssign(TQRVector3D(0.45f, 0.4f, 0.3f));
 
     float determinant;
 
-    // get model inverse matrix
-    TQRMatrix4x4 rayMatrix = pModelMatrix->Inverse(determinant);
-
-    // apply inverted model matrix to ray position
-    rayPos = rayMatrix.Transform(rayPos);
+    // transform the ray to be on the same coordinates system as the model
+    TQRMatrix4x4 invertMatrix = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
+    rayPos                    = invertMatrix.Transform(rayPos);
 
     // remove position from matrix
-    rayMatrix.Table[3][0] = 0.0f;
-    rayMatrix.Table[3][1] = 0.0f;
-    rayMatrix.Table[3][2] = 0.0f;
+    invertMatrix.Table[3][0] = 0.0f;
+    invertMatrix.Table[3][1] = 0.0f;
+    invertMatrix.Table[3][2] = 0.0f;
 
-    // apply inverted model matrix to ray direction
-    rayDir = rayMatrix.Transform(rayDir);
+    rayDir = invertMatrix.Transform(rayDir);
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());
@@ -654,11 +667,10 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
     if (m_pOptions->ckUseShader->Checked)
     {
         // bind shader program
-        m_pCollidePolysShader->Use(true);
+        m_pColorShader->Use(true);
 
         // get perspective (or projection) matrix slot from shader
-        GLint uniform = QR_OpenGLHelper::GetUniform(m_pCollidePolysShader,
-                                                    EQR_SA_PerspectiveMatrix);
+        GLint uniform = QR_OpenGLHelper::GetUniform(m_pColorShader, EQR_SA_PerspectiveMatrix);
 
         // found it?
         if (uniform == -1)
@@ -668,7 +680,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         glUniformMatrix4fv(uniform, 1, GL_FALSE, m_ProjectionMatrix.GetPtr());
 
         // get view (or camera) matrix slot from shader
-        uniform = QR_OpenGLHelper::GetUniform(m_pCollidePolysShader, EQR_SA_CameraMatrix);
+        uniform = QR_OpenGLHelper::GetUniform(m_pColorShader, EQR_SA_CameraMatrix);
 
         // found it?
         if (uniform == -1)
@@ -678,7 +690,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         glUniformMatrix4fv(uniform, 1, GL_FALSE, m_ViewMatrix.GetPtr());
 
         // unbind shader program
-        m_pCollidePolysShader->Use(false);
+        m_pColorShader->Use(false);
 
         // configure OpenGL to draw polygons in collision
         glDisable(GL_TEXTURE_2D);
@@ -688,7 +700,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         TQRTextures textures;
 
         // draw mesh
-        QR_OpenGLHelper::Draw(mesh, modelMatrix, textures, m_pCollidePolysShader);
+        QR_OpenGLHelper::Draw(mesh, modelMatrix, textures, m_pColorShader);
 
         // restore previous OpenGL parameters
         glEnable(GL_DEPTH_TEST);
@@ -834,10 +846,10 @@ void __fastcall TMainForm::OnDrawModelItem(TQRModelGroup* const pGroup,
         if (m_pOptions->ckUseShader->Checked)
         {
             // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pShader, L"", textures);
+            PrepareShaderToDrawModel(m_pTextureShader, L"", textures);
 
             // draw mesh
-            QR_OpenGLHelper::Draw(*pMesh, matrix, textures, m_pShader);
+            QR_OpenGLHelper::Draw(*pMesh, matrix, textures, m_pTextureShader);
         }
         else
             // draw mesh
@@ -851,7 +863,7 @@ void __fastcall TMainForm::OnDrawModelItem(TQRModelGroup* const pGroup,
     if (m_pOptions->ckUseShader->Checked)
     {
         // prepare shader to draw the model
-        PrepareShaderToDrawModel(m_pInterpolationShader, L"", textures);
+        PrepareShaderToDrawModel(m_pTextureShader, L"", textures);
 
         // draw mesh
         QR_OpenGLHelper::Draw(*pMesh,
@@ -859,7 +871,7 @@ void __fastcall TMainForm::OnDrawModelItem(TQRModelGroup* const pGroup,
                                matrix,
                                interpolationFactor,
                                textures,
-                               m_pInterpolationShader);
+                               m_pTextureShader);
     }
     else
     {
@@ -940,7 +952,7 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
         if (!interpolated && pNextMeshToDraw)
         {
             // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pInterpolationShader, L"", textures);
+            PrepareShaderToDrawModel(m_pTextureShader, L"", textures);
 
             // draw mesh
             QR_OpenGLHelper::Draw(*pMeshToDraw,
@@ -948,15 +960,15 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
                                    matrix,
                                    interpolationFactor,
                                    textures,
-                                   m_pInterpolationShader);
+                                   m_pTextureShader);
         }
         else
         {
             // prepare shader to draw the model
-            PrepareShaderToDrawModel(m_pShader, L"", textures);
+            PrepareShaderToDrawModel(m_pTextureShader, L"", textures);
 
             // draw mesh
-            QR_OpenGLHelper::Draw(*pMeshToDraw, matrix, textures, m_pShader);
+            QR_OpenGLHelper::Draw(*pMeshToDraw, matrix, textures, m_pTextureShader);
         }
     }
     else

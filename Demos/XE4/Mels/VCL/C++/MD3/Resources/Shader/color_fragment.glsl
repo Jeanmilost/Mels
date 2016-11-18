@@ -1,8 +1,7 @@
 /*****************************************************************************
- * ==> collide_polys_fragment.glsl ------------------------------------------*
+ * ==> color_vertex.glsl ----------------------------------------------------*
  *****************************************************************************
- * Description : Fragment shader program, used to show polygons in collision *
- *               with mouse pointer                                          *
+ * Description : Colored model fragment shader program                       *
  * Developer   : Jean-Milost Reymond                                         *
  *****************************************************************************/
 

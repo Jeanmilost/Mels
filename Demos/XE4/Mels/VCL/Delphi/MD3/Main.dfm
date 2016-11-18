@@ -28,6 +28,8 @@ object MainForm: TMainForm
     Height = 17
     Align = alBottom
     TabOrder = 0
+    ExplicitLeft = -26
+    ExplicitTop = 277
   end
   object paRendering: TPanel
     Left = 0
@@ -42,9 +44,11 @@ object MainForm: TMainForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
+    ExplicitLeft = -26
+    ExplicitTop = -216
   end
   object pmOptions: TPopupMenu
-    Left = 552
+    Left = 535
     Top = 8
     object miPrevTorsoAnim: TMenuItem
       Caption = 'Prev torso animation'

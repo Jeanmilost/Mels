@@ -51,6 +51,7 @@ class TOptions : public TForm
         TRadioButton *rbDefault;
         TRadioButton *rbRed;
         TRadioButton *rbBlue;
+        TCheckBox *ckUseOrthoMatrix;
 
         void __fastcall FormCreate(TObject* pSender);
         void __fastcall rgCacheOptionsClick(TObject* pSender);

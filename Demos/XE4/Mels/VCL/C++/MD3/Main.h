@@ -113,9 +113,8 @@ class TMainForm : public TForm
         HDC               m_hDC;
         HGLRC             m_hRC;
         TQRMD3Group*      m_pMD3;
-        QR_Shader_OpenGL* m_pShader;
-        QR_Shader_OpenGL* m_pInterpolationShader;
-        QR_Shader_OpenGL* m_pCollidePolysShader;
+        QR_Shader_OpenGL* m_pTextureShader;
+        QR_Shader_OpenGL* m_pColorShader;
         TQRMatrix4x4      m_ProjectionMatrix;
         TQRMatrix4x4      m_ViewMatrix;
         std::time_t       m_PreviousTime;

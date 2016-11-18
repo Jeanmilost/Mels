@@ -1,8 +1,7 @@
 /*****************************************************************************
- * ==> collide_polys_vertex.glsl --------------------------------------------*
+ * ==> color_vertex.glsl ----------------------------------------------------*
  *****************************************************************************
- * Description : Vertex shader program, used to show polygons in collision   *
- *               with mouse pointer                                          *
+ * Description : Colored model vertex shader program                         *
  * Developer   : Jean-Milost Reymond                                         *
  *****************************************************************************/
 

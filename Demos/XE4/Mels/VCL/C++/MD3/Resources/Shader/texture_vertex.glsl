@@ -1,7 +1,7 @@
 /*****************************************************************************
- * ==> default_vertex.glsl --------------------------------------------------*
+ * ==> texture_vertex.glsl --------------------------------------------------*
  *****************************************************************************
- * Description : Vertex shader program, used to draw model                   *
+ * Description : Textured (and interpolated) model vertex shader program     *
  * Developer   : Jean-Milost Reymond                                         *
  *****************************************************************************/
 
@@ -9,7 +9,7 @@
 
 // vertex buffer input
 in vec3 qr_vPosition;
-in vec3 qr_vNormal;
+in vec3 qr_viPosition;
 in vec4 qr_vColor;
 in vec2 qr_vTexCoord;
 
@@ -17,6 +17,7 @@ in vec2 qr_vTexCoord;
 uniform mat4  qr_uModel;
 uniform mat4  qr_uPerspective;
 uniform mat4  qr_uCamera;
+uniform float qr_fInterpolation;
 
 // output to fragment shader
 out vec4 qr_fColor;
@@ -33,14 +34,17 @@ void main()
     // compute texture position per vertex
     qr_fTexCoord = qr_vTexCoord;
 
-    // transform vertex coordinates
-    gl_Position = mScene * vec4(qr_vPosition, 1);
+    vec3 vPosition;
 
-    // dummy, it's just to do something with normal, and thus prevent OpenGL to remove it during link
-    // optimizations, as normals are not used here (thus done to keep common the draw functions on the
-    // app side)
-    if (qr_vNormal.x > 1.0)
-        gl_Position = mScene * vec4(qr_vPosition, 1);
+    // process vertex interpolation
+    if (qr_fInterpolation <= 0.0)
+        vPosition = qr_vPosition;
     else
-        gl_Position = mScene * vec4(qr_vPosition, 1);
+    if (qr_fInterpolation >= 1.0)
+        vPosition = qr_viPosition;
+    else
+        vPosition = qr_vPosition + qr_fInterpolation * (qr_viPosition - qr_vPosition);
+
+    // transform vertex coordinates
+    gl_Position = mScene * vec4(vPosition, 1);
 }

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * ==> default_fragment.glsl ------------------------------------------------*
+ * ==> texture_fragment.glsl ------------------------------------------------*
  *****************************************************************************
- * Description : Fragment shader program, used to draw model                 *
+ * Description : Textured (and interpolated) model fragment shader program   *
  * Developer   : Jean-Milost Reymond                                         *
  *****************************************************************************/
 
