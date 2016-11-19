@@ -70,7 +70,7 @@ type
              Destructor
             }
             {$ENDREGION}
-            destructor  Destroy; override;
+            destructor Destroy; override;
 
             {$REGION 'Documentation'}
             {**
