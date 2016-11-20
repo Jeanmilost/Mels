@@ -1218,8 +1218,8 @@ begin
         end;
 
         // calculate values for next slice
-        a  := i      * majorStep;
-        b  := a      + majorStep;
+        a  := i        * majorStep;
+        b  := a        + majorStep;
         r0 := m_Radius * Sin(a);
         r1 := m_Radius * Sin(b);
         z0 := m_Radius * Cos(a);

@@ -1042,6 +1042,9 @@ begin
     try
         m_TextureLoaded := False;
 
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         // load texture
         if (Assigned(m_fOnLoadTexture)) then
         begin

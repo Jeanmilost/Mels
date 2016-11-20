@@ -3002,6 +3002,9 @@ begin
     try
         m_TextureLoaded := False;
 
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         // get model item for which texture should be loaded
         pItem := GetItem(m_ItemIndex);
 
@@ -4385,6 +4388,9 @@ begin
     m_pLock.Lock;
 
     try
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         // no event defined?
         if (not Assigned(m_fOnUnpackModel)) then
         begin

@@ -189,7 +189,7 @@ function TMainForm.spSaturnCreateSceneMatrix(pSender: TObject;
                                           viewMatrix: TQRMatrix4x4;
                                           hDC, hGLRC: NativeUInt;
                                            pRenderer: TQRVCLModelRendererGL;
-  pShader: TQRVCLModelShaderGL): Boolean;
+                                             pShader: TQRVCLModelShaderGL): Boolean;
 var
     position, direction, up: TQRVector3D;
 begin

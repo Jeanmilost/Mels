@@ -1098,6 +1098,9 @@ begin
     try
         m_TextureLoaded := False;
 
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         loadFirst := True;
         loadNext  := True;
         max       := 0;
@@ -2627,6 +2630,12 @@ var
 begin
     // nothing to draw?
     if (not Assigned(OnDrawItem)) then
+        Exit;
+
+    // are indexes out of bounds?
+    if ((m_pAnimation.FrameIndex              >= m_pJob.MeshCount) or
+        (m_pAnimation.InterpolationFrameIndex >= m_pJob.MeshCount))
+    then
         Exit;
 
     // collision buffers were created?

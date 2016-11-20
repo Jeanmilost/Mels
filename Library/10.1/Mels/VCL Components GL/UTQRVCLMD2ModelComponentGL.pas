@@ -753,9 +753,10 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.CreateViewport(width, height: NativeUInt);
 var
-    factor:                  NativeInt;
-    position, direction, up: TQRVector3D;
-    hDC:                     THandle;
+    widthF, heightF, aspectRatio: Single;
+    factor:                       NativeInt;
+    position, direction, up:      TQRVector3D;
+    hDC:                          THandle;
 begin
     // cannot create a viewport if there is no client surface to render to it
     if ((ClientWidth = 0) or (ClientHeight = 0)) then
@@ -803,15 +804,32 @@ begin
                                     hDC,
                                     RenderSurface.GLContext,
                                     Renderer,
-                                    Shader)) then
+                                    Shader))
+            then
                 Exit;
 
+        // convert width to single value
+        widthF := ClientWidth;
+
+        // is width out of bounds?
+        if (widthF = 0.0) then
+            widthF := 1.0;
+
+        // convert height to single value
+        heightF := ClientHeight;
+
+        // is height out of bounds?
+        if (heightF = 0.0) then
+            heightF := 1.0;
+
+        // calculate aspect ratio
+        aspectRatio := widthF / heightF;
+
         // create projection matrix
-        ProjectionMatrix.Assign(Renderer.GetProjection(45.0,
-                                                       ClientWidth  * factor,
-                                                       ClientHeight * factor,
-                                                       1.0,
-                                                       1000.0));
+        ProjectionMatrix.Assign(Renderer.GetPerspective(45.0,
+                                                        aspectRatio,
+                                                        1.0,
+                                                        1000.0));
 
         position  := TQRVector3D.Create(0.0, 0.0, 0.0);
         direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -1191,7 +1209,13 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self,
+                               ProjectionMatrix^,
+                               ViewMatrix^,
+                               matrix,
+                               pAABBTree,
+                               Renderer,
+                               Shader);
 
         Exit;
     end;
@@ -1204,7 +1228,13 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self,
+                               ProjectionMatrix^,
+                               ViewMatrix^,
+                               matrix,
+                               pAABBTree,
+                               Renderer,
+                               Shader);
 
         Exit;
     end
@@ -1216,7 +1246,13 @@ begin
 
         // notify user that collisions may be detected
         if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-            OnDetectCollisions(Self, ProjectionMatrix^, matrix, pNextAABBTree, Renderer, Shader);
+            OnDetectCollisions(Self,
+                               ProjectionMatrix^,
+                               ViewMatrix^,
+                               matrix,
+                               pNextAABBTree,
+                               Renderer,
+                               Shader);
 
         Exit;
     end;
@@ -1229,7 +1265,13 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
+        OnDetectCollisions(Self,
+                           ProjectionMatrix^,
+                           ViewMatrix^,
+                           matrix,
+                           pAABBTree,
+                           Renderer,
+                           Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLMD2ModelGL.Assign(pSource: TPersistent);

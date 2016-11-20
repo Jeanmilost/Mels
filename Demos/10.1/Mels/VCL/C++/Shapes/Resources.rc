@@ -1,0 +1,13 @@
+#include "Resources.rh"
+
+// textures
+ID_SURFACE_TEXTURE     DATA    "Resources\Textures\VanGogh.bmp"
+ID_SPHERE_TEXTURE      DATA    "Resources\Textures\EarthMap.bmp"
+ID_BOX_TEXTURE         DATA    "Resources\Textures\Dice.bmp"
+ID_CONE_TEXTURE        DATA    "Resources\Textures\Stars.bmp"
+ID_TORUS_TEXTURE       DATA    "Resources\Textures\Lifeline.bmp"
+ID_PARABOLA_TEXTURE    DATA    "Resources\Textures\Plate.bmp"
+ID_CYLINDER_TEXTURE    DATA    "Resources\Textures\Tomato.bmp"
+ID_PYRAMID_TEXTURE     DATA    "Resources\Textures\Cheops.bmp"
+ID_STONE_TEXTURE       DATA    "Resources\Textures\Stone.bmp"
+

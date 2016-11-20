@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{AB9D6182-C789-43AA-A78D-AD835C81A4A9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PlaySound.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DelphiAL">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj"/>
+    </Target>
+    <Target Name="DelphiAL:Clean">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiAL:Make">
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_Player_Base">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj"/>
+    </Target>
+    <Target Name="Mels_Player_Base:Clean">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_Player_Base:Make">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_Player">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj"/>
+    </Target>
+    <Target Name="Mels_Player:Clean">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_Player:Make">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Mels_PlayerD">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj"/>
+    </Target>
+    <Target Name="Mels_PlayerD:Clean">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Mels_PlayerD:Make">
+        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PlaySound">
+        <MSBuild Projects="PlaySound.cbproj"/>
+    </Target>
+    <Target Name="PlaySound:Clean">
+        <MSBuild Projects="PlaySound.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PlaySound:Make">
+        <MSBuild Projects="PlaySound.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DelphiAL;Mels_Player_Base;Mels_Player;Mels_PlayerD;PlaySound"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DelphiAL:Clean;Mels_Player_Base:Clean;Mels_Player:Clean;Mels_PlayerD:Clean;PlaySound:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DelphiAL:Make;Mels_Player_Base:Make;Mels_Player:Make;Mels_PlayerD:Make;PlaySound:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
