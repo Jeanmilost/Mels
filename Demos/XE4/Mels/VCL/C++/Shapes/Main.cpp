@@ -221,7 +221,7 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                       20,
                       0.04f,
                       0.011f,
-                      pTorusColor.get(),
+                      pParabolaColor.get(),
                       TQRModelOptions() << EQR_MO_Without_Colors);
 
     // locate model in world
@@ -291,7 +291,7 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
     m_pTetrahedron->RotationY   =  M_PI / 1.5f;
 
     // from now, OpenGL will draw scene every time the thread do nothing else
-    Application->OnIdle = IdleLoop;
+    Application->OnIdle = OnIdle;
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::FormResize(TObject* pSender)
@@ -316,7 +316,7 @@ void __fastcall TMainForm::miLightingClick(TObject* pSender)
         glDisable(GL_LIGHTING);
 }
 //--------------------------------------------------------------------------------------------------
-void __fastcall TMainForm::IdleLoop(TObject* pSender, bool& done)
+void __fastcall TMainForm::OnIdle(TObject* pSender, bool& done)
 {
     done = false;
     RenderGLScene();
@@ -446,7 +446,7 @@ bool __fastcall TMainForm::OnLoadMeshTexture(TQRModelGroup*  pGroup,
             pTexture->Index = LoadTexture(ID_SPHERE_TEXTURE);
         else
         if (pGroup == m_pTetrahedron)
-            pTexture->Index = LoadTexture(ID_DIABOLO_TEXTURE);
+            pTexture->Index = LoadTexture(ID_STONE_TEXTURE);
 
         return true;
     }

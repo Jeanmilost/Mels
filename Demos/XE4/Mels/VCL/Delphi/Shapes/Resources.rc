@@ -1,0 +1,11 @@
+// textures
+ID_SURFACE_TEXTURE     RCDATA    "Resources\Textures\VanGogh.bmp"
+ID_SPHERE_TEXTURE      RCDATA    "Resources\Textures\EarthMap.bmp"
+ID_BOX_TEXTURE         RCDATA    "Resources\Textures\Dice.bmp"
+ID_CONE_TEXTURE        RCDATA    "Resources\Textures\Stars.bmp"
+ID_TORUS_TEXTURE       RCDATA    "Resources\Textures\Lifeline.bmp"
+ID_PARABOLA_TEXTURE    RCDATA    "Resources\Textures\Plate.bmp"
+ID_CYLINDER_TEXTURE    RCDATA    "Resources\Textures\Tomato.bmp"
+ID_PYRAMID_TEXTURE     RCDATA    "Resources\Textures\Cheops.bmp"
+ID_STONE_TEXTURE       RCDATA    "Resources\Textures\Stone.bmp"
+

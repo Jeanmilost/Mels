@@ -9,5 +9,5 @@ ID_TORUS_TEXTURE       DATA    "Resources\Textures\Lifeline.bmp"
 ID_PARABOLA_TEXTURE    DATA    "Resources\Textures\Plate.bmp"
 ID_CYLINDER_TEXTURE    DATA    "Resources\Textures\Tomato.bmp"
 ID_PYRAMID_TEXTURE     DATA    "Resources\Textures\Cheops.bmp"
-ID_DIABOLO_TEXTURE     DATA    "Resources\Textures\Stone.bmp"
+ID_STONE_TEXTURE       DATA    "Resources\Textures\Stone.bmp"
 

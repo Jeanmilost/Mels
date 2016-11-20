@@ -187,7 +187,8 @@ type
              @param(pModel Model for which texture should be loaded)
              @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not available)
              @param(pTexture Texture info)
-             @param(loadNext @bold([out]) If @true, event will be called again with a new item to load next texture)
+             @param(loadNext @bold([out]) If @true, event will be called again with a new item to
+                                          load next texture)
              @return(@true on success, otherwise @false)
             }
             function OnLoadMeshTexture(const pGroup: TQRModelGroup;
