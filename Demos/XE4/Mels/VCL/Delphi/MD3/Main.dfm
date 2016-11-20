@@ -28,8 +28,6 @@ object MainForm: TMainForm
     Height = 17
     Align = alBottom
     TabOrder = 0
-    ExplicitLeft = -26
-    ExplicitTop = 277
   end
   object paRendering: TPanel
     Left = 0
@@ -44,8 +42,6 @@ object MainForm: TMainForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
-    ExplicitLeft = -26
-    ExplicitTop = -216
   end
   object pmOptions: TPopupMenu
     Left = 535

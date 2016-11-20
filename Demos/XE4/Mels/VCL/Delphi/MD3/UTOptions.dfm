@@ -2,7 +2,7 @@ object Options: TOptions
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Lara - Options'
   ClientHeight = 420
   ClientWidth = 408
@@ -17,6 +17,7 @@ object Options: TOptions
   OldCreateOrder = False
   Position = poScreenCenter
   Scaled = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object paPreview: TPanel
@@ -123,6 +124,7 @@ object Options: TOptions
         'Create frames dynamically, cache created frames'
         'Custom')
       TabOrder = 0
+      OnClick = rgCacheOptionsClick
     end
     object gbLoadModel: TGroupBox
       AlignWithMargins = True
@@ -152,6 +154,7 @@ object Options: TOptions
         Height = 21
         Caption = '...'
         TabOrder = 1
+        OnClick = btBrowseClick
       end
     end
     object gbSelectTeam: TGroupBox
@@ -176,6 +179,7 @@ object Options: TOptions
         Checked = True
         TabOrder = 0
         TabStop = True
+        OnClick = OnSelectTeam
       end
       object rbRed: TRadioButton
         Left = 96
@@ -184,6 +188,7 @@ object Options: TOptions
         Height = 17
         Caption = 'Red'
         TabOrder = 1
+        OnClick = OnSelectTeam
       end
       object rbBlue: TRadioButton
         Left = 184
@@ -192,6 +197,7 @@ object Options: TOptions
         Height = 17
         Caption = 'Blue'
         TabOrder = 2
+        OnClick = OnSelectTeam
       end
     end
   end
@@ -222,6 +228,7 @@ object Options: TOptions
       Caption = 'OK'
       Default = True
       TabOrder = 0
+      OnClick = btOKClick
     end
     object btCancel: TButton
       AlignWithMargins = True
@@ -236,6 +243,7 @@ object Options: TOptions
       Align = alRight
       Caption = 'Cancel'
       TabOrder = 1
+      OnClick = btCancelClick
     end
     object btQuit: TButton
       AlignWithMargins = True
@@ -250,10 +258,12 @@ object Options: TOptions
       Align = alLeft
       Caption = 'Quit application'
       TabOrder = 2
+      OnClick = btQuitClick
     end
   end
   object tiDrawPreview: TTimer
     Interval = 200
+    OnTimer = tiDrawPreviewTimer
     Left = 32
     Top = 128
   end

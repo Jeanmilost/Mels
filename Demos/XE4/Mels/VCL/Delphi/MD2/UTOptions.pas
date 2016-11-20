@@ -39,6 +39,7 @@ uses System.Classes,
      Vcl.Dialogs,
      Winapi.Messages,
      Winapi.Windows,
+     UTQRSmartPointer,
      UTQR3D,
      UTQRGeometry,
      UTQRGraphics,
@@ -60,6 +61,9 @@ uses System.Classes,
      {$ENDIF}
 
 type
+    {**
+     User options form
+    }
     TOptions = class(TForm)
         published
             paPreview: TPanel;
@@ -140,7 +144,7 @@ type
              Options form message loop
              @param(message Message sent by Windows)
             }
-            procedure WndProc(var message: TMessage); virtual;
+            procedure WndProc(var message: TMessage); override;
 
         public
             {**
@@ -349,7 +353,7 @@ procedure TOptions.OnDrawCustomModelItem(const pGroup: TQRModelGroup;
                             const interpolationFactor: Double);
 var
     width, height, pixelFormat:             Integer;
-    pOverlayForm:                           TForm;
+    pOverlayForm:                           IQRSmartPointer<TForm>;
     hDC, hRC, hPackageInstance:             THandle;
     pTextureStream:                         TResourceStream;
     pBitmap, pOverlay, pAntialiasedOverlay: Vcl.Graphics.TBitmap;
@@ -377,7 +381,7 @@ begin
     height := imPreview.Height * 4;
 
     // create overlay render surface (cannot use a bitmap directly, unfortunately)
-    pOverlayForm              := TForm.Create(nil);
+    pOverlayForm              := TQRSmartPointer<TForm>.Create(TForm.Create(nil));
     pOverlayForm.ClientWidth  := width;
     pOverlayForm.ClientHeight := height;
     pOverlayForm.Visible      := False;
@@ -494,8 +498,12 @@ begin
         WM_SYSCOMMAND:
             // close button was clicked on form?
             if (message.WParam = SC_CLOSE) then
+            begin
+                m_Closing := True;
+
                 // really close the application
                 Application.Terminate;
+            end;
     end;
 
     inherited WndProc(message);

@@ -33,7 +33,8 @@ __fastcall TOptions::TOptions(TComponent* pOwner) :
     TForm(pOwner),
     m_pMD3(NULL),
     m_Team(EQR_PT_MD3_Default),
-    m_ModelRendered(false)
+    m_ModelRendered(false),
+    m_Closing(false)
 {
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
@@ -65,6 +66,63 @@ void __fastcall TOptions::rgCacheOptionsClick(TObject* pSender)
 {
     // enable advanced cache options only if "create cache" option is selected
     ckShowCollisions->Enabled = (rgCacheOptions->ItemIndex != 1);
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btQuitClick(TObject* pSender)
+{
+    m_Closing = true;
+    Application->Terminate();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btCancelClick(TObject* pSender)
+{
+    Reset();
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btOKClick(TObject* pSender)
+{
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btBrowseClick(TObject* pSender)
+{
+    // previous MD3 model was already loaded?
+    if (m_pMD3)
+    {
+        // query job status
+        TQRModelJobStatus* pStatus = m_pMD3->QueryJobStatus();
+
+        // was previous model fully loaded and drawn?
+        if (pStatus && pStatus->Status != EQR_JS_Done && pStatus->Status != EQR_JS_Error)
+            return;
+    }
+
+    // clear previous interface
+    edModelFileName->Text    = L"";
+    odOpenDialog->InitialDir = ::ExtractFilePath(Application->ExeName);
+
+    // show open file dialog to user and check if dialog was canceled
+    if (!odOpenDialog->Execute())
+        return;
+
+    // file exists?
+    if (!::FileExists(odOpenDialog->FileName))
+        return;
+
+    // show selected file name
+    edModelFileName->Text = odOpenDialog->FileName;
+
+    // open package stream
+    std::auto_ptr<TFileStream> pFileStream(new TFileStream(edModelFileName->Text, fmOpenRead));
+
+    // load model preview
+    if (!LoadPreview(pFileStream.release()))
+    {
+        m_Team                = EQR_PT_MD3_Default;
+        rbDefault->Checked    = true;
+        edModelFileName->Text = L"";
+    }
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
@@ -164,62 +222,6 @@ void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
     m_ModelRendered = true;
 }
 //--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btBrowseClick(TObject* pSender)
-{
-    // previous MD3 model was already loaded?
-    if (m_pMD3)
-    {
-        // query job status
-        TQRModelJobStatus* pStatus = m_pMD3->QueryJobStatus();
-
-        // was previous model fully loaded and drawn?
-        if (pStatus && pStatus->Status != EQR_JS_Done && pStatus->Status != EQR_JS_Error)
-            return;
-    }
-
-    // clear previous interface
-    edModelFileName->Text    = L"";
-    odOpenDialog->InitialDir = ::ExtractFilePath(Application->ExeName);
-
-    // show open file dialog to user and check if dialog was canceled
-    if (!odOpenDialog->Execute())
-        return;
-
-    // file exists?
-    if (!::FileExists(odOpenDialog->FileName))
-        return;
-
-    // show selected file name
-    edModelFileName->Text = odOpenDialog->FileName;
-
-    // open package stream
-    std::auto_ptr<TFileStream> pFileStream(new TFileStream(edModelFileName->Text, fmOpenRead));
-
-    // load model preview
-    if (!LoadPreview(pFileStream.release()))
-    {
-        m_Team                = EQR_PT_MD3_Default;
-        rbDefault->Checked    = true;
-        edModelFileName->Text = L"";
-    }
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btQuitClick(TObject* pSender)
-{
-    Application->Terminate();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btCancelClick(TObject* pSender)
-{
-    Reset();
-    Close();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btOKClick(TObject* pSender)
-{
-    Close();
-}
-//--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::OnSelectTeam(TObject* pSender)
 {
     EQRMD3PackageTeam selectedTeam = EQR_PT_MD3_Default;
@@ -266,6 +268,11 @@ void __fastcall TOptions::OnSelectTeam(TObject* pSender)
     }
 }
 //--------------------------------------------------------------------------------------------------
+bool TOptions::IsAppClosing() const
+{
+    return m_Closing;
+}
+//--------------------------------------------------------------------------------------------------
 EQRMD3PackageTeam TOptions::GetSelectedTeam() const
 {
     return m_Team;
@@ -279,8 +286,12 @@ void __fastcall TOptions::WndProc(TMessage& message)
         case WM_SYSCOMMAND:
             // close button was clicked on form?
             if (message.WParam == SC_CLOSE)
+            {
+                m_Closing = true;
+
                 // really close the application
                 Application->Terminate();
+            }
 
             break;
     }

@@ -384,7 +384,7 @@ begin
                    [mbOK],
                    0);
 
-        Application.Terminate();
+        Application.Terminate;
         Exit;
     end;
 
@@ -547,8 +547,8 @@ begin
                 if (FindResource(hPackageInstance, PChar('ID_TEXTURE_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_TEXTURE_FRAGMENT_SHADER'),
-                                                         RT_RCDATA);
+                                                           PChar('ID_TEXTURE_FRAGMENT_SHADER'),
+                                                           RT_RCDATA);
 
                 // create texture shader
                 m_pTextureShader := TQRShaderOpenGL.Create;
@@ -582,8 +582,8 @@ begin
                 if (FindResource(hPackageInstance, PChar('ID_COLOR_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_COLOR_FRAGMENT_SHADER'),
-                                                         RT_RCDATA);
+                                                           PChar('ID_COLOR_FRAGMENT_SHADER'),
+                                                           RT_RCDATA);
 
                 // create color shader
                 m_pColorShader := TQRShaderOpenGL.Create;
@@ -670,29 +670,29 @@ begin
         if (FindResource(hPackageInstance, PChar('ID_MD2_MODEL'), RT_RCDATA) <> 0)
         then
             pModelStream := TResourceStream.Create(hPackageInstance,
-                                                 PChar('ID_MD2_MODEL'),
-                                                 RT_RCDATA);
+                                                   PChar('ID_MD2_MODEL'),
+                                                   RT_RCDATA);
 
         // load normals from resources
         if (FindResource(hPackageInstance, PChar('ID_MD2_NORMALS_TABLE'), RT_RCDATA) <> 0)
         then
             pNTStream := TResourceStream.Create(hPackageInstance,
-                                                 PChar('ID_MD2_NORMALS_TABLE'),
-                                                 RT_RCDATA);
+                                                PChar('ID_MD2_NORMALS_TABLE'),
+                                                RT_RCDATA);
 
         // load animation configuration from resources
         if (FindResource(hPackageInstance, PChar('ID_MD2_ANIM_CFG'), RT_RCDATA) <> 0)
         then
             pAnimCfgStream := TResourceStream.Create(hPackageInstance,
-                                                 PChar('ID_MD2_ANIM_CFG'),
-                                                 RT_RCDATA);
+                                                     PChar('ID_MD2_ANIM_CFG'),
+                                                     RT_RCDATA);
 
         // load texture from resources
         if (FindResource(hPackageInstance, PChar('ID_MD2_TEXTURE'), RT_RCDATA) <> 0)
         then
             pTextureStream := TResourceStream.Create(hPackageInstance,
-                                                 PChar('ID_MD2_TEXTURE'),
-                                                 RT_RCDATA);
+                                                     PChar('ID_MD2_TEXTURE'),
+                                                     RT_RCDATA);
 
         pMemDir := TQRMemoryDir.Create(True);
 

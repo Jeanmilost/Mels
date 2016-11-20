@@ -552,8 +552,8 @@ begin
                 if (FindResource(hPackageInstance, PChar('ID_COLOR_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_COLOR_FRAGMENT_SHADER'),
-                                                         RT_RCDATA);
+                                                           PChar('ID_COLOR_FRAGMENT_SHADER'),
+                                                           RT_RCDATA);
 
                 // create color shader
                 m_pColorShader := TQRShaderOpenGL.Create;
@@ -587,8 +587,8 @@ begin
                 if (FindResource(hPackageInstance, PChar('ID_TEXTURE_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
                 then
                     pFragmentPrg := TResourceStream.Create(hPackageInstance,
-                                                         PChar('ID_TEXTURE_FRAGMENT_SHADER'),
-                                                         RT_RCDATA);
+                                                           PChar('ID_TEXTURE_FRAGMENT_SHADER'),
+                                                           RT_RCDATA);
 
                 // create texture shader
                 m_pTextureShader := TQRShaderOpenGL.Create;

@@ -1,5 +1,7 @@
 program MD3;
 
+{$R 'Resources.res' 'Resources.rc'}
+
 uses
   Vcl.Forms,
   Main in 'Main.pas' {MainForm},

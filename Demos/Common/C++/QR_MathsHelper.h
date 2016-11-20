@@ -50,7 +50,7 @@ class QR_MathsHelper
 
         /**
         * Gets the closest power of 2 from a value
-        *@aram value - value
+        *@param value - value
         *@return closest power of 2
         */
         static inline std::size_t GetClosestPowerOf2(std::size_t value);

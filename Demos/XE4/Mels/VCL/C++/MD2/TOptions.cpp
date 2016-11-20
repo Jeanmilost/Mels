@@ -111,8 +111,12 @@ void __fastcall TOptions::WndProc(TMessage& message)
         case WM_SYSCOMMAND:
             // close button was clicked on form?
             if (message.WParam == SC_CLOSE)
+            {
+                m_Closing = true;
+
                 // really close the application
                 Application->Terminate();
+            }
 
             break;
     }
