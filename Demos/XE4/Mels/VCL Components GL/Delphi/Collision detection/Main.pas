@@ -56,6 +56,7 @@ type
 
             procedure m2ModelDetectCollisions(pSender: TObject;
                                const projectionMatrix,
+                                           viewMatrix,
                                           modelMatrix: TQRMatrix4x4;
                                             pAABBTree: TQRAABBTree;
                                             pRenderer: TQRVCLModelRendererGL;
@@ -72,6 +73,7 @@ type
              @param(pShader OpenGL shader)
             }
             procedure DetectAndDrawCollisions(const projectionMatrix,
+                                                          viewMatrix,
                                                          modelMatrix: TQRMatrix4x4;
                                                            pAABBTree: TQRAABBTree;
                                                            pRenderer: TQRVCLModelRendererGL;
@@ -91,29 +93,31 @@ implementation
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.m2ModelDetectCollisions(pSender: TObject;
                              const projectionMatrix,
+                                         viewMatrix,
                                         modelMatrix: TQRMatrix4x4;
                                           pAABBTree: TQRAABBTree;
                                           pRenderer: TQRVCLModelRendererGL;
                                             pShader: TQRVCLModelShaderGL);
 begin
-    DetectAndDrawCollisions(projectionMatrix, modelMatrix, pAABBTree, pRenderer, pShader);
+    DetectAndDrawCollisions(projectionMatrix, viewMatrix, modelMatrix, pAABBTree, pRenderer, pShader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.DetectAndDrawCollisions(const projectionMatrix,
+                                                        viewMatrix,
                                                        modelMatrix: TQRMatrix4x4;
                                                          pAABBTree: TQRAABBTree;
                                                          pRenderer: TQRVCLModelRendererGL;
                                                            pShader: TQRVCLModelShaderGL);
 var
-    rect:                                        TQRRect;
-    rayPos, rayDir:                              TQRVector3D;
-    pRay:                                        TQRRay;
-    polygons, polygonToDraw:                     TQRPolygons;
-    mesh:                                        TQRMesh;
-    textures:                                    TQRTextures;
-    invertMatrix:                                TQRMatrix4x4;
-    determinant:                                 Single;
-    polygonCount, polygonToDrawCount, i, offset: NativeUInt;
+    rect:                                              TQRRect;
+    rayPos, rayDir:                                    TQRVector3D;
+    pRay:                                              TQRRay;
+    polygons, polygonToDraw:                           TQRPolygons;
+    mesh:                                              TQRMesh;
+    textures:                                          TQRTextures;
+    invertProj, invertView, invertModel, invertMatrix: TQRMatrix4x4;
+    determinant:                                       Single;
+    polygonCount, polygonToDrawCount, i, offset:       NativeUInt;
 begin
     if (not Assigned(pAABBTree)) then
         Exit;
@@ -125,8 +129,21 @@ begin
     rayPos := pRenderer.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
+    // move the ray to match with the model coordinates
+    rayPos.Y := rayPos.Y + 0.05;
+
+    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
+    // image on the screen, but it is placed very far in relation to the screen. In the model
+    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
+    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
+    // not always well detected), but this is efficient for the majority of cases
+    rayPos.MulAndAssign(1.1);
+
     // transform the ray to be on the same coordinates system as the model
-    invertMatrix := modelMatrix.Multiply(projectionMatrix).Inverse(determinant);
+    invertProj   := projectionMatrix.Inverse(determinant);
+    invertView   := viewMatrix.Inverse(determinant);
+    invertModel  := modelMatrix.Inverse(determinant);
+    invertMatrix := invertProj.Multiply(invertView.Multiply(invertModel));
     rayPos       := invertMatrix.Transform(rayPos);
     rayDir       := invertMatrix.Transform(rayDir);
 

@@ -185,6 +185,7 @@ type
      Called when collisions should be detected on the model
      @param(pSender Event sender)
      @param(projectionMatrix Projection (or word) matrix used to render the model)
+     @param(projectionMatrix View (or camera) matrix used to render the model)
      @param(modelMatrix Model matrix)
      @param(pAABBTree Model aligned-axis bounding box tree)
      @param(pRenderer OpenGL renderer)
@@ -193,6 +194,7 @@ type
     {$ENDREGION}
     TQRDetectCollisionsEvent = procedure(pSender: TObject;
                           const projectionMatrix,
+                                      viewMatrix,
                                      modelMatrix: TQRMatrix4x4;
                                        pAABBTree: TQRAABBTree;
                                        pRenderer: TQRVCLModelRendererGL;

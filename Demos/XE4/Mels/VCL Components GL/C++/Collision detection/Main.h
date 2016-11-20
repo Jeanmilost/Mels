@@ -42,6 +42,7 @@ class TMainForm : public TForm
 
         void __fastcall m2ModelDetectCollisions(TObject* pSender,
                                      const TQRMatrix4x4& projectionMatrix,
+                                     const TQRMatrix4x4& viewMatrix,
                                      const TQRMatrix4x4& modelMatrix,
                                             TQRAABBTree* pAABBTree,
                                   TQRVCLModelRendererGL* pRenderer,
@@ -55,12 +56,14 @@ class TMainForm : public TForm
         * Detect collisions between the mouse pointer and the model and draw polyons in collision
         *@param pSender - event sender
         *@param projectionMatrix - projection (or word) matrix used to render the model
+        *@param viewMatrix - view (or camera) matrix used to render the model
         *@param modelMatrix - model matrix
         *@param pAABBTree - model aligned-axis bounding box tree
         *@param pRenderer - openGL renderer
         *@param pShader - openGL shader
         */
         void DetectAndDrawCollisions(const TQRMatrix4x4& projectionMatrix,
+                                     const TQRMatrix4x4& viewMatrix,
                                      const TQRMatrix4x4& modelMatrix,
                                             TQRAABBTree* pAABBTree,
                                   TQRVCLModelRendererGL* pRenderer,

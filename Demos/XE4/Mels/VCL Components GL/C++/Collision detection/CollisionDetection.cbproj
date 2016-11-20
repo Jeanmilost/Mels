@@ -39,6 +39,12 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
         <Cfg_2_Win64>true</Cfg_2_Win64>
         <CfgParent>Cfg_2</CfgParent>
@@ -55,7 +61,7 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <Multithreaded>true</Multithreaded>
         <AllPackageLibs>rtl.lib;vcl.lib;Mels_VCLComponentsGL.lib;DelphiGL.lib;Mels_Models.lib;Mels_Base.lib;vclimg.lib;Mels_VCL.lib</AllPackageLibs>
-        <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
+        <Icon_MainIcon>..\..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
         <ILINK_LibraryPath>C:\Private\Devel\Mels\GitHub\trunk\Demos\XE4\Mels\VCL Components GL\C++\Collision detection\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <IncludePath>C:\Private\Devel\Mels\GitHub\trunk\Demos\XE4\Mels\VCL Components GL\C++\Collision detection\;$(IncludePath)</IncludePath>
@@ -72,7 +78,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <PackageImports>adortl;bcbie;bcbsmp;bdertl;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindengine;CustomIPTransport;DataSnapCommon;dbexpress;dbrtl;dbxcds;DbxCommonDriver;DBXInterBaseDriver;DelphiAL;dsnap;fmx;fmxase;fmxdae;fmxobj;ibxpress;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdbbde;inetdbxpress;Mels_Player;Mels_Player_Base;MetropolisUILiveTile;rtl;soaprtl;svn;vcl;vclactnband;vcldb;vcldbx;vcldsnap;vclib;vclie;vclimg;VclSmp;vcltouch;vclx;webdsnap;xmlrtl;$(PackageImports)</PackageImports>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -107,6 +112,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <LinkPackageStatics>Mels_VCLComponentsGL.lib;DelphiGL.lib;Mels_Models.lib;Mels_Base.lib;Mels_VCL.lib</LinkPackageStatics>
@@ -115,6 +121,11 @@
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <BCC_PCHName_Clang>CollisionDetection_PCH.h</BCC_PCHName_Clang>

@@ -42,15 +42,17 @@ __fastcall TMainForm::TMainForm(TComponent* Owner) :
 //--------------------------------------------------------------------------------------------------
 void __fastcall TMainForm::m2ModelDetectCollisions(TObject* pSender,
                                         const TQRMatrix4x4& projectionMatrix,
+                                        const TQRMatrix4x4& viewMatrix,
                                         const TQRMatrix4x4& modelMatrix,
                                                TQRAABBTree* pAABBTree,
                                      TQRVCLModelRendererGL* pRenderer,
                                        TQRVCLModelShaderGL* pShader)
 {
-    DetectAndDrawCollisions(projectionMatrix, modelMatrix, pAABBTree, pRenderer, pShader);
+    DetectAndDrawCollisions(projectionMatrix, viewMatrix, modelMatrix, pAABBTree, pRenderer, pShader);
 }
 //--------------------------------------------------------------------------------------------------
 void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& projectionMatrix,
+                                        const TQRMatrix4x4& viewMatrix,
                                         const TQRMatrix4x4& modelMatrix,
                                                TQRAABBTree* pAABBTree,
                                      TQRVCLModelRendererGL* pRenderer,
@@ -66,11 +68,23 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& projectionMatrix,
     TQRVector3D rayPos = pRenderer->MousePosToGLPoint((NativeUInt)Handle, rect);
     TQRVector3D rayDir(0.0, 0.0, 1.0);
 
+    // move the ray to match with the model coordinates
+    rayPos.Y += 0.05f;
+
+    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
+    // image on the screen, but it is placed very far in relation to the screen. In the model
+    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
+    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
+    // not always well detected), but this is efficient for the majority of cases
+    rayPos.MulAndAssign(1.1f);
+
     float determinant;
 
     // transform the ray to be on the same coordinates system as the model
-    TQRMatrix4x4 invertMatrix =
-            const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(projectionMatrix).Inverse(determinant);
+    TQRMatrix4x4 invertProj   = const_cast<TQRMatrix4x4&>(projectionMatrix).Inverse(determinant);
+    TQRMatrix4x4 invertView   = const_cast<TQRMatrix4x4&>(viewMatrix).Inverse(determinant);
+    TQRMatrix4x4 invertModel  = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
+    TQRMatrix4x4 invertMatrix = invertProj.Multiply(invertView.Multiply(invertModel));
     rayPos                    = invertMatrix.Transform(rayPos);
     rayDir                    = invertMatrix.Transform(rayDir);
 

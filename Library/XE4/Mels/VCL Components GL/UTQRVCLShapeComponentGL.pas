@@ -1444,7 +1444,13 @@ begin
 
     // notify user that collisions may be detected
     if (Assigned(OnDetectCollisions) and not(EQR_MO_No_Collision in m_ModelOptions)) then
-        OnDetectCollisions(Self, ProjectionMatrix^, matrix, pAABBTree, Renderer, Shader);
+        OnDetectCollisions(Self,
+                           ProjectionMatrix^,
+                           ViewMatrix^,
+                           matrix,
+                           pAABBTree,
+                           Renderer,
+                           Shader);
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLShapeGL.Assign(pSource: TPersistent);
