@@ -302,7 +302,7 @@ constructor TMainForm.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
 
-    m_pCache           := ICache.Create;
+    m_pCache           := ICache.Create([doOwnsValues]);
     m_pOptions         := nil;
     m_hDC              := 0;
     m_hRC              := 0;
@@ -317,19 +317,7 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TMainForm.Destroy;
-var
-    cacheItem: TPair<TQRModel,   IFrames>;
-    frameItem: TPair<NativeUInt, IFrame>;
 begin
-    // delete cached frames, if any
-    for cacheItem in m_pCache do
-    begin
-        for frameItem in cacheItem.Value do
-            frameItem.Value.Free;
-
-        frameItem.Value.Free;
-    end;
-
     m_pCache.Free;
 
     // delete texture shader
@@ -553,8 +541,6 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TMainForm.LoadModel: Boolean;
 var
-    cacheItem:          TPair<TQRModel,   IFrames>;
-    frameItem:          TPair<NativeUInt, IFrame>;
     hPackageInstance:   THandle;
     pVertexPrg,
     pFragmentPrg,
@@ -564,15 +550,6 @@ var
     modelOptions:       TQRModelOptions;
     framedModelOptions: TQRFramedModelOptions;
 begin
-    // delete cached frames, if any
-    for cacheItem in m_pCache do
-    begin
-        for frameItem in cacheItem.Value do
-            frameItem.Value.Free;
-
-        frameItem.Value.Free;
-    end;
-
     m_pCache.Clear;
 
     // get module instance at which this form belongs
@@ -733,7 +710,10 @@ begin
 
             // found it?
             if (not Assigned(pModelStream)) then
+            begin
+                Result := False;
                 Exit;
+            end;
 
             // load model from resources
             if (not m_pMD3.Load(pModelStream,
@@ -830,7 +810,7 @@ begin
             pModel.GetMesh(index, Result.m_pMesh, Result.m_pAABBTree);
 
             // create new model item, and populate it
-            pFrames := IFrames.Create;
+            pFrames := IFrames.Create([doOwnsValues]);
             pFrames.Add(index, Result);
 
             // cache current model frame
