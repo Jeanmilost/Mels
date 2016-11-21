@@ -6,13 +6,13 @@
         <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj">
+        <Projects Include="..\..\..\..\..\Library\10.1\Mels Player\Base\Mels_Player_Base.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj">
+        <Projects Include="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_Player.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj">
+        <Projects Include="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_PlayerD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="PlaySound.cbproj">
@@ -36,31 +36,31 @@
         <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Player_Base">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Base\Mels_Player_Base.dproj"/>
     </Target>
     <Target Name="Mels_Player_Base:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Base\Mels_Player_Base.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Player_Base:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Base\Mels_Player_Base.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Base\Mels_Player_Base.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Player">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_Player.dproj"/>
     </Target>
     <Target Name="Mels_Player:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_Player.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_Player:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_Player.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_Player.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_PlayerD">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_PlayerD.dproj"/>
     </Target>
     <Target Name="Mels_PlayerD:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_PlayerD.dproj" Targets="Clean"/>
     </Target>
     <Target Name="Mels_PlayerD:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\XE4\Mels Player\Player\Mels_PlayerD.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\10.1\Mels Player\Player\Mels_PlayerD.dproj" Targets="Make"/>
     </Target>
     <Target Name="PlaySound">
         <MSBuild Projects="PlaySound.cbproj"/>

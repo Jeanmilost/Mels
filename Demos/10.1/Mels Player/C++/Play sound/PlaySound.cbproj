@@ -52,11 +52,11 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>C:\Private\Devel\Mels\GitHub\trunk\Demos\XE4\Mels Player\C++\Play sound\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>C:\Private\Devel\Mels\GitHub\trunk\Demos\10.1\Mels Player\C++\Play sound\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <AllPackageLibs>rtl.lib;vcl.lib;Mels_Player.lib;Mels_Player_Base.lib;DelphiAL.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>C:\Private\Devel\Mels\GitHub\trunk\Demos\XE4\Mels Player\C++\Play sound\;$(IncludePath)</IncludePath>
+        <IncludePath>C:\Private\Devel\Mels\GitHub\trunk\Demos\10.1\Mels Player\C++\Play sound\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
