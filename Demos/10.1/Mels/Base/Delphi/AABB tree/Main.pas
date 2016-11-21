@@ -43,19 +43,13 @@ uses System.Classes,
      Vcl.Menus,
      Winapi.Messages,
      Winapi.Windows,
+     Winapi.OpenGL,
      UTQRHelpers,
      UTQRSmartPointer,
      UTQR3D,
      UTQRGeometry,
      UTQRCollision,
-     UTQROpenGLHelper,
-     {$IF CompilerVersion <= 25}
-        // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-        // because the OpenGL include provided by Embarcadero is incomplete
-        XE7.OpenGL;
-     {$ELSE}
-        Winapi.OpenGL;
-     {$ENDIF}
+     UTQROpenGLHelper;
 
 type
     {**

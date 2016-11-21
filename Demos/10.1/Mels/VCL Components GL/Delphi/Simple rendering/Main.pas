@@ -38,13 +38,13 @@ uses System.Classes,
      Vcl.ExtCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.Windows,
+     Winapi.Messages,
+     Winapi.OpenGL,
      UTQRVCLModelRendererGL,
      UTQRVCLModelShaderGL,
      UTQRVCLModelComponentGL,
-     UTQRVCLSimpleRendererComponentGL,
-     Winapi.Windows,
-     Winapi.Messages,
-     OpenGL;
+     UTQRVCLSimpleRendererComponentGL;
 
 type
     {**

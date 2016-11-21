@@ -39,6 +39,9 @@ uses System.Classes,
      Vcl.StdCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.Messages,
+     Winapi.Windows,
+     Winapi.OpenGL,
      UTQR3D,
      UTQRGeometry,
      UTQRHelpers,
@@ -46,10 +49,7 @@ uses System.Classes,
      UTQRVCLModelComponentGL,
      UTQRVCLShapeComponentGL,
      UTQRVCLModelRendererGL,
-     UTQRVCLModelShaderGL,
-     Winapi.OpenGL,
-     Winapi.Messages,
-     Winapi.Windows;
+     UTQRVCLModelShaderGL;
 
 type
     {**
@@ -158,7 +158,6 @@ implementation
 // Resources
 //--------------------------------------------------------------------------------------------------
 {$R *.dfm}
-{$R Main.res}
 //--------------------------------------------------------------------------------------------------
 // TMainForm
 //--------------------------------------------------------------------------------------------------

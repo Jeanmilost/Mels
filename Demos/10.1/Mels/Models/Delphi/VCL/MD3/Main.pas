@@ -41,6 +41,8 @@ uses System.Classes,
      Vcl.Dialogs,
      Winapi.Messages,
      Winapi.Windows,
+     Winapi.OpenGL,
+     Winapi.OpenGLext,
      UTQRSmartPointer,
      UTQR3D,
      UTQRGraphics,
@@ -50,16 +52,7 @@ uses System.Classes,
      UTQRMD3,
      UTQRShaderOpenGL,
      UTQROpenGLHelper,
-     UTOptions,
-     {$IF CompilerVersion <= 25}
-         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-         // because the OpenGL include provided by Embarcadero is incomplete
-         XE7.OpenGL,
-         XE7.OpenGLext;
-     {$ELSE}
-         Winapi.OpenGL,
-         Winapi.OpenGLext;
-     {$ENDIF}
+     UTOptions;
 
 type
     {**
