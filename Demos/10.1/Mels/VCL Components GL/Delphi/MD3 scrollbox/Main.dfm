@@ -7,6 +7,7 @@ object MainForm: TMainForm
   ClientHeight = 510
   ClientWidth = 310
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -14,6 +15,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -63,12 +65,9 @@ object MainForm: TMainForm
       Font.Style = []
       Lines.Strings = (
         'Quake III Arena is a multiplayer-focused first-'
-        'person shooter video game released in 1999. '
-        'The '
-        'game was developed by id Software and '
-        'featured '
-        'music composed by Sonic Mayhem and Front '
-        'Line '
+        'person shooter video game released in 1999. The '
+        'game was developed by id Software and featured '
+        'music composed by Sonic Mayhem and Front Line '
         'Assembly. Quake III Arena is the third game in '
         'the Quake series and differs from previous '
         'games '
@@ -92,8 +91,7 @@ object MainForm: TMainForm
         'was highly praised by reviewers who, for the '
         'most '
         'part, described the gameplay as fun and '
-        'engaging. Many liked the crisp graphics and '
-        'focus '
+        'engaging. Many liked the crisp graphics and focus '
         'on multiplayer.'
         ''
         'Quake III Arena has also been used extensively '
@@ -124,8 +122,7 @@ object MainForm: TMainForm
         'characters in the manual,[2] a familiar mixture of '
         'gothic and technological map architecture and '
         'specific equipment; for example, the Quad '
-        'Damage power-up, the infamous rocket '
-        'launcher, '
+        'Damage power-up, the infamous rocket launcher, '
         'and the BFG super-weapon.'
         ''
         'In Quake III Arena, the player progresses '
@@ -138,8 +135,7 @@ object MainForm: TMainForm
         'fights take place in more complex arenas and '
         'against tougher opponents.[3] While deathmatch '
         'maps are designed for up to 16 players, '
-        'tournament maps are designed for duels '
-        'between '
+        'tournament maps are designed for duels between '
         '2 players and in the single-player game could be '
         'considered as '#39'boss battles'#39'.'
         ''
@@ -229,7 +225,7 @@ object MainForm: TMainForm
       Color.Blue = 240
       Color.VCLColor = 15790320
       Color.WinColor = 15790320
-      AlphaBlending.Enabled = True
+      AlphaBlending.Enabled = False
       Antialiasing = EQR_AM_FSAA_4x
       Align = alTop
       Model.Scaling.X = 1.000000000000000000

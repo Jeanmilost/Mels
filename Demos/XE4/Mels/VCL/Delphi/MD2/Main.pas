@@ -33,6 +33,7 @@ uses System.Classes,
      System.Math,
      System.Generics.Collections,
      System.Variants,
+     System.UITypes,
      Vcl.Graphics,
      Vcl.ExtCtrls,
      Vcl.ComCtrls,
@@ -56,15 +57,10 @@ uses System.Classes,
      UTQROpenGLHelper,
      UTQRShaderOpenGL,
      UTOptions,
-     {$IF CompilerVersion <= 25}
-         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-         // because the OpenGL include provided by Embarcadero is incomplete
-         XE7.OpenGL,
-         XE7.OpenGLext;
-     {$ELSE}
-         Winapi.OpenGL,
-         Winapi.OpenGLext;
-     {$ENDIF}
+     // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+     // because the OpenGL include provided by Embarcadero is incomplete
+     XE7.OpenGL,
+     XE7.OpenGLext;
 
 type
     {**
@@ -508,9 +504,7 @@ var
     pModelColor,
     pAmbient,
     pColor:             TQRColor;
-    direction:          TQRVector3D;
     pLight:             TQRMD2Light;
-    pTexture:           TQRTexture;
     pMemDir:            TQRMemoryDir;
     modelOptions:       TQRModelOptions;
     framedModelOptions: TQRFramedModelOptions;

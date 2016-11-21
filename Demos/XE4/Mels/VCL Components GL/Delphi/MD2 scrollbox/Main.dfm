@@ -7,6 +7,7 @@ object MainForm: TMainForm
   ClientHeight = 510
   ClientWidth = 310
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -14,6 +15,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -13595,8 +13597,7 @@ object MainForm: TMainForm
         'mode (CTF). The deathmatch game benefited '
         'from the release of eight specifically designed '
         'levels that id Software added after the game'#39's '
-        'initial release. They were introduced to the '
-        'game '
+        'initial release. They were introduced to the game '
         'via one of the early patches, that were released '
         'free of charge. Prior to the release of these '
         'maps, '

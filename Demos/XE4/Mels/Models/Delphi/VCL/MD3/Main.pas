@@ -51,15 +51,10 @@ uses System.Classes,
      UTQRShaderOpenGL,
      UTQROpenGLHelper,
      UTOptions,
-     {$IF CompilerVersion <= 25}
-         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-         // because the OpenGL include provided by Embarcadero is incomplete
-         XE7.OpenGL,
-         XE7.OpenGLext;
-     {$ELSE}
-         Winapi.OpenGL,
-         Winapi.OpenGLext;
-     {$ENDIF}
+     // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+     // because the OpenGL include provided by Embarcadero is incomplete
+     XE7.OpenGL,
+     XE7.OpenGLext;
 
 type
     {**

@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'MainForm'
+  Caption = 'Aligned-Axis Bounding Box tree'
   ClientHeight = 410
   ClientWidth = 410
   Color = clBtnFace

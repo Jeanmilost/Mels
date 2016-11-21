@@ -33,6 +33,7 @@ uses System.Classes,
      System.Math,
      System.Generics.Collections,
      System.Variants,
+     System.UITypes,
      Vcl.Graphics,
      Vcl.ExtCtrls,
      Vcl.ComCtrls,
@@ -501,9 +502,7 @@ var
     pModelColor,
     pAmbient,
     pColor:             TQRColor;
-    direction:          TQRVector3D;
     pLight:             TQRMD2Light;
-    pTexture:           TQRTexture;
     pMemDir:            TQRMemoryDir;
     modelOptions:       TQRModelOptions;
     framedModelOptions: TQRFramedModelOptions;

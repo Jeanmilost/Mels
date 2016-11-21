@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{706A2509-7E5F-4FA5-8A80-430845024660}</ProjectGuid>
         <MainSource>Mels_VCLComponentsGLD.dpk</MainSource>
-        <ProjectVersion>18.1</ProjectVersion>
+        <ProjectVersion>18.2</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>

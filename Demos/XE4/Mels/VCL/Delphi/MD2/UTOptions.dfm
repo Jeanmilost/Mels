@@ -2,7 +2,7 @@ object Options: TOptions
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Marvin - Options'
   ClientHeight = 381
   ClientWidth = 408

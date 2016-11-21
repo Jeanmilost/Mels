@@ -15,6 +15,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -13658,5 +13659,6 @@ object MainForm: TMainForm
   object sdSave: TSaveDialog
     Filter = 'Bitmap file|*.bmp'
     Left = 16
+    Top = 8
   end
 end

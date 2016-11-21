@@ -50,15 +50,10 @@ uses System.Classes,
      UTQRMD2ModelGroup,
      UTQRVCLHelpers,
      UTQROpenGLHelper,
-     {$IF CompilerVersion <= 25}
-         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-         // because the OpenGL include provided by Embarcadero is incomplete
-         XE7.OpenGL,
-         XE7.OpenGLext;
-     {$ELSE}
-         Winapi.OpenGL,
-         Winapi.OpenGLext;
-     {$ENDIF}
+     // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+     // because the OpenGL include provided by Embarcadero is incomplete
+     XE7.OpenGL,
+     XE7.OpenGLext;
 
 type
     {**
@@ -359,7 +354,6 @@ var
     pBitmap, pOverlay, pAntialiasedOverlay: Vcl.Graphics.TBitmap;
     pMD2Model:                              TQRMD2Model;
     mesh:                                   TQRMesh;
-    pLoadedTexture:                         TQRTexture;
     loadedTextures:                         TQRTextures;
     pPixels:                                PByte;
     textureIndex:                           GLint;
@@ -389,6 +383,11 @@ begin
     // initialize OpenGL
     if (not TQROpenGLHelper.EnableOpenGL(pOverlayForm.Handle, hDC, hRC)) then
         Exit;
+
+    pBitmap             := nil;
+    pOverlay            := nil;
+    pAntialiasedOverlay := nil;
+    pTextureStream      := nil;
 
     try
         // configure OpenGL

@@ -5,6 +5,7 @@ object MainForm: TMainForm
   ClientHeight = 500
   ClientWidth = 589
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -12,6 +13,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   PixelsPerInch = 96
   TextHeight = 13
   object spScenes: TSplitter

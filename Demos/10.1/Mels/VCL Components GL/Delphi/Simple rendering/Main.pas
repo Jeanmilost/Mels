@@ -48,7 +48,7 @@ uses System.Classes,
 
 type
     {**
-     Main form class
+     Main form
     }
     TMainForm = class(TForm)
         published
