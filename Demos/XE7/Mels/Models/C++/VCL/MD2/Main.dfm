@@ -13,6 +13,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnPaint = FormPaint
@@ -24,6 +25,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 589
     Height = 527
+    Cursor = crCross
     Align = alClient
     BevelOuter = bvNone
     Color = clBlack

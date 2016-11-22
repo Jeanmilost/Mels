@@ -14,6 +14,7 @@ object MainForm: TMainForm
   OldCreateOrder = False
   PopupMenu = pmOptions
   Position = poScreenCenter
+  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnPaint = FormPaint

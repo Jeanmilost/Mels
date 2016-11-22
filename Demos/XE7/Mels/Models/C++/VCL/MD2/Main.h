@@ -1,10 +1,23 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : MD2 demo main form                                                               *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
 #ifndef MainH
 #define MainH
@@ -56,11 +69,6 @@ class TMainForm : public TForm
 
     protected:
         /**
-        * Configure OpenGL with correct format descriptor
-        */
-        void __fastcall SetPixelFormatDescriptor();
-
-        /**
         * Called when thread do nothing else
         *@param pSEnder - event sender
         *@param[in, out] done - if true, idle loop was ternimated and may do nothing else
@@ -93,24 +101,24 @@ class TMainForm : public TForm
 
         typedef std::map<std::size_t, IFrame*> IFrames;
 
-        static bool        m_FullScreen;
-        static bool        m_UseShader;
-        static bool        m_UsePreCalculatedLighting;
-        static bool        m_Collisions;
-        static std::size_t m_FPS;
-        IFrames            m_Frames;
-        HDC                m_hDC;
-        HGLRC              m_hRC;
-        TQRMD2Model*       m_pMD2;
-        QR_Shader_OpenGL*  m_pColorShader;
-        QR_Shader_OpenGL*  m_pTextureShader;
-        TQRTextures        m_Textures;
-        TQRMatrix4x4       m_ProjectionMatrix;
-        TQRMatrix4x4       m_ViewMatrix;
-        TQRMatrix4x4       m_ModelMatrix;
-        std::time_t        m_PreviousTime;
-        double             m_InterpolationFactor;
-        std::size_t        m_FrameIndex;
+        IFrames           m_Frames;
+        HDC               m_hDC;
+        HGLRC             m_hRC;
+        TQRMD2Model*      m_pMD2;
+        QR_Shader_OpenGL* m_pColorShader;
+        QR_Shader_OpenGL* m_pTextureShader;
+        TQRTextures       m_Textures;
+        TQRMatrix4x4      m_ProjectionMatrix;
+        TQRMatrix4x4      m_ViewMatrix;
+        TQRMatrix4x4      m_ModelMatrix;
+        double            m_InterpolationFactor;
+        std::time_t       m_PreviousTime;
+        std::size_t       m_FrameIndex;
+        std::size_t       m_FPS;
+        bool              m_FullScreen;
+        bool              m_UseShader;
+        bool              m_UsePreCalculatedLighting;
+        bool              m_Collisions;
 
         /**
         * Configures OpenGL
@@ -129,12 +137,10 @@ class TMainForm : public TForm
         /**
         * Loads MD2 model
         *@param toggleLight - if true, pre-calculated light will be toggled
-        *@param fullScreen - if true, application will be opened in full screen mode
         *@param useShader - if true, shader will be used
-        *@param collisions - if true, collisions are detected and visible
         *@return true on success, otherwise false
         */
-        bool LoadModel(bool toggleLight, bool fullScreen, bool useShader, bool collisions);
+        bool LoadModel(bool toggleLight, bool useShader);
 
         /**
         * Gets frame from local cache
@@ -183,14 +189,14 @@ class TMainForm : public TForm
         *@param useShader - whether or not shader are used to draw model
         *@param collisions - whether or not collisions are visible
         */
-        void DrawModel(TQRMD2Model*         pModel,
-                       const TQRTextures    textures,
-                       const TQRMatrix4x4&  matrix,
-                       NativeInt            index,
-                       NativeInt            nextIndex,
-                       const double         interpolationFactor,
-                       bool                 useShader,
-                       bool                 collisions);
+        void DrawModel(TQRMD2Model*        pModel,
+                       const TQRTextures   textures,
+                       const TQRMatrix4x4& matrix,
+                       NativeInt           index,
+                       NativeInt           nextIndex,
+                       const double        interpolationFactor,
+                       bool                useShader,
+                       bool                collisions);
 };
 extern PACKAGE TMainForm* MainForm;
 #endif

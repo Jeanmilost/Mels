@@ -1,18 +1,34 @@
-{**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : Main form for the scrollbox containing a MD3 model component demo.               *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************}
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
+{**
+ @abstract(@name contains the MD3 scrollbox demo main form.)
+ @author(Jean-Milost Reymond)
+ @created(2015 - 2016, this file is part of the Mels library)
+}
 unit Main;
 
 interface
 
-uses Winapi.Windows,
-     Winapi.Messages,
-     System.SysUtils,
+uses System.SysUtils,
      System.Variants,
      System.Classes,
      Vcl.Graphics,
@@ -21,16 +37,18 @@ uses Winapi.Windows,
      Vcl.ComCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.Windows,
+     Winapi.Messages,
      UTQRVCLModelComponentGL,
      UTQRVCLMD3ModelComponentGL;
 
 type
     {**
-    * Main form
-    *@note Alpha blending should be enabled in the MD2 model to avoid flickering while the scrollbox is
-    *      scrolled. In this coontext the alpha blending will behave the same way the DoubleBuffered
-    *      behave for other controls
-    *}
+     Main form
+     @note Alpha blending should be enabled in the MD2 model to avoid flickering while the scrollbox
+           is scrolled. In this coontext the alpha blending will behave the same way the
+           DoubleBuffered behave for other controls
+    }
     TMainForm = class(TForm)
         private
             {**
@@ -46,8 +64,8 @@ type
             m3Model: TQRVCLMD3ModelGL;
             sdSave: TSaveDialog;
 
-            procedure btSaveToFileClick(pSender: TObject);
             procedure FormShow(pSender: TObject);
+            procedure btSaveToFileClick(pSender: TObject);
     end;
 
 var
@@ -69,7 +87,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.btSaveToFileClick(pSender: TObject);
 var
-    pBitmap: TBitmap;
+    pBitmap: Vcl.Graphics.TBitmap;
 begin
     if (not sdSave.Execute) then
         Exit;
@@ -78,7 +96,7 @@ begin
 
     try
         // create a bitmap to receive the model
-        pBitmap             := TBitmap.Create;
+        pBitmap             := Vcl.Graphics.TBitmap.Create;
         pBitmap.PixelFormat := pf32bit;
         pBitmap.AlphaFormat := afPremultiplied;
         pBitmap.SetSize(100, 100);

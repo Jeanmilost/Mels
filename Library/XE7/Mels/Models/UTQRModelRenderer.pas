@@ -96,21 +96,21 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets projection (or camera) matrix
+             Gets perspective matrix
              @param(fov Field of view, in degrees)
-             @param(width View width, generally the same as window width)
-             @param(height View height, generally the same as window height)
+             @param(aspectRatio Aspect ratio, generally width divided by height)
              @param(zNear Near plane clipping)
              @param(zFar Far plane clipping)
+             @param(ortho If @true, an orthogonal matrix will be used instead of frustum)
              @return(Matrix)
              @br @bold(NOTE) This function returns the exactly same matrix as gluPerspective
             }
             {$ENDREGION}
-            class function GetProjection(fov,
-                                         width,
-                                         height,
-                                         zNear,
-                                         zFar: Single): TQRMatrix4x4; static;
+            class function GetPerspective(fov,
+                                  aspectRatio,
+                                        zNear,
+                                         zFar: Single;
+                                        ortho: Boolean = False): TQRMatrix4x4; static;
 
             {$REGION 'Documentation'}
             {**
@@ -228,12 +228,11 @@ class function TQRModelRenderer.GetOrtho(left,
 var
     prl, mrl, mlr, ptb, mtb, mbt, pfn, mnf: Single;
 begin
-    // OpenGL specifications                             can be rewritten as
-    // |  2/(r-l) 0        0       -(r+l)/(r-l) |        |  2/(r-l) 0       0       (r+l)/(l-r) |
-    // |  0       2/(t-b)  0       -(t+b)/(t-b) |   =>   |  0       2/(t-b) 0       (t+b)/(b-t) |
-    // |  0       0       -2/(f-n) -(f+n)/(f-n) |        |  0       0       2/(n-f) (f+n)/(n-f) |
-    // |  0       0        0        1           |        |  0       0       0       1           |
-    // invalid for n <= 0, f <= 0, l = r, b = t, or n = f
+    // OpenGL specifications                                    can be rewritten as
+    // |   2/(r-l)       0             0            0  |        |  2/(r-l)      0            0            0  |
+    // |   0             2/(t-b)       0            0  |   =>   |  0            2/(t-b)      0            0  |
+    // |   0             0            -2/(f-n)      0  |        |  0            0            2/(n-f)      0  |
+    // |  -(r+l)/(r-l)  -(t+b)/(t-b)  -(f+n)/(f-n)  1  |        |  (r+l)/(l-r)  (t+b)/(b-t)  (f+n)/(n-f)  1  |
 
     // are input values out of bounds?
     if ((left = right) or (bottom = top) or (zNear = zFar)) then
@@ -250,10 +249,10 @@ begin
     mnf := zNear  - zFar;
 
     // build matrix
-    Result := TQRMatrix4x4.Create(2.0 / mrl, 0.0,       0.0,       prl / mlr,
-                                  0.0,       2.0 / mtb, 0.0,       ptb / mbt,
-                                  0.0,       0.0,       2.0 / mnf, pfn / mnf,
-                                  0.0,       0.0,       0.0,       1.0);
+    Result := TQRMatrix4x4.Create(2.0 / mrl, 0.0,       0.0,       0.0,
+                                  0.0,       2.0 / mtb, 0.0,       0.0,
+                                  0.0,       0.0,       2.0 / mnf, 0.0,
+                                  prl / mlr, ptb / mbt, pfn / mnf, 1.0);
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelRenderer.GetFrustum(left,
@@ -265,12 +264,11 @@ class function TQRModelRenderer.GetFrustum(left,
 var
     x2n, x2nf, pfn, mnf, prl, mrl, ptb, mtb: Single;
 begin
-    // OpenGL specifications                                     can be rewritten as
-    // |  2n/(r-l)  0          (r+l)/(r-l)   0          |        |  2n/(r-l)  0          (r+l)/(r-l)  0          |
-    // |  0         2n/(t-b)   (t+b)/(t-b)   0          |   =>   |  0         2n/(t-b)   (t+b)/(t-b)  0          |
-    // |  0         0         -(f+n)/(f-n)  -2fn/(f-n)  |        |  0         0          (f+n)/(n-f)  2fn/(n-f)  |
-    // |  0         0         -1             0          |        |  0         0         -1            0          |
-    // invalid for n <= 0, f <= 0, l = r, b = t, or n = f
+    // OpenGL specifications                                   can be rewritten as
+    // |  2n/(r-l)     0             0             0  |        |  2n/(r-l)     0            0             0  |
+    // |  0            2n/(t-b)      0             0  |   =>   |  0            2n/(t-b)     0             0  |
+    // |  (r+l)/(r-l)  (t+b)/(t-b)  -(f+n)/(f-n)  -1  |        |  (r+l)/(r-l)  (t+b)/(t-b)  (f+n)/(n-f)  -1  |
+    // |  0            0            -2fn/(f-n)     0  |        |  0            0            2fn/(n-f)     0  |
 
     // are input values out of bounds?
     if ((zNear <= 0.0) or (zFar <= 0.0) or (left = right) or (bottom = top) or (zNear = zFar)) then
@@ -287,33 +285,28 @@ begin
     mtb  := top   - bottom;
 
     // build matrix
-    Result := TQRMatrix4x4.Create(x2n / mrl, 0.0,        prl / mrl, 0.0,
-                                  0.0,       x2n / mtb,  ptb / mtb, 0.0,
-                                  0.0,       0.0,        pfn / mnf, x2nf / mnf,
-                                  0.0,       0.0,       -1.0,       0.0);
+    Result := TQRMatrix4x4.Create(x2n / mrl, 0.0,       0.0,         0.0,
+                                  0.0,       x2n / mtb, 0.0,         0.0,
+                                  prl / mrl, ptb / mtb, pfn  / mnf, -1.0,
+                                  0.0,       0.0,       x2nf / mnf,  0.0);
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRModelRenderer.GetProjection(fov,
-                                              width,
-                                              height,
-                                              zNear,
-                                              zFar: Single): TQRMatrix4x4;
+class function TQRModelRenderer.GetPerspective(fov,
+                                       aspectRatio,
+                                             zNear,
+                                              zFar: Single;
+                                             ortho: Boolean): TQRMatrix4x4;
 var
-    aspect, top, bottom, right, left: Single;
+    maxX, maxY: Single;
 begin
-    // width or height out of bounds?
-    if ((width = 0.0) or (height = 0.0)) then
-        raise Exception.Create('Invalid width or height');
+    maxY := zNear * Tan(fov * PI / 360.0);
+    maxX := maxY  * aspectRatio;
 
-    // configure matrix values to use
-    aspect :=  width / height;
-    top    :=  0.5 * Tan((fov * PI) / 360.0);
-    bottom := -top;
-    right  :=  aspect * top;
-    left   := -right;
-
-    // build and return camera matrix
-    Result := GetFrustum(left, right, bottom, top, zNear, zFar);
+    // do use orthogonal perspective?
+    if (ortho) then
+        Result := GetOrtho(-maxX, maxX, -maxY, maxY, zNear, zFar)
+    else
+        Result := GetFrustum(-maxX, maxX, -maxY, maxY, zNear, zFar);
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelRenderer.LookAtLH(const position, direction, up: TQRVector3D): TQRMatrix4x4;

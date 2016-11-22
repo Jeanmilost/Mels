@@ -78,30 +78,6 @@ type
         }
         {$ENDREGION}
         function Invoke: T; virtual;
-
-        {$REGION 'Documentation'}
-        {**
-         Gets the owned class
-         @return(Owned class)
-        }
-        {$ENDREGION}
-        function Get: T; virtual;
-
-        {$REGION 'Documentation'}
-        {**
-         Releases the owned class
-         @return(Released owned class)
-        }
-        {$ENDREGION}
-        function Release: T; virtual;
-
-        {$REGION 'Documentation'}
-        {**
-         Resets the current instance of owned class and replace by a new one
-         @param(pNewInstance New instance to own)
-        }
-        {$ENDREGION}
-        procedure Reset(pNewInstance: T); virtual;
     end;
 
 implementation
@@ -127,32 +103,12 @@ begin
     m_pInstance.Free;
     m_pInstance := nil;
 
-    inherited;
+    inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRSmartPointer<T>.Invoke: T;
 begin
     Result := m_pInstance;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRSmartPointer<T>.Get: T;
-begin
-    Result := m_pInstance;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRSmartPointer<T>.Release: T;
-begin
-    Result      := m_pInstance;
-    m_pInstance := nil;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRSmartPointer<T>.Reset(pNewInstance: T);
-begin
-    // delete previous instance if exists
-    m_pInstance.Free;
-
-    // then replace by new instance
-    m_pInstance := pNewInstance;
 end;
 //--------------------------------------------------------------------------------------------------
 

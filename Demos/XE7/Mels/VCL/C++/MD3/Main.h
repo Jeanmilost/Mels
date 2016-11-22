@@ -70,16 +70,11 @@ class TMainForm : public TForm
 
     protected:
         /**
-        * Configure OpenGL with correct format descriptor
-        */
-        void __fastcall SetPixelFormatDescriptor();
-
-        /**
         * Called when thread do nothing else
         *@param pSEnder - event sender
         *@param[in, out] done - if true, idle loop was ternimated and may do nothing else
         */
-        void __fastcall IdleLoop(TObject* pSender, bool& done);
+        void __fastcall OnIdle(TObject* pSender, bool& done);
 
         /**
         * Renders (i.e. prepares and draws) scene
@@ -113,9 +108,8 @@ class TMainForm : public TForm
         HDC               m_hDC;
         HGLRC             m_hRC;
         TQRMD3Group*      m_pMD3;
-        QR_Shader_OpenGL* m_pShader;
-        QR_Shader_OpenGL* m_pInterpolationShader;
-        QR_Shader_OpenGL* m_pCollidePolysShader;
+        QR_Shader_OpenGL* m_pTextureShader;
+        QR_Shader_OpenGL* m_pColorShader;
         TQRMatrix4x4      m_ProjectionMatrix;
         TQRMatrix4x4      m_ViewMatrix;
         std::time_t       m_PreviousTime;
@@ -168,7 +162,7 @@ class TMainForm : public TForm
         /**
         * Prepres the shader to draw the model
         *@param pShader - shader to prepare
-        *@aram modelName - model name
+        *@param modelName - model name
         *@param textures - textures belonging to model
         */
         void PrepareShaderToDrawModel(      QR_Shader_OpenGL* pShader,

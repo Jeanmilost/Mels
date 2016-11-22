@@ -1055,7 +1055,23 @@ type
              @return(Texture extension count)
             }
             {$ENDREGION}
-            function GetTextureExtCount(): NativeInt; virtual;
+            function GetTextureExtCount: NativeInt; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached mesh item count
+             @return(The cached mesh item count)
+            }
+            {$ENDREGION}
+            function GetMeshCount: NativeUInt; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached aligned-axis bounding box tree item count
+             @return(The cached aligned-axis bounding box tree item count)
+            }
+            {$ENDREGION}
+            function GetAABBTreeCount: NativeUInt; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -1209,6 +1225,20 @@ type
 
         // Properties
         public
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached mesh item count
+            }
+            {$ENDREGION}
+            property MeshCount: NativeUInt read GetMeshCount;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets the cached aligned-axis bounding box tree item count
+            }
+            {$ENDREGION}
+            property AABBTreeCount: NativeUInt read GetAABBTreeCount;
+
             {$REGION 'Documentation'}
             {**
              Gets or sets the mesh at index
@@ -2200,9 +2230,23 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRModelJob.GetTextureExtCount(): NativeInt;
+function TQRModelJob.GetTextureExtCount: NativeInt;
 begin
     REsult := Length(m_TextureExt);
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetMeshCount: NativeUInt;
+begin
+    m_pLock.Lock;
+    Result := m_pCache.MeshCount;
+    m_pLock.Unlock;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModelJob.GetAABBTreeCount: NativeUInt;
+begin
+    m_pLock.Lock;
+    Result := m_pCache.AABBTreeCount;
+    m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetMesh(index: NativeUInt): PQRMesh;
@@ -2235,6 +2279,15 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetGroup: TQRModelGroup;
 begin
+    // return nil in case the job was canceled, because the group may be deleted externally and no
+    // more valid, even if the job persists. This happen e.g. when the job is executing while his
+    // group is deleted, and is postponed to be deleted after his execution ends
+    if (GetStatus = EQR_JS_Canceled) then
+    begin
+        Result := nil;
+        Exit;
+    end;
+
     m_pLock.Lock;
     Result := m_pGroup;
     m_pLock.Unlock;
@@ -2281,6 +2334,9 @@ begin
     m_pLock.Lock;
 
     try
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
         if (not Assigned(m_pGroup)) then
             Exit;
 

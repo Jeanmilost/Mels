@@ -43,6 +43,7 @@ class TOptions : public TForm
         TPanel *paMain;
         TTimer *tiDrawPreview;
         TCheckBox *ckPreCalculateLight;
+        TCheckBox *ckUseOrthoMatrix;
 
         void __fastcall FormCreate(TObject* pSender);
         void __fastcall rgCacheOptionsClick(TObject* pSender);
@@ -63,16 +64,23 @@ class TOptions : public TForm
         */
         __fastcall ~TOptions();
 
+        /**
+        * Checks if application is closing
+        *@return true if application is closing, otherwise false
+        */
+        bool IsAppClosing() const;
+
     protected:
         /**
         * Options form message loop
-        *@param message- message sent by Windows
+        *@param message - message sent by Windows
         */
         void __fastcall WndProc(TMessage& message);
 
     private:
         TQRMD2Group* m_pMD2;
         bool         m_ModelRendered;
+        bool         m_Closing;
 
         /**
         * Resets interface to default values

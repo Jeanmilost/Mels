@@ -1,0 +1,12 @@
+// MD2 model
+ID_MD2_MODEL                  RCDATA    "Resources\Models\marvin.md2"
+ID_MD2_TEXTURE                RCDATA    "Resources\Models\marvin.bmp"
+ID_MD2_NORMALS_TABLE          RCDATA    "Resources\Models\marvin.bin"
+ID_MD2_ANIM_CFG               RCDATA    "Resources\Models\marvin.cfg"
+
+// shader
+ID_COLOR_VERTEX_SHADER        RCDATA    "Resources\Shader\color_vertex.glsl"
+ID_COLOR_FRAGMENT_SHADER      RCDATA    "Resources\Shader\color_fragment.glsl"
+ID_TEXTURE_VERTEX_SHADER      RCDATA    "Resources\Shader\texture_vertex.glsl"
+ID_TEXTURE_FRAGMENT_SHADER    RCDATA    "Resources\Shader\texture_fragment.glsl"
+

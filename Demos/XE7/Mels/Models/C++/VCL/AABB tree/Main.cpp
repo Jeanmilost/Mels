@@ -1,10 +1,23 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : 3D ray picking with AABB tree simplification demo main form                      *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
 #include <vcl.h>
 #pragma hdrstop
@@ -78,8 +91,11 @@ void __fastcall TMainForm::FormShow(TObject* pSender)
     // initialize OpenGL
     if (!QR_OpenGLHelper::EnableOpenGL(Handle, m_hDC, m_hRC))
     {
-        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.", mtError,
-                TMsgDlgButtons() << mbOK, 0);;
+        MessageDlg("OpenGL could not be initialized.\r\n\r\nApplication will close.",
+                   mtError,
+                   TMsgDlgButtons() << mbOK,
+                   0);
+
         Application->Terminate();
         return;
     }
@@ -129,11 +145,12 @@ void __fastcall TMainForm::DrawScene(const double& elapsedTime)
     // do rotate sphere?
     if (m_Rotate)
     {
-        // calculate full max angle (i.e. 360°)
-        const float fullAngle = M_PI * 2.0f;
-
         // calculate next rotation angle
-        m_Theta = (m_Theta + 0.008f > fullAngle) ? ((m_Theta + 0.008f) - fullAngle) : m_Theta + 0.008f;
+        m_Theta = m_Theta + (0.001 * elapsedTime);
+
+        // correct it if out of bounds
+        if (m_Theta > (M_PI * 2.0))
+            m_Theta -= (M_PI * 2.0);
     }
 
     TQRTextures textures;
@@ -260,154 +277,5 @@ void TMainForm::ConfigOpenGL()
     // enable culling
     glDisable(GL_CULL_FACE);
     glCullFace(GL_NONE);
-}
-//--------------------------------------------------------------------------------------------------
-void TMainForm::CreateSphere(float       radius,
-                             int         slices,
-                             int         stacks,
-                             std::size_t color,
-                             TQRVertex&  vertex,
-                             TQRMesh&    mesh)
-{
-    int   i;
-    int   j;
-    int   meshIndex;
-    int   fanLength;
-    int   index;
-    float majorStep;
-    float minorStep;
-    float a;
-    float b;
-    float r0;
-    float r1;
-    float z0;
-    float z1;
-    float c;
-    float x;
-    float y;
-
-    // configure vertex format
-    vertex.m_CoordType = EQR_VC_XYZ;
-    vertex.m_Type      = EQR_VT_TriangleStrip;
-    vertex.m_Stride    = vertex.CalculateStride();
-
-    const float       pi     = atan(1.0f) * 4.0f;
-    const std::size_t stride = vertex.m_Stride;
-
-    // initialize basic values
-    majorStep = (pi          / slices);
-    minorStep = ((2.0f * pi) / stacks);
-
-    // iterate through vertex slices
-    for (i = 0; i <= slices; ++i)
-    {
-        // calculate values for next slice
-        a  = i * majorStep;
-        b  = a + majorStep;
-        r0 = radius * std::sinf(a);
-        r1 = radius * std::sinf(b);
-        z0 = radius * std::cosf(a);
-        z1 = radius * std::cosf(b);
-
-        // calculate current index and slice fan length
-        meshIndex = mesh.Length;
-        fanLength = (stacks + 1) * stride * 2;
-
-        // adde new mesh in output array
-        mesh.Length += 1;
-
-        // populate mesh
-        mesh[meshIndex]                 = vertex.Clone();
-        mesh[meshIndex].m_Buffer.Length = fanLength;
-
-        index = 0;
-
-        // iterate through vertex stacks
-        for (j = 0; j <= stacks; ++j)
-        {
-            c = j * minorStep;
-            x = std::cosf(c);
-            y = std::sinf(c);
-
-            // set vertex data
-            mesh[meshIndex].m_Buffer[index]     = x * r0;
-            mesh[meshIndex].m_Buffer[index + 1] = y * r0;
-            mesh[meshIndex].m_Buffer[index + 2] = z0;
-
-            index += 3;
-
-            // do generate normals?
-            if (vertex.m_Format.Contains(EQR_VF_Normals))
-            {
-                // set normals
-                mesh[meshIndex].m_Buffer[index]     = (x * r0) / radius;
-                mesh[meshIndex].m_Buffer[index + 1] = (y * r0) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] = z0       / radius;
-
-                index += 3;
-            }
-
-            // do generate texture coordinates?
-            if (vertex.m_Format.Contains(EQR_VF_TexCoords))
-            {
-                // add texture coordinates data to buffer
-                mesh[meshIndex].m_Buffer[index]     = ((float)j / (float)stacks);
-                mesh[meshIndex].m_Buffer[index + 1] = ((float)i / (float)slices);
-
-                index += 2;
-            }
-
-            // do generate colors?
-            if (vertex.m_Format.Contains(EQR_VF_Colors))
-            {
-                // set color data
-                mesh[meshIndex].m_Buffer[index]     = (float)((color >> 24) & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 1] = (float)((color >> 16) & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 2] = (float)((color >> 8)  & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 3] = (float) (color        & 0xFF) / 255.0f;
-
-                index += 4;
-            }
-
-            mesh[meshIndex].m_Buffer[index]     = x * r1;
-            mesh[meshIndex].m_Buffer[index + 1] = y * r1;
-            mesh[meshIndex].m_Buffer[index + 2] = z1;
-
-            index += 3;
-
-            // do generate normals?
-            if (vertex.m_Format.Contains(EQR_VF_Normals))
-            {
-                // set normals
-                mesh[meshIndex].m_Buffer[index]     = (x * r1) / radius;
-                mesh[meshIndex].m_Buffer[index + 1] = (y * r1) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] =  z1      / radius;
-
-                index += 3;
-            }
-
-            // do generate texture coordinates?
-            if (vertex.m_Format.Contains(EQR_VF_TexCoords))
-            {
-                // add texture coordinates data to buffer
-                mesh[meshIndex].m_Buffer[index]     = ( (float)j         / (float)stacks);
-                mesh[meshIndex].m_Buffer[index + 1] = (((float)i + 1.0f) / (float)slices);
-
-                index += 2;
-            }
-
-            // do generate colors?
-            if (vertex.m_Format.Contains(EQR_VF_Colors))
-            {
-                // set color data
-                mesh[meshIndex].m_Buffer[index]     = (float)((color >> 24) & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 1] = (float)((color >> 16) & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 2] = (float)((color >> 8)  & 0xFF) / 255.0f;
-                mesh[meshIndex].m_Buffer[index + 3] = (float) (color        & 0xFF) / 255.0f;
-
-                index += 4;
-            }
-        }
-    }
 }
 //--------------------------------------------------------------------------------------------------

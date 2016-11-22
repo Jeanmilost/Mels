@@ -50,7 +50,7 @@
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win32\Debug;..\..\..\..\..\..\Library\XE4\Mels\Base\Win32\Debug;..\..\..\..\..\..\Library\XE4\Mels\Models\Win32\Debug;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win32\Debug;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win32\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win32\Debug;..\..\..\..\..\..\Library\XE7\Mels\Base\Win32\Debug;..\..\..\..\..\..\Library\XE7\Mels\Models\Win32\Debug;..\..\..\..\..\..\Library\XE7\Mels\VCL\Win32\Debug;..\..\..\..\..\..\Library\XE7\Mels\VCL Components GL\Win32\Debug;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Build>1</VerInfo_Build>
@@ -171,7 +171,7 @@
             <Deployment/>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">False</Platform>
+                <Platform value="Win64">True</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>

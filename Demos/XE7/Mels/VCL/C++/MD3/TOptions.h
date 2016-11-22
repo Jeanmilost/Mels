@@ -51,14 +51,15 @@ class TOptions : public TForm
         TRadioButton *rbDefault;
         TRadioButton *rbRed;
         TRadioButton *rbBlue;
+        TCheckBox *ckUseOrthoMatrix;
 
         void __fastcall FormCreate(TObject* pSender);
         void __fastcall rgCacheOptionsClick(TObject* pSender);
         void __fastcall btQuitClick(TObject* pSender);
         void __fastcall btCancelClick(TObject* pSender);
         void __fastcall btOKClick(TObject* pSender);
-        void __fastcall tiDrawPreviewTimer(TObject* pSender);
         void __fastcall btBrowseClick(TObject* pSender);
+        void __fastcall tiDrawPreviewTimer(TObject* pSender);
         void __fastcall OnSelectTeam(TObject* pSender);
 
     public:
@@ -72,6 +73,12 @@ class TOptions : public TForm
         * Destructor
         */
         __fastcall ~TOptions();
+
+        /**
+        * Checks if application is closing
+        *@return true if application is closing, otherwise false
+        */
+        bool IsAppClosing() const;
 
         /**
         * Gets selected team
@@ -93,6 +100,7 @@ class TOptions : public TForm
         ITextures         m_Textures;
         EQRMD3PackageTeam m_Team;
         bool              m_ModelRendered;
+        bool              m_Closing;
 
         /**
         * Resets interface to default values

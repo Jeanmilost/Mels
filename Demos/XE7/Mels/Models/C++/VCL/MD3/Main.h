@@ -1,10 +1,23 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : MD3 demo main form                                                               *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+// *************************************************************************************************
+// * ==> Main -------------------------------------------------------------------------------------*
+// *************************************************************************************************
+// * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+// *                                                                                               *
+// * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+// * and associated documentation files (the "Software"), to deal in the Software without          *
+// * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+// * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+// * Software is furnished to do so, subject to the following conditions:                          *
+// *                                                                                               *
+// * The above copyright notice and this permission notice shall be included in all copies or      *
+// * substantial portions of the Software.                                                         *
+// *                                                                                               *
+// * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+// * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+// * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+// * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+// * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+// *************************************************************************************************
 
 #ifndef MainH
 #define MainH
@@ -19,6 +32,7 @@
 #include <Vcl.ExtCtrls.hpp>
 
 // std
+#include <vector>
 #include <map>
 #include <time.h>
 
@@ -87,29 +101,64 @@ class TMainForm : public TForm
             TQRMesh*     m_pMesh;
             TQRAABBTree* m_pAABBTree;
 
+            /**
+            * Constructor
+            *@param useCollisions - if true, collision will be used
+            */
             IFrame(bool useCollisions);
+
+            /**
+            * Destructor
+            */
             virtual ~IFrame();
         };
 
         typedef std::map<std::size_t, IFrame*> IFrames;
 
-        static bool        m_FullScreen;
-        static bool        m_UseShader;
-        static bool        m_Collisions;
-        static std::size_t m_FPS;
-        IFrames            m_Frames;
-        HDC                m_hDC;
-        HGLRC              m_hRC;
-        TQRMD3Model*       m_pMD3;
-        QR_Shader_OpenGL*  m_pColorShader;
-        QR_Shader_OpenGL*  m_pTextureShader;
-        TQRTextures        m_Textures;
-        TQRMatrix4x4       m_ProjectionMatrix;
-        TQRMatrix4x4       m_ViewMatrix;
-        TQRMatrix4x4       m_ModelMatrix;
-        std::time_t        m_PreviousTime;
-        double             m_InterpolationFactor;
-        std::size_t        m_FrameIndex;
+        /**
+        * Item associating a texture identifier with a model name
+        */
+        struct ITextureItem
+        {
+            std::size_t  m_ID;
+            std::wstring m_Name;
+
+            /**
+            * Constructor
+            */
+            ITextureItem();
+
+            /**
+            * Constructor
+            *@param id - texture identifier
+            *@param name - texture name to link with, as defined in model
+            */
+            ITextureItem(std::size_t id, const std::wstring& name);
+
+            /**
+            * Destructor
+            */
+            virtual ~ITextureItem();
+        };
+
+        typedef std::vector<ITextureItem> ITextureTable;
+
+        IFrames           m_Frames;
+        HDC               m_hDC;
+        HGLRC             m_hRC;
+        TQRMD3Model*      m_pMD3;
+        QR_Shader_OpenGL* m_pColorShader;
+        QR_Shader_OpenGL* m_pTextureShader;
+        TQRTextures       m_Textures;
+        TQRMatrix4x4      m_ProjectionMatrix;
+        TQRMatrix4x4      m_ViewMatrix;
+        TQRMatrix4x4      m_ModelMatrix;
+        std::time_t       m_PreviousTime;
+        double            m_InterpolationFactor;
+        std::size_t       m_FrameIndex;
+        bool              m_FullScreen;
+        bool              m_UseShader;
+        bool              m_Collisions;
 
         /**
         * Configures OpenGL
@@ -127,12 +176,10 @@ class TMainForm : public TForm
 
         /**
         * Loads MD3 model
-        *@param fullScreen - if true, application will be opened in full screen mode
         *@param useShader - if true, shader will be used
-        *@param collisions - if true, collisions are detected and visible
         *@return true on success, otherwise false
         */
-        bool LoadModel(bool fullScreen, bool useShader, bool collisions);
+        bool LoadModel(bool useShader);
 
         /**
         * Gets frame from local cache
@@ -163,11 +210,11 @@ class TMainForm : public TForm
         void PrepareShaderToDrawModel(QR_Shader_OpenGL* pShader, const TQRTextures& textures);
 
         /**
-        * Loads model texture
-        *@param pTexture - texture info
+        * Loads model textures
+        *@param textureTable - texture table
         *@return true on success, otherwise false
         */
-        bool LoadTexture(TQRTexture* pTexture);
+        bool LoadTexture(const ITextureTable& textureTable);
 
         /**
         * Draws model

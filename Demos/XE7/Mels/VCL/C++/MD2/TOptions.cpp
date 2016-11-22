@@ -32,7 +32,8 @@ TOptions* Options;
 __fastcall TOptions::TOptions(TComponent* pOwner) :
     TForm(pOwner),
     m_pMD2(NULL),
-    m_ModelRendered(false)
+    m_ModelRendered(false),
+    m_Closing(false)
 {
     LoadPreview();
 }
@@ -59,6 +60,23 @@ void __fastcall TOptions::rgCacheOptionsClick(TObject* pSender)
     ckShowCollisions->Enabled      = (rgCacheOptions->ItemIndex != 1);
 }
 //--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btQuitClick(TObject* pSender)
+{
+    m_Closing = true;
+    Application->Terminate();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btCancelClick(TObject* pSender)
+{
+    Reset();
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
+void __fastcall TOptions::btOKClick(TObject* pSender)
+{
+    Close();
+}
+//--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
 {
     // model already rendered?
@@ -80,20 +98,9 @@ void __fastcall TOptions::tiDrawPreviewTimer(TObject* pSender)
     m_pMD2->Draw(0.0);
 }
 //--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btQuitClick(TObject* pSender)
+bool TOptions::IsAppClosing() const
 {
-    Application->Terminate();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btCancelClick(TObject* pSender)
-{
-    Reset();
-    Close();
-}
-//--------------------------------------------------------------------------------------------------
-void __fastcall TOptions::btOKClick(TObject* pSender)
-{
-    Close();
+    return m_Closing;
 }
 //--------------------------------------------------------------------------------------------------
 void __fastcall TOptions::WndProc(TMessage& message)
@@ -104,8 +111,12 @@ void __fastcall TOptions::WndProc(TMessage& message)
         case WM_SYSCOMMAND:
             // close button was clicked on form?
             if (message.WParam == SC_CLOSE)
+            {
+                m_Closing = true;
+
                 // really close the application
                 Application->Terminate();
+            }
 
             break;
     }
@@ -151,9 +162,9 @@ void TOptions::LoadPreview()
     pModelStream.release();
 
     // place model into 3D world
-    *pMD2->Translation = TQRVector3D(0.0f, 0.0f, -100.0f);
-    pMD2->RotationX    = -M_PI_2; // -90°
-    pMD2->RotationZ    = -M_PI_4; // -45°
+    *pMD2->Translation =  TQRVector3D(0.0f, 0.0f, -100.0f);
+     pMD2->RotationX   = -M_PI_2; // -90°
+     pMD2->RotationZ   = -M_PI_4; // -45°
 
     // set gesture to run
     pMD2->Gesture = 0;

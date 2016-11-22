@@ -1,6 +1,6 @@
 program Planetarium;
 
-{$R 'Main.res' 'Main.rc'}
+{$R 'Resources.res' 'Resources.rc'}
 
 uses
   Vcl.Forms,

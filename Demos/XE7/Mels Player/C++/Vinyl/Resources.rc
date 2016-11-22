@@ -1,5 +1,0 @@
-#include "Resources.rh"
-
-// music
-ID_MUSIC    DATA    "Resources\Music\La vie est une comédie + vinyl effect.wav"
-

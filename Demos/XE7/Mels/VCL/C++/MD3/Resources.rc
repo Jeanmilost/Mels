@@ -1,13 +1,11 @@
 #include "Resources.rh"
 
 // MD3 model
-ID_MD3_MODEL                           DATA    "Resources\Models\md3-lara.pk3"
+ID_MD3_MODEL                  DATA    "Resources\Models\md3-lara.pk3"
 
 // shader
-ID_DEFAULT_VERTEX_SHADER               DATA    "Resources\Shader\default_vertex.glsl"
-ID_DEFAULT_FRAGMENT_SHADER             DATA    "Resources\Shader\default_fragment.glsl"
-ID_INTERPOLATED_VERTEX_SHADER          DATA    "Resources\Shader\interpolated_vertex.glsl"
-ID_INTERPOLATED_FRAGMENT_SHADER        DATA    "Resources\Shader\interpolated_fragment.glsl"
-ID_COLLIDE_POLYGONS_VERTEX_SHADER      DATA    "Resources\Shader\collide_polys_vertex.glsl"
-ID_COLLIDE_POLYGONS_FRAGMENT_SHADER    DATA    "Resources\Shader\collide_polys_fragment.glsl"
+ID_COLOR_VERTEX_SHADER        DATA    "Resources\Shader\color_vertex.glsl"
+ID_COLOR_FRAGMENT_SHADER      DATA    "Resources\Shader\color_fragment.glsl"
+ID_TEXTURE_VERTEX_SHADER      DATA    "Resources\Shader\texture_vertex.glsl"
+ID_TEXTURE_FRAGMENT_SHADER    DATA    "Resources\Shader\texture_fragment.glsl"
 

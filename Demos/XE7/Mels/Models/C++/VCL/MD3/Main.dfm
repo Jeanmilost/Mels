@@ -1,7 +1,7 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Watercan - MD3 renderer'
+  Caption = 'Cabinet with glass pane - MD3 renderer'
   ClientHeight = 527
   ClientWidth = 589
   Color = clBtnFace
@@ -13,6 +13,7 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  Scaled = False
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnPaint = FormPaint
@@ -24,6 +25,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 589
     Height = 527
+    Cursor = crCross
     Align = alClient
     BevelOuter = bvNone
     Color = clBlack
@@ -32,5 +34,7 @@ object MainForm: TMainForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 0
+    ExplicitWidth = 599
+    ExplicitHeight = 537
   end
 end
