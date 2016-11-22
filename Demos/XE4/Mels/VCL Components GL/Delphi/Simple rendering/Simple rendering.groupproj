@@ -3,6 +3,9 @@
         <ProjectGuid>{AF57282A-32F0-4683-A14E-C757A96929F5}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj">
             <Dependencies/>
         </Projects>
@@ -29,6 +32,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="DelphiAL">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj"/>
+    </Target>
+    <Target Name="DelphiAL:Clean">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DelphiAL:Make">
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\..\Library\XE4\Mels\Base\Mels_Base.dproj"/>
     </Target>
@@ -84,13 +96,13 @@
         <MSBuild Projects="SimpleRendering.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;SimpleRendering"/>
+        <CallTarget Targets="DelphiAL;Mels_Base;Mels_Models;Mels_VCL;Mels_VCLComponentsGL;Mels_VCLComponentsGLD;SimpleRendering"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;SimpleRendering:Clean"/>
+        <CallTarget Targets="DelphiAL:Clean;Mels_Base:Clean;Mels_Models:Clean;Mels_VCL:Clean;Mels_VCLComponentsGL:Clean;Mels_VCLComponentsGLD:Clean;SimpleRendering:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;SimpleRendering:Make"/>
+        <CallTarget Targets="DelphiAL:Make;Mels_Base:Make;Mels_Models:Make;Mels_VCL:Make;Mels_VCLComponentsGL:Make;Mels_VCLComponentsGLD:Make;SimpleRendering:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

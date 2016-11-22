@@ -1,9 +1,9 @@
 // MD3 model
-ID_MD3_MODEL                  RCDATA    "Resources\Models\md3-lara.pk3"
+ID_MD3_MODEL                  RCDATA    "..\..\..\..\..\Common\Resources\Models\md3-lara.pk3"
 
 // shader
-ID_COLOR_VERTEX_SHADER        RCDATA    "Resources\Shader\color_vertex.glsl"
-ID_COLOR_FRAGMENT_SHADER      RCDATA    "Resources\Shader\color_fragment.glsl"
-ID_TEXTURE_VERTEX_SHADER      RCDATA    "Resources\Shader\texture_vertex.glsl"
-ID_TEXTURE_FRAGMENT_SHADER    RCDATA    "Resources\Shader\texture_fragment.glsl"
+ID_COLOR_VERTEX_SHADER        RCDATA    "..\..\..\..\..\Common\Resources\Shader\color_vertex.glsl"
+ID_COLOR_FRAGMENT_SHADER      RCDATA    "..\..\..\..\..\Common\Resources\Shader\color_fragment.glsl"
+ID_TEXTURE_VERTEX_SHADER      RCDATA    "..\..\..\..\..\Common\Resources\Shader\texture_vertex.glsl"
+ID_TEXTURE_FRAGMENT_SHADER    RCDATA    "..\..\..\..\..\Common\Resources\Shader\texture_fragment.glsl"
 

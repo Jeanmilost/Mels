@@ -110,7 +110,7 @@
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
-        <LinkPackageStatics>rtl.lib;vcl.lib;DelpgiGl.lib;Mels_Base.lib;Mels_Models.lib;Mels_VCL.lib;Mels_VCLComponentsGL.lib;vclimg.lib</LinkPackageStatics>
+        <LinkPackageStatics>rtl.lib;vcl.lib;DelphiGL.lib;Mels_Base.lib;Mels_Models.lib;Mels_VCL.lib;Mels_VCLComponentsGL.lib;vclimg.lib</LinkPackageStatics>
         <ILINK_LibraryPath>C:\Users\Public\Documents\Embarcadero\Studio\15.0\DCP\;$(BDS)\lib\win32\release\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -131,11 +131,6 @@
         <PCHCompile Include="Main_PCH.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
-        <ResourceCompile Include="Resources.rc">
-            <Form>Resources.res</Form>
-            <BuildOrder>3</BuildOrder>
-        </ResourceCompile>
-        <None Include="Resources.rh"/>
         <CppCompile Include="SimpleRendering.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -215,8 +210,10 @@
                 </VersionInfoKeys>
             </CPlusPlusBuilder.Personality>
             <Deployment>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule">
-                    <Platform Name="Win64"/>
+                <DeployFile LocalName="Resources.rh" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                    </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin64\borlndmm.dll" Class="DependencyModule">
                     <Platform Name="Win64"/>
@@ -224,13 +221,13 @@
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32160mt.dll" Class="DependencyModule">
                     <Platform Name="Win32"/>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32"/>
+                </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\SimpleRendering.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
                         <RemoteName>SimpleRendering.tds</RemoteName>
                     </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32"/>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64160mt.dll" Class="DependencyModule">
                     <Platform Name="Win64"/>
@@ -251,10 +248,8 @@
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32160.dll" Class="DependencyModule">
                     <Platform Name="Win32"/>
                 </DeployFile>
-                <DeployFile LocalName="Resources.rh" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                    </Platform>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64160.dll" Class="DependencyModule">
+                    <Platform Name="Win64"/>
                 </DeployFile>
                 <DeployClass Required="true" Name="DependencyPackage">
                     <Platform Name="iOSDevice">
