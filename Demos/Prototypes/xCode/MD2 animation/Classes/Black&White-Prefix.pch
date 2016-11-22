@@ -1,0 +1,22 @@
+/******************************************************************************
+ * ==> Global defines --------------------------------------------------------*
+ ******************************************************************************
+ * Description : Application global defines                                   *
+ * Developer   : Jean-Milost Reymond                                          *
+ ******************************************************************************/
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+    #warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+
+// before using shader, OpenGL used a set of commands, as e.g. glTransform,
+// to manage vertexes and place models in space. This was called direct mode.
+// Although it's an obsolete mode now, the qr engine is able to support it
+#define USE_OPENGL_DIRECT_MODE

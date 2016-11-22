@@ -1,0 +1,1081 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D1737F119983B1100E8DABB /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1737F019983B1100E8DABB /* OpenAL.framework */; };
+		1D1737FF19983E5C00E8DABB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D1737F719983E5C00E8DABB /* InfoPlist.strings */; };
+		1D17380019983E5C00E8DABB /* QR_ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D1737F919983E5C00E8DABB /* QR_ViewController.xib */; };
+		1D6E0B12199839A800C8A80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E0B11199839A800C8A80F /* UIKit.framework */; };
+		1D6E0B14199839A800C8A80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E0B13199839A800C8A80F /* Foundation.framework */; };
+		1D6E0B16199839A800C8A80F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E0B15199839A800C8A80F /* CoreGraphics.framework */; };
+		1D6E0B18199839A800C8A80F /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E0B17199839A800C8A80F /* GLKit.framework */; };
+		1D6E0B1A199839A800C8A80F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E0B19199839A800C8A80F /* OpenGLES.framework */; };
+		1D6E0B5019983A0000C8A80F /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E0B4519983A0000C8A80F /* main.mm */; };
+		1D6E0B5119983A0000C8A80F /* QR_AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E0B4719983A0000C8A80F /* QR_AppDelegate.mm */; };
+		1D6E0B5219983A0000C8A80F /* QR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E0B4919983A0000C8A80F /* QR_ViewController.mm */; };
+		1D7D62D3199840DE005B202A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D7D62D2199840DE005B202A /* Icon.png */; };
+		1D7D62D61998418D005B202A /* Icon@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D7D62D51998418D005B202A /* Icon@2.png */; };
+		1D7D62DD19984373005B202A /* Female_animated.md2 in Resources */ = {isa = PBXBuildFile; fileRef = 1D7D62D919984373005B202A /* Female_animated.md2 */; };
+		1D7D62DE19984373005B202A /* Normals.bin in Resources */ = {isa = PBXBuildFile; fileRef = 1D7D62DB19984373005B202A /* Normals.bin */; };
+		84E70BF41DE3B63F00EDB677 /* QR_OpenGLHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BD61DE3B63F00EDB677 /* QR_OpenGLHelper.cpp */; };
+		84E70BF51DE3B63F00EDB677 /* QR_Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BD91DE3B63F00EDB677 /* QR_Shader.cpp */; };
+		84E70BF61DE3B63F00EDB677 /* QR_Shader_OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BDB1DE3B63F00EDB677 /* QR_Shader_OpenGL.cpp */; };
+		84E70BF71DE3B63F00EDB677 /* QR_Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BDE1DE3B63F00EDB677 /* QR_Vertex.cpp */; };
+		84E70BF81DE3B63F00EDB677 /* QR_Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BE21DE3B63F00EDB677 /* QR_Exception.cpp */; };
+		84E70BF91DE3B63F00EDB677 /* QR_Types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BE51DE3B63F00EDB677 /* QR_Types.cpp */; };
+		84E70BFA1DE3B63F00EDB677 /* QR_Matrix16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BE91DE3B63F00EDB677 /* QR_Matrix16.cpp */; };
+		84E70BFB1DE3B63F00EDB677 /* QR_Vector3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BEC1DE3B63F00EDB677 /* QR_Vector3D.cpp */; };
+		84E70BFC1DE3B63F00EDB677 /* QR_Algorithms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BF01DE3B63F00EDB677 /* QR_Algorithms.cpp */; };
+		84E70C1C1DE3B6AD00EDB677 /* QR_MD2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70BFF1DE3B6AD00EDB677 /* QR_MD2.cpp */; };
+		84E70C1D1DE3B6AD00EDB677 /* QR_MD2Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C011DE3B6AD00EDB677 /* QR_MD2Animation.cpp */; };
+		84E70C1E1DE3B6AD00EDB677 /* QR_MD2Collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C031DE3B6AD00EDB677 /* QR_MD2Collision.cpp */; };
+		84E70C1F1DE3B6AD00EDB677 /* QR_MD2Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C051DE3B6AD00EDB677 /* QR_MD2Common.cpp */; };
+		84E70C201DE3B6AD00EDB677 /* QR_MD2Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C071DE3B6AD00EDB677 /* QR_MD2Parser.cpp */; };
+		84E70C211DE3B6AD00EDB677 /* QR_MD2Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C091DE3B6AD00EDB677 /* QR_MD2Renderer.cpp */; };
+		84E70C221DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C0B1DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.cpp */; };
+		84E70C231DE3B6AD00EDB677 /* QR_FramedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C0E1DE3B6AD00EDB677 /* QR_FramedModel.cpp */; };
+		84E70C241DE3B6AD00EDB677 /* QR_FramedModelGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C101DE3B6AD00EDB677 /* QR_FramedModelGroup.cpp */; };
+		84E70C251DE3B6AD00EDB677 /* QR_Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C121DE3B6AD00EDB677 /* QR_Model.cpp */; };
+		84E70C261DE3B6AD00EDB677 /* QR_ModelCollision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C141DE3B6AD00EDB677 /* QR_ModelCollision.cpp */; };
+		84E70C271DE3B6AD00EDB677 /* QR_ModelGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C161DE3B6AD00EDB677 /* QR_ModelGroup.cpp */; };
+		84E70C281DE3B6AD00EDB677 /* QR_ModelParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C181DE3B6AD00EDB677 /* QR_ModelParser.cpp */; };
+		84E70C291DE3B6AD00EDB677 /* QR_ModelRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C1A1DE3B6AD00EDB677 /* QR_ModelRenderer.cpp */; };
+		84E70C331DE3B6DD00EDB677 /* QR_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C2B1DE3B6DD00EDB677 /* QR_Buffer.cpp */; };
+		84E70C341DE3B6DD00EDB677 /* QR_FileBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C2D1DE3B6DD00EDB677 /* QR_FileBuffer.cpp */; };
+		84E70C351DE3B6DD00EDB677 /* QR_MemoryBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C2F1DE3B6DD00EDB677 /* QR_MemoryBuffer.cpp */; };
+		84E70C361DE3B6DD00EDB677 /* QR_StdFileBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C311DE3B6DD00EDB677 /* QR_StdFileBuffer.cpp */; };
+		84E70C401DE3B72F00EDB677 /* QRX_StringTools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C3A1DE3B72F00EDB677 /* QRX_StringTools.mm */; };
+		84E70C411DE3B72F00EDB677 /* convertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C3C1DE3B72F00EDB677 /* convertUTF.c */; };
+		84E70C421DE3B72F00EDB677 /* QR_StringTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C3E1DE3B72F00EDB677 /* QR_StringTools.cpp */; };
+		84E70C471DE3B77900EDB677 /* QR_Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C451DE3B77800EDB677 /* QR_Color.cpp */; };
+		84E70C6D1DE3B7B600EDB677 /* QR_AABBTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C4A1DE3B7B600EDB677 /* QR_AABBTree.cpp */; };
+		84E70C6E1DE3B7B600EDB677 /* QR_Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C4D1DE3B7B600EDB677 /* QR_Box.cpp */; };
+		84E70C6F1DE3B7B600EDB677 /* QR_Circle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C501DE3B7B600EDB677 /* QR_Circle.cpp */; };
+		84E70C701DE3B7B600EDB677 /* QR_CollideShape2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C531DE3B7B600EDB677 /* QR_CollideShape2D.cpp */; };
+		84E70C711DE3B7B600EDB677 /* QR_CollideShape3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C551DE3B7B600EDB677 /* QR_CollideShape3D.cpp */; };
+		84E70C721DE3B7B600EDB677 /* QR_2DCollisionHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C581DE3B7B600EDB677 /* QR_2DCollisionHelper.cpp */; };
+		84E70C731DE3B7B600EDB677 /* QR_3DCollisionHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C5A1DE3B7B600EDB677 /* QR_3DCollisionHelper.cpp */; };
+		84E70C761DE3B7B600EDB677 /* QR_IndexedPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C611DE3B7B600EDB677 /* QR_IndexedPolygon.cpp */; };
+		84E70C771DE3B7B600EDB677 /* QR_Polygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C631DE3B7B600EDB677 /* QR_Polygon.cpp */; };
+		84E70C781DE3B7B600EDB677 /* QR_SimplePolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C651DE3B7B600EDB677 /* QR_SimplePolygon.cpp */; };
+		84E70C791DE3B7B600EDB677 /* QR_Rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C681DE3B7B600EDB677 /* QR_Rectangle.cpp */; };
+		84E70C7A1DE3B7B600EDB677 /* QR_Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C6B1DE3B7B600EDB677 /* QR_Sphere.cpp */; };
+		84E70C7E1DE3B7DF00EDB677 /* QR_Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C7C1DE3B7DF00EDB677 /* QR_Plane.cpp */; };
+		84E70C821DE3B80300EDB677 /* QR_Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C801DE3B80300EDB677 /* QR_Ray.cpp */; };
+		84E70C861DE3B83300EDB677 /* QR_Sealed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C841DE3B83300EDB677 /* QR_Sealed.cpp */; };
+		84E70C8A1DE3B87500EDB677 /* QR_STDTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C881DE3B87500EDB677 /* QR_STDTools.cpp */; };
+		84E70C8D1DE3BAFB00EDB677 /* QR_Vector2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C8B1DE3BAFB00EDB677 /* QR_Vector2D.cpp */; };
+		84E70C931DE3BB3B00EDB677 /* QR_Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C8F1DE3BB3B00EDB677 /* QR_Renderer.cpp */; };
+		84E70C941DE3BB3B00EDB677 /* QR_Renderer_OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C911DE3BB3B00EDB677 /* QR_Renderer_OpenGL.cpp */; };
+		84E70C9C1DE3BB6100EDB677 /* QR_Effect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C961DE3BB6100EDB677 /* QR_Effect.cpp */; };
+		84E70C9E1DE3BB6100EDB677 /* QR_PostProcessingEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70C9A1DE3BB6100EDB677 /* QR_PostProcessingEffect.cpp */; };
+		84E70CA21DE3BBCF00EDB677 /* QR_Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70CA01DE3BBCF00EDB677 /* QR_Line.cpp */; };
+		84E70CA71DE3BC8B00EDB677 /* QRX_SystemTools.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84E70CA61DE3BC8B00EDB677 /* QRX_SystemTools.mm */; };
+		84E70CAB1DE3BCBC00EDB677 /* QR_DateAndTimeTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E70CA91DE3BCBC00EDB677 /* QR_DateAndTimeTools.cpp */; };
+		C44A366619C4DE6D0076863A /* fragment.glsl in Resources */ = {isa = PBXBuildFile; fileRef = C44A366419C4DE6D0076863A /* fragment.glsl */; };
+		C44A366719C4DE6D0076863A /* vertex.glsl in Resources */ = {isa = PBXBuildFile; fileRef = C44A366519C4DE6D0076863A /* vertex.glsl */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D1737F019983B1100E8DABB /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		1D1737F419983E5C00E8DABB /* Black&White-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Black&White-Info.plist"; path = "Resources/Black&White-Info.plist"; sourceTree = "<group>"; };
+		1D1737F819983E5C00E8DABB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1D1737FA19983E5C00E8DABB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QR_ViewController.xib; sourceTree = "<group>"; };
+		1D65F38319983FDC00323F5F /* Black&White-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Black&White-Prefix.pch"; sourceTree = "<group>"; };
+		1D6E0B0D199839A800C8A80F /* Black&White.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Black&White.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6E0B11199839A800C8A80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1D6E0B13199839A800C8A80F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6E0B15199839A800C8A80F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1D6E0B17199839A800C8A80F /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		1D6E0B19199839A800C8A80F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		1D6E0B4519983A0000C8A80F /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		1D6E0B4619983A0000C8A80F /* QR_AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_AppDelegate.h; sourceTree = "<group>"; };
+		1D6E0B4719983A0000C8A80F /* QR_AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QR_AppDelegate.mm; sourceTree = "<group>"; };
+		1D6E0B4819983A0000C8A80F /* QR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_ViewController.h; sourceTree = "<group>"; };
+		1D6E0B4919983A0000C8A80F /* QR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QR_ViewController.mm; sourceTree = "<group>"; };
+		1D7D62D2199840DE005B202A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1D7D62D51998418D005B202A /* Icon@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2.png"; sourceTree = "<group>"; };
+		1D7D62D919984373005B202A /* Female_animated.md2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Female_animated.md2; sourceTree = "<group>"; };
+		1D7D62DB19984373005B202A /* Normals.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = Normals.bin; sourceTree = "<group>"; };
+		84E70BD61DE3B63F00EDB677 /* QR_OpenGLHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_OpenGLHelper.cpp; sourceTree = "<group>"; };
+		84E70BD71DE3B63F00EDB677 /* QR_OpenGLHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_OpenGLHelper.h; sourceTree = "<group>"; };
+		84E70BD91DE3B63F00EDB677 /* QR_Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Shader.cpp; sourceTree = "<group>"; };
+		84E70BDA1DE3B63F00EDB677 /* QR_Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Shader.h; sourceTree = "<group>"; };
+		84E70BDB1DE3B63F00EDB677 /* QR_Shader_OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Shader_OpenGL.cpp; sourceTree = "<group>"; };
+		84E70BDC1DE3B63F00EDB677 /* QR_Shader_OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Shader_OpenGL.h; sourceTree = "<group>"; };
+		84E70BDE1DE3B63F00EDB677 /* QR_Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Vertex.cpp; sourceTree = "<group>"; };
+		84E70BDF1DE3B63F00EDB677 /* QR_Vertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Vertex.h; sourceTree = "<group>"; };
+		84E70BE21DE3B63F00EDB677 /* QR_Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Exception.cpp; sourceTree = "<group>"; };
+		84E70BE31DE3B63F00EDB677 /* QR_Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Exception.h; sourceTree = "<group>"; };
+		84E70BE51DE3B63F00EDB677 /* QR_Types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Types.cpp; sourceTree = "<group>"; };
+		84E70BE61DE3B63F00EDB677 /* QR_Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Types.h; sourceTree = "<group>"; };
+		84E70BE91DE3B63F00EDB677 /* QR_Matrix16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Matrix16.cpp; sourceTree = "<group>"; };
+		84E70BEA1DE3B63F00EDB677 /* QR_Matrix16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Matrix16.h; sourceTree = "<group>"; };
+		84E70BEC1DE3B63F00EDB677 /* QR_Vector3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Vector3D.cpp; sourceTree = "<group>"; };
+		84E70BED1DE3B63F00EDB677 /* QR_Vector3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Vector3D.h; sourceTree = "<group>"; };
+		84E70BF01DE3B63F00EDB677 /* QR_Algorithms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Algorithms.cpp; sourceTree = "<group>"; };
+		84E70BF11DE3B63F00EDB677 /* QR_Algorithms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Algorithms.h; sourceTree = "<group>"; };
+		84E70BFF1DE3B6AD00EDB677 /* QR_MD2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2.cpp; sourceTree = "<group>"; };
+		84E70C001DE3B6AD00EDB677 /* QR_MD2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2.h; sourceTree = "<group>"; };
+		84E70C011DE3B6AD00EDB677 /* QR_MD2Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Animation.cpp; sourceTree = "<group>"; };
+		84E70C021DE3B6AD00EDB677 /* QR_MD2Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Animation.h; sourceTree = "<group>"; };
+		84E70C031DE3B6AD00EDB677 /* QR_MD2Collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Collision.cpp; sourceTree = "<group>"; };
+		84E70C041DE3B6AD00EDB677 /* QR_MD2Collision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Collision.h; sourceTree = "<group>"; };
+		84E70C051DE3B6AD00EDB677 /* QR_MD2Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Common.cpp; sourceTree = "<group>"; };
+		84E70C061DE3B6AD00EDB677 /* QR_MD2Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Common.h; sourceTree = "<group>"; };
+		84E70C071DE3B6AD00EDB677 /* QR_MD2Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Parser.cpp; sourceTree = "<group>"; };
+		84E70C081DE3B6AD00EDB677 /* QR_MD2Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Parser.h; sourceTree = "<group>"; };
+		84E70C091DE3B6AD00EDB677 /* QR_MD2Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Renderer.cpp; sourceTree = "<group>"; };
+		84E70C0A1DE3B6AD00EDB677 /* QR_MD2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Renderer.h; sourceTree = "<group>"; };
+		84E70C0B1DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MD2Renderer_OpenGL.cpp; sourceTree = "<group>"; };
+		84E70C0C1DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MD2Renderer_OpenGL.h; sourceTree = "<group>"; };
+		84E70C0E1DE3B6AD00EDB677 /* QR_FramedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_FramedModel.cpp; sourceTree = "<group>"; };
+		84E70C0F1DE3B6AD00EDB677 /* QR_FramedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_FramedModel.h; sourceTree = "<group>"; };
+		84E70C101DE3B6AD00EDB677 /* QR_FramedModelGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_FramedModelGroup.cpp; sourceTree = "<group>"; };
+		84E70C111DE3B6AD00EDB677 /* QR_FramedModelGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_FramedModelGroup.h; sourceTree = "<group>"; };
+		84E70C121DE3B6AD00EDB677 /* QR_Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Model.cpp; sourceTree = "<group>"; };
+		84E70C131DE3B6AD00EDB677 /* QR_Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Model.h; sourceTree = "<group>"; };
+		84E70C141DE3B6AD00EDB677 /* QR_ModelCollision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_ModelCollision.cpp; sourceTree = "<group>"; };
+		84E70C151DE3B6AD00EDB677 /* QR_ModelCollision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_ModelCollision.h; sourceTree = "<group>"; };
+		84E70C161DE3B6AD00EDB677 /* QR_ModelGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_ModelGroup.cpp; sourceTree = "<group>"; };
+		84E70C171DE3B6AD00EDB677 /* QR_ModelGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_ModelGroup.h; sourceTree = "<group>"; };
+		84E70C181DE3B6AD00EDB677 /* QR_ModelParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_ModelParser.cpp; sourceTree = "<group>"; };
+		84E70C191DE3B6AD00EDB677 /* QR_ModelParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_ModelParser.h; sourceTree = "<group>"; };
+		84E70C1A1DE3B6AD00EDB677 /* QR_ModelRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_ModelRenderer.cpp; sourceTree = "<group>"; };
+		84E70C1B1DE3B6AD00EDB677 /* QR_ModelRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_ModelRenderer.h; sourceTree = "<group>"; };
+		84E70C2B1DE3B6DD00EDB677 /* QR_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Buffer.cpp; sourceTree = "<group>"; };
+		84E70C2C1DE3B6DD00EDB677 /* QR_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Buffer.h; sourceTree = "<group>"; };
+		84E70C2D1DE3B6DD00EDB677 /* QR_FileBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_FileBuffer.cpp; sourceTree = "<group>"; };
+		84E70C2E1DE3B6DD00EDB677 /* QR_FileBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_FileBuffer.h; sourceTree = "<group>"; };
+		84E70C2F1DE3B6DD00EDB677 /* QR_MemoryBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_MemoryBuffer.cpp; sourceTree = "<group>"; };
+		84E70C301DE3B6DD00EDB677 /* QR_MemoryBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_MemoryBuffer.h; sourceTree = "<group>"; };
+		84E70C311DE3B6DD00EDB677 /* QR_StdFileBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_StdFileBuffer.cpp; sourceTree = "<group>"; };
+		84E70C321DE3B6DD00EDB677 /* QR_StdFileBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_StdFileBuffer.h; sourceTree = "<group>"; };
+		84E70C391DE3B72F00EDB677 /* QRX_StringTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRX_StringTools.h; sourceTree = "<group>"; };
+		84E70C3A1DE3B72F00EDB677 /* QRX_StringTools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QRX_StringTools.mm; sourceTree = "<group>"; };
+		84E70C3C1DE3B72F00EDB677 /* convertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = convertUTF.c; sourceTree = "<group>"; };
+		84E70C3D1DE3B72F00EDB677 /* convertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = convertUTF.h; sourceTree = "<group>"; };
+		84E70C3E1DE3B72F00EDB677 /* QR_StringTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_StringTools.cpp; sourceTree = "<group>"; };
+		84E70C3F1DE3B72F00EDB677 /* QR_StringTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_StringTools.h; sourceTree = "<group>"; };
+		84E70C451DE3B77800EDB677 /* QR_Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Color.cpp; sourceTree = "<group>"; };
+		84E70C461DE3B77900EDB677 /* QR_Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Color.h; sourceTree = "<group>"; };
+		84E70C4A1DE3B7B600EDB677 /* QR_AABBTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_AABBTree.cpp; sourceTree = "<group>"; };
+		84E70C4B1DE3B7B600EDB677 /* QR_AABBTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_AABBTree.h; sourceTree = "<group>"; };
+		84E70C4D1DE3B7B600EDB677 /* QR_Box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Box.cpp; sourceTree = "<group>"; };
+		84E70C4E1DE3B7B600EDB677 /* QR_Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Box.h; sourceTree = "<group>"; };
+		84E70C501DE3B7B600EDB677 /* QR_Circle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Circle.cpp; sourceTree = "<group>"; };
+		84E70C511DE3B7B600EDB677 /* QR_Circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Circle.h; sourceTree = "<group>"; };
+		84E70C531DE3B7B600EDB677 /* QR_CollideShape2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_CollideShape2D.cpp; sourceTree = "<group>"; };
+		84E70C541DE3B7B600EDB677 /* QR_CollideShape2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_CollideShape2D.h; sourceTree = "<group>"; };
+		84E70C551DE3B7B600EDB677 /* QR_CollideShape3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_CollideShape3D.cpp; sourceTree = "<group>"; };
+		84E70C561DE3B7B600EDB677 /* QR_CollideShape3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_CollideShape3D.h; sourceTree = "<group>"; };
+		84E70C581DE3B7B600EDB677 /* QR_2DCollisionHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_2DCollisionHelper.cpp; sourceTree = "<group>"; };
+		84E70C591DE3B7B600EDB677 /* QR_2DCollisionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_2DCollisionHelper.h; sourceTree = "<group>"; };
+		84E70C5A1DE3B7B600EDB677 /* QR_3DCollisionHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_3DCollisionHelper.cpp; sourceTree = "<group>"; };
+		84E70C5B1DE3B7B600EDB677 /* QR_3DCollisionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_3DCollisionHelper.h; sourceTree = "<group>"; };
+		84E70C611DE3B7B600EDB677 /* QR_IndexedPolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_IndexedPolygon.cpp; sourceTree = "<group>"; };
+		84E70C621DE3B7B600EDB677 /* QR_IndexedPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_IndexedPolygon.h; sourceTree = "<group>"; };
+		84E70C631DE3B7B600EDB677 /* QR_Polygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Polygon.cpp; sourceTree = "<group>"; };
+		84E70C641DE3B7B600EDB677 /* QR_Polygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Polygon.h; sourceTree = "<group>"; };
+		84E70C651DE3B7B600EDB677 /* QR_SimplePolygon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_SimplePolygon.cpp; sourceTree = "<group>"; };
+		84E70C661DE3B7B600EDB677 /* QR_SimplePolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_SimplePolygon.h; sourceTree = "<group>"; };
+		84E70C681DE3B7B600EDB677 /* QR_Rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Rectangle.cpp; sourceTree = "<group>"; };
+		84E70C691DE3B7B600EDB677 /* QR_Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Rectangle.h; sourceTree = "<group>"; };
+		84E70C6B1DE3B7B600EDB677 /* QR_Sphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Sphere.cpp; sourceTree = "<group>"; };
+		84E70C6C1DE3B7B600EDB677 /* QR_Sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Sphere.h; sourceTree = "<group>"; };
+		84E70C7C1DE3B7DF00EDB677 /* QR_Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Plane.cpp; sourceTree = "<group>"; };
+		84E70C7D1DE3B7DF00EDB677 /* QR_Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Plane.h; sourceTree = "<group>"; };
+		84E70C801DE3B80300EDB677 /* QR_Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Ray.cpp; sourceTree = "<group>"; };
+		84E70C811DE3B80300EDB677 /* QR_Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Ray.h; sourceTree = "<group>"; };
+		84E70C841DE3B83300EDB677 /* QR_Sealed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Sealed.cpp; sourceTree = "<group>"; };
+		84E70C851DE3B83300EDB677 /* QR_Sealed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Sealed.h; sourceTree = "<group>"; };
+		84E70C881DE3B87500EDB677 /* QR_STDTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_STDTools.cpp; sourceTree = "<group>"; };
+		84E70C891DE3B87500EDB677 /* QR_STDTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_STDTools.h; sourceTree = "<group>"; };
+		84E70C8B1DE3BAFB00EDB677 /* QR_Vector2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Vector2D.cpp; sourceTree = "<group>"; };
+		84E70C8C1DE3BAFB00EDB677 /* QR_Vector2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Vector2D.h; sourceTree = "<group>"; };
+		84E70C8F1DE3BB3B00EDB677 /* QR_Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Renderer.cpp; sourceTree = "<group>"; };
+		84E70C901DE3BB3B00EDB677 /* QR_Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Renderer.h; sourceTree = "<group>"; };
+		84E70C911DE3BB3B00EDB677 /* QR_Renderer_OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Renderer_OpenGL.cpp; sourceTree = "<group>"; };
+		84E70C921DE3BB3B00EDB677 /* QR_Renderer_OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Renderer_OpenGL.h; sourceTree = "<group>"; };
+		84E70C961DE3BB6100EDB677 /* QR_Effect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Effect.cpp; sourceTree = "<group>"; };
+		84E70C971DE3BB6100EDB677 /* QR_Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Effect.h; sourceTree = "<group>"; };
+		84E70C9A1DE3BB6100EDB677 /* QR_PostProcessingEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_PostProcessingEffect.cpp; sourceTree = "<group>"; };
+		84E70C9B1DE3BB6100EDB677 /* QR_PostProcessingEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_PostProcessingEffect.h; sourceTree = "<group>"; };
+		84E70CA01DE3BBCF00EDB677 /* QR_Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_Line.cpp; sourceTree = "<group>"; };
+		84E70CA11DE3BBCF00EDB677 /* QR_Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_Line.h; sourceTree = "<group>"; };
+		84E70CA51DE3BC8B00EDB677 /* QRX_SystemTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRX_SystemTools.h; sourceTree = "<group>"; };
+		84E70CA61DE3BC8B00EDB677 /* QRX_SystemTools.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QRX_SystemTools.mm; sourceTree = "<group>"; };
+		84E70CA91DE3BCBC00EDB677 /* QR_DateAndTimeTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QR_DateAndTimeTools.cpp; sourceTree = "<group>"; };
+		84E70CAA1DE3BCBC00EDB677 /* QR_DateAndTimeTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QR_DateAndTimeTools.h; sourceTree = "<group>"; };
+		C44A366419C4DE6D0076863A /* fragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragment.glsl; sourceTree = "<group>"; };
+		C44A366519C4DE6D0076863A /* vertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vertex.glsl; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D6E0B0A199839A800C8A80F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1737F119983B1100E8DABB /* OpenAL.framework in Frameworks */,
+				1D6E0B12199839A800C8A80F /* UIKit.framework in Frameworks */,
+				1D6E0B14199839A800C8A80F /* Foundation.framework in Frameworks */,
+				1D6E0B16199839A800C8A80F /* CoreGraphics.framework in Frameworks */,
+				1D6E0B18199839A800C8A80F /* GLKit.framework in Frameworks */,
+				1D6E0B1A199839A800C8A80F /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D1737F319983D9200E8DABB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1D1737F519983E5C00E8DABB /* Images */,
+				1D1737F619983E5C00E8DABB /* Languages */,
+				1D7D62D719984373005B202A /* Models */,
+				1D1737FB19983E5C00E8DABB /* Shader */,
+				1D7D62DA19984373005B202A /* Tables */,
+				1D1737F419983E5C00E8DABB /* Black&White-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1D1737F519983E5C00E8DABB /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1D7D62D2199840DE005B202A /* Icon.png */,
+				1D7D62D51998418D005B202A /* Icon@2.png */,
+			);
+			name = Images;
+			path = Resources/Images;
+			sourceTree = "<group>";
+		};
+		1D1737F619983E5C00E8DABB /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				1D1737F719983E5C00E8DABB /* InfoPlist.strings */,
+				1D1737F919983E5C00E8DABB /* QR_ViewController.xib */,
+			);
+			name = Languages;
+			path = Resources/Languages;
+			sourceTree = "<group>";
+		};
+		1D1737FB19983E5C00E8DABB /* Shader */ = {
+			isa = PBXGroup;
+			children = (
+				C44A366519C4DE6D0076863A /* vertex.glsl */,
+				C44A366419C4DE6D0076863A /* fragment.glsl */,
+			);
+			name = Shader;
+			path = Resources/Shaders;
+			sourceTree = "<group>";
+		};
+		1D6E0B02199839A800C8A80F = {
+			isa = PBXGroup;
+			children = (
+				1D6E0B3E19983A0000C8A80F /* Classes */,
+				1D1737F319983D9200E8DABB /* Resources */,
+				1D6E0B10199839A800C8A80F /* Frameworks */,
+				1D6E0B0E199839A800C8A80F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D6E0B0E199839A800C8A80F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6E0B0D199839A800C8A80F /* Black&White.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D6E0B10199839A800C8A80F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D6E0B15199839A800C8A80F /* CoreGraphics.framework */,
+				1D6E0B13199839A800C8A80F /* Foundation.framework */,
+				1D6E0B17199839A800C8A80F /* GLKit.framework */,
+				1D1737F019983B1100E8DABB /* OpenAL.framework */,
+				1D6E0B19199839A800C8A80F /* OpenGLES.framework */,
+				1D6E0B11199839A800C8A80F /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D6E0B3E19983A0000C8A80F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BCE1DE3B63F00EDB677 /* QR_Engine */,
+				1D6E0B4519983A0000C8A80F /* main.mm */,
+				1D6E0B4619983A0000C8A80F /* QR_AppDelegate.h */,
+				1D6E0B4719983A0000C8A80F /* QR_AppDelegate.mm */,
+				1D6E0B4819983A0000C8A80F /* QR_ViewController.h */,
+				1D6E0B4919983A0000C8A80F /* QR_ViewController.mm */,
+				1D65F38319983FDC00323F5F /* Black&White-Prefix.pch */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		1D7D62D719984373005B202A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1D7D62D919984373005B202A /* Female_animated.md2 */,
+			);
+			name = Models;
+			path = Resources/Models;
+			sourceTree = "<group>";
+		};
+		1D7D62DA19984373005B202A /* Tables */ = {
+			isa = PBXGroup;
+			children = (
+				1D7D62DB19984373005B202A /* Normals.bin */,
+			);
+			name = Tables;
+			path = Resources/Tables;
+			sourceTree = "<group>";
+		};
+		84E70BCE1DE3B63F00EDB677 /* QR_Engine */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BCF1DE3B63F00EDB677 /* QR_3D */,
+				84E70BE01DE3B63F00EDB677 /* QR_Base */,
+				84E70C481DE3B7B600EDB677 /* QR_Collisions */,
+				84E70BE71DE3B63F00EDB677 /* QR_Geometry */,
+				84E70C431DE3B77800EDB677 /* QR_Graphics */,
+				84E70BEE1DE3B63F00EDB677 /* QR_Maths */,
+			);
+			path = QR_Engine;
+			sourceTree = "<group>";
+		};
+		84E70BCF1DE3B63F00EDB677 /* QR_3D */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C951DE3BB6100EDB677 /* QR_Effects */,
+				84E70BFD1DE3B6AD00EDB677 /* QR_Models */,
+				84E70BD51DE3B63F00EDB677 /* QR_OpenGL */,
+				84E70C8E1DE3BB3B00EDB677 /* QR_Renderer */,
+				84E70BD81DE3B63F00EDB677 /* QR_Shader */,
+				84E70BDD1DE3B63F00EDB677 /* QR_Vertex */,
+			);
+			path = QR_3D;
+			sourceTree = "<group>";
+		};
+		84E70BD51DE3B63F00EDB677 /* QR_OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BD61DE3B63F00EDB677 /* QR_OpenGLHelper.cpp */,
+				84E70BD71DE3B63F00EDB677 /* QR_OpenGLHelper.h */,
+			);
+			path = QR_OpenGL;
+			sourceTree = "<group>";
+		};
+		84E70BD81DE3B63F00EDB677 /* QR_Shader */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BD91DE3B63F00EDB677 /* QR_Shader.cpp */,
+				84E70BDA1DE3B63F00EDB677 /* QR_Shader.h */,
+				84E70BDB1DE3B63F00EDB677 /* QR_Shader_OpenGL.cpp */,
+				84E70BDC1DE3B63F00EDB677 /* QR_Shader_OpenGL.h */,
+			);
+			path = QR_Shader;
+			sourceTree = "<group>";
+		};
+		84E70BDD1DE3B63F00EDB677 /* QR_Vertex */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BDE1DE3B63F00EDB677 /* QR_Vertex.cpp */,
+				84E70BDF1DE3B63F00EDB677 /* QR_Vertex.h */,
+			);
+			path = QR_Vertex;
+			sourceTree = "<group>";
+		};
+		84E70BE01DE3B63F00EDB677 /* QR_Base */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C2A1DE3B6DD00EDB677 /* QR_Buffer */,
+				84E70CA81DE3BCBC00EDB677 /* QR_DateAndTimeTools */,
+				84E70BE11DE3B63F00EDB677 /* QR_Exception */,
+				84E70C831DE3B83300EDB677 /* QR_Sealed */,
+				84E70C871DE3B87500EDB677 /* QR_STDTools */,
+				84E70C371DE3B72F00EDB677 /* QR_StringTools */,
+				84E70CA31DE3BC8B00EDB677 /* QR_SystemTools */,
+				84E70BE41DE3B63F00EDB677 /* QR_Types */,
+			);
+			path = QR_Base;
+			sourceTree = "<group>";
+		};
+		84E70BE11DE3B63F00EDB677 /* QR_Exception */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BE21DE3B63F00EDB677 /* QR_Exception.cpp */,
+				84E70BE31DE3B63F00EDB677 /* QR_Exception.h */,
+			);
+			path = QR_Exception;
+			sourceTree = "<group>";
+		};
+		84E70BE41DE3B63F00EDB677 /* QR_Types */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BE51DE3B63F00EDB677 /* QR_Types.cpp */,
+				84E70BE61DE3B63F00EDB677 /* QR_Types.h */,
+			);
+			path = QR_Types;
+			sourceTree = "<group>";
+		};
+		84E70BE71DE3B63F00EDB677 /* QR_Geometry */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C9F1DE3BBCF00EDB677 /* QR_Line */,
+				84E70BE81DE3B63F00EDB677 /* QR_Matrix */,
+				84E70C7B1DE3B7DF00EDB677 /* QR_Plane */,
+				84E70C7F1DE3B80300EDB677 /* QR_Ray */,
+				84E70BEB1DE3B63F00EDB677 /* QR_Vector */,
+			);
+			path = QR_Geometry;
+			sourceTree = "<group>";
+		};
+		84E70BE81DE3B63F00EDB677 /* QR_Matrix */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BE91DE3B63F00EDB677 /* QR_Matrix16.cpp */,
+				84E70BEA1DE3B63F00EDB677 /* QR_Matrix16.h */,
+			);
+			path = QR_Matrix;
+			sourceTree = "<group>";
+		};
+		84E70BEB1DE3B63F00EDB677 /* QR_Vector */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C8B1DE3BAFB00EDB677 /* QR_Vector2D.cpp */,
+				84E70C8C1DE3BAFB00EDB677 /* QR_Vector2D.h */,
+				84E70BEC1DE3B63F00EDB677 /* QR_Vector3D.cpp */,
+				84E70BED1DE3B63F00EDB677 /* QR_Vector3D.h */,
+			);
+			path = QR_Vector;
+			sourceTree = "<group>";
+		};
+		84E70BEE1DE3B63F00EDB677 /* QR_Maths */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BEF1DE3B63F00EDB677 /* QR_Algorithms */,
+			);
+			path = QR_Maths;
+			sourceTree = "<group>";
+		};
+		84E70BEF1DE3B63F00EDB677 /* QR_Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BF01DE3B63F00EDB677 /* QR_Algorithms.cpp */,
+				84E70BF11DE3B63F00EDB677 /* QR_Algorithms.h */,
+			);
+			path = QR_Algorithms;
+			sourceTree = "<group>";
+		};
+		84E70BFD1DE3B6AD00EDB677 /* QR_Models */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BFE1DE3B6AD00EDB677 /* QR_MD2 */,
+				84E70C0D1DE3B6AD00EDB677 /* QR_Model */,
+			);
+			path = QR_Models;
+			sourceTree = "<group>";
+		};
+		84E70BFE1DE3B6AD00EDB677 /* QR_MD2 */ = {
+			isa = PBXGroup;
+			children = (
+				84E70BFF1DE3B6AD00EDB677 /* QR_MD2.cpp */,
+				84E70C001DE3B6AD00EDB677 /* QR_MD2.h */,
+				84E70C011DE3B6AD00EDB677 /* QR_MD2Animation.cpp */,
+				84E70C021DE3B6AD00EDB677 /* QR_MD2Animation.h */,
+				84E70C031DE3B6AD00EDB677 /* QR_MD2Collision.cpp */,
+				84E70C041DE3B6AD00EDB677 /* QR_MD2Collision.h */,
+				84E70C051DE3B6AD00EDB677 /* QR_MD2Common.cpp */,
+				84E70C061DE3B6AD00EDB677 /* QR_MD2Common.h */,
+				84E70C071DE3B6AD00EDB677 /* QR_MD2Parser.cpp */,
+				84E70C081DE3B6AD00EDB677 /* QR_MD2Parser.h */,
+				84E70C091DE3B6AD00EDB677 /* QR_MD2Renderer.cpp */,
+				84E70C0A1DE3B6AD00EDB677 /* QR_MD2Renderer.h */,
+				84E70C0B1DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.cpp */,
+				84E70C0C1DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.h */,
+			);
+			path = QR_MD2;
+			sourceTree = "<group>";
+		};
+		84E70C0D1DE3B6AD00EDB677 /* QR_Model */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C0E1DE3B6AD00EDB677 /* QR_FramedModel.cpp */,
+				84E70C0F1DE3B6AD00EDB677 /* QR_FramedModel.h */,
+				84E70C101DE3B6AD00EDB677 /* QR_FramedModelGroup.cpp */,
+				84E70C111DE3B6AD00EDB677 /* QR_FramedModelGroup.h */,
+				84E70C121DE3B6AD00EDB677 /* QR_Model.cpp */,
+				84E70C131DE3B6AD00EDB677 /* QR_Model.h */,
+				84E70C141DE3B6AD00EDB677 /* QR_ModelCollision.cpp */,
+				84E70C151DE3B6AD00EDB677 /* QR_ModelCollision.h */,
+				84E70C161DE3B6AD00EDB677 /* QR_ModelGroup.cpp */,
+				84E70C171DE3B6AD00EDB677 /* QR_ModelGroup.h */,
+				84E70C181DE3B6AD00EDB677 /* QR_ModelParser.cpp */,
+				84E70C191DE3B6AD00EDB677 /* QR_ModelParser.h */,
+				84E70C1A1DE3B6AD00EDB677 /* QR_ModelRenderer.cpp */,
+				84E70C1B1DE3B6AD00EDB677 /* QR_ModelRenderer.h */,
+			);
+			path = QR_Model;
+			sourceTree = "<group>";
+		};
+		84E70C2A1DE3B6DD00EDB677 /* QR_Buffer */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C2B1DE3B6DD00EDB677 /* QR_Buffer.cpp */,
+				84E70C2C1DE3B6DD00EDB677 /* QR_Buffer.h */,
+				84E70C2D1DE3B6DD00EDB677 /* QR_FileBuffer.cpp */,
+				84E70C2E1DE3B6DD00EDB677 /* QR_FileBuffer.h */,
+				84E70C2F1DE3B6DD00EDB677 /* QR_MemoryBuffer.cpp */,
+				84E70C301DE3B6DD00EDB677 /* QR_MemoryBuffer.h */,
+				84E70C311DE3B6DD00EDB677 /* QR_StdFileBuffer.cpp */,
+				84E70C321DE3B6DD00EDB677 /* QR_StdFileBuffer.h */,
+			);
+			path = QR_Buffer;
+			sourceTree = "<group>";
+		};
+		84E70C371DE3B72F00EDB677 /* QR_StringTools */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C381DE3B72F00EDB677 /* Apple */,
+				84E70C3B1DE3B72F00EDB677 /* convertUTF */,
+				84E70C3E1DE3B72F00EDB677 /* QR_StringTools.cpp */,
+				84E70C3F1DE3B72F00EDB677 /* QR_StringTools.h */,
+			);
+			path = QR_StringTools;
+			sourceTree = "<group>";
+		};
+		84E70C381DE3B72F00EDB677 /* Apple */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C391DE3B72F00EDB677 /* QRX_StringTools.h */,
+				84E70C3A1DE3B72F00EDB677 /* QRX_StringTools.mm */,
+			);
+			path = Apple;
+			sourceTree = "<group>";
+		};
+		84E70C3B1DE3B72F00EDB677 /* convertUTF */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C3C1DE3B72F00EDB677 /* convertUTF.c */,
+				84E70C3D1DE3B72F00EDB677 /* convertUTF.h */,
+			);
+			path = convertUTF;
+			sourceTree = "<group>";
+		};
+		84E70C431DE3B77800EDB677 /* QR_Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C441DE3B77800EDB677 /* QR_Color */,
+			);
+			path = QR_Graphics;
+			sourceTree = "<group>";
+		};
+		84E70C441DE3B77800EDB677 /* QR_Color */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C451DE3B77800EDB677 /* QR_Color.cpp */,
+				84E70C461DE3B77900EDB677 /* QR_Color.h */,
+			);
+			path = QR_Color;
+			sourceTree = "<group>";
+		};
+		84E70C481DE3B7B600EDB677 /* QR_Collisions */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C491DE3B7B600EDB677 /* QR_AABBTree */,
+				84E70C4C1DE3B7B600EDB677 /* QR_Box */,
+				84E70C4F1DE3B7B600EDB677 /* QR_Circle */,
+				84E70C521DE3B7B600EDB677 /* QR_CollideShape */,
+				84E70C571DE3B7B600EDB677 /* QR_CollisionHelper */,
+				84E70C5C1DE3B7B600EDB677 /* QR_Polygon */,
+				84E70C671DE3B7B600EDB677 /* QR_Rectangle */,
+				84E70C6A1DE3B7B600EDB677 /* QR_Sphere */,
+			);
+			path = QR_Collisions;
+			sourceTree = "<group>";
+		};
+		84E70C491DE3B7B600EDB677 /* QR_AABBTree */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C4A1DE3B7B600EDB677 /* QR_AABBTree.cpp */,
+				84E70C4B1DE3B7B600EDB677 /* QR_AABBTree.h */,
+			);
+			path = QR_AABBTree;
+			sourceTree = "<group>";
+		};
+		84E70C4C1DE3B7B600EDB677 /* QR_Box */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C4D1DE3B7B600EDB677 /* QR_Box.cpp */,
+				84E70C4E1DE3B7B600EDB677 /* QR_Box.h */,
+			);
+			path = QR_Box;
+			sourceTree = "<group>";
+		};
+		84E70C4F1DE3B7B600EDB677 /* QR_Circle */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C501DE3B7B600EDB677 /* QR_Circle.cpp */,
+				84E70C511DE3B7B600EDB677 /* QR_Circle.h */,
+			);
+			path = QR_Circle;
+			sourceTree = "<group>";
+		};
+		84E70C521DE3B7B600EDB677 /* QR_CollideShape */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C531DE3B7B600EDB677 /* QR_CollideShape2D.cpp */,
+				84E70C541DE3B7B600EDB677 /* QR_CollideShape2D.h */,
+				84E70C551DE3B7B600EDB677 /* QR_CollideShape3D.cpp */,
+				84E70C561DE3B7B600EDB677 /* QR_CollideShape3D.h */,
+			);
+			path = QR_CollideShape;
+			sourceTree = "<group>";
+		};
+		84E70C571DE3B7B600EDB677 /* QR_CollisionHelper */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C581DE3B7B600EDB677 /* QR_2DCollisionHelper.cpp */,
+				84E70C591DE3B7B600EDB677 /* QR_2DCollisionHelper.h */,
+				84E70C5A1DE3B7B600EDB677 /* QR_3DCollisionHelper.cpp */,
+				84E70C5B1DE3B7B600EDB677 /* QR_3DCollisionHelper.h */,
+			);
+			path = QR_CollisionHelper;
+			sourceTree = "<group>";
+		};
+		84E70C5C1DE3B7B600EDB677 /* QR_Polygon */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C611DE3B7B600EDB677 /* QR_IndexedPolygon.cpp */,
+				84E70C621DE3B7B600EDB677 /* QR_IndexedPolygon.h */,
+				84E70C631DE3B7B600EDB677 /* QR_Polygon.cpp */,
+				84E70C641DE3B7B600EDB677 /* QR_Polygon.h */,
+				84E70C651DE3B7B600EDB677 /* QR_SimplePolygon.cpp */,
+				84E70C661DE3B7B600EDB677 /* QR_SimplePolygon.h */,
+			);
+			path = QR_Polygon;
+			sourceTree = "<group>";
+		};
+		84E70C671DE3B7B600EDB677 /* QR_Rectangle */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C681DE3B7B600EDB677 /* QR_Rectangle.cpp */,
+				84E70C691DE3B7B600EDB677 /* QR_Rectangle.h */,
+			);
+			path = QR_Rectangle;
+			sourceTree = "<group>";
+		};
+		84E70C6A1DE3B7B600EDB677 /* QR_Sphere */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C6B1DE3B7B600EDB677 /* QR_Sphere.cpp */,
+				84E70C6C1DE3B7B600EDB677 /* QR_Sphere.h */,
+			);
+			path = QR_Sphere;
+			sourceTree = "<group>";
+		};
+		84E70C7B1DE3B7DF00EDB677 /* QR_Plane */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C7C1DE3B7DF00EDB677 /* QR_Plane.cpp */,
+				84E70C7D1DE3B7DF00EDB677 /* QR_Plane.h */,
+			);
+			path = QR_Plane;
+			sourceTree = "<group>";
+		};
+		84E70C7F1DE3B80300EDB677 /* QR_Ray */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C801DE3B80300EDB677 /* QR_Ray.cpp */,
+				84E70C811DE3B80300EDB677 /* QR_Ray.h */,
+			);
+			path = QR_Ray;
+			sourceTree = "<group>";
+		};
+		84E70C831DE3B83300EDB677 /* QR_Sealed */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C841DE3B83300EDB677 /* QR_Sealed.cpp */,
+				84E70C851DE3B83300EDB677 /* QR_Sealed.h */,
+			);
+			path = QR_Sealed;
+			sourceTree = "<group>";
+		};
+		84E70C871DE3B87500EDB677 /* QR_STDTools */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C881DE3B87500EDB677 /* QR_STDTools.cpp */,
+				84E70C891DE3B87500EDB677 /* QR_STDTools.h */,
+			);
+			path = QR_STDTools;
+			sourceTree = "<group>";
+		};
+		84E70C8E1DE3BB3B00EDB677 /* QR_Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C8F1DE3BB3B00EDB677 /* QR_Renderer.cpp */,
+				84E70C901DE3BB3B00EDB677 /* QR_Renderer.h */,
+				84E70C911DE3BB3B00EDB677 /* QR_Renderer_OpenGL.cpp */,
+				84E70C921DE3BB3B00EDB677 /* QR_Renderer_OpenGL.h */,
+			);
+			path = QR_Renderer;
+			sourceTree = "<group>";
+		};
+		84E70C951DE3BB6100EDB677 /* QR_Effects */ = {
+			isa = PBXGroup;
+			children = (
+				84E70C961DE3BB6100EDB677 /* QR_Effect.cpp */,
+				84E70C971DE3BB6100EDB677 /* QR_Effect.h */,
+				84E70C9A1DE3BB6100EDB677 /* QR_PostProcessingEffect.cpp */,
+				84E70C9B1DE3BB6100EDB677 /* QR_PostProcessingEffect.h */,
+			);
+			path = QR_Effects;
+			sourceTree = "<group>";
+		};
+		84E70C9F1DE3BBCF00EDB677 /* QR_Line */ = {
+			isa = PBXGroup;
+			children = (
+				84E70CA01DE3BBCF00EDB677 /* QR_Line.cpp */,
+				84E70CA11DE3BBCF00EDB677 /* QR_Line.h */,
+			);
+			path = QR_Line;
+			sourceTree = "<group>";
+		};
+		84E70CA31DE3BC8B00EDB677 /* QR_SystemTools */ = {
+			isa = PBXGroup;
+			children = (
+				84E70CA41DE3BC8B00EDB677 /* Apple */,
+			);
+			path = QR_SystemTools;
+			sourceTree = "<group>";
+		};
+		84E70CA41DE3BC8B00EDB677 /* Apple */ = {
+			isa = PBXGroup;
+			children = (
+				84E70CA51DE3BC8B00EDB677 /* QRX_SystemTools.h */,
+				84E70CA61DE3BC8B00EDB677 /* QRX_SystemTools.mm */,
+			);
+			path = Apple;
+			sourceTree = "<group>";
+		};
+		84E70CA81DE3BCBC00EDB677 /* QR_DateAndTimeTools */ = {
+			isa = PBXGroup;
+			children = (
+				84E70CA91DE3BCBC00EDB677 /* QR_DateAndTimeTools.cpp */,
+				84E70CAA1DE3BCBC00EDB677 /* QR_DateAndTimeTools.h */,
+			);
+			path = QR_DateAndTimeTools;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6E0B0C199839A800C8A80F /* Black&White */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6E0B33199839A900C8A80F /* Build configuration list for PBXNativeTarget "Black&White" */;
+			buildPhases = (
+				1D6E0B09199839A800C8A80F /* Sources */,
+				1D6E0B0A199839A800C8A80F /* Frameworks */,
+				1D6E0B0B199839A800C8A80F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Black&White";
+			productName = "Black&White";
+			productReference = 1D6E0B0D199839A800C8A80F /* Black&White.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D6E0B04199839A800C8A80F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+			};
+			buildConfigurationList = 1D6E0B07199839A800C8A80F /* Build configuration list for PBXProject "Black&White" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1D6E0B02199839A800C8A80F;
+			productRefGroup = 1D6E0B0E199839A800C8A80F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6E0B0C199839A800C8A80F /* Black&White */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D6E0B0B199839A800C8A80F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D1737FF19983E5C00E8DABB /* InfoPlist.strings in Resources */,
+				C44A366719C4DE6D0076863A /* vertex.glsl in Resources */,
+				1D17380019983E5C00E8DABB /* QR_ViewController.xib in Resources */,
+				1D7D62D3199840DE005B202A /* Icon.png in Resources */,
+				1D7D62D61998418D005B202A /* Icon@2.png in Resources */,
+				1D7D62DD19984373005B202A /* Female_animated.md2 in Resources */,
+				C44A366619C4DE6D0076863A /* fragment.glsl in Resources */,
+				1D7D62DE19984373005B202A /* Normals.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D6E0B09199839A800C8A80F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E70C251DE3B6AD00EDB677 /* QR_Model.cpp in Sources */,
+				84E70BFC1DE3B63F00EDB677 /* QR_Algorithms.cpp in Sources */,
+				84E70BFB1DE3B63F00EDB677 /* QR_Vector3D.cpp in Sources */,
+				84E70C411DE3B72F00EDB677 /* convertUTF.c in Sources */,
+				84E70C291DE3B6AD00EDB677 /* QR_ModelRenderer.cpp in Sources */,
+				84E70C9C1DE3BB6100EDB677 /* QR_Effect.cpp in Sources */,
+				84E70C341DE3B6DD00EDB677 /* QR_FileBuffer.cpp in Sources */,
+				84E70C281DE3B6AD00EDB677 /* QR_ModelParser.cpp in Sources */,
+				84E70C8A1DE3B87500EDB677 /* QR_STDTools.cpp in Sources */,
+				1D6E0B5019983A0000C8A80F /* main.mm in Sources */,
+				84E70C6D1DE3B7B600EDB677 /* QR_AABBTree.cpp in Sources */,
+				84E70C331DE3B6DD00EDB677 /* QR_Buffer.cpp in Sources */,
+				84E70C941DE3BB3B00EDB677 /* QR_Renderer_OpenGL.cpp in Sources */,
+				84E70C421DE3B72F00EDB677 /* QR_StringTools.cpp in Sources */,
+				84E70C8D1DE3BAFB00EDB677 /* QR_Vector2D.cpp in Sources */,
+				84E70C401DE3B72F00EDB677 /* QRX_StringTools.mm in Sources */,
+				84E70BFA1DE3B63F00EDB677 /* QR_Matrix16.cpp in Sources */,
+				84E70C7E1DE3B7DF00EDB677 /* QR_Plane.cpp in Sources */,
+				84E70C7A1DE3B7B600EDB677 /* QR_Sphere.cpp in Sources */,
+				84E70C821DE3B80300EDB677 /* QR_Ray.cpp in Sources */,
+				84E70C931DE3BB3B00EDB677 /* QR_Renderer.cpp in Sources */,
+				84E70C9E1DE3BB6100EDB677 /* QR_PostProcessingEffect.cpp in Sources */,
+				84E70BF61DE3B63F00EDB677 /* QR_Shader_OpenGL.cpp in Sources */,
+				84E70C711DE3B7B600EDB677 /* QR_CollideShape3D.cpp in Sources */,
+				84E70C361DE3B6DD00EDB677 /* QR_StdFileBuffer.cpp in Sources */,
+				84E70C231DE3B6AD00EDB677 /* QR_FramedModel.cpp in Sources */,
+				84E70C1F1DE3B6AD00EDB677 /* QR_MD2Common.cpp in Sources */,
+				84E70BF81DE3B63F00EDB677 /* QR_Exception.cpp in Sources */,
+				84E70CA21DE3BBCF00EDB677 /* QR_Line.cpp in Sources */,
+				84E70BF41DE3B63F00EDB677 /* QR_OpenGLHelper.cpp in Sources */,
+				84E70C1D1DE3B6AD00EDB677 /* QR_MD2Animation.cpp in Sources */,
+				84E70C6E1DE3B7B600EDB677 /* QR_Box.cpp in Sources */,
+				84E70C781DE3B7B600EDB677 /* QR_SimplePolygon.cpp in Sources */,
+				84E70C1E1DE3B6AD00EDB677 /* QR_MD2Collision.cpp in Sources */,
+				84E70BF51DE3B63F00EDB677 /* QR_Shader.cpp in Sources */,
+				84E70C1C1DE3B6AD00EDB677 /* QR_MD2.cpp in Sources */,
+				84E70C261DE3B6AD00EDB677 /* QR_ModelCollision.cpp in Sources */,
+				84E70C701DE3B7B600EDB677 /* QR_CollideShape2D.cpp in Sources */,
+				1D6E0B5119983A0000C8A80F /* QR_AppDelegate.mm in Sources */,
+				84E70C211DE3B6AD00EDB677 /* QR_MD2Renderer.cpp in Sources */,
+				84E70C6F1DE3B7B600EDB677 /* QR_Circle.cpp in Sources */,
+				1D6E0B5219983A0000C8A80F /* QR_ViewController.mm in Sources */,
+				84E70BF91DE3B63F00EDB677 /* QR_Types.cpp in Sources */,
+				84E70C791DE3B7B600EDB677 /* QR_Rectangle.cpp in Sources */,
+				84E70C351DE3B6DD00EDB677 /* QR_MemoryBuffer.cpp in Sources */,
+				84E70BF71DE3B63F00EDB677 /* QR_Vertex.cpp in Sources */,
+				84E70C271DE3B6AD00EDB677 /* QR_ModelGroup.cpp in Sources */,
+				84E70C761DE3B7B600EDB677 /* QR_IndexedPolygon.cpp in Sources */,
+				84E70C721DE3B7B600EDB677 /* QR_2DCollisionHelper.cpp in Sources */,
+				84E70CA71DE3BC8B00EDB677 /* QRX_SystemTools.mm in Sources */,
+				84E70C731DE3B7B600EDB677 /* QR_3DCollisionHelper.cpp in Sources */,
+				84E70C201DE3B6AD00EDB677 /* QR_MD2Parser.cpp in Sources */,
+				84E70C241DE3B6AD00EDB677 /* QR_FramedModelGroup.cpp in Sources */,
+				84E70CAB1DE3BCBC00EDB677 /* QR_DateAndTimeTools.cpp in Sources */,
+				84E70C771DE3B7B600EDB677 /* QR_Polygon.cpp in Sources */,
+				84E70C471DE3B77900EDB677 /* QR_Color.cpp in Sources */,
+				84E70C221DE3B6AD00EDB677 /* QR_MD2Renderer_OpenGL.cpp in Sources */,
+				84E70C861DE3B83300EDB677 /* QR_Sealed.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1D1737F719983E5C00E8DABB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D1737F819983E5C00E8DABB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1D1737F919983E5C00E8DABB /* QR_ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D1737FA19983E5C00E8DABB /* en */,
+			);
+			name = QR_ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6E0B31199839A900C8A80F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1D6E0B32199839A900C8A80F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1D6E0B34199839A900C8A80F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Classes/Black&White-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				INFOPLIST_FILE = "Resources/Black&White-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "qrapps.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1D6E0B35199839A900C8A80F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Classes/Black&White-Prefix.pch";
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenGLES.framework/Headers/,
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/System/Library/Frameworks/OpenAL.framework/Headers/,
+				);
+				INFOPLIST_FILE = "Resources/Black&White-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "qrapps.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6E0B07199839A800C8A80F /* Build configuration list for PBXProject "Black&White" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6E0B31199839A900C8A80F /* Debug */,
+				1D6E0B32199839A900C8A80F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D6E0B33199839A900C8A80F /* Build configuration list for PBXNativeTarget "Black&White" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6E0B34199839A900C8A80F /* Debug */,
+				1D6E0B35199839A900C8A80F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D6E0B04199839A800C8A80F /* Project object */;
+}

@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "fe645735-fe26-4ad6-bd69-e0743d57a9b8++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "fe645735-fe26-4ad6-bd69-e0743d57a9b8++505" : {
+
+    },
+    "7e8401a7-7fe1-49ce-b830-781838938609++3780" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "fe645735-fe26-4ad6-bd69-e0743d57a9b8++505" : 0,
+    "7e8401a7-7fe1-49ce-b830-781838938609++3780" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "708A9761-459D-4BCD-99E8-96945B8059F5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "fe645735-fe26-4ad6-bd69-e0743d57a9b8++505" : "qrengine_demos\/",
+    "7e8401a7-7fe1-49ce-b830-781838938609++3780" : "qrengine\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Black&White",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "xCode\/OpenGL\/Black&White\/Black&White.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/qrengine.svn.cloudforge.com\/qrengine",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7e8401a7-7fe1-49ce-b830-781838938609++3780"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/qrengine.svn.cloudforge.com\/qrengine_demos",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "fe645735-fe26-4ad6-bd69-e0743d57a9b8++505"
+    }
+  ]
+}
