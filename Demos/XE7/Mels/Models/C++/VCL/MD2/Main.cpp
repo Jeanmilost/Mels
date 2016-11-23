@@ -334,10 +334,10 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_COLOR_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_COLOR_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create color shader
             m_pColorShader = new QR_Shader_OpenGL();
@@ -353,10 +353,10 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_TEXTURE_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_TEXTURE_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create texture shader
             m_pTextureShader = new QR_Shader_OpenGL();
@@ -374,10 +374,10 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                     ID_MD2_MODEL,
-                                                                    L"DATA"));
+                                                                    PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pNTStream(new TResourceStream((int)HInstance,
                                                                  ID_MD2_NORMALS_TABLE,
-                                                                 L"DATA"));
+                                                                 PWideChar(L"DATA")));
 
     std::auto_ptr<TQRColor> pColor(new TQRColor(255, 255, 255, 255));
 
@@ -662,7 +662,7 @@ bool TMainForm::LoadTexture(TQRTexture* pTexture)
     // load texture image from resources
     std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,
                                                                       ID_MD2_TEXTURE,
-                                                                      L"DATA"));
+                                                                      PWideChar(L"DATA")));
 
     // load MD2 texture
     std::auto_ptr<TBitmap> pBitmap(new TBitmap());

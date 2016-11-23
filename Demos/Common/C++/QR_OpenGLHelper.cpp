@@ -31,7 +31,11 @@
 #include "QR_MathsHelper.h"
 
 #ifdef USE_SHADER
-    #pragma link "glewSL.lib"
+    #ifdef __llvm__
+        #pragma link "glewSL.a"
+    #else
+        #pragma link "glewSL.lib"
+    #endif
 #endif
 
 //--------------------------------------------------------------------------------------------------
