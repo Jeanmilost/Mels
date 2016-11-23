@@ -33,6 +33,7 @@ uses System.Classes,
      System.Math,
      System.Variants,
      System.Actions,
+     System.UITypes,
      Vcl.ActnList,
      Vcl.Graphics,
      Vcl.Controls,
@@ -321,7 +322,7 @@ begin
 
         // calculate current index and slice fan length
         meshIndex := Length(mesh);
-        fanLength := (stacks + 1) * stride * 2;
+        fanLength := (stacks + 1) * NativeInt(stride) * 2;
 
         // adde new mesh in output array
         SetLength(mesh, Length(mesh) + 1);

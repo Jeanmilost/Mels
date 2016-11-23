@@ -135,7 +135,6 @@ object MainForm: TMainForm
     Top = 16
     object acRotate: TAction
       Category = 'Navigation'
-      Caption = 'acRotate'
       ShortCut = 16466
       OnExecute = acRotateExecute
     end

@@ -13,9 +13,6 @@
 // OpenGL
 #include <GL/gl.h>
 
-// resources
-#include "Resources.rh"
-
 #pragma package(smart_init)
 #pragma link "UTQRVCLModelComponentGL"
 #pragma link "UTQRVCLSimpleRendererComponentGL"

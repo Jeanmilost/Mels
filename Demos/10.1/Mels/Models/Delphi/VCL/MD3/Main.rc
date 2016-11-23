@@ -1,15 +1,15 @@
 // MD3 model. NOTE this model was provided by rayban (raybanb@gmail.com) from site:
 // http://www.thewolfteam.org/cmdownloads/grandfather-clock/
-ID_MD3_MODEL                  RCDATA    "Resources\Models\gf_clock.md3"
-ID_MD3_TEXTURE_BHAND          RCDATA    "Resources\Models\bhand.bmp"
-ID_MD3_TEXTURE_CLOCK_FACE     RCDATA    "Resources\Models\clock_face.bmp"
-ID_MD3_TEXTURE_GF_CLOCK       RCDATA    "Resources\Models\gf_clock.bmp"
-ID_MD3_TEXTURE_GLASS_PANE     RCDATA    "Resources\Models\glass_pane04.bmp"
-ID_MD3_TEXTURE_SHAND          RCDATA    "Resources\Models\shand.bmp"
+ID_MD3_MODEL                  RCDATA    "..\..\..\..\..\..\Common\Resources\Models\gf_clock.md3"
+ID_MD3_TEXTURE_BHAND          RCDATA    "..\..\..\..\..\..\Common\Resources\Models\bhand.bmp"
+ID_MD3_TEXTURE_CLOCK_FACE     RCDATA    "..\..\..\..\..\..\Common\Resources\Models\clock_face.bmp"
+ID_MD3_TEXTURE_GF_CLOCK       RCDATA    "..\..\..\..\..\..\Common\Resources\Models\gf_clock.bmp"
+ID_MD3_TEXTURE_GLASS_PANE     RCDATA    "..\..\..\..\..\..\Common\Resources\Models\glass_pane04.bmp"
+ID_MD3_TEXTURE_SHAND          RCDATA    "..\..\..\..\..\..\Common\Resources\Models\shand.bmp"
 
 // shader
-ID_COLOR_VERTEX_SHADER        RCDATA    "Resources\Shader\color_vertex.glsl"
-ID_COLOR_FRAGMENT_SHADER      RCDATA    "Resources\Shader\color_fragment.glsl"
-ID_TEXTURE_VERTEX_SHADER      RCDATA    "Resources\Shader\texture_vertex.glsl"
-ID_TEXTURE_FRAGMENT_SHADER    RCDATA    "Resources\Shader\texture_fragment.glsl"
+ID_COLOR_VERTEX_SHADER        RCDATA    "..\..\..\..\..\..\Common\Resources\Shader\color_vertex.glsl"
+ID_COLOR_FRAGMENT_SHADER      RCDATA    "..\..\..\..\..\..\Common\Resources\Shader\color_fragment.glsl"
+ID_TEXTURE_VERTEX_SHADER      RCDATA    "..\..\..\..\..\..\Common\Resources\Shader\texture_vertex.glsl"
+ID_TEXTURE_FRAGMENT_SHADER    RCDATA    "..\..\..\..\..\..\Common\Resources\Shader\texture_fragment.glsl"
 

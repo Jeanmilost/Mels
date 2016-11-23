@@ -1,5 +1,5 @@
 #include "Resources.rh"
 
 // sound
-ID_DEFAULT_SOUND    DATA    "Resources\Sound\chinese-gong.wav"
+ID_DEFAULT_SOUND    DATA    "..\..\..\..\Common\Resources\Sound\chinese-gong.wav"
 

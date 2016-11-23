@@ -88,8 +88,8 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <RcCompile Include="Main.rc">
-            <Form>Main.res</Form>
+        <RcCompile Include="Resources.rc">
+            <Form>Resources.res</Form>
         </RcCompile>
         <DCCReference Include="Main.pas">
             <Form>MainForm</Form>
