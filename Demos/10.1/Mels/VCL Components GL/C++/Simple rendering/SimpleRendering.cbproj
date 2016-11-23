@@ -131,11 +131,6 @@
         <PCHCompile Include="Main_PCH.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
-        <ResourceCompile Include="Resources.rc">
-            <Form>Resources.res</Form>
-            <BuildOrder>3</BuildOrder>
-        </ResourceCompile>
-        <None Include="Resources.rh"/>
         <CppCompile Include="SimpleRendering.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
