@@ -55,15 +55,24 @@ unit openal;
 interface
 
 uses
-  Classes
-  , SysUtils
-  {$IFDEF Win32},Windows{$ENDIF}
+  System.Classes,
+  System.SysUtils,
+  {$IFDEF Win32}
+    Winapi.Windows
+  {$ENDIF}
+  {$IFDEF CPUX64}
+    Winapi.Windows
+  {$ENDIF}
   ;
 
 { $ DEFINE ALUT} //define ALUT to use alut.dll
 
 const
 {$IFDEF Win32}
+  callibname='OpenAL32.dll';
+  calutlibname='Alut.dll';
+{$ENDIF}
+{$IFDEF CPUX64}
   callibname='OpenAL32.dll';
   calutlibname='Alut.dll';
 {$ENDIF}
