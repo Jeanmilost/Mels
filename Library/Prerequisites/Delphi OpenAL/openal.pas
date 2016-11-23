@@ -57,10 +57,8 @@ interface
 uses
   System.Classes,
   System.SysUtils,
-  {$IFDEF Win32}
-    Winapi.Windows
-  {$ENDIF}
-  {$IFDEF CPUX64}
+  // for Windows 32 and 64 bit versions
+  {$IF DEFINED(Win32) or DEFINED(CPUX64)}
     Winapi.Windows
   {$ENDIF}
   ;
@@ -68,11 +66,9 @@ uses
 { $ DEFINE ALUT} //define ALUT to use alut.dll
 
 const
-{$IFDEF Win32}
-  callibname='OpenAL32.dll';
-  calutlibname='Alut.dll';
-{$ENDIF}
-{$IFDEF CPUX64}
+// for Windows 32 and 64 bit versions. NOTE for now there are no 64 bit version of the OpenAL.dll,
+// so the 32 bit version should be used for the both
+{$IF DEFINED(Win32) or DEFINED(CPUX64)}
   callibname='OpenAL32.dll';
   calutlibname='Alut.dll';
 {$ENDIF}
