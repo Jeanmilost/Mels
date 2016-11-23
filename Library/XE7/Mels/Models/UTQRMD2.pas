@@ -994,24 +994,45 @@ begin
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD2Header), errorMsg)) then
         raise Exception.Create('Not enough bytes in MD2 file to read next data - ' + errorMsg);
 
-    // read header from file
-    pBuffer.Read(PQRUInt32(m_ID),                 SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_Version),            SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_SkinWidth),          SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_SkinHeight),         SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FrameSize),          SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_SkinCount),          SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_VertexCount),        SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_TextureCoordCount),  SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_PolygonCount),       SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_GlCmdsCount),        SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FrameCount),         SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_SkinOffset),         SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_TextureCoordOffset), SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_PolygonOffset),      SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FrameOffset),        SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_GlCmdsOffset),       SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_EndOffset),          SizeOf(TQRUInt32));
+    {$IFDEF CPUX64}
+        // read header from file
+        pBuffer.Read(m_ID,                 SizeOf(TQRUInt32));
+        pBuffer.Read(m_Version,            SizeOf(TQRUInt32));
+        pBuffer.Read(m_SkinWidth,          SizeOf(TQRUInt32));
+        pBuffer.Read(m_SkinHeight,         SizeOf(TQRUInt32));
+        pBuffer.Read(m_FrameSize,          SizeOf(TQRUInt32));
+        pBuffer.Read(m_SkinCount,          SizeOf(TQRUInt32));
+        pBuffer.Read(m_VertexCount,        SizeOf(TQRUInt32));
+        pBuffer.Read(m_TextureCoordCount,  SizeOf(TQRUInt32));
+        pBuffer.Read(m_PolygonCount,       SizeOf(TQRUInt32));
+        pBuffer.Read(m_GlCmdsCount,        SizeOf(TQRUInt32));
+        pBuffer.Read(m_FrameCount,         SizeOf(TQRUInt32));
+        pBuffer.Read(m_SkinOffset,         SizeOf(TQRUInt32));
+        pBuffer.Read(m_TextureCoordOffset, SizeOf(TQRUInt32));
+        pBuffer.Read(m_PolygonOffset,      SizeOf(TQRUInt32));
+        pBuffer.Read(m_FrameOffset,        SizeOf(TQRUInt32));
+        pBuffer.Read(m_GlCmdsOffset,       SizeOf(TQRUInt32));
+        pBuffer.Read(m_EndOffset,          SizeOf(TQRUInt32));
+    {$ELSE}
+        // read header from file
+        pBuffer.Read(PQRUInt32(m_ID),                 SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_Version),            SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_SkinWidth),          SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_SkinHeight),         SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FrameSize),          SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_SkinCount),          SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_VertexCount),        SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_TextureCoordCount),  SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_PolygonCount),       SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_GlCmdsCount),        SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FrameCount),         SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_SkinOffset),         SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_TextureCoordOffset), SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_PolygonOffset),      SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FrameOffset),        SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_GlCmdsOffset),       SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_EndOffset),          SizeOf(TQRUInt32));
+    {$ENDIF}
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD2Skin

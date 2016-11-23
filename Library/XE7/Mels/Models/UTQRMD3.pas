@@ -948,18 +948,33 @@ begin
         raise Exception.Create('Not enough bytes in MD3 file to read next data - ' + errorMsg);
 
     // read data from file
-    pBuffer.Read(PQRUInt32(m_ID),          SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_Version),     SizeOf(TQRUInt32));
-    pBuffer.Read(m_FileName,               SizeOf(m_FileName));
-    pBuffer.Read(PQRUInt32(m_Flags),       SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FrameCount),  SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_TagCount),    SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_MeshCount),   SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_SkinCount),   SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FrameOffset), SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_TagOffset),   SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_MeshOffset),  SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_EndOffset),   SizeOf(TQRUInt32));
+    {$IFDEF CPUX64}
+        pBuffer.Read(m_ID,          SizeOf(TQRUInt32));
+        pBuffer.Read(m_Version,     SizeOf(TQRUInt32));
+        pBuffer.Read(m_FileName,    SizeOf(m_FileName));
+        pBuffer.Read(m_Flags,       SizeOf(TQRUInt32));
+        pBuffer.Read(m_FrameCount,  SizeOf(TQRUInt32));
+        pBuffer.Read(m_TagCount,    SizeOf(TQRUInt32));
+        pBuffer.Read(m_MeshCount,   SizeOf(TQRUInt32));
+        pBuffer.Read(m_SkinCount,   SizeOf(TQRUInt32));
+        pBuffer.Read(m_FrameOffset, SizeOf(TQRUInt32));
+        pBuffer.Read(m_TagOffset,   SizeOf(TQRUInt32));
+        pBuffer.Read(m_MeshOffset,  SizeOf(TQRUInt32));
+        pBuffer.Read(m_EndOffset,   SizeOf(TQRUInt32));
+    {$ELSE}
+        pBuffer.Read(PQRUInt32(m_ID),          SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_Version),     SizeOf(TQRUInt32));
+        pBuffer.Read(m_FileName,               SizeOf(m_FileName));
+        pBuffer.Read(PQRUInt32(m_Flags),       SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FrameCount),  SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_TagCount),    SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_MeshCount),   SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_SkinCount),   SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FrameOffset), SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_TagOffset),   SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_MeshOffset),  SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_EndOffset),   SizeOf(TQRUInt32));
+    {$ENDIF}
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3MeshInfo
@@ -973,18 +988,33 @@ begin
         raise Exception.Create('Not enough bytes in MD3 file to read next data - ' + errorMsg);
 
     // read data from file
-    pBuffer.Read(PQRUInt32(m_MeshID),         SizeOf(TQRUInt32));
-    pBuffer.Read(m_Name,                      SizeOf(m_Name));
-    pBuffer.Read(PQRUInt32(m_Flags),          SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_AnimationCount), SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_ShaderCount),    SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_VertexCount),    SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FaceCount),      SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_FaceOffset),     SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_ShaderOffset),   SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_UVOffset),       SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_PolygonOffset),  SizeOf(TQRUInt32));
-    pBuffer.Read(PQRUInt32(m_MeshEndOffset),  SizeOf(TQRUInt32));
+    {$IFDEF CPUX64}
+        pBuffer.Read(m_MeshID,         SizeOf(TQRUInt32));
+        pBuffer.Read(m_Name,           SizeOf(m_Name));
+        pBuffer.Read(m_Flags,          SizeOf(TQRUInt32));
+        pBuffer.Read(m_AnimationCount, SizeOf(TQRUInt32));
+        pBuffer.Read(m_ShaderCount,    SizeOf(TQRUInt32));
+        pBuffer.Read(m_VertexCount,    SizeOf(TQRUInt32));
+        pBuffer.Read(m_FaceCount,      SizeOf(TQRUInt32));
+        pBuffer.Read(m_FaceOffset,     SizeOf(TQRUInt32));
+        pBuffer.Read(m_ShaderOffset,   SizeOf(TQRUInt32));
+        pBuffer.Read(m_UVOffset,       SizeOf(TQRUInt32));
+        pBuffer.Read(m_PolygonOffset,  SizeOf(TQRUInt32));
+        pBuffer.Read(m_MeshEndOffset,  SizeOf(TQRUInt32));
+    {$ELSE}
+        pBuffer.Read(PQRUInt32(m_MeshID),         SizeOf(TQRUInt32));
+        pBuffer.Read(m_Name,                      SizeOf(m_Name));
+        pBuffer.Read(PQRUInt32(m_Flags),          SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_AnimationCount), SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_ShaderCount),    SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_VertexCount),    SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FaceCount),      SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_FaceOffset),     SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_ShaderOffset),   SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_UVOffset),       SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_PolygonOffset),  SizeOf(TQRUInt32));
+        pBuffer.Read(PQRUInt32(m_MeshEndOffset),  SizeOf(TQRUInt32));
+    {$ENDIF}
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Tag
@@ -1014,11 +1044,15 @@ begin
         raise Exception.Create('Not enough bytes in MD3 file to read next data - ' + errorMsg);
 
     // read data from file
-    pBuffer.Read(m_Min,                SizeOf(m_Min));
-    pBuffer.Read(m_Max,                SizeOf(m_Max));
-    pBuffer.Read(m_Origin,             SizeOf(m_Origin));
-    pBuffer.Read(PQRFloat32(m_Radius), SizeOf(TQRFloat32));
-    pBuffer.Read(m_Name,               SizeOf(m_Name));
+    pBuffer.Read(m_Min,    SizeOf(m_Min));
+    pBuffer.Read(m_Max,    SizeOf(m_Max));
+    pBuffer.Read(m_Origin, SizeOf(m_Origin));
+    {$IFDEF CPUX64}
+        pBuffer.Read(m_Radius, SizeOf(TQRFloat32));
+    {$ELSE}
+        pBuffer.Read(PQRFloat32(m_Radius), SizeOf(TQRFloat32));
+    {$ENDIF}
+    pBuffer.Read(m_Name, SizeOf(m_Name));
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Vertex
@@ -1075,8 +1109,12 @@ begin
         raise Exception.Create('Not enough bytes in MD3 file to read next data - ' + errorMsg);
 
     // read data from file
-    pBuffer.Read(m_Name,                   SizeOf(m_Name));
-    pBuffer.Read(pQRUInt32(m_ShaderIndex), SizeOf(TQRUInt32));
+    pBuffer.Read(m_Name, SizeOf(m_Name));
+    {$IFDEF CPUX64}
+        pBuffer.Read(m_ShaderIndex, SizeOf(TQRUInt32));
+    {$ELSE}
+        pBuffer.Read(pQRUInt32(m_ShaderIndex), SizeOf(TQRUInt32));
+    {$ENDIF}
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMD3Parser

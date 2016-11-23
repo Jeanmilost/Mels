@@ -397,11 +397,13 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
         std::auto_ptr<TQRColor> pAmbient(new TQRColor(32, 32, 32, 255));
         std::auto_ptr<TQRColor> pColor(new TQRColor(255, 255, 255, 255));
 
+        TQRVector3D direction(1.0f, 0.0f, 0.0f);
+
         // configure precalculated light
         std::auto_ptr<TQRMD2Light> pLight(new TQRMD2Light());
         pLight->Ambient   = pAmbient.get();
         pLight->Color     = pColor.get();
-        pLight->Direction = &TQRVector3D(1.0f, 0.0f, 0.0f);
+        pLight->Direction = &direction;
         pLight->Enabled   = true;
 
         m_pMD2->PreCalculatedLight = pLight.get();
