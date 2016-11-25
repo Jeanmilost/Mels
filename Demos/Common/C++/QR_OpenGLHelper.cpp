@@ -331,12 +331,12 @@ void QR_OpenGLHelper::GetBitmapFromOpenGL(TBitmap* pBitmap)
     // get viewport dimensions
     glGetIntegerv(GL_VIEWPORT, dimensions);
 
-    TRGBQuad* pRGBBits = NULL;
+    TRGBQuad* pPixels = NULL;
 
     try
     {
         // create bits to contain bitmap
-        pRGBBits = new TRGBQuad[dimensions[2] * dimensions[3] * 4];
+        pPixels = new TRGBQuad[dimensions[2] * dimensions[3] * 4];
 
         // flush OpenGL
         glFinish();
@@ -346,7 +346,7 @@ void QR_OpenGLHelper::GetBitmapFromOpenGL(TBitmap* pBitmap)
         glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
 
         // get pixels from last OpenGL rendering
-        glReadPixels(0, 0, dimensions[2], dimensions[3], GL_RGBA, GL_UNSIGNED_BYTE, pRGBBits);
+        glReadPixels(0, 0, dimensions[2], dimensions[3], GL_RGBA, GL_UNSIGNED_BYTE, pPixels);
 
         // configure destination bitmap
         pBitmap->PixelFormat = pf32bit;
@@ -364,17 +364,17 @@ void QR_OpenGLHelper::GetBitmapFromOpenGL(TBitmap* pBitmap)
             for (GLint x = 0; x < dimensions[2]; ++x)
             {
                 // take the opportunity to swap the pixel RGB values
-                pLine[x].rgbRed      = pRGBBits[yPos + x].rgbBlue;
-                pLine[x].rgbGreen    = pRGBBits[yPos + x].rgbGreen;
-                pLine[x].rgbBlue     = pRGBBits[yPos + x].rgbRed;
-                pLine[x].rgbReserved = pRGBBits[yPos + x].rgbReserved;
+                pLine[x].rgbRed      = pPixels[yPos + x].rgbBlue;
+                pLine[x].rgbGreen    = pPixels[yPos + x].rgbGreen;
+                pLine[x].rgbBlue     = pPixels[yPos + x].rgbRed;
+                pLine[x].rgbReserved = pPixels[yPos + x].rgbReserved;
             }
         }
     }
     __finally
     {
-        if (pRGBBits)
-            delete[] pRGBBits;
+        if (pPixels)
+            delete[] pPixels;
     }
 }
 //--------------------------------------------------------------------------------------------------
