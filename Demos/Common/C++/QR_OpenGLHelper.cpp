@@ -352,35 +352,24 @@ void QR_OpenGLHelper::GetBitmapFromOpenGL(TBitmap* pBitmap)
         pBitmap->PixelFormat = pf32bit;
         pBitmap->SetSize(dimensions[2], dimensions[3]);
 
-        // configure bitmap header
-        TBitmapInfo header;
-        header.bmiHeader.biSize        = sizeof(TBitmapInfoHeader);
-        header.bmiHeader.biWidth       = dimensions[2];
-        header.bmiHeader.biHeight      = dimensions[3];
-        header.bmiHeader.biPlanes      = 1;
-        header.bmiHeader.biBitCount    = 32;
-        header.bmiHeader.biCompression = BI_RGB;
-        header.bmiHeader.biSizeImage   = dimensions[2] * dimensions[3] * 4;
+        // iterate through lines to copy
+        for (GLint y = 0; y < dimensions[3]; ++y)
+        {
+            // get next line to copy and calculate y position (origin is on the left bottom on the
+            // source, but on the left top on the destination)
+            TRGBQuad*         pLine = static_cast<TRGBQuad*>(pBitmap->ScanLine[y]);
+            const std::size_t yPos  = ((dimensions[3] - 1) - y) * dimensions[2];
 
-        TRGBQuad* pPixel = pRGBBits;
-
-        // swap red and blue in bitmap
-        for (GLint x = 0; x < dimensions[2]; ++x)
-            for (GLint y = 0; y < dimensions[3]; ++y)
+            // iterate through pixels to copy
+            for (GLint x = 0; x < dimensions[2]; ++x)
             {
-                // swap red and blue in pixel
-                std::swap(pPixel->rgbRed, pPixel->rgbBlue);
-                ++pPixel;
+                // take the opportunity to swap the pixel RGB values
+                pLine[x].rgbRed      = pRGBBits[yPos + x].rgbBlue;
+                pLine[x].rgbGreen    = pRGBBits[yPos + x].rgbGreen;
+                pLine[x].rgbBlue     = pRGBBits[yPos + x].rgbRed;
+                pLine[x].rgbReserved = pRGBBits[yPos + x].rgbReserved;
             }
-
-        // copy bitmap content from OpenGL rendered surface to destination
-        SetDIBits(pBitmap->Canvas->Handle,
-                  pBitmap->Handle,
-                  0,
-                  dimensions[3],
-                  pRGBBits,
-                  &header,
-                  DIB_RGB_COLORS);
+        }
     }
     __finally
     {

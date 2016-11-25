@@ -316,10 +316,10 @@ bool TMainForm::LoadModel(bool toggleLight)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_COLOR_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_COLOR_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create color shader
             m_pColorShader = new QR_Shader_OpenGL();
@@ -335,10 +335,10 @@ bool TMainForm::LoadModel(bool toggleLight)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_TEXTURE_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_TEXTURE_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create texture shader
             m_pTextureShader = new QR_Shader_OpenGL();
@@ -400,27 +400,29 @@ bool TMainForm::LoadModel(bool toggleLight)
         std::auto_ptr<TQRColor> pAmbient(new TQRColor(32, 32, 32, 255));
         std::auto_ptr<TQRColor> pColor(new TQRColor(255, 255, 255, 255));
 
+        TQRVector3D direction(1.0f, 0.0f, 0.0f);
+
         // configure precalculated light
         pLight.reset(new TQRMD2Light());
         pLight->Ambient   = pAmbient.get();
         pLight->Color     = pColor.get();
-        pLight->Direction = &TQRVector3D(1.0f, 0.0f, 0.0f);
+        pLight->Direction = &direction;
         pLight->Enabled   = true;
     }
 
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                     ID_MD2_MODEL,
-                                                                    L"DATA"));
+                                                                    PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pNTStream(new TResourceStream((int)HInstance,
                                                                  ID_MD2_NORMALS_TABLE,
-                                                                 L"DATA"));
+                                                                 PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pAnimCfgStream(new TResourceStream((int)HInstance,
                                                                       ID_MD2_ANIM_CFG,
-                                                                      L"DATA"));
+                                                                      PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,
                                                                       ID_MD2_TEXTURE,
-                                                                      L"DATA"));
+                                                                      PWideChar(L"DATA")));
 
     std::auto_ptr<TQRMemoryDir> pMemDir(new TQRMemoryDir(true));
 

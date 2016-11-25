@@ -26,6 +26,7 @@
 // std
 #include <sstream>
 #include <memory>
+#include <algorithm>
 
 // Mels library
 #include <UTQRGeometry.hpp>
