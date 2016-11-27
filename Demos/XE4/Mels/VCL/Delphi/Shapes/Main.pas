@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> UTQR3D -----------------------------------------------------------------------------------*
+// * ==> Main -------------------------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -234,7 +234,7 @@ begin
     // initialize OpenGL
     if (not TQROpenGLHelper.EnableOpenGL(Handle, m_hDC, m_hRC)) then
     begin
-        MessageDlg('OpenGL could not be initialized.\r\n\r\nApplication will close.',
+        MessageDlg('OpenGL could not be initialized.' + #13#10#13#10 + 'Application will close.',
                    mtError,
                    [mbOK],
                    0);;

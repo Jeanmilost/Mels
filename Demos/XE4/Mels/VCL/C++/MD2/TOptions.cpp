@@ -121,7 +121,13 @@ void __fastcall TOptions::WndProc(TMessage& message)
             break;
     }
 
-    inherited::WndProc(message);
+    #ifdef __llvm__
+        // 64 bit compiler cannot access the base function using the inherited TForm directive,
+        // because it was declared as private under several RAD Studio versions
+        TForm::WndProc(message);
+    #else
+        inherited::WndProc(message);
+    #endif
 }
 //--------------------------------------------------------------------------------------------------
 void TOptions::Reset()
@@ -151,7 +157,7 @@ void TOptions::LoadPreview()
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                     ID_MD2_MODEL,
-                                                                    L"DATA"));
+                                                                    PWideChar(L"DATA")));
 
     // create in-memory model directory
     std::auto_ptr<TQRMemoryDir> pMemDir(new TQRMemoryDir(true));
@@ -254,7 +260,7 @@ void __fastcall TOptions::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
         // get texture from stream
         std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,
                                                                           ID_MD2_TEXTURE,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
 
         // load MD2 texture
         std::auto_ptr<TBitmap> pBitmap(new TBitmap());

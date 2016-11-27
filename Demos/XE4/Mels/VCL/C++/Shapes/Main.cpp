@@ -122,8 +122,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                      pSurfaceColor.get(),
                      TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D surfaceTranslation(-0.2f, 0.2f, -1.0f);
+
     // locate model in world
-    m_pSurface->Translation = &TQRVector3D(-0.2f, 0.2f, -1.0f);
+    m_pSurface->Translation = &surfaceTranslation;
 
     // create and configure sphere
     m_pSphere                    = new TQRSphereGroup();
@@ -142,8 +144,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                     pSphereColor.get(),
                     TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D sphereTranslation(0.0f, 0.2f, -1.0f);
+
     // locate model in world
-    m_pSphere->Translation = &TQRVector3D(0.0f, 0.2f, -1.0f);
+    m_pSphere->Translation = &sphereTranslation;
     m_pSphere->RotationX   = -M_PI / 2.0f;
 
     // create and configure box
@@ -161,8 +165,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                  false,
                  TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D boxTranslation(0.2f, 0.2f, -1.0f);
+
     // locate model in world
-    m_pBox->Translation = &TQRVector3D(0.2f, 0.2f, -1.0f);
+    m_pBox->Translation = &boxTranslation;
     m_pBox->RotationX   =  M_PI / 5.0f;
     m_pBox->RotationY   =  M_PI + M_PI / 3.0f;
 
@@ -184,8 +190,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                   pConeColor.get(),
                   TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D coneTranslation(-0.2f, 0.0f, -1.0f);
+
     // locate model in world
-    m_pCone->Translation = &TQRVector3D(-0.2f, 0.0f, -1.0f);
+    m_pCone->Translation = &coneTranslation;
 
     // create and configure torus
     m_pTorus                    = new TQRTorusGroup();
@@ -204,8 +212,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                    pTorusColor.get(),
                    TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D torusTranslation(0.0f, 0.0f, -1.0f);
+
     // locate model in world
-    m_pTorus->Translation = &TQRVector3D(0.0f, 0.0f, -1.0f);
+    m_pTorus->Translation = &torusTranslation;
     m_pTorus->RotationX   =  M_PI / 1.5f;
     m_pTorus->RotationY   =  M_PI / 5.0f;
 
@@ -224,8 +234,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                       pParabolaColor.get(),
                       TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D parabolaTranslation(0.22f, -0.03f, -1.0f);
+
     // locate model in world
-    m_pParabola->Translation = &TQRVector3D(0.22f, -0.03f, -1.0f);
+    m_pParabola->Translation = &parabolaTranslation;
     m_pParabola->RotationX   =  M_PI + (M_PI / 1.5);
     m_pParabola->RotationY   = -M_PI / 5.0f;
 
@@ -247,8 +259,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                       pCylinderColor.get(),
                       TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D cylinderTranslation(-0.2f, -0.2f, -1.0f);
+
     // locate model in world
-    m_pCylinder->Translation = &TQRVector3D(-0.2f, -0.2f, -1.0f);
+    m_pCylinder->Translation = &cylinderTranslation;
     m_pCylinder->RotationY   =  M_PI / 1.5f;
 
     // create and configure pyramid
@@ -269,8 +283,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                      pPyramidColor.get(),
                      TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D pyramidTranslation(0.0f, -0.2f, -1.0f);
+
     // locate model in world
-    m_pPyramid->Translation = &TQRVector3D(0.0f, -0.2f, -1.0f);
+    m_pPyramid->Translation = &pyramidTranslation;
 
     // create and configure tetrahedron
     m_pTetrahedron                    = new TQRSphereGroup();
@@ -286,8 +302,10 @@ void __fastcall TMainForm::FormCreate(TObject* pSender)
                          pTetrahedronColor.get(),
                          TQRModelOptions() << EQR_MO_Without_Colors);
 
+    TQRVector3D tetrahedronTranslation(0.2f, -0.2f, -1.0f);
+
     // locate model in world
-    m_pTetrahedron->Translation = &TQRVector3D(0.2f, -0.2f, -1.0f);
+    m_pTetrahedron->Translation = &tetrahedronTranslation;
     m_pTetrahedron->RotationY   =  M_PI / 1.5f;
 
     // from now, OpenGL will draw scene every time the thread do nothing else
@@ -381,7 +399,7 @@ GLint TMainForm::LoadTexture(int resIndex) const
     // load resources
     std::auto_ptr<TResourceStream> pTextureStream(new TResourceStream((int)HInstance,
                                                                       resIndex,
-                                                                      L"DATA"));
+                                                                      PWideChar(L"DATA")));
 
     // load box texture
     std::auto_ptr<TBitmap> pBitmap(new TBitmap());

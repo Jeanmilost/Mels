@@ -122,9 +122,12 @@ begin
         end;
 
         // load sound
-        if (not plPlayer.Open(pSound.Memory, pSound.Size)) then
+        if (not Assigned(pSound) or not plPlayer.Open(pSound.Memory, pSound.Size)) then
         begin
-            MessageDlg('Could not load sound.\r\n\r\nApplication will close.', mtError, [mbOK], 0);
+            MessageDlg('Could not load sound.' + #13#10#13#10 + 'Application will close.',
+                       mtError,
+                       [mbOK],
+                       0);
 
             Application.Terminate;
             Exit;

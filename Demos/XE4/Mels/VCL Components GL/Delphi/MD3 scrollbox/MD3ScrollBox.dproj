@@ -34,6 +34,12 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
@@ -45,9 +51,14 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <Icon_MainIcon>..\..\..\..\..\..\Library\Resources\Icon\Mels.ico</Icon_MainIcon>
-        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win32\Debug;..\..\..\..\..\..\Library\XE4\Mels\Base\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\Models\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win32\Debug\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -84,11 +95,15 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\Base\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\Models\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win32\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win32\Debug\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>1</VerInfo_MajorVer>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win64\Debug\;..\..\..\..\..\..\Library\XE4\Mels\Base\Win64\Debug\;..\..\..\..\..\..\Library\XE4\Mels\Models\Win64\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win64\Debug\;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win64\Debug\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -97,10 +112,14 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win32\Release\;..\..\..\..\..\..\Library\XE4\Mels\Base\Win32\Release\;..\..\..\..\..\..\Library\XE4\Mels\Models\Win32\Release\;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win32\Release\;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win32\Release\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_MajorVer>1</VerInfo_MajorVer>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <DCC_UnitSearchPath>..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\Win64\Release\;..\..\..\..\..\..\Library\XE4\Mels\Base\Win64\Release\;..\..\..\..\..\..\Library\XE4\Mels\Models\Win64\Release\;..\..\..\..\..\..\Library\XE4\Mels\VCL\Win64\Release\;..\..\..\..\..\..\Library\XE4\Mels\VCL Components GL\Win64\Release\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

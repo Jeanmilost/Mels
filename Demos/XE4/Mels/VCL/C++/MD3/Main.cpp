@@ -362,10 +362,10 @@ bool TMainForm::LoadModel()
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_COLOR_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_COLOR_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create color shader
             m_pColorShader = new QR_Shader_OpenGL();
@@ -381,10 +381,10 @@ bool TMainForm::LoadModel()
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_TEXTURE_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_TEXTURE_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create texture shader
             m_pTextureShader = new QR_Shader_OpenGL();
@@ -448,7 +448,7 @@ bool TMainForm::LoadModel()
         // load resources
         std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                         ID_MD3_MODEL,
-                                                                        L"DATA"));
+                                                                        PWideChar(L"DATA")));
 
         // load model from resources
         if (!m_pMD3->Load(pModelStream.get(),
@@ -899,10 +899,9 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
     if (index > (NativeInt)meshCount || nextIndex > (NativeInt)meshCount)
         return;
 
-    TQRMesh*     pMeshToDraw     = NULL;
-    TQRMesh*     pNextMeshToDraw = NULL;
-    TQRAABBTree* pAABBTree       = NULL;
-    bool         interpolated    = false;
+    TQRMesh* pMeshToDraw;
+    TQRMesh* pNextMeshToDraw = NULL;
+    bool     interpolated    = false;
 
     // get frame to draw, and frame to interpolate with
     IFrame* pFrame     = GetFrame(index,     pMD3Model, m_pOptions->ckShowCollisions);
@@ -929,7 +928,7 @@ void __fastcall TMainForm::OnDrawCustomModelItem(TQRModelGroup* const pGroup,
     }
 
     // get aligned-axis bounding box tree to use to detect collisions
-    pAABBTree = pFrame->m_pAABBTree;
+    TQRAABBTree* pAABBTree = pFrame->m_pAABBTree;
 
     // do use shader?
     if (m_pOptions->ckUseShader->Checked)
