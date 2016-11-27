@@ -559,33 +559,54 @@ end;
 //--------------------------------------------------------------------------------------------------
 // TQRVCLPictureHelper
 //--------------------------------------------------------------------------------------------------
-class procedure TQRVCLPictureHelper.CopyPixel(const pSrc, pDst: Pointer);
-asm
-    push ebx
-    mov bl, [eax + 0]
-    mov bh, [eax + 1]
-    mov [edx + 0], bl
-    mov [edx + 1], bh
-    mov bl, [eax + 2]
-    mov bh, [eax + 3]
-    mov [edx + 2], bl
-    mov [edx + 3], bh
-    pop ebx
-end;
+{$IFDEF CPUX64}
+    class procedure TQRVCLPictureHelper.CopyPixel(const pSrc, pDst: Pointer);
+    begin
+        CopyMemory(pDst, pSrc, SizeOf(Byte) * 4)
+    end;
+{$ELSE}
+    class procedure TQRVCLPictureHelper.CopyPixel(const pSrc, pDst: Pointer);
+    asm
+        push ebx
+        mov bl, [eax + 0]
+        mov bh, [eax + 1]
+        mov [edx + 0], bl
+        mov [edx + 1], bh
+        mov bl, [eax + 2]
+        mov bh, [eax + 3]
+        mov [edx + 2], bl
+        mov [edx + 3], bh
+        pop ebx
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
-class procedure TQRVCLPictureHelper.CopySwapPixel(const pSrc, pDst: Pointer);
-asm
-    push ebx
-    mov bl, [eax + 0]
-    mov bh, [eax + 1]
-    mov [edx + 2], bl
-    mov [edx + 1], bh
-    mov bl, [eax + 2]
-    mov bh, [eax + 3]
-    mov [edx + 0], bl
-    mov [edx + 3], bh
-    pop ebx
-end;
+{$IFDEF CPUX64}
+    class procedure TQRVCLPictureHelper.CopySwapPixel(const pSrc, pDst: Pointer);
+    var
+        r, g, b, a: Byte;
+    begin
+        b := (Cardinal(pSrc^) shr 24) and $FF;
+        g := (Cardinal(pSrc^) shr 16) and $FF;
+        r := (Cardinal(pSrc^) shr 8)  and $FF;
+        a :=  Cardinal(pSrc^)         and $FF;
+
+        PCardinal(pDst)^ := ((r shl 24) + (g shl 16) + (b shl 8) + a);
+    end;
+{$ELSE}
+    class procedure TQRVCLPictureHelper.CopySwapPixel(const pSrc, pDst: Pointer);
+    asm
+        push ebx
+        mov bl, [eax + 0]
+        mov bh, [eax + 1]
+        mov [edx + 2], bl
+        mov [edx + 1], bh
+        mov bl, [eax + 2]
+        mov bh, [eax + 3]
+        mov [edx + 0], bl
+        mov [edx + 3], bh
+        pop ebx
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
@@ -1110,8 +1131,8 @@ begin
                     for i := 0 to (width * height) - 1 do
                     begin
                         // swap pixel value (from RGB to BGR)
-                        pFront  := Pointer(NativeInt(pImage) + i * 3);
-                        pBack   := Pointer(NativeInt(pImage) + i * 3 + 2);
+                        pFront  := Pointer(NativeUInt(pImage) + NativeUInt(i * 3));
+                        pBack   := Pointer(NativeUInt(pImage) + NativeUInt(i * 3 + 2));
                         temp    := pFront^;
                         pFront^ := pBack^;
                         pBack^  := temp;
@@ -1128,8 +1149,8 @@ begin
                     for i := 0 to (width * height) - 1 do
                     begin
                         // swap pixel value (from RGB to BGR)
-                        pFront  := Pointer(NativeInt(pImage) + i * 4);
-                        pBack   := Pointer(NativeInt(pImage) + i * 4 + 2);
+                        pFront  := Pointer(NativeUInt(pImage) + NativeUInt(i * 4));
+                        pBack   := Pointer(NativeUInt(pImage) + NativeUInt(i * 4 + 2));
                         temp    := pFront^;
                         pFront^ := pBack^;
                         pBack^  := temp;
@@ -1163,7 +1184,7 @@ begin
 
             // extract pixel information from compressed data
             repeat
-                pFront := Pointer(NativeInt(pCompImage) + bufferIndex);
+                pFront := Pointer(NativeUInt(pCompImage) + NativeUInt(bufferIndex));
                 Inc(bufferIndex);
 
                 // do swap RGB colors to BGR?
@@ -1173,8 +1194,8 @@ begin
                     begin
                         For i := 0 to pFront^ do
                         begin
-                            CopySwapPixel(Pointer(NativeInt(pCompImage) + bufferIndex + i * colorDepth),
-                                          Pointer(NativeInt(pImage)     + currentByte));
+                            CopySwapPixel(Pointer(NativeUInt(pCompImage) + NativeUInt(bufferIndex + i * colorDepth)),
+                                          Pointer(NativeUInt(pImage)     + NativeUInt(currentByte)));
                             Inc(currentByte, colorDepth);
                             Inc(currentPixel);
                         end;
@@ -1185,8 +1206,8 @@ begin
                     begin
                         For i := 0 to pFront^ - 128 do
                         begin
-                            CopySwapPixel(Pointer(NativeInt(pCompImage) + bufferIndex),
-                                          Pointer(NativeInt(pImage)     + currentByte));
+                            CopySwapPixel(Pointer(NativeUInt(pCompImage) + NativeUInt(bufferIndex)),
+                                          Pointer(NativeUInt(pImage)     + NativeUInt(currentByte)));
                             Inc(currentByte, colorDepth);
                             Inc(currentPixel);
                         end;
@@ -1199,8 +1220,8 @@ begin
                     begin
                         For i := 0 to pFront^ do
                         begin
-                            CopyPixel(Pointer(NativeInt(pCompImage) + bufferIndex + i * colorDepth),
-                                      Pointer(NativeInt(pImage)     + currentByte));
+                            CopyPixel(Pointer(NativeUInt(pCompImage) + NativeUInt(bufferIndex + i * colorDepth)),
+                                      Pointer(NativeUInt(pImage)     + NativeUInt(currentByte)));
                             Inc(currentByte, colorDepth);
                             Inc(currentPixel);
                         end;
@@ -1211,8 +1232,8 @@ begin
                     begin
                         For i := 0 to pFront^ - 128 do
                         begin
-                            CopyPixel(Pointer(NativeInt(pCompImage) + bufferIndex),
-                                      Pointer(NativeInt(pImage)     + currentByte));
+                            CopyPixel(Pointer(NativeUInt(pCompImage) + NativeUInt(bufferIndex)),
+                                      Pointer(NativeUInt(pImage)     + NativeUInt(currentByte)));
                             Inc(currentByte, colorDepth);
                             Inc(currentPixel);
                         end;

@@ -553,11 +553,9 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelRendererGL.GetBitmapFromOpenGL(pBitmap: Vcl.Graphics.TBitmap);
 var
-    dimensions: array [0..3] of GLint;
-    pPixels:    PQRRGBQuadArray;
-    header:     TBitmapInfo;
-    x, y:       GLint;
-    offset:     NativeUInt;
+    dimensions:     array [0..3] of GLint;
+    pPixels, pLine: PQRRGBQuadArray;
+    x, y, yPos:     GLint;
 begin
     // no bitmap?
     if (not Assigned(pBitmap)) then
@@ -590,34 +588,24 @@ begin
         pBitmap.PixelFormat := pf32bit;
         pBitmap.SetSize(dimensions[2], dimensions[3]);
 
-        // configure bitmap header
-        header.bmiHeader.biSize        := sizeof(TBitmapInfoHeader);
-        header.bmiHeader.biWidth       := dimensions[2];
-        header.bmiHeader.biHeight      := dimensions[3];
-        header.bmiHeader.biPlanes      := 1;
-        header.bmiHeader.biBitCount    := 32;
-        header.bmiHeader.biCompression := BI_RGB;
-        header.bmiHeader.biSizeImage   := dimensions[2] * dimensions[3] * 4;
+        // iterate through lines to copy
+        for y := 0 to dimensions[3] - 1 do
+        begin
+            // get next line to copy and calculate y position (origin is on the left bottom on the
+            // source, but on the left top on the destination)
+            pLine := PQRRGBQuadArray(pBitmap.ScanLine[y]);
+            yPos  := ((dimensions[3] - 1) - y) * dimensions[2];
 
-        offset := 0;
-
-        // swap red and blue in bitmap
-        for x := 0 to dimensions[2] - 1 do
-            for y := 0 to dimensions[3] - 1 do
+            // iterate through pixels to copy
+            for x := 0 to dimensions[2] - 1 do
             begin
-                // swap red and blue in pixel
-                TQRMemoryHelper.Swap<Byte>(pPixels[offset].rgbRed, pPixels[offset].rgbBlue);
-                Inc(offset);
+                // take the opportunity to swap the pixel RGB values
+                pLine[x].rgbRed      := pPixels[yPos + x].rgbBlue;
+                pLine[x].rgbGreen    := pPixels[yPos + x].rgbGreen;
+                pLine[x].rgbBlue     := pPixels[yPos + x].rgbRed;
+                pLine[x].rgbReserved := pPixels[yPos + x].rgbReserved;
             end;
-
-        // copy bitmap content from OpenGL rendered surface to destination
-        SetDIBits(pBitmap.Canvas.Handle,
-                  pBitmap.Handle,
-                  0,
-                  dimensions[3],
-                  pPixels,
-                  &header,
-                  DIB_RGB_COLORS);
+        end;
     finally
         if (Assigned(pPixels)) then
             FreeMem(pPixels);

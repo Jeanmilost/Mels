@@ -59,7 +59,9 @@ type
              @param(other Other vector to copy from)
             }
             {$ENDREGION}
-            constructor Create(const other: TQRVector2D); overload;
+            {$IFNDEF CPUX64}
+                constructor Create(const other: TQRVector2D); overload;
+            {$ENDIF}
 
             {$REGION 'Documentation'}
             {**
@@ -328,7 +330,9 @@ type
              @param(other Other vector to copy from)
             }
             {$ENDREGION}
-            constructor Create(const other: TQRVector3D); overload;
+            {$IFNDEF CPUX64}
+                constructor Create(const other: TQRVector3D); overload;
+            {$ENDIF}
 
             {$REGION 'Documentation'}
             {**
@@ -608,7 +612,9 @@ type
              @param(other Other plane to copy from)
             }
             {$ENDREGION}
-            constructor Create(const other: TQRPlane); overload;
+            {$IFNDEF CPUX64}
+                constructor Create(const other: TQRPlane); overload;
+            {$ENDIF}
 
             {$REGION 'Documentation'}
             {**
@@ -827,7 +833,9 @@ type
              @param(other Other matrix to copy from)
             }
             {$ENDREGION}
-            constructor Create(const other: TQRMatrix4x4); overload;
+            {$IFNDEF CPUX64}
+                constructor Create(const other: TQRMatrix4x4); overload;
+            {$ENDIF}
 
             {$REGION 'Documentation'}
             {**
@@ -1033,7 +1041,9 @@ type
              @param(other Other quaternion to copy from)
             }
             {$ENDREGION}
-            constructor Create(const other: TQRQuaternion); overload;
+            {$IFNDEF CPUX64}
+                constructor Create(const other: TQRQuaternion); overload;
+            {$ENDIF}
 
             {$REGION 'Documentation'}
             {**
@@ -1889,10 +1899,12 @@ begin
     m_Y := y;
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRVector2D.Create(const other: TQRVector2D);
-begin
-    Assign(other);
-end;
+{$IFNDEF CPUX64}
+    constructor TQRVector2D.Create(const other: TQRVector2D);
+    begin
+        Assign(other);
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 procedure TQRVector2D.Assign(const other: TQRVector2D);
 begin
@@ -2094,10 +2106,12 @@ begin
     m_Z := z;
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRVector3D.Create(const other: TQRVector3D);
-begin
-    Assign(other);
-end;
+{$IFNDEF CPUX64}
+    constructor TQRVector3D.Create(const other: TQRVector3D);
+    begin
+        Assign(other);
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 procedure TQRVector3D.Assign(const other: TQRVector3D);
 begin
@@ -2317,10 +2331,12 @@ begin
     m_D := d;
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRPlane.Create(const other: TQRPlane);
-begin
-    Assign(other);
-end;
+{$IFNDEF CPUX64}
+    constructor TQRPlane.Create(const other: TQRPlane);
+    begin
+        Assign(other);
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 procedure TQRPlane.Assign(const other: TQRPlane);
 begin
@@ -2443,10 +2459,12 @@ begin
     m_Table[3][0] := _41; m_Table[3][1] := _42; m_Table[3][2] := _43; m_Table[3][3] := _44;
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRMatrix4x4.Create(const other: TQRMatrix4x4);
-begin
-    Assign(other);
-end;
+{$IFNDEF CPUX64}
+    constructor TQRMatrix4x4.Create(const other: TQRMatrix4x4);
+    begin
+        Assign(other);
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 class function TQRMatrix4x4.GetDefault: TQRMatrix4x4;
 begin
@@ -2827,10 +2845,12 @@ begin
     end
 end;
 //--------------------------------------------------------------------------------------------------
-constructor TQRQuaternion.Create(const other: TQRQuaternion);
-begin
-    Assign(other);
-end;
+{$IFNDEF CPUX64}
+    constructor TQRQuaternion.Create(const other: TQRQuaternion);
+    begin
+        Assign(other);
+    end;
+{$ENDIF}
 //--------------------------------------------------------------------------------------------------
 procedure TQRQuaternion.Assign(const other: TQRQuaternion);
 begin
