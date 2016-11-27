@@ -39,7 +39,7 @@ __fastcall TOptions::TOptions(TComponent* pOwner) :
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                     ID_MD3_MODEL,
-                                                                    L"DATA"));
+                                                                    PWideChar(L"DATA")));
 
     // load preview
     LoadPreview(pModelStream.release());
@@ -248,7 +248,7 @@ void __fastcall TOptions::OnSelectTeam(TObject* pSender)
 
     // open package stream
     if (edModelFileName->Text.IsEmpty())
-        pStream.reset(new TResourceStream((int)HInstance, ID_MD3_MODEL, L"DATA"));
+        pStream.reset(new TResourceStream((int)HInstance, ID_MD3_MODEL, PWideChar(L"DATA")));
     else
         pStream.reset(new TFileStream(edModelFileName->Text, fmOpenRead));
 
@@ -264,6 +264,7 @@ void __fastcall TOptions::OnSelectTeam(TObject* pSender)
             case EQR_PT_MD3_Default: rbDefault->Checked = true; break;
             case EQR_PT_MD3_Red:     rbRed->Checked     = true; break;
             case EQR_PT_MD3_Blue:    rbBlue->Checked    = true; break;
+            default:                 throw "Unknown team";
         }
     }
 }
@@ -296,7 +297,13 @@ void __fastcall TOptions::WndProc(TMessage& message)
             break;
     }
 
-    inherited::WndProc(message);
+    #ifdef __llvm__
+        // 64 bit compiler cannot access the base function using the inherited TForm directive,
+        // because it was declared as private under several RAD Studio versions
+        TForm::WndProc(message);
+    #else
+        inherited::WndProc(message);
+    #endif
 }
 //--------------------------------------------------------------------------------------------------
 void TOptions::Reset()

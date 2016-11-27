@@ -330,10 +330,10 @@ bool TMainForm::LoadModel(bool useShader)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_COLOR_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_COLOR_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create color shader
             m_pColorShader = new QR_Shader_OpenGL();
@@ -349,10 +349,10 @@ bool TMainForm::LoadModel(bool useShader)
             // load shader programs from resource
             std::auto_ptr<TResourceStream> pVertexPrg(new TResourceStream((int)HInstance,
                                                                           ID_TEXTURE_VERTEX_SHADER,
-                                                                          L"DATA"));
+                                                                          PWideChar(L"DATA")));
             std::auto_ptr<TResourceStream> pFragmentPrg(new TResourceStream((int)HInstance,
                                                                             ID_TEXTURE_FRAGMENT_SHADER,
-                                                                            L"DATA"));
+                                                                            PWideChar(L"DATA")));
 
             // create texture shader
             m_pTextureShader = new QR_Shader_OpenGL();
@@ -370,7 +370,7 @@ bool TMainForm::LoadModel(bool useShader)
     // load resources
     std::auto_ptr<TResourceStream> pModelStream(new TResourceStream((int)HInstance,
                                                                     ID_MD3_MODEL,
-                                                                    L"DATA"));
+                                                                    PWideChar(L"DATA")));
 
     // load model
     if (!m_pMD3->Load(pModelStream.get(), pModelStream->Size))
@@ -633,19 +633,19 @@ bool TMainForm::LoadTexture(const ITextureTable& textureTable)
     // load textures image from resources
     std::auto_ptr<TResourceStream> pTextureBHandStream(new TResourceStream((int)HInstance,
                                                                            ID_MD3_TEXTURE_BHAND,
-                                                                           L"DATA"));
+                                                                           PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pTextureClockFaceStream(new TResourceStream((int)HInstance,
                                                                                ID_MD3_TEXTURE_CLOCK_FACE,
-                                                                               L"DATA"));
+                                                                               PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pTextureGFClockStream(new TResourceStream((int)HInstance,
                                                                              ID_MD3_TEXTURE_GF_CLOCK,
-                                                                             L"DATA"));
+                                                                             PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pTextureGlassPaneStream(new TResourceStream((int)HInstance,
                                                                                ID_MD3_TEXTURE_GLASS_PANE,
-                                                                               L"DATA"));
+                                                                               PWideChar(L"DATA")));
     std::auto_ptr<TResourceStream> pTextureSHandStream(new TResourceStream((int)HInstance,
                                                                            ID_MD3_TEXTURE_SHAND,
-                                                                           L"DATA"));
+                                                                           PWideChar(L"DATA")));
 
     // iterate through textures to create
     for (std::size_t i = 0; i < textureTable.size(); ++i)

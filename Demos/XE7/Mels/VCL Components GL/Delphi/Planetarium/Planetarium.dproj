@@ -185,11 +185,6 @@
                     <Source Name="MainSource">Planetarium.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_PlayerD.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_PlayerD.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGLD.bpl">Mels VCL components using OpenGL to draw them - design time package</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\WTControls2D.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\WTControls2D.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\WTControlsDelphiD.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\WTControlsDelphiD.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Package1.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Package1.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k210.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp210.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>

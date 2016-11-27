@@ -340,7 +340,7 @@ begin
     // initialize OpenGL
     if (not TQROpenGLHelper.EnableOpenGL(paRendering.Handle, m_hDC, m_hRC)) then
     begin
-        MessageDlg('OpenGL could not be initialized.\r\n\r\nApplication will close.',
+        MessageDlg('OpenGL could not be initialized.' + #13#10#13#10 + 'Application will close.',
                    mtError,
                    [mbOK],
                    0);
@@ -359,7 +359,7 @@ begin
     // load MD2 model
     if (not LoadModel(m_UsePreCalculatedLighting, m_UseShader)) then
     begin
-        MessageDlg('Failed to load MD2 model.\r\n\r\nApplication will close.',
+        MessageDlg('Failed to load MD2 model.' + #13#10#13#10 + 'Application will close.',
                    mtError,
                    [mbOK],
                    0);

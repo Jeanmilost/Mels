@@ -127,7 +127,7 @@ void __fastcall TMainForm::spSaturnLoadTexture(TObject*               pSender,
     // load sound from resources
     std::auto_ptr<TResourceStream> pStream(new TResourceStream((int)HInstance,
                                                                ID_SATURN_RING_TEXTURE,
-                                                               L"DATA"));
+                                                               PWideChar(L"DATA")));
 
     std::auto_ptr<TPngImage> pPNG(new TPngImage());
     pPNG->LoadFromStream(pStream.get());

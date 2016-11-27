@@ -26,8 +26,8 @@
 #include <tchar.h>
 
 //--------------------------------------------------------------------------------------------------
-USEFORM("Main.cpp", MainForm);
 USEFORM("TOptions.cpp", Options);
+USEFORM("Main.cpp", MainForm);
 //--------------------------------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
