@@ -73,6 +73,7 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UsePackage>Mels_VCL;bindcompfmx;vcldbx;fmx;rtl;dbrtl;IndySystem;bindcomp;inetdbbde;vclib;DBXInterBaseDriver;DataSnapCommon;xmlrtl;svnui;ibxpress;DbxCommonDriver;Mels_Models;vclimg;DelphiGL;IndyProtocols;dbxcds;MetropolisUILiveTile;bindcompdbx;vclactnband;bindengine;vcldb;soaprtl;vcldsnap;bindcompvcl;vclie;Mels_Base;vcltouch;CustomIPTransport;VclSmp;dsnap;IndyIPServer;Mels_VCLComponentsGL;fmxase;vcl;IndyCore;IndyIPCommon;inet;fmxobj;vclx;inetdbxpress;webdsnap;svn;fmxdae;bdertl;dbexpress;adortl;IndyIPClient;$(DCC_UsePackage)</DCC_UsePackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
