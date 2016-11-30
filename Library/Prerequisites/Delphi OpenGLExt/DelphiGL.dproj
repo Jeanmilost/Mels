@@ -36,7 +36,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <DCC_Description>Delphi OpenGL Extended library</DCC_Description>
+        <DCC_Description>DelphiGL is an openGL extension that provides several missing functions for RAD Studio XE4 and earlier</DCC_Description>
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <SanitizedProjectName>DelphiGL</SanitizedProjectName>
