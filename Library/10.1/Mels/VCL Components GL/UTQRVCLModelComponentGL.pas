@@ -1399,7 +1399,8 @@ begin
                                            hDC,
                                            RenderSurface.GLContext,
                                            m_pRenderer,
-                                           m_pShader)) then
+                                           m_pShader))
+                then
                     Exit;
 
             // create projection matrix (will not be modified while execution)
