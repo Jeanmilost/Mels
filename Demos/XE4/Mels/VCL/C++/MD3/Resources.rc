@@ -1,6 +1,7 @@
 #include "Resources.rh"
 
-// MD3 model
+// MD3 model. This model was created by Stefan Gustavson, available here:
+// http://www.lonebullet.com/models/g/quake-3-arena-models-6622.htm?q=lara&x=0&y=0
 ID_MD3_MODEL                  DATA    "..\..\..\..\..\Common\Resources\Models\md3-lara.pk3"
 
 // shader

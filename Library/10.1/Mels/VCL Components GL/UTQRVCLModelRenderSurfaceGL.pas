@@ -31,18 +31,18 @@ interface
     // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
     (*$NOINCLUDE Winapi.OpenGLext *)
 
-uses UTQRCommon,
+uses Vcl.Graphics,
+     Vcl.Controls,
+     Vcl.Forms,
+     Winapi.OpenGL,
+     Winapi.OpenGLext,
+     Winapi.Windows,
+     UTQRCommon,
      UTQRHelpers,
      UTQRVCLHelpers,
      UTQRVCLHelpersGL,
      UTQRVCLModelRendererGL,
-     UTQRLogging,
-     Vcl.Graphics,
-     Vcl.Controls,
-     Vcl.Forms,
-     Winapi.Windows,
-     Winapi.OpenGL,
-     Winapi.OpenGLext;
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}
