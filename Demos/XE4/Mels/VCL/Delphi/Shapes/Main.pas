@@ -38,6 +38,7 @@ uses System.Classes,
      Vcl.Forms,
      Vcl.Dialogs,
      Vcl.Menus,
+     Winapi.OpenGL,
      Winapi.Messages,
      Winapi.Windows,
      UTQRSmartPointer,
@@ -51,8 +52,8 @@ uses System.Classes,
      UTQROpenGLHelper,
      // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
      // because the OpenGL include provided by Embarcadero is incomplete
-     XE7.OpenGL,
-     XE7.OpenGLext;
+     DelphiGL.OpenGL,
+     DelphiGL.OpenGLext;
 
 type
     {**

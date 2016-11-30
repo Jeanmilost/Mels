@@ -29,7 +29,7 @@ unit UTQRVCLModelComponentGL;
 
 interface
     // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE XE7.OpenGLext *)
+    (*$NOINCLUDE DelphiGL.OpenGLext *)
 
     // resources
     {$R UTQRVCLModelComponentGL.res}
@@ -57,12 +57,13 @@ uses System.Classes,
      Vcl.ExtCtrls,
      Vcl.Forms,
      Vcl.AppEvnts,
+     Winapi.OpenGL,
      Winapi.Windows,
      Winapi.Messages,
      // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
      // earlier, so the DelphiGL component (provided with installation) should be used instead
-     XE7.OpenGL,
-     XE7.OpenGLext;
+     DelphiGL.OpenGL,
+     DelphiGL.OpenGLext;
 
 type
     {$REGION 'Documentation'}
@@ -1401,7 +1402,8 @@ begin
                                            hDC,
                                            RenderSurface.GLContext,
                                            m_pRenderer,
-                                           m_pShader)) then
+                                           m_pShader))
+                then
                     Exit;
 
             // create projection matrix (will not be modified while execution)

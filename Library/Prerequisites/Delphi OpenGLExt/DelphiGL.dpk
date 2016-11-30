@@ -33,7 +33,7 @@ requires
   rtl;
 
 contains
-  XE7.OpenGL in 'XE7.OpenGL.pas',
-  XE7.OpenGLext in 'XE7.OpenGLext.pas';
+  DelphiGL.OpenGL in 'DelphiGL.OpenGL.pas',
+  DelphiGL.OpenGLext in 'DelphiGL.OpenGLext.pas';
 
 end.

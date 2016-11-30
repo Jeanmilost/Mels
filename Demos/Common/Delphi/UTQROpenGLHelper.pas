@@ -32,17 +32,18 @@ interface
 uses System.SysUtils,
      System.Math,
      Vcl.Graphics,
+     Winapi.Windows,
      UTQRHelpers,
      UTQR3D,
      UTQRGeometry,
-     Winapi.Windows,
      {$IF CompilerVersion <= 25}
+         Winapi.OpenGL,
          // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
          // because the OpenGL include provided by Embarcadero is incomplete
          {$IFDEF USE_SHADER}
-             XE7.OpenGLext,
+             DelphiGL.OpenGLext,
          {$ENDIF}
-         XE7.OpenGL;
+         DelphiGL.OpenGL;
      {$ELSE}
          {$IFDEF USE_SHADER}
              Winapi.OpenGLext,
