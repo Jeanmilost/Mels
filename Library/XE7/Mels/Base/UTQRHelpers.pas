@@ -58,7 +58,7 @@ const
 
     {$REGION 'Documentation'}
     {**
-     Platform independent direcvtory delimiter to use
+     Platform independent directory delimiter to use
     }
     {$ENDREGION}
     {$IF DEFINED(MSWINDOWS)}
