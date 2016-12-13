@@ -203,6 +203,17 @@ type
 
     {$REGION 'Documentation'}
     {**
+     Called when the default image should be drawn
+     @param(pSender Event sender)
+     @param(hDC Device context)
+     @return(@true if default image was drawn, otherwise @false)
+    }
+    {$ENDREGION}
+    TQRDrawDefaultImageEvent = function(pSender: TObject;
+                                            hDC: THandle): Boolean of object;
+
+    {$REGION 'Documentation'}
+    {**
      Basic model component using the VCL and OpenGL to draw it
     }
     {$ENDREGION}
@@ -233,6 +244,7 @@ type
             m_fOnAfterDrawScene:    TQRAfterDrawSceneEvent;
             m_fOnFinalizeScene:     TQRFinalizeSceneEvent;
             m_fOnDetectCollisions:  TQRDetectCollisionsEvent;
+            m_fOnDrawDefaultImage:  TQRDrawDefaultImageEvent;
 
         protected
             {$REGION 'Documentation'}
@@ -633,6 +645,13 @@ type
 
             {$REGION 'Documentation'}
             {**
+             Gets or sets the OnDrawDefaultImage event
+            }
+            {$ENDREGION}
+            property OnDrawDefaultImage: TQRDrawDefaultImageEvent read m_fOnDrawDefaultImage write m_fOnDrawDefaultImage;
+
+            {$REGION 'Documentation'}
+            {**
              Gets or sets the component alignment
             }
             {$ENDREGION}
@@ -997,7 +1016,7 @@ begin
     m_hBackgroundBrush     := 0;
     m_AntialiasingMode     := EQR_AM_None;
     m_UseShader            := False;
-    m_SupportsGDI          := True;
+    m_SupportsGDI          := False;
     m_LogMessageLoop       := False;
     m_Allowed              := False;
     m_Loaded               := False;
@@ -1009,6 +1028,7 @@ begin
     m_fOnAfterDrawScene    := nil;
     m_fOnFinalizeScene     := nil;
     m_fOnDetectCollisions  := nil;
+    m_fOnDrawDefaultImage  := nil;
 
     // configure some default properties
     ParentBackground := False;
@@ -1569,7 +1589,11 @@ begin
         // not allowed to draw the scene? (i.e. OpenGL was not initialized correctly)
         if (not m_Allowed) then
         begin
-            // FIXME add OnDrawDefaultImage
+            // allow user to draw his own default image
+            if (Assigned(m_fOnDrawDefaultImage)) then
+                if (m_fOnDrawDefaultImage(Self, hDC)) then
+                    Exit;
+
             DrawDefaultImage(hDC);
             Exit;
         end;
