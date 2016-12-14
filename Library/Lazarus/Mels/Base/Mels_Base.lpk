@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="Mels_Base"/>
+    <Type Value="RunAndDesignTime"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="ThirdParty"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="15">
+      <Item1>
+        <Filename Value="UTQR3D.pas"/>
+        <UnitName Value="UTQR3D"/>
+      </Item1>
+      <Item2>
+        <Filename Value="UTQRCollision.pas"/>
+        <UnitName Value="UTQRCollision"/>
+      </Item2>
+      <Item3>
+        <Filename Value="UTQRCommon.pas"/>
+        <UnitName Value="UTQRCommon"/>
+      </Item3>
+      <Item4>
+        <Filename Value="UTQRDesignPatterns.pas"/>
+        <UnitName Value="UTQRDesignPatterns"/>
+      </Item4>
+      <Item5>
+        <Filename Value="UTQRFiles.pas"/>
+        <UnitName Value="UTQRFiles"/>
+      </Item5>
+      <Item6>
+        <Filename Value="UTQRGeometry.pas"/>
+        <UnitName Value="UTQRGeometry"/>
+      </Item6>
+      <Item7>
+        <Filename Value="UTQRGraphics.pas"/>
+        <UnitName Value="UTQRGraphics"/>
+      </Item7>
+      <Item8>
+        <Filename Value="UTQRHelpers.pas"/>
+        <UnitName Value="UTQRHelpers"/>
+      </Item8>
+      <Item9>
+        <Filename Value="UTQRCache.pas"/>
+        <UnitName Value="UTQRCache"/>
+      </Item9>
+      <Item10>
+        <Filename Value="ThirdParty\generics.collections.pas"/>
+        <UnitName Value="Generics.Collections"/>
+      </Item10>
+      <Item11>
+        <Filename Value="ThirdParty\generics.defaults.pas"/>
+        <UnitName Value="Generics.Defaults"/>
+      </Item11>
+      <Item12>
+        <Filename Value="ThirdParty\generics.hashes.pas"/>
+        <UnitName Value="Generics.Hashes"/>
+      </Item12>
+      <Item13>
+        <Filename Value="ThirdParty\generics.helpers.pas"/>
+        <UnitName Value="Generics.Helpers"/>
+      </Item13>
+      <Item14>
+        <Filename Value="ThirdParty\generics.memoryexpanders.pas"/>
+        <UnitName Value="Generics.MemoryExpanders"/>
+      </Item14>
+      <Item15>
+        <Filename Value="ThirdParty\generics.strings.pas"/>
+        <UnitName Value="Generics.Strings"/>
+      </Item15>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

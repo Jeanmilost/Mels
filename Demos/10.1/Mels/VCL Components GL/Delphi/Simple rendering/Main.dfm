@@ -57,6 +57,7 @@ object MainForm: TMainForm
       OnInitializeScene = srBlueSurfaceInitializeScene
       OnFinalizeScene = srBlueSurfaceFinalizeScene
       Align = alLeft
+      SupportsGDI = True
       OnDrawScene = srBlueSurfaceDrawScene
     end
     object paTopControls: TPanel
@@ -278,6 +279,7 @@ object MainForm: TMainForm
       OnInitializeScene = srYellowSurfaceInitializeScene
       OnFinalizeScene = srYellowSurfaceFinalizeScene
       Align = alLeft
+      SupportsGDI = True
       OnDrawScene = srYellowSurfaceDrawScene
     end
     object paBottomControls: TPanel

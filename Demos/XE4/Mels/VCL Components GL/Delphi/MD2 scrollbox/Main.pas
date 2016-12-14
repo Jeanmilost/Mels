@@ -50,12 +50,6 @@ type
            DoubleBuffered behave for other controls
     }
     TMainForm = class(TForm)
-        private
-            {**
-            * Update rich edit height
-            *}
-            procedure UpdateRichEditHeight; virtual;
-
         published
             sbMain: TScrollBox;
             laTitle: TLabel;
@@ -66,6 +60,12 @@ type
 
             procedure FormShow(pSender: TObject);
             procedure btSaveToFileClick(pSender: TObject);
+
+        private
+            {**
+            * Update rich edit height
+            *}
+            procedure UpdateRichEditHeight; virtual;
     end;
 
 var

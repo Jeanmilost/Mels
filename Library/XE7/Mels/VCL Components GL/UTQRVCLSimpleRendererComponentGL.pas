@@ -65,6 +65,22 @@ type
         protected
             {$REGION 'Documentation'}
             {**
+             Gets the supports GDI flag
+             @return(The supports GDI flag state)
+            }
+            {$ENDREGION}
+            function GetSupportsGDI: Boolean; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Sets the supports GDI flag
+             @param(value The supports GDI flag state)
+            }
+            {$ENDREGION}
+            procedure SetSupportsGDI(value: Boolean); virtual;
+
+            {$REGION 'Documentation'}
+            {**
              Called when OpenGL can be configured
             }
             {$ENDREGION}
@@ -98,6 +114,13 @@ type
         published
             {$REGION 'Documentation'}
             {**
+             Gets or sets if the drawing with the GDI is supported
+            }
+            {$ENDREGION}
+            property SupportsGDI: Boolean read GetSupportsGDI write SetSupportsGDI default False;
+
+            {$REGION 'Documentation'}
+            {**
              Gets or sets the OnDrawScene event
             }
             {$ENDREGION}
@@ -121,6 +144,22 @@ end;
 destructor TQRVCLSimpleRendererGL.Destroy;
 begin
     inherited Destroy;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVCLSimpleRendererGL.GetSupportsGDI: Boolean;
+begin
+    Result := inherited SupportsGDI;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRVCLSimpleRendererGL.SetSupportsGDI(value: Boolean);
+begin
+    // nothing to do?
+    if (inherited SupportsGDI = value) then
+        Exit;
+
+    inherited SupportsGDI := value;
+
+    RecreateWnd;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLSimpleRendererGL.OnConfigOpenGL;

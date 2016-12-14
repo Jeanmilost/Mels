@@ -404,10 +404,6 @@ constructor TQRVCLMD2ModelGL.Create(pOwner: TComponent);
 begin
     inherited Create(pOwner);
 
-    // override basic data, to enable double-buffering on OpenGL rendering (means also that embedded
-    // GDI rendering isn't supported for this component)
-    SupportsGDI := False;
-
     // initialize variables
     m_pMD2                := TQRMD2Group.Create;
     m_pModel              := TQRVCLModelComponentPropertyGL.Create(Self, OnReceivePropNotification);

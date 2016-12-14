@@ -147,7 +147,7 @@ type
             {**
              Destructor
             }
-            destructor Destroy(); override;
+            destructor Destroy; override;
     end;
 
 var
@@ -176,11 +176,11 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TMainForm.Destroy;
 begin
-    inherited Destroy;
-
     // delete the Saturn planet ring
     m_RingTextures[0].Free;
     SetLength(m_Rings, 0);
+
+    inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 function TMainForm.spSaturnCreateSceneMatrix(pSender: TObject;

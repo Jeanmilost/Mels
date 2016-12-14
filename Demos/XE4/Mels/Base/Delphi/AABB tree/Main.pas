@@ -203,6 +203,8 @@ begin
 
     // shutdown OpenGL
     TQROpenGLHelper.DisableOpenGL(Handle, m_hDC, m_hRC);
+
+    inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormShow(pSender: TObject);
