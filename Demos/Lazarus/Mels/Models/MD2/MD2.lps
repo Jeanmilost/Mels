@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="20">
+      <Unit0>
+        <Filename Value="MD2.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="34" Y="21"/>
+        <UsageCount Value="27"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="27"/>
+        <Bookmarks Count="3">
+          <Item0 X="12" Y="929" ID="2"/>
+          <Item1 X="37" Y="471" ID="1"/>
+          <Item2 X="67" Y="360" ID="3"/>
+        </Bookmarks>
+      </Unit1>
+      <Unit2>
+        <Filename Value="UTOptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Options"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="27"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="26"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="772"/>
+        <CursorPos X="56" Y="803"/>
+        <UsageCount Value="26"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="resources.rc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="83" Y="3"/>
+        <UsageCount Value="25"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\packages\opengl\src\glext.pp"/>
+        <UnitName Value="GLext"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10951"/>
+        <CursorPos X="32" Y="10985"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Models\UTQRMD2.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="C:\Lazarus\lcl\intfgraphics.pas"/>
+        <UnitName Value="IntfGraphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5675"/>
+        <CursorPos Y="5709"/>
+        <UsageCount Value="11"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\Lazarus\lcl\include\rasterimage.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="420"/>
+        <CursorPos Y="441"/>
+        <UsageCount Value="11"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\Lazarus\lcl\include\bitmap.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="111"/>
+        <CursorPos Y="144"/>
+        <UsageCount Value="11"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\Lazarus\lcl\include\fpimagebitmap.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="117"/>
+        <CursorPos Y="141"/>
+        <UsageCount Value="11"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRFiles.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\..\Library\Prerequisites\Generics.Collections\generics.defaults.pas"/>
+        <UnitName Value="Generics.Defaults"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <TopLine Value="2033"/>
+        <CursorPos X="53" Y="2043"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL for Lazarus\openal.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1876"/>
+        <CursorPos X="59" Y="1896"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL_Register.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos Y="42"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\mels_player.pas"/>
+        <UnitName Value="Mels_Player"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.rc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="22" Y="2"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit19>
+    </Units>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="2038" Column="11" TopLine="2018"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <Caret Line="33" Column="6" TopLine="12"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <Caret Line="41" TopLine="24"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <Caret Line="287" TopLine="271"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <Caret Line="40"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <Caret Line="294" TopLine="268"/>
+      </Position8>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="3">
+      <Item1>
+        <Expression Value="AStream"/>
+      </Item1>
+      <Item2>
+        <Expression Value="OldPos"/>
+      </Item2>
+      <Item3>
+        <Expression Value="BIH"/>
+      </Item3>
+    </Watches>
+  </Debugging>
+</CONFIG>

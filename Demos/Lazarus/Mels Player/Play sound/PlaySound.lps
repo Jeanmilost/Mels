@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="13">
+      <Unit0>
+        <Filename Value="PlaySound.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="30"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <TopLine Value="4"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="resources.rc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="30"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\Library\Prerequisites\Delphi OpenAL for Lazarus\openal.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="14"/>
+        <Bookmarks Count="2">
+          <Item0 X="11" Y="2119" ID="3"/>
+          <Item1 X="30" Y="541" ID="4"/>
+        </Bookmarks>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\packages\paszlib\src\zipper.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="516"/>
+        <CursorPos X="14" Y="535"/>
+        <UsageCount Value="14"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="14"/>
+        <Bookmarks Count="2">
+          <Item0 Y="1176" ID="1"/>
+          <Item1 Y="2352" ID="2"/>
+        </Bookmarks>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD3ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+        <Bookmarks Count="2">
+          <Item0 X="23" Y="4194" ID="5"/>
+          <Item1 X="29" Y="1370" ID="6"/>
+        </Bookmarks>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRShapeGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLAnimationTimer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLGraphics.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit12>
+    </Units>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="34" Column="14" TopLine="15"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="86" Column="59" TopLine="67"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="164" Column="67" TopLine="145"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="232" Column="56" TopLine="210"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="252" Column="57" TopLine="225"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="217" Column="40" TopLine="197"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="216" Column="51" TopLine="196"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <Caret Line="238" Column="50" TopLine="218"/>
+      </Position10>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="@alcOpenDevice"/>
+      </Item1>
+    </Watches>
+  </Debugging>
+</CONFIG>

@@ -36,7 +36,7 @@ uses SysUtils,
      Gl,
      Glu,
      {$IFDEF USE_SHADER}
-         OpenGLext,
+         GLext,
      {$ENDIF}
      UTQRHelpers,
      UTQR3D,
@@ -639,6 +639,8 @@ begin
 
     mouseX := p.x;
     mouseY := p.y;
+
+    clientRect := Default(TRect);
 
     // get window or control client rect
     GetClientRect(hWnd, clientRect);

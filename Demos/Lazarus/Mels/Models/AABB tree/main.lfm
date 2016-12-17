@@ -1,0 +1,123 @@
+object MainForm: TMainForm
+  Left = 697
+  Height = 410
+  Top = 324
+  Width = 410
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Aligned-Axis Bounding Box tree'
+  ClientHeight = 410
+  ClientWidth = 410
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnPaint = FormPaint
+  OnShow = FormShow
+  PopupMenu = pmOptions
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object paInfo: TPanel
+    Left = 0
+    Height = 34
+    Top = 376
+    Width = 410
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 34
+    ClientWidth = 410
+    Color = clMoneyGreen
+    ParentColor = False
+    TabOrder = 0
+    object btRotate: TButton
+      Left = 335
+      Height = 34
+      Top = 0
+      Width = 75
+      Action = acRotate
+      Align = alRight
+      Caption = 'Rotate'
+      TabOrder = 0
+    end
+    object paCollisionResult: TPanel
+      Left = 0
+      Height = 34
+      Top = 0
+      Width = 335
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 34
+      ClientWidth = 335
+      TabOrder = 1
+      object laInCollision: TLabel
+        Left = 99
+        Height = 14
+        Top = 10
+        Width = 62
+        Align = alLeft
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 10
+        Caption = 'In collision: 0'
+        ParentColor = False
+      end
+      object laTotal: TLabel
+        Left = 5
+        Height = 14
+        Top = 10
+        Width = 37
+        Align = alLeft
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 10
+        Caption = 'Total: 0'
+        ParentColor = False
+      end
+      object laToTest: TLabel
+        Left = 47
+        Height = 14
+        Top = 10
+        Width = 47
+        Align = alLeft
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 10
+        Caption = 'To test: 0'
+        ParentColor = False
+      end
+      object laHighestHit: TLabel
+        Left = 166
+        Height = 14
+        Top = 10
+        Width = 64
+        Align = alLeft
+        BorderSpacing.Left = 5
+        BorderSpacing.Top = 10
+        BorderSpacing.Right = 5
+        BorderSpacing.Bottom = 10
+        Caption = 'Highest hit: 0'
+        ParentColor = False
+      end
+    end
+  end
+  object pmOptions: TPopupMenu
+    left = 360
+    top = 16
+    object miRotateSphere: TMenuItem
+      Action = acRotate
+      Caption = 'Rotate sphere'
+    end
+  end
+  object alRotate: TActionList
+    left = 320
+    top = 16
+    object acRotate: TAction
+      Category = 'Navigation'
+      OnExecute = acRotateExecute
+      ShortCut = 16466
+    end
+  end
+end

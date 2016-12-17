@@ -66,9 +66,6 @@
       <OtherUnitFiles Value="..\..\..\..\Common\Lazarus"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <CodeGeneration>
-      <TargetOS Value="win32"/>
-    </CodeGeneration>
     <Linking>
       <Options>
         <Win32>
@@ -76,6 +73,11 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx5024="True"/>
+      </CompilerMessages>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

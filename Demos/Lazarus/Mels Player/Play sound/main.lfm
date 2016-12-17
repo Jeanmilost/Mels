@@ -1,0 +1,109 @@
+object MainForm: TMainForm
+  Left = 16
+  Height = 123
+  Top = 468
+  Width = 292
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Play sound'
+  ClientHeight = 123
+  ClientWidth = 292
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object paFile: TPanel
+    Left = 5
+    Height = 21
+    Top = 5
+    Width = 282
+    Align = alTop
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 5
+    BorderSpacing.Bottom = 5
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 282
+    TabOrder = 0
+    object edFileName: TEdit
+      Left = 0
+      Height = 21
+      Top = 0
+      Width = 246
+      Align = alClient
+      Enabled = False
+      TabOrder = 0
+    end
+    object btSelect: TButton
+      Left = 246
+      Height = 21
+      Top = 0
+      Width = 36
+      Align = alRight
+      Caption = '...'
+      OnClick = btSelectClick
+      TabOrder = 1
+    end
+  end
+  object btPlay: TButton
+    Left = 5
+    Height = 25
+    Top = 31
+    Width = 282
+    Align = alTop
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 5
+    BorderSpacing.Bottom = 5
+    Caption = 'Play'
+    OnClick = btPlayClick
+    TabOrder = 1
+  end
+  object btPause: TButton
+    Left = 5
+    Height = 25
+    Top = 61
+    Width = 282
+    Align = alTop
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 5
+    BorderSpacing.Bottom = 5
+    Caption = 'Pause'
+    Enabled = False
+    OnClick = btPauseClick
+    TabOrder = 2
+  end
+  object btStop: TButton
+    Left = 5
+    Height = 25
+    Top = 91
+    Width = 282
+    Align = alTop
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 5
+    BorderSpacing.Bottom = 5
+    Caption = 'Stop'
+    Enabled = False
+    OnClick = btStopClick
+    TabOrder = 3
+  end
+  object plPlayer: TQRPlayerAL
+    left = 8
+    top = 8
+  end
+  object odOpen: TOpenDialog
+    left = 42
+    top = 8
+  end
+  object tiTimer: TTimer
+    OnTimer = tiTimerTimer
+    left = 77
+    top = 8
+  end
+end

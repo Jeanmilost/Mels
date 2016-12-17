@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="mels_models"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\Base;..\Base\ThirdParty"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True" idx3189="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Files Count="5">
+      <Item1>
+        <Filename Value="UTQRMD2.pas"/>
+        <UnitName Value="UTQRMD2"/>
+      </Item1>
+      <Item2>
+        <Filename Value="UTQRMD3.pas"/>
+        <UnitName Value="UTQRMD3"/>
+      </Item2>
+      <Item3>
+        <Filename Value="UTQRModel.pas"/>
+        <UnitName Value="UTQRModel"/>
+      </Item3>
+      <Item4>
+        <Filename Value="UTQRModelRenderer.pas"/>
+        <UnitName Value="UTQRModelRenderer"/>
+      </Item4>
+      <Item5>
+        <Filename Value="UTQRShapes.pas"/>
+        <UnitName Value="UTQRShapes"/>
+      </Item5>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="Mels_Base"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

@@ -1,0 +1,54 @@
+object Options: TOptions
+  Left = 0
+  Height = 103
+  Top = 0
+  Width = 207
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Options'
+  ClientHeight = 103
+  ClientWidth = 207
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object ckFullScreen: TCheckBox
+    Left = 0
+    Height = 19
+    Top = 0
+    Width = 207
+    Align = alTop
+    Caption = 'Full screen'
+    TabOrder = 0
+  end
+  object ckUseShader: TCheckBox
+    Left = 0
+    Height = 19
+    Top = 19
+    Width = 207
+    Align = alTop
+    Caption = 'Use shader'
+    TabOrder = 1
+  end
+  object ckCollisions: TCheckBox
+    Left = 0
+    Height = 19
+    Top = 38
+    Width = 207
+    Align = alTop
+    Caption = 'Collisions'
+    TabOrder = 2
+  end
+  object btOk: TButton
+    Left = 129
+    Height = 25
+    Top = 72
+    Width = 75
+    Caption = 'Ok'
+    OnClick = btOkClick
+    TabOrder = 3
+  end
+end

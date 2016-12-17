@@ -33,9 +33,7 @@ interface
 
 uses SysUtils,
      Classes,
-     Generics.Collections,
-     StrUtils,
-     UTQRHelpers;
+     Generics.Collections;
 
 type
     {$REGION 'Documentation'}
@@ -336,7 +334,7 @@ begin
     // iterate through lines to parse
     for i := 0 to lineCount - 1 do
         // parse line
-        if (not ParseLine(strings[i], i)) then
+        if (not ParseLine(UnicodeString(strings[i]), i)) then
         begin
             Result := False;
             Exit;

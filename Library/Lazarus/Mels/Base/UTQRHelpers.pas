@@ -463,18 +463,18 @@ begin
     // found it?
     if (pos = 0) then
     begin
-        Result := fileName;
+        Result := UnicodeString(fileName);
         Exit;
     end;
 
     // extract file name
-    Result := Copy(fileName, pos + 1);
+    Result := UnicodeString(Copy(fileName, pos + 1));
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRFileHelper.ExtractFileNameNoExt(const fileName: TFileName;
                                                  const delimiter: Char): UnicodeString;
 begin
-    Result := ChangeFileExt(ExtractFileName(fileName, delimiter), '');
+    Result := UnicodeString(ChangeFileExt(RawByteString(ExtractFileName(fileName, delimiter)), ''));
 end;
 //--------------------------------------------------------------------------------------------------
 class procedure TQRFileHelper.SaveBytesToFile(const fileName: TFileName; var pBytes: TQRByteArray);
@@ -513,7 +513,7 @@ begin
     end;
 
     // append delimiter
-    Result := dirName + delimiter;
+    Result := dirName + UnicodeString(delimiter);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRMathsHelper

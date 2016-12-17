@@ -3,12 +3,10 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="Mels_Base"/>
-    <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
-        <OtherUnitFiles Value="ThirdParty"/>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -17,10 +15,13 @@
         </SyntaxOptions>
       </Parsing>
       <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True" idx3189="True"/>
+        </CompilerMessages>
         <CustomOptions Value="-dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL"/>
       </Other>
     </CompilerOptions>
-    <Files Count="15">
+    <Files Count="9">
       <Item1>
         <Filename Value="UTQR3D.pas"/>
         <UnitName Value="UTQR3D"/>
@@ -57,35 +58,14 @@
         <Filename Value="UTQRCache.pas"/>
         <UnitName Value="UTQRCache"/>
       </Item9>
-      <Item10>
-        <Filename Value="ThirdParty\generics.collections.pas"/>
-        <UnitName Value="Generics.Collections"/>
-      </Item10>
-      <Item11>
-        <Filename Value="ThirdParty\generics.defaults.pas"/>
-        <UnitName Value="Generics.Defaults"/>
-      </Item11>
-      <Item12>
-        <Filename Value="ThirdParty\generics.hashes.pas"/>
-        <UnitName Value="Generics.Hashes"/>
-      </Item12>
-      <Item13>
-        <Filename Value="ThirdParty\generics.helpers.pas"/>
-        <UnitName Value="Generics.Helpers"/>
-      </Item13>
-      <Item14>
-        <Filename Value="ThirdParty\generics.memoryexpanders.pas"/>
-        <UnitName Value="Generics.MemoryExpanders"/>
-      </Item14>
-      <Item15>
-        <Filename Value="ThirdParty\generics.strings.pas"/>
-        <UnitName Value="Generics.Strings"/>
-      </Item15>
     </Files>
-    <RequiredPkgs Count="1">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="generics_collections"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

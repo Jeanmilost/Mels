@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="Mels_VCL"/>
+    <Type Value="RunAndDesignTime"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\Base;..\Models"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Files Count="11">
+      <Item1>
+        <Filename Value="UTQRLogging.pas"/>
+        <UnitName Value="UTQRLogging"/>
+      </Item1>
+      <Item2>
+        <Filename Value="UTQRMD2ModelGroup.pas"/>
+        <UnitName Value="UTQRMD2ModelGroup"/>
+      </Item2>
+      <Item3>
+        <Filename Value="UTQRMD2ModelGroup.rc"/>
+        <Type Value="Text"/>
+      </Item3>
+      <Item4>
+        <Filename Value="UTQRMD3ModelGroup.pas"/>
+        <UnitName Value="UTQRMD3ModelGroup"/>
+      </Item4>
+      <Item5>
+        <Filename Value="UTQRModelGroup.pas"/>
+        <UnitName Value="UTQRModelGroup"/>
+      </Item5>
+      <Item6>
+        <Filename Value="UTQRShapeGroup.pas"/>
+        <UnitName Value="UTQRShapeGroup"/>
+      </Item6>
+      <Item7>
+        <Filename Value="UTQRThreading.pas"/>
+        <UnitName Value="UTQRThreading"/>
+      </Item7>
+      <Item8>
+        <Filename Value="UTQRVCLAnimationTimer.pas"/>
+        <UnitName Value="UTQRVCLAnimationTimer"/>
+      </Item8>
+      <Item9>
+        <Filename Value="UTQRVCLGraphics.pas"/>
+        <UnitName Value="UTQRVCLGraphics"/>
+      </Item9>
+      <Item10>
+        <Filename Value="UTQRVCLHelpers.pas"/>
+        <UnitName Value="UTQRVCLHelpers"/>
+      </Item10>
+      <Item11>
+        <Filename Value="UTQRVCLModelRenderer.pas"/>
+        <UnitName Value="UTQRVCLModelRenderer"/>
+      </Item11>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="Mels_Models"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="Mels_Base"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="generics_collections"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

@@ -1,0 +1,123 @@
+object Options: TOptions
+  Left = 759
+  Height = 158
+  Top = 352
+  Width = 207
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Options'
+  ClientHeight = 158
+  ClientWidth = 207
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object laFPS: TLabel
+    Left = 3
+    Height = 13
+    Top = 91
+    Width = 201
+    Align = alTop
+    BorderSpacing.Left = 3
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 3
+    Caption = 'FPS'
+    ParentColor = False
+  end
+  object ckFullScreen: TCheckBox
+    Left = 3
+    Height = 19
+    Top = 3
+    Width = 201
+    Align = alTop
+    BorderSpacing.Left = 3
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 3
+    Caption = 'Full screen'
+    TabOrder = 0
+  end
+  object ckUseShader: TCheckBox
+    Left = 3
+    Height = 19
+    Top = 25
+    Width = 201
+    Align = alTop
+    BorderSpacing.Left = 3
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 3
+    Caption = 'Use shader'
+    TabOrder = 1
+  end
+  object ckUsePreCalculatedLighting: TCheckBox
+    Left = 3
+    Height = 19
+    Top = 47
+    Width = 201
+    Align = alTop
+    BorderSpacing.Left = 3
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 3
+    Caption = 'Use pre-calculated lighting'
+    TabOrder = 2
+  end
+  object ckCollisions: TCheckBox
+    Left = 3
+    Height = 19
+    Top = 69
+    Width = 201
+    Align = alTop
+    BorderSpacing.Left = 3
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 3
+    Caption = 'Collisions'
+    TabOrder = 3
+  end
+  object paFPS: TPanel
+    Left = 0
+    Height = 21
+    Top = 104
+    Width = 207
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 21
+    ClientWidth = 207
+    TabOrder = 4
+    object edFPS: TEdit
+      Left = 3
+      Height = 18
+      Top = 3
+      Width = 201
+      Align = alClient
+      BorderSpacing.Left = 3
+      BorderSpacing.Top = 3
+      BorderSpacing.Right = 3
+      NumbersOnly = True
+      OnExit = edFPSExit
+      TabOrder = 0
+      Text = '12'
+    end
+    object udFPS: TUpDown
+      Left = 204
+      Height = 18
+      Top = 3
+      Width = 16
+      Associate = edFPS
+      Min = 1
+      Position = 12
+      TabOrder = 1
+      Wrap = False
+    end
+  end
+  object btOk: TButton
+    Left = 129
+    Height = 25
+    Top = 128
+    Width = 75
+    Caption = 'Ok'
+    OnClick = btOkClick
+    TabOrder = 5
+  end
+end

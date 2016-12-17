@@ -27,6 +27,8 @@
 }
 unit UTQRCache;
 
+{$MODE Delphi}
+
 interface
 
 uses Generics.Collections;

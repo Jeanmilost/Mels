@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="22">
+      <Unit0>
+        <Filename Value="MD3.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="18"/>
+        <UsageCount Value="22"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <UsageCount Value="22"/>
+        <Bookmarks Count="2">
+          <Item0 X="25" Y="954" ID="2"/>
+          <Item1 X="42" Y="535" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="UTOptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Options"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="22"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="resources.rc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="85" Y="3"/>
+        <UsageCount Value="22"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="73" Y="1377"/>
+        <UsageCount Value="22"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="22"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRLogging.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\win\wininc\messages.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1043"/>
+        <CursorPos X="6" Y="1058"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="27" Y="2037"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRThreading.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="309"/>
+        <CursorPos X="6" Y="324"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\win\sysosh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="18"/>
+        <CursorPos X="3" Y="38"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="C:\lazarus\fpc\3.0.0\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1632"/>
+        <CursorPos X="34" Y="1661"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRFiles.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRGraphics.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\lazarus\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1830"/>
+        <CursorPos X="39" Y="1860"/>
+        <UsageCount Value="10"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\fpc\3.0.0\source\packages\paszlib\src\zip.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="150"/>
+        <UsageCount Value="10"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\lazarus\lcl\lresources.pp"/>
+        <UnitName Value="LResources"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="40" Y="36"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\lazarus\components\lazutils\fpcadds.pas"/>
+        <UnitName Value="FPCAdds"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+    </Units>
+    <JumpHistory Count="12" HistoryIndex="11">
+      <Position1>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="41" Column="6" TopLine="26"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="40" Column="14" TopLine="36"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="31" TopLine="10"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="389" Column="44" TopLine="376"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="466" Column="44" TopLine="454"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1096" Column="26" TopLine="1082"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1130" Column="29" TopLine="1115"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1269" Column="50" TopLine="1254"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1433" Column="53" TopLine="1418"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1640" Column="55" TopLine="1625"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="1833" Column="53" TopLine="1818"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <Caret Line="40" Column="8" TopLine="33"/>
+      </Position12>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

@@ -1,0 +1,32 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 527
+  Top = 0
+  Width = 589
+  Caption = 'Cabinet with glass pane - MD3 renderer'
+  ClientHeight = 527
+  ClientWidth = 589
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnPaint = FormPaint
+  OnResize = FormResize
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object paRendering: TPanel
+    Cursor = crCross
+    Left = 0
+    Height = 527
+    Top = 0
+    Width = 589
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clBlack
+    FullRepaint = False
+    ParentColor = False
+    TabOrder = 0
+  end
+end

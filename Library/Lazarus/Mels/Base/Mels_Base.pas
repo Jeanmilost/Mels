@@ -8,16 +8,8 @@ interface
 
 uses
     UTQR3D, UTQRCollision, UTQRCommon, UTQRDesignPatterns, UTQRFiles, 
-    UTQRGeometry, UTQRGraphics, UTQRHelpers, UTQRCache, Generics.Collections, 
-    Generics.Defaults, Generics.Hashes, Generics.Helpers, 
-    Generics.MemoryExpanders, Generics.Strings, LazarusPackageIntf;
+    UTQRGeometry, UTQRGraphics, UTQRHelpers, UTQRCache;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('Mels_Base', @Register);
 end.

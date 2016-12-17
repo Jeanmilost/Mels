@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="generics_collections"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True" idx3189="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Files Count="6">
+      <Item1>
+        <Filename Value="generics.collections.pas"/>
+        <UnitName Value="Generics.Collections"/>
+      </Item1>
+      <Item2>
+        <Filename Value="generics.defaults.pas"/>
+        <UnitName Value="Generics.Defaults"/>
+      </Item2>
+      <Item3>
+        <Filename Value="generics.hashes.pas"/>
+        <UnitName Value="Generics.Hashes"/>
+      </Item3>
+      <Item4>
+        <Filename Value="generics.helpers.pas"/>
+        <UnitName Value="Generics.Helpers"/>
+      </Item4>
+      <Item5>
+        <Filename Value="generics.memoryexpanders.pas"/>
+        <UnitName Value="Generics.MemoryExpanders"/>
+      </Item5>
+      <Item6>
+        <Filename Value="generics.strings.pas"/>
+        <UnitName Value="Generics.Strings"/>
+      </Item6>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

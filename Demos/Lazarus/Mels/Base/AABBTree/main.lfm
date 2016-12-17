@@ -1,7 +1,8 @@
 object MainForm: TMainForm
-  Left = 1352
+  Cursor = crCross
+  Left = 863
   Height = 410
-  Top = 82
+  Top = 321
   Width = 410
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
