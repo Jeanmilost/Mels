@@ -283,13 +283,6 @@ type
             property OnChangeVolume: TQROnPlayerChangeVolumeEvent read m_fOnChangeVolume write m_fOnChangeVolume;
     end;
 
-    {$REGION 'Documentation'}
-    {**
-     Registers the component on the Lazarus toolbox
-    }
-    {$ENDREGION}
-    procedure Register;
-
 implementation
 //--------------------------------------------------------------------------------------------------
 // Resources
@@ -692,14 +685,6 @@ begin
         Exit;
 
     alSourcei(m_ID, AL_LOOPING, AL_TRUE);
-end;
-//--------------------------------------------------------------------------------------------------
-// Main register procedure
-//--------------------------------------------------------------------------------------------------
-procedure Register;
-begin
-    // register the component to show in the designer toolbar
-    RegisterComponents('Mels Player', [TQRPlayerAL]);
 end;
 //--------------------------------------------------------------------------------------------------
 

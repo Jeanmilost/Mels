@@ -1,0 +1,67 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 527
+  Top = 0
+  Width = 589
+  Caption = 'Lara - MD3 renderer'
+  ClientHeight = 527
+  ClientWidth = 589
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnPaint = FormPaint
+  OnResize = FormResize
+  PopupMenu = pmOptions
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object pbLoadModel: TProgressBar
+    Left = 0
+    Height = 17
+    Top = 510
+    Width = 589
+    Align = alBottom
+    TabOrder = 0
+  end
+  object paRendering: TPanel
+    Left = 0
+    Height = 510
+    Top = 0
+    Width = 589
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clBlack
+    FullRepaint = False
+    ParentColor = False
+    TabOrder = 1
+  end
+  object pmOptions: TPopupMenu
+    left = 535
+    top = 8
+    object miPrevTorsoAnim: TMenuItem
+      Caption = 'Prev torso animation'
+      ShortCut = 37
+      OnClick = miPrevTorsoAnimClick
+    end
+    object miNextTorsoAnim: TMenuItem
+      Caption = 'Next torso animation'
+      ShortCut = 39
+      OnClick = miNextTorsoAnimClick
+    end
+    object miSeparator: TMenuItem
+      Caption = '-'
+    end
+    object miPrevLegsAnim: TMenuItem
+      Caption = 'Prev legs animation'
+      ShortCut = 38
+      OnClick = miPrevLegsAnimClick
+    end
+    object miNextLegsAnim: TMenuItem
+      Caption = 'Next legs animation'
+      ShortCut = 40
+      OnClick = miNextLegsAnimClick
+    end
+  end
+end

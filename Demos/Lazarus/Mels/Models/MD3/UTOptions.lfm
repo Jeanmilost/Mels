@@ -14,10 +14,11 @@ object Options: TOptions
   Font.Name = 'Tahoma'
   OnCreate = FormCreate
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   LCLVersion = '1.6.2.0'
   object ckFullScreen: TCheckBox
     Left = 0
-    Height = 19
+    Height = 29
     Top = 0
     Width = 207
     Align = alTop
@@ -26,8 +27,8 @@ object Options: TOptions
   end
   object ckUseShader: TCheckBox
     Left = 0
-    Height = 19
-    Top = 19
+    Height = 29
+    Top = 29
     Width = 207
     Align = alTop
     Caption = 'Use shader'
@@ -35,8 +36,8 @@ object Options: TOptions
   end
   object ckCollisions: TCheckBox
     Left = 0
-    Height = 19
-    Top = 38
+    Height = 29
+    Top = 58
     Width = 207
     Align = alTop
     Caption = 'Collisions'

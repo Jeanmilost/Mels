@@ -1,0 +1,54 @@
+object MainForm: TMainForm
+  Left = 707
+  Height = 527
+  Top = 444
+  Width = 589
+  Caption = 'Marvin - MD2 renderer'
+  ClientHeight = 527
+  ClientWidth = 589
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
+  OnPaint = FormPaint
+  OnResize = FormResize
+  PopupMenu = pmOptions
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object pbLoadModel: TProgressBar
+    Left = 0
+    Height = 17
+    Top = 510
+    Width = 589
+    Align = alBottom
+    TabOrder = 0
+  end
+  object paRendering: TPanel
+    Left = 0
+    Height = 510
+    Top = 0
+    Width = 589
+    Align = alClient
+    BevelOuter = bvNone
+    Color = clBlack
+    FullRepaint = False
+    ParentColor = False
+    TabOrder = 1
+  end
+  object pmOptions: TPopupMenu
+    left = 552
+    top = 8
+    object miPrevAnim: TMenuItem
+      Caption = 'Prev animation'
+      ShortCut = 37
+      OnClick = miPrevAnimClick
+    end
+    object miNextAnim: TMenuItem
+      Caption = 'Next animation'
+      ShortCut = 39
+      OnClick = miNextAnimClick
+    end
+  end
+end

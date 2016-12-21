@@ -19,13 +19,15 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
         <UsageCount Value="27"/>
         <Bookmarks Count="3">
           <Item0 X="12" Y="929" ID="2"/>
           <Item1 X="37" Y="471" ID="1"/>
           <Item2 X="67" Y="360" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="UTOptions.pas"/>
@@ -113,10 +115,10 @@
       </Unit13>
       <Unit14>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2033"/>
         <CursorPos X="53" Y="2043"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL for Lazarus\openal.pas"/>
@@ -127,10 +129,8 @@
       </Unit15>
       <Unit16>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL_Register.pas"/>
@@ -153,38 +153,7 @@
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit19>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
-      <Position1>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-      </Position1>
-      <Position2>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="2038" Column="11" TopLine="2018"/>
-      </Position2>
-      <Position3>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-      </Position3>
-      <Position4>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <Caret Line="33" Column="6" TopLine="12"/>
-      </Position4>
-      <Position5>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <Caret Line="41" TopLine="24"/>
-      </Position5>
-      <Position6>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <Caret Line="287" TopLine="271"/>
-      </Position6>
-      <Position7>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <Caret Line="40"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
-        <Caret Line="294" TopLine="268"/>
-      </Position8>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
   <Debugging>
     <Watches Count="3">

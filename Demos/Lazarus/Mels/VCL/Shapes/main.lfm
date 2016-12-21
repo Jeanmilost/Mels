@@ -1,0 +1,26 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 527
+  Top = 0
+  Width = 589
+  Caption = 'Shapes'
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  OnPaint = FormPaint
+  OnResize = FormResize
+  PopupMenu = pmOptions
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object pmOptions: TPopupMenu
+    left = 552
+    top = 8
+    object miLighting: TMenuItem
+      Caption = 'Toggle light'
+      ShortCut = 16460
+      OnClick = miLightingClick
+    end
+  end
+end

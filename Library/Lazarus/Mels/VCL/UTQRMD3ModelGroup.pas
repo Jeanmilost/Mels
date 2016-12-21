@@ -38,7 +38,6 @@ uses Classes,
      Graphics,
      Zipper,
      UTQRCommon,
-     UTQRLogging,
      UTQRHelpers,
      UTQRFiles,
      UTQRThreading,
@@ -1372,7 +1371,6 @@ type
             m_pPackage:                TStream;
             m_pIcon:                   TBitmap;
             m_ShaderFileName:          TFileName;
-            m_FileNameToExtract:       TFileName;
             m_ExternalUnpackSucceeded: Boolean;
             m_ExternalUnpackHandled:   Boolean;
             m_fOnUnpackModel:          TQRUnpackMD3ModelEvent;
@@ -3461,7 +3459,7 @@ begin
             m_Items[i].m_pModel.VertexFormat := vertexFormat;
 
             // add newly created item to dictionary (to facilitate search later)
-            m_pItemDictionary.AddOrSetValue(UnicodeString(modelName), @m_Items[i]);
+            m_pItemDictionary.AddOrSetValue(UnicodeString(modelName), m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
             Progress := Progress + progressStep;
@@ -3924,7 +3922,7 @@ begin
             m_Items[i].m_pModel.VertexFormat := vertexFormat;
 
             // add newly created item to dictionary (to facilitate search later)
-            m_pItemDictionary.AddOrSetValue(UnicodeString(modelName), @m_Items[i]);
+            m_pItemDictionary.AddOrSetValue(UnicodeString(modelName), m_Items[i]);
 
             // model is configured and default mesh is created, add one step to progress
             Progress := Progress + progressStep;
@@ -4141,13 +4139,23 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRLoadMD3PackageJob.OnOpenInputZipStream(pSender: TObject; var pStream: TStream);
 begin
-    pStream := m_pPackage;
+    m_pLock.Lock;
+
+    try
+        m_pPackage.Position := 0;
+        pStream             := TMemoryStream.Create;
+        pStream.CopyFrom(m_pPackage, m_pPackage.Size);
+        pStream.Position    := 0;
+    finally
+        m_pLock.Unlock;
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRLoadMD3PackageJob.OnCreateOutZipStream(pSender: TObject;
                                                 var pStream: TStream;
                                                       pItem: TFullZipFileEntry);
 begin
+    // create a new stream to receive the next file content
     pStream := TMemorystream.Create;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -4156,13 +4164,14 @@ procedure TQRLoadMD3PackageJob.OnDoneOutZipStream(pSender: TObject;
                                                     pItem: TFullZipFileEntry);
 var
     pFileStream: TMemoryStream;
+    fileName:    TFileName;
 begin
-    // succeeded?
+    // is file stream available?
     if (not Assigned(pStream)) then
     begin
         {$ifdef DEBUG}
             TQRLogHelper.LogToCompiler('MD3 - unpack - failed to extract stream from zip - ' +
-                                       fileName                                              +
+                                       pItem.ArchiveFileName                                 +
                                        ' - class name - '                                    +
                                        ClassName);
         {$endif}
@@ -4173,8 +4182,40 @@ begin
     pFileStream := nil;
 
     try
+        // is a directory?
+        if (pItem.IsDirectory) then
+           Exit;
+
         // rewind zip stream
         pStream.Position := 0;
+
+        // get next zipped file name (in lower case and without path)
+        fileName := LowerCase(TFileName(TQRFileHelper.ExtractFileName(pItem.ArchiveFileName,
+                                                                      CQR_Zip_Dir_Delimiter)));
+
+        // file name should not be empty
+        if (Length(fileName) = 0) then
+        begin
+            {$ifdef DEBUG}
+                TQRLogHelper.LogToCompiler('MD3 - unpack - found invalid file name - class name - ' +
+                                           ClassName);
+            {$endif}
+
+            Exit;
+        end;
+
+        // file already exists in memory dir?
+        if (m_pDir.FileExists(fileName)) then
+        begin
+            {$ifdef DEBUG}
+                TQRLogHelper.LogToCompiler('MD3 - unpack - found duplicate - file should be unique in package - ' +
+                                           fileName                                                               +
+                                           ' - class name - '                                                     +
+                                           ClassName);
+            {$endif}
+
+            Exit;
+        end;
 
         // copy zip stream content to memory stream
         pFileStream := TMemoryStream.Create;
@@ -4182,7 +4223,7 @@ begin
         pFileStream.Position := 0;
 
         // add file to memory dir
-        m_pDir.AddFile(m_FileNameToExtract, pFileStream, False);
+        m_pDir.AddFile(fileName, pFileStream, False);
 
         pFileStream := nil;
     finally
@@ -4193,10 +4234,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.Unpack: Boolean;
 var
-    pZipFile:  TUnZipper;
-    fileName:  TFileName;
-    pFileList: TStringList;
-    i:         NativeUInt;
+    pZipFile: TUnZipper;
 begin
     // no stream to load to?
     if (not Assigned(m_pPackage)) then
@@ -4236,55 +4274,8 @@ begin
             pZipFile.OnCreateStream    := OnCreateOutZipStream;
             pZipFile.OnDoneStream      := OnDoneOutZipStream;
 
-            // examine zip content
-            pZipFile.Examine;
-
-            // iterate through zipped files
-            for i := 0 to pZipFile.Entries.Count - 1 do
-            begin
-                // get next zipped file name (in lower case and without path)
-                fileName :=
-                        LowerCase(TFileName(TQRFileHelper.ExtractFileName(pZipFile.Entries.Entries[i].ArchiveFileName,
-                                                                          CQR_Zip_Dir_Delimiter)));
-
-                // found a dir? (in this case file name cannot be found)
-                if (Length(fileName) = 0) then
-                    continue;
-
-                // file already exists in memory dir?
-                if (m_pDir.FileExists(fileName)) then
-                begin
-                    {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('MD3 - unpack - found duplicate - file should be unique in package - ' +
-                                                   fileName                                                               +
-                                                   ' - class name - '                                                     +
-                                                   ClassName);
-                    {$endif}
-
-                    Result := False;
-                    Exit;
-                end;
-
-                pFileList := nil;
-
-                try
-                    // keep and expose the next file name to load (thus callbacks can also use it)
-                    m_FileNameToExtract := UnicodeString(fileName);
-
-                    // extract the file
-                    pFileList := TStringList.Create;
-                    pFileList.Add(fileName);
-                    pZipFile.UnZipFiles(pFileList);
-                finally
-                    pFileList.Free;
-                    m_FileNameToExtract := '';
-                end;
-
-                // found shader file?
-                if (ExtractFileExt(fileName) = '.shader') then
-                    // keep file name
-                    m_ShaderFileName := fileName;
-            end;
+            // unzip files
+            pZipFile.UnZipAllFiles;
         finally
             pZipFile.Free;
         end;
@@ -4335,9 +4326,9 @@ begin
             extension := TextureExt[index];
 
             // build icon file name
-            fileName := TQRMD3Helper.BuildName(m_pInfo.m_SkinTemplate,
-                                               m_PrefixKeyword,
-                                               'icon') + extension;
+            fileName := TFileName(TQRMD3Helper.BuildName(m_pInfo.m_SkinTemplate,
+                                                         m_PrefixKeyword,
+                                                         'icon') + extension);
 
             // check if icon file exists
             iconExists := m_pDir.FileExists(fileName);
@@ -4582,6 +4573,8 @@ begin
 
     // clear previous animation
     pItem.m_pAnimation.Free;
+
+    endNotified := False;
 
     // animate model
     pItem.m_pAnimation := GetAnimation(pItem.m_pModel,

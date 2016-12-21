@@ -2161,7 +2161,7 @@ begin
     range := (endIndex - startIndex) + 1;
 
     // calculate and return index within the range delimited by start and end
-    Result := (startIndex + ((index - startIndex) mod range));
+    Result := (startIndex + (Abs(index - startIndex) mod range));
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelJobStatus

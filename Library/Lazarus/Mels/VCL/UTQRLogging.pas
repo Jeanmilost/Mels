@@ -32,7 +32,6 @@ interface
 uses SysUtils,
      Classes,
      Controls,
-     Messages,
      Windows;
 
 type
@@ -928,7 +927,7 @@ begin
         CN_NOTIFY:                      name := 'CN_NOTIFY';
     else
         // unknown message
-        name := 'Unknown [' + IntToHex(message.Msg, 8) + ']';
+        name := 'Unknown [' + UnicodeString(IntToHex(message.Msg, 8)) + ']';
     end;
 
     // convert wparam, whenever possible
@@ -978,14 +977,15 @@ begin
                     wParamName := wParamName + ' or MK_XBUTTON2';
         end;
     else
-        wParamName := IntToHex(message.WParam, 8);
+        wParamName := UnicodeString(IntToHex(message.WParam, 8));
     end;
 
     // convert lparam, whenever possible
     case (message.Msg) of
         WM_LBUTTONDOWN:
-            lParamName := 'x <'   + IntToStr(Integer(ShortInt(LOWORD(message.LParam)))) +
-                          '> y <' + IntToStr(Integer(ShortInt(HIWORD(message.LParam)))) + '>';
+            lParamName := 'x <'   + UnicodeString(IntToStr(Integer(ShortInt(LOWORD(message.LParam))))) +
+                          '> y <' + UnicodeString(IntToStr(Integer(ShortInt(HIWORD(message.LParam))))) +
+                          '>';
         WM_PRINT:
         begin
             case (message.LParam) of
@@ -996,7 +996,7 @@ begin
                 PRF_NONCLIENT:    lParamName := 'PRF_NONCLIENT';
                 PRF_OWNED:        lParamName := 'PRF_OWNED';
             else
-                lParamName := IntToHex(message.WParam, 8);
+                lParamName := UnicodeString(IntToHex(message.WParam, 8));
             end;
         end;
 
@@ -1010,16 +1010,16 @@ begin
                 PRF_NONCLIENT:    lParamName := 'PRF_NONCLIENT';
                 PRF_OWNED:        lParamName := 'PRF_OWNED';
             else
-                lParamName := IntToHex(message.WParam, 8);
+                lParamName := UnicodeString(IntToHex(message.WParam, 8));
             end;
         end;
     else
-        lParamName := IntToHex(message.WParam, 8);
+        lParamName := UnicodeString(IntToHex(message.WParam, 8));
     end;
 
     // format and return Windows message as text
     if (Assigned(pOwner)) then
-        Result := 'Component - '  + pOwner.Name +
+        Result := 'Component - '  + UnicodeString(pOwner.Name) +
                   ' - message - ' + name        +
                   ' - wParam ['   + wParamName  +
                   '] - lParam ['  + lParamName  +

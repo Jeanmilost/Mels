@@ -14,11 +14,12 @@ object Options: TOptions
   Font.Name = 'Tahoma'
   OnCreate = FormCreate
   Position = poScreenCenter
+  ShowInTaskBar = stAlways
   LCLVersion = '1.6.2.0'
   object laFPS: TLabel
     Left = 3
     Height = 13
-    Top = 91
+    Top = 131
     Width = 201
     Align = alTop
     BorderSpacing.Left = 3
@@ -29,7 +30,7 @@ object Options: TOptions
   end
   object ckFullScreen: TCheckBox
     Left = 3
-    Height = 19
+    Height = 29
     Top = 3
     Width = 201
     Align = alTop
@@ -41,8 +42,8 @@ object Options: TOptions
   end
   object ckUseShader: TCheckBox
     Left = 3
-    Height = 19
-    Top = 25
+    Height = 29
+    Top = 35
     Width = 201
     Align = alTop
     BorderSpacing.Left = 3
@@ -53,8 +54,8 @@ object Options: TOptions
   end
   object ckUsePreCalculatedLighting: TCheckBox
     Left = 3
-    Height = 19
-    Top = 47
+    Height = 29
+    Top = 67
     Width = 201
     Align = alTop
     BorderSpacing.Left = 3
@@ -65,8 +66,8 @@ object Options: TOptions
   end
   object ckCollisions: TCheckBox
     Left = 3
-    Height = 19
-    Top = 69
+    Height = 29
+    Top = 99
     Width = 201
     Align = alTop
     BorderSpacing.Left = 3
@@ -78,7 +79,7 @@ object Options: TOptions
   object paFPS: TPanel
     Left = 0
     Height = 21
-    Top = 104
+    Top = 144
     Width = 207
     Align = alTop
     BevelOuter = bvNone

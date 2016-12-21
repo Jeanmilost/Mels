@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="19">
+      <Unit0>
+        <Filename Value="MD3.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="38"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <TopLine Value="216"/>
+        <CursorPos X="53" Y="237"/>
+        <UsageCount Value="38"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="UTOptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Options"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="7" Y="6"/>
+        <UsageCount Value="38"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="38"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="38"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Resources.rc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="37"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\MD2\main.pas"/>
+        <UnitName Value="Main"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD3ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="19"/>
+        <Bookmarks Count="7">
+          <Item0 X="24" Y="2313" ID="3"/>
+          <Item1 Y="5334" ID="9"/>
+          <Item2 X="30" Y="3462" ID="4"/>
+          <Item3 X="34" Y="4508" ID="8"/>
+          <Item4 X="13" Y="3925" ID="5"/>
+          <Item5 X="27" Y="4532" ID="2"/>
+          <Item6 Y="5347" ID="1"/>
+        </Bookmarks>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRShapeGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Models\UTQRMD3.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="15"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRThreading.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Models\UTQRMD2.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRLogging.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="C:\Lazarus\lcl\include\controlconsts.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="13"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\..\..\..\Library\Prerequisites\Generics.Collections\generics.collections.pas"/>
+        <UnitName Value="Generics.Collections"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit18>
+    </Units>
+    <OtherDefines Count="1">
+      <Define0 Value="USE_SHADER"/>
+    </OtherDefines>
+    <JumpHistory HistoryIndex="-1"/>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="3">
+      <Item1>
+        <Expression Value="m_pAnimations"/>
+        <DisplayStyle Value="wdfPointer"/>
+      </Item1>
+      <Item2>
+        <Expression Value="testAdr"/>
+      </Item2>
+      <Item3>
+        <Expression Value="pItem.m_pAnimations"/>
+        <DisplayStyle Value="wdfPointer"/>
+      </Item3>
+    </Watches>
+  </Debugging>
+</CONFIG>

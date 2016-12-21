@@ -2,35 +2,39 @@
 <CONFIG>
   <Package Version="4">
     <PathDelim Value="\"/>
-    <Name Value="Mels_Player"/>
+    <Name Value="Mels_PlayerD"/>
+    <Type Value="DesignTime"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
       <SearchPaths>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <Other>
-        <CompilerMessages>
-          <IgnoredMessages idx5024="True"/>
-        </CompilerMessages>
-      </Other>
     </CompilerOptions>
-    <Files Count="1">
+    <Files Count="2">
       <Item1>
-        <Filename Value="UTQRPlayerAL.pas"/>
-        <UnitName Value="UTQRPlayerAL"/>
-      </Item1>
-    </Files>
-    <RequiredPkgs Count="3">
-      <Item1>
-        <PackageName Value="Mels_Player_Base"/>
+        <Filename Value="UTQRPlayerAL_Register.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="UTQRPlayerAL_Register"/>
       </Item1>
       <Item2>
-        <PackageName Value="DelphiAL"/>
+        <Filename Value="UTQRPlayerAL.rc"/>
+        <Type Value="Text"/>
+      </Item2>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="Mels_Player"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="Mels_Player_Base"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="generics_collections"/>
       </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -38,8 +42,5 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
-    <CustomOptions Items="ExternHelp" Version="2">
-      <_ExternHelp Items="Count"/>
-    </CustomOptions>
   </Package>
 </CONFIG>

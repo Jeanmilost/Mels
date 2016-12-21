@@ -9,14 +9,8 @@ interface
 uses
     UTQRLogging, UTQRMD2ModelGroup, UTQRMD3ModelGroup, UTQRModelGroup, 
     UTQRShapeGroup, UTQRThreading, UTQRVCLAnimationTimer, UTQRVCLGraphics, 
-    UTQRVCLHelpers, UTQRVCLModelRenderer, LazarusPackageIntf;
+    UTQRVCLHelpers, UTQRVCLModelRenderer;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('Mels_VCL', @Register);
 end.

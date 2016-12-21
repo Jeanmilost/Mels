@@ -36,7 +36,6 @@ uses Classes,
      Masks,
      UTQRCommon,
      UTQRHelpers,
-     UTQRLogging,
      Graphics,
      Windows;
 
@@ -450,7 +449,7 @@ type
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            class function LoadTGA(const fileName: UnicodeString;
+            class function LoadTGA(const fileName: TFileName;
                                           swapRGB: Boolean;
                                           pBitmap: Graphics.TBitmap): Boolean; overload; static;
 
@@ -478,7 +477,7 @@ type
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            class function LoadPCX(const fileName: UnicodeString;
+            class function LoadPCX(const fileName: TFileName;
                                           pBitmap: Graphics.TBitmap): Boolean; overload; static;
 
             {$REGION 'Documentation'}
@@ -625,12 +624,10 @@ end;
 //--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
-    ext:  string;
     list: TStringList;
     i:    Integer;
 begin
     Result := False;
-    ext    := ExtractFileExt(fileName);
     list   := TStringList.Create;
 
     try
@@ -1026,7 +1023,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRVCLPictureHelper.LoadTGA(const fileName: UnicodeString;
+class function TQRVCLPictureHelper.LoadTGA(const fileName: TFileName;
                                                   swapRGB: Boolean;
                                                   pBitmap: Graphics.TBitmap): Boolean;
 var
@@ -1088,6 +1085,8 @@ begin
     // clear image
     GetMem(pImage, 0);
     GetMem(pCompImage, 0);
+
+    header := Default(TQRTGAHeader);
 
     // read image header
     pStream.ReadBuffer(header, SizeOf(TQRTGAHeader));
@@ -1278,7 +1277,7 @@ begin
     Result := False;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRVCLPictureHelper.LoadPCX(const fileName: UnicodeString;
+class function TQRVCLPictureHelper.LoadPCX(const fileName: TFileName;
                                                   pBitmap: Graphics.TBitmap): Boolean;
 var
     pStream: TFileStream;
@@ -1348,6 +1347,8 @@ begin
             Exit;
         end;
 
+        header := Default(TQRPCXHeader);
+
         // read PCX header
         pStream.ReadBuffer(header, SizeOf(TQRPCXHeader));
 
@@ -1367,7 +1368,7 @@ begin
         width           := (header.m_XEnd - header.m_XStart) + 1;
         height          := (header.m_YEnd - header.m_YStart) + 1;
         scanLineLength  := (header.m_NumBitPlanes * header.m_BytesPerLine);
-        linePaddingSize := (scanLineLength * (8 div header.m_BitsPerPixel)) - width;
+        linePaddingSize := (Int64(scanLineLength) * Int64(8 div LongWord(header.m_BitsPerPixel))) - width;
 
         // no width or height?
         if ((width = 0) or (height = 0)) then

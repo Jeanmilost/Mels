@@ -33,8 +33,11 @@
         <ComponentName Value="Options"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="resources.rc"/>
@@ -71,11 +74,9 @@
       </Unit7>
       <Unit8>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="2037"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRModelGroup.pas"/>
@@ -157,55 +158,6 @@
         <UsageCount Value="10"/>
       </Unit21>
     </Units>
-    <JumpHistory Count="12" HistoryIndex="11">
-      <Position1>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="41" Column="6" TopLine="26"/>
-      </Position1>
-      <Position2>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="40" Column="14" TopLine="36"/>
-      </Position2>
-      <Position3>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="31" TopLine="10"/>
-      </Position3>
-      <Position4>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="389" Column="44" TopLine="376"/>
-      </Position4>
-      <Position5>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="466" Column="44" TopLine="454"/>
-      </Position5>
-      <Position6>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1096" Column="26" TopLine="1082"/>
-      </Position6>
-      <Position7>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1130" Column="29" TopLine="1115"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1269" Column="50" TopLine="1254"/>
-      </Position8>
-      <Position9>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1433" Column="53" TopLine="1418"/>
-      </Position9>
-      <Position10>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1640" Column="55" TopLine="1625"/>
-      </Position10>
-      <Position11>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="1833" Column="53" TopLine="1818"/>
-      </Position11>
-      <Position12>
-        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
-        <Caret Line="40" Column="8" TopLine="33"/>
-      </Position12>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
 </CONFIG>

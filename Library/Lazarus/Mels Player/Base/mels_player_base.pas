@@ -7,14 +7,8 @@ unit Mels_Player_Base;
 interface
 
 uses
-    UTQRPlayer, LazarusPackageIntf;
+    UTQRPlayer;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('Mels_Player_Base', @Register);
 end.

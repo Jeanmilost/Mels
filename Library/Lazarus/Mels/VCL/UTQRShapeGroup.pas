@@ -42,8 +42,7 @@ uses Classes,
      UTQRCollision,
      UTQRShapes,
      UTQRModelGroup,
-     UTQRThreading,
-     UTQRLogging;
+     UTQRThreading;
 
 type
     {$REGION 'Documentation'}

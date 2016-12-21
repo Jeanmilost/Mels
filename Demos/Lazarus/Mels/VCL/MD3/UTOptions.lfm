@@ -1,0 +1,289 @@
+object Options: TOptions
+  Left = 37
+  Height = 500
+  Top = 41
+  Width = 550
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'Lara - Options'
+  ClientHeight = 500
+  ClientWidth = 550
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  FormStyle = fsStayOnTop
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  ShowInTaskBar = stAlways
+  LCLVersion = '1.6.2.0'
+  object paPreview: TPanel
+    Left = 0
+    Height = 460
+    Top = 0
+    Width = 160
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 460
+    ClientWidth = 160
+    TabOrder = 0
+    object imPreview: TImage
+      Left = 5
+      Height = 150
+      Top = 5
+      Width = 150
+      Align = alTop
+      BorderSpacing.Around = 5
+      Center = True
+    end
+  end
+  object paMain: TPanel
+    Left = 160
+    Height = 460
+    Top = 0
+    Width = 390
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 460
+    ClientWidth = 390
+    TabOrder = 1
+    object gbRenderOptions: TGroupBox
+      Left = 0
+      Height = 116
+      Top = 126
+      Width = 385
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 5
+      Caption = 'Render options'
+      ClientHeight = 92
+      ClientWidth = 381
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      ParentFont = False
+      TabOrder = 1
+      object ckShowCollisions: TCheckBox
+        Left = 0
+        Height = 23
+        Top = 23
+        Width = 381
+        Align = alTop
+        Caption = 'Show collisions with mouse pointer'
+        Checked = True
+        State = cbChecked
+        TabOrder = 1
+      end
+      object ckUseShader: TCheckBox
+        Left = 0
+        Height = 23
+        Top = 46
+        Width = 381
+        Align = alTop
+        Caption = 'Use shader'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
+      object ckFullScreen: TCheckBox
+        Left = 0
+        Height = 23
+        Top = 0
+        Width = 381
+        Align = alTop
+        Caption = 'Full screen'
+        TabOrder = 0
+      end
+      object ckUseOrthoMatrix: TCheckBox
+        Left = 0
+        Height = 23
+        Top = 69
+        Width = 381
+        Align = alTop
+        Caption = 'Use orthogonal matrix'
+        TabOrder = 3
+      end
+    end
+    object rgCacheOptions: TRadioGroup
+      Left = 0
+      Height = 116
+      Top = 5
+      Width = 385
+      Align = alTop
+      AutoFill = True
+      AutoSize = True
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 5
+      Caption = 'Cache options'
+      ChildSizing.LeftRightSpacing = 6
+      ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+      ChildSizing.EnlargeVertical = crsHomogenousChildResize
+      ChildSizing.ShrinkHorizontal = crsScaleChilds
+      ChildSizing.ShrinkVertical = crsScaleChilds
+      ChildSizing.Layout = cclLeftToRightThenTopToBottom
+      ChildSizing.ControlsPerLine = 1
+      ClientHeight = 92
+      ClientWidth = 381
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      ItemIndex = 0
+      Items.Strings = (
+        'Create cache'
+        'Create frames dynamically'
+        'Create frames dynamically, cache created frames'
+        'Custom'
+      )
+      OnClick = rgCacheOptionsClick
+      ParentFont = False
+      TabOrder = 0
+    end
+    object gbLoadModel: TGroupBox
+      Left = 0
+      Height = 61
+      Top = 247
+      Width = 385
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 5
+      Caption = 'Load model'
+      ClientHeight = 37
+      ClientWidth = 381
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      ParentFont = False
+      TabOrder = 2
+      object edModelFileName: TEdit
+        Left = 5
+        Height = 27
+        Top = 5
+        Width = 246
+        BorderSpacing.Around = 5
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object btBrowse: TButton
+        Left = 257
+        Height = 27
+        Top = 5
+        Width = 37
+        Caption = '...'
+        OnClick = btBrowseClick
+        TabOrder = 1
+      end
+    end
+    object gbSelectTeam: TGroupBox
+      Left = 0
+      Height = 47
+      Top = 308
+      Width = 385
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Right = 5
+      Caption = 'Select team'
+      ClientHeight = 23
+      ClientWidth = 381
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      ParentFont = False
+      TabOrder = 3
+      object rbDefault: TRadioButton
+        Left = 0
+        Height = 23
+        Top = 0
+        Width = 70
+        Caption = 'Default'
+        Checked = True
+        OnClick = OnSelectTeam
+        TabOrder = 0
+        TabStop = True
+      end
+      object rbRed: TRadioButton
+        Left = 88
+        Height = 23
+        Top = 0
+        Width = 47
+        Caption = 'Red'
+        OnClick = OnSelectTeam
+        TabOrder = 1
+      end
+      object rbBlue: TRadioButton
+        Left = 176
+        Height = 23
+        Top = 0
+        Width = 50
+        Caption = 'Blue'
+        OnClick = OnSelectTeam
+        TabOrder = 2
+      end
+    end
+  end
+  object paButtons: TPanel
+    Left = 5
+    Height = 30
+    Top = 465
+    Width = 540
+    Align = alBottom
+    BorderSpacing.Left = 5
+    BorderSpacing.Top = 5
+    BorderSpacing.Right = 5
+    BorderSpacing.Bottom = 5
+    BevelOuter = bvNone
+    ClientHeight = 30
+    ClientWidth = 540
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentFont = False
+    TabOrder = 2
+    object btOK: TButton
+      Left = 465
+      Height = 30
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'OK'
+      Default = True
+      OnClick = btOKClick
+      TabOrder = 0
+    end
+    object btCancel: TButton
+      Left = 385
+      Height = 30
+      Top = 0
+      Width = 75
+      Align = alRight
+      BorderSpacing.Right = 5
+      Caption = 'Cancel'
+      OnClick = btCancelClick
+      TabOrder = 1
+    end
+    object btQuit: TButton
+      Left = 0
+      Height = 30
+      Top = 0
+      Width = 144
+      Align = alLeft
+      Caption = 'Quit application'
+      OnClick = btQuitClick
+      TabOrder = 2
+    end
+  end
+  object tiDrawPreview: TTimer
+    Interval = 200
+    OnTimer = tiDrawPreviewTimer
+    left = 32
+    top = 128
+  end
+  object odOpenDialog: TOpenDialog
+    DefaultExt = '.pk3'
+    Filter = 'MD3 model package|*.pk3|ZIP file|*.zip'
+    Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    left = 32
+    top = 176
+  end
+end

@@ -7,14 +7,8 @@ unit DelphiAL;
 interface
 
 uses
-    openal, LazarusPackageIntf;
+    openal;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('DelphiAL', @Register);
 end.

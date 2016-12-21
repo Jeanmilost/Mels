@@ -1591,6 +1591,8 @@ begin
         Exit;
     end;
 
+    fileVersion := 0;
+
     // read version
     pBuffer.Read(fileVersion, SizeOf(fileVersion));
 
@@ -1600,6 +1602,8 @@ begin
         Result := False;
         Exit;
     end;
+
+    dataLength := 0;
 
     // read file length
     pBuffer.Read(dataLength, SizeOf(TQRUInt32));
@@ -1617,6 +1621,10 @@ begin
     // iterate through normals
     for i := 0 to dataLength - 1 do
     begin
+        x := 0.0;
+        y := 0.0;
+        z := 0.0;
+
         // read next normal from file
         pBuffer.Read(x, SizeOf(x));
         pBuffer.Read(y, SizeOf(y));

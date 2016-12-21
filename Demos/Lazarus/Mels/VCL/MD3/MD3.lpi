@@ -6,7 +6,7 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="PlaySound"/>
+      <Title Value="MD3"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
@@ -30,24 +30,24 @@
     </RunParams>
     <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="Mels_PlayerD"/>
+        <PackageName Value="Mels_Models"/>
       </Item1>
       <Item2>
-        <PackageName Value="Mels_Player"/>
+        <PackageName Value="Mels_VCL"/>
       </Item2>
       <Item3>
-        <PackageName Value="Mels_Player_Base"/>
+        <PackageName Value="Mels_Base"/>
       </Item3>
       <Item4>
-        <PackageName Value="DelphiAL"/>
+        <PackageName Value="generics_collections"/>
       </Item4>
       <Item5>
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="6">
       <Unit0>
-        <Filename Value="PlaySound.lpr"/>
+        <Filename Value="MD3.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
@@ -59,19 +59,35 @@
         <UnitName Value="Main"/>
       </Unit1>
       <Unit2>
-        <Filename Value="resources.rc"/>
+        <Filename Value="UTOptions.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="Options"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Resources.rc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="PlaySound"/>
+      <Filename Value="MD3"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\..\..\Common\Lazarus"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -85,6 +101,10 @@
       <CompilerMessages>
         <IgnoredMessages idx5024="True"/>
       </CompilerMessages>
+      <CustomOptions Value="-dUSE_SHADER"/>
+      <OtherDefines Count="1">
+        <Define0 Value="USE_SHADER"/>
+      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>
