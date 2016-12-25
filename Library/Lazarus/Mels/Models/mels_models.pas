@@ -2,7 +2,7 @@
   This source is only used to compile and install the package.
  }
 
-unit mels_models;
+unit Mels_Models;
 
 interface
 

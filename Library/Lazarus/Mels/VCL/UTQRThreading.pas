@@ -33,8 +33,7 @@ interface
 
 uses Classes,
      SysUtils,
-     SyncObjs,
-     Windows;
+     SyncObjs;
 
 type
     {$REGION 'Documentation'}
@@ -526,7 +525,7 @@ begin
         EQR_JS_Canceled:   Result := 'EQR_JS_Canceled';
         EQR_JS_Error:      Result := 'EQR_JS_Error';
     else
-        Result := '<#ERROR (' + IntToStr(NativeInt(status)) + ')>';
+        Result := '<#ERROR (' + UnicodeString(IntToStr(NativeInt(status))) + ')>';
     end;
 end;
 //--------------------------------------------------------------------------------------------------

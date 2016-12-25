@@ -1,3 +1,3 @@
 // component icons (used on designer and toolbars), must be the same name as component class
-TQRPlayerAL    RCDATA    "Resources\Images\Icons\TQRPlayerAL_24x24.png"
+TQRPlayerAL    RCDATA    "Resources\\Images\\Icons\\TQRPlayerAL_24x24.png"
 

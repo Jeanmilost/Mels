@@ -18,7 +18,7 @@
         <UnitName Value="UTQRPlayerAL_Register"/>
       </Item1>
       <Item2>
-        <Filename Value="UTQRPlayerAL.rc"/>
+        <Filename Value="UTQRPlayerAL_Register.rc"/>
         <Type Value="Text"/>
       </Item2>
     </Files>
@@ -42,5 +42,8 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>

@@ -610,12 +610,10 @@ end;
 //--------------------------------------------------------------------------------------------------
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
-    ext:  string;
     list: TStringList;
     i:    Integer;
 begin
     Result := False;
-    ext    := ExtractFileExt(fileName);
     list   := TStringList.Create;
 
     try

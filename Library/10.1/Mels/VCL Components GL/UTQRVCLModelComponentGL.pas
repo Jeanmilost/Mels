@@ -1036,7 +1036,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentGL.Destroy;
 begin
-    // detach from animation timer and stop to receive time notifications (runtime only)
+    // detach from designer hook and stop to receive time notifications (design time only)
     if (csDesigning in ComponentState) then
         TQRDesignerHook.GetInstance.Detach(Self);
 

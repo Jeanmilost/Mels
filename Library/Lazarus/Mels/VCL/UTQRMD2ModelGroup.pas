@@ -531,6 +531,7 @@ type
      Called when the model should be unpacked
      @param(pGroup Group at which model belongs)
      @param(pPackage MD2 model package)
+     @param(name @bold([out]) Model name without extension, as contained in package)
      @param(handled @bold([in, out]) If @true, model will be considered as unpacked and no further
                                      operation will be done. If @false, model will be unpacked using
                                      the standard algorithm)
@@ -542,6 +543,7 @@ type
     TQRUnpackMD2ModelEvent = function(const pGroup: TQRModelGroup;
                                           pPackage: TStream;
                                               pDir: TQRMemoryDir;
+                                          out name: TFileName;
                                        var handled: Boolean): Boolean of object;
 
     {$REGION 'Documentation'}
@@ -2184,6 +2186,10 @@ begin
             Exit;
         end;
 
+        // get model name, if still not exist
+        if (Length(m_Name) = 0) then
+            m_Name := TFileName(TQRFileHelper.ExtractFileNameNoExt(fileName));
+
         // copy zip stream content to memory stream
         pFileStream := TMemoryStream.Create;
         pFileStream.CopyFrom(pStream, pStream.Size);
@@ -2281,8 +2287,8 @@ begin
         m_ExternalUnpackSucceeded := m_fOnUnpackModel(GetGroup,
                                                       m_pPackage,
                                                       m_pDir,
+                                                      m_Name,
                                                       m_ExternalUnpackHandled);
-
     finally
         m_pLock.Unlock;
     end;
