@@ -30,13 +30,13 @@
     </RunParams>
     <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="generics_collections"/>
+        <PackageName Value="mels_models"/>
       </Item1>
       <Item2>
-        <PackageName Value="mels_models"/>
+        <PackageName Value="Mels_Base"/>
       </Item2>
       <Item3>
-        <PackageName Value="Mels_Base"/>
+        <PackageName Value="generics_collections"/>
       </Item3>
       <Item4>
         <PackageName Value="LCL"/>
@@ -69,7 +69,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\..\..\Library\Lazarus\Mels\Base;..\..\..\..\..\Library\Lazarus\Mels\Base\ThirdParty;..\..\..\..\Common\Lazarus"/>
+      <OtherUnitFiles Value="..\..\..\..\..\Library\Lazarus\Mels\Models;..\..\..\..\..\Library\Lazarus\Mels\Base;..\..\..\..\Common\Lazarus"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -79,6 +79,11 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx5024="True"/>
+      </CompilerMessages>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">
