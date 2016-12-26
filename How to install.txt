@@ -1,0 +1,63 @@
+How to install the Mels library
+
+RAD Studio
+
+Mels
+Open the Mels.groupproj located in the Library\(XXX)\Mels\ folder in your RAD Studio compiler,
+where (XXX) is the RAD Studio version you want to install, then install the packages in the
+order below.
+
+NOTE you can also install the packages from any demo .groupproj project group.
+
+Prerequisites (ONLY REQUIRED FOR RAD STUDIO XE4)
+1. Build the DelphiGL.bpl package
+
+Library
+1. Build the Mels_Base.bpl
+2. Build the Mels_Models.bpl
+3. Build the Mels_VCL.bpl
+4. Build the Mels_VCLComponentsGL.bpl
+5. Install the Mels_VCLComponentsGLD.bpl
+6. Copy the UTQRMD2ModelGroup.res file from the Library\(XXX)\Mels\VCL\ folder to the 
+  ($COMMON)\Dcp\ folder, where ($COMMON) is the RAD Studio common installation folder.
+7. Copy the UTQRVCLModelComponentGL.res file from the Library\(XXX)\Mels\VCL\ folder to
+   the ($COMMON)\Dcp\ folder, where ($COMMON) is the RAD Studio common installation folder.
+
+Mels Player
+Open the Mels Player.groupproj located in the Library\(XXX)\Mels Player\ folder in your RAD Studio compiler,
+where (XXX) is the RAD Studio version you want to install, then install the packages in the order below.
+
+Prerequisites
+1. Download and install the OpenAL SDK from this link: http://www.openal.org/
+2. Build the DelphiAL.dproj package
+
+Library
+1. Build the Mels_Player_Base.dproj
+2. Build the Mels_Player.dproj
+3. Install the Mels_PlayerD.dproj
+
+Lazarus
+
+Mels
+
+Prerequisites
+Open the Library\Prerequisites\Generics.Collections\ folder and install the generics_collections.lpk package.
+
+Library
+Open the Library\Lazarus\Mels\ folder and install the .lpk packages in the order below.
+1. Build the Mels_Base.lpk
+2. Build the Mels_Models.lpk
+3. Build the Mels_VCL.lpk
+
+Mels Player
+
+Prerequisites
+1. Download and install the OpenAL SDK from this link: http://www.openal.org/
+2. Open the Library\Prerequisites\Delphi OpenAL for Lazarus\ folder and build the delphial.lpk package.
+3. Open the Library\Prerequisites\Generics.Collections\ folder and build the generics_collections.lpk package.
+
+Library
+Open the Library\Lazarus\Mels Player\ folder and install the .lpk packages in the order below.
+1. Build the mels_player_base.lpk
+2. Build the mels_player.lpk
+3. Install the mels_playerd.lpk package.
