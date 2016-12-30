@@ -104,7 +104,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLModelRenderer.SetTargetPixelFormat(hDC: THandle; doubleBuffered: Boolean): Boolean;
 var
-    pfd:         PIXELFORMATDESCRIPTOR;
+    pfd:         TPixelFormatDescriptor;
     pixelFormat: Integer;
     flags:       DWORD;
 begin
@@ -126,7 +126,7 @@ begin
 
     with pfd do
     begin
-        nSize           := SizeOf(PIXELFORMATDESCRIPTOR);
+        nSize           := SizeOf(TPixelFormatDescriptor);
         nVersion        := 1;
         dwFlags         := flags;
         iPixelType      := PFD_TYPE_RGBA;

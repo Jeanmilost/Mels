@@ -227,7 +227,7 @@ type
             m_pRenderSurface:       TQRVCLModelRenderSurfaceGL;
             m_pOverlay:             Vcl.Graphics.TBitmap;
             m_pAntialiasingOverlay: Vcl.Graphics.TBitmap;
-            m_hBackgroundBrush:     HBRUSH;
+            m_hBackgroundBrush:     THandle;
             m_ViewMatrix:           TQRMatrix4x4;
             m_ProjectionMatrix:     TQRMatrix4x4;
             m_AntialiasingMode:     EQRAntialiasingMode;
@@ -523,7 +523,7 @@ type
              @param(y Position on the y axis where the scene will be drawn on the context, in pixels)
             }
             {$ENDREGION}
-            procedure PaintTo(dc: HDC; x, y: Integer); overload;
+            procedure PaintTo(dc: HDC; x, y: Integer); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -1039,14 +1039,12 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLModelComponentGL.Destroy;
 begin
-    // detach from animation timer and stop to receive time notifications (runtime only)
+    // detach from designer hook and stop to receive time notifications (design time only)
     if (csDesigning in ComponentState) then
         TQRDesignerHook.GetInstance.Detach(Self);
 
     // clear memory. NOTE overlay structures are deleted while handle is destroyed
-    m_pRenderSurface.Free;
     m_pShader.Free;
-    m_pRenderer.Free;
     m_pAlphaBlending.Free;
     m_pColor.Free;
     m_pDefaultImage.Free;
@@ -1061,13 +1059,25 @@ begin
     // release draw context, if exists
     ReleaseDrawContext;
 
+    // the render surface must ALWAYS be deleted after ReleaseDrawContext is called, otherwise some
+    // access violations may happen while the draw context is destroyed. Also don't forget ot set it
+    // to nil
+    m_pRenderSurface.Free;
+    m_pRenderSurface := nil;
+
+    // the renderer must ALWAYS be deleted after ReleaseDrawContext is called, and after render
+    // surface is deleted, otherwise some access violations may happen while the draw context is
+    // destroyed. Also don't forget ot set it to nil
+    m_pRenderer.Free;
+    m_pRenderer := nil;
+
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.WndProc(var message: TMessage);
 var
     hDC: THandle;
-    ps:  PAINTSTRUCT;
+    ps:  TPaintStruct;
 begin
     {$IFDEF DEBUG}
         // log message loop, if activated
@@ -1312,7 +1322,7 @@ begin
                                  m_pShader);
 
         // create background brush
-        m_hBackgroundBrush := CreateSolidBrush(ColorToRGB(clBlack));
+        m_hBackgroundBrush := CreateSolidBrush(ColorToRGB(Color.VCLColor));
 
         // create a viewport for the scene
         CreateViewport(ClientWidth, ClientHeight);
@@ -1348,8 +1358,8 @@ begin
     m_pAntialiasingOverlay.Free;
     m_pAntialiasingOverlay := nil;
 
-    // check if handle was successfully allocated
-    if (HandleAllocated) then
+    // check if handle was successfully allocated and if render surface is still assigned
+    if (HandleAllocated and Assigned(m_pRenderSurface)) then
     begin
         // get the device context for this control
         hDC := GetDC(WindowHandle);
@@ -1482,6 +1492,8 @@ var
     hPackageInstance: NativeUInt;
     pStream:          TResourceStream;
     pBitmap:          Vcl.Graphics.TBitmap;
+    rect:             TRect;
+    bf:               TBlendFunction;
 begin
     // is component currently deleting?
     if (csDestroying in ComponentState) then
@@ -1496,6 +1508,10 @@ begin
         Result := False;
         Exit;
     end;
+
+    // fill control background (to avoid transparency error in case the scene draw failed)
+    if (m_hBackgroundBrush <> 0) then
+        FillRect(hDC, TRect.Create(0, 0, ClientWidth, ClientHeight), m_hBackgroundBrush);
 
     pStream := nil;
 
@@ -1537,25 +1553,33 @@ begin
 
         // clear background to make it transparent
         pBitmap.Canvas.Brush.Style := bsClear;
-        pBitmap.Canvas.Brush.Color := Vcl.Graphics.clNone;
+        pBitmap.Canvas.Brush.Color := Color.VCLColor;
         pBitmap.Canvas.FillRect(TRect.Create(0, 0, m_pDefaultImage.Width, m_pDefaultImage.Height));
 
         // copy default image into bitmap
         pBitmap.Canvas.Draw(0, 0, m_pDefaultImage);
 
+        // configure alpha blending operation
+        bf.BlendOp             := AC_SRC_OVER;
+        bf.BlendFlags          := 0;
+        bf.SourceConstantAlpha := 255;
+        bf.AlphaFormat         := AC_SRC_ALPHA;
+
         // draw default image
         if ((ClientWidth >= 100) and (ClientHeight >= 100)) then
-            BitBlt(hDC,
-                   (ClientWidth  shr 1) - (m_pDefaultImage.Width  shr 1),
-                   (ClientHeight shr 1) - (m_pDefaultImage.Height shr 1),
-                   m_pDefaultImage.Width,
-                   m_pDefaultImage.Height,
-                   pBitmap.Canvas.Handle,
-                   0,
-                   0,
-                   SRCCOPY)
+            AlphaBlend(hDC,
+                      (ClientWidth  shr 1) - (m_pDefaultImage.Width  shr 1),
+                      (ClientHeight shr 1) - (m_pDefaultImage.Height shr 1),
+                       m_pDefaultImage.Width,
+                       m_pDefaultImage.Height,
+                       pBitmap.Canvas.Handle,
+                       0,
+                       0,
+                       m_pDefaultImage.Width,
+                       m_pDefaultImage.Height,
+                       bf)
         else
-            StretchBlt(hDC,
+            AlphaBlend(hDC,
                        0,
                        0,
                        ClientWidth,
@@ -1565,7 +1589,7 @@ begin
                        0,
                        m_pDefaultImage.Width,
                        m_pDefaultImage.Height,
-                       SRCCOPY);
+                       bf);
     finally
         pBitmap.Free;
     end;
@@ -1575,7 +1599,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DrawScene(hDC: THandle);
 var
-    bf:                                            _BLENDFUNCTION;
+    bf:                                            TBlendFunction;
     factor, antialiasingWidth, antialiasingHeight: NativeInt;
 begin
     // check if handle was already created, create it if not
@@ -1642,7 +1666,15 @@ begin
 
         // begin to draw scene on overlay surface
         if (not m_pRenderSurface.BeginScene(hDC)) then
+        begin
+            // allow user to draw his own default image
+            if (Assigned(m_fOnDrawDefaultImage)) then
+                if (m_fOnDrawDefaultImage(Self, hDC)) then
+                    Exit;
+
+            DrawDefaultImage(hDC);
             Exit;
+        end;
 
         // clear the scene
         glClearColor(m_pColor.RedF, m_pColor.GreenF, m_pColor.BlueF, m_pColor.AlphaF);
@@ -1731,8 +1763,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.DrawSceneTo(var message: TMessage): Boolean;
 var
-    hDC:              THandle;
-    hBackgroundBrush: HBRUSH;
+    hDC, hBackgroundBrush: THandle;
 begin
     // is component currently destroying?
     if (csDestroying in ComponentState) then
@@ -1787,7 +1818,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DrawSceneTo(hDC: THandle; x, y: Integer);
 var
-    bf:         _BLENDFUNCTION;
+    bf:         TBlendFunction;
     pOverlay:   Vcl.Graphics.TBitmap;
     hControlDC: THandle;
     factor:     NativeInt;
@@ -2150,8 +2181,6 @@ procedure TQRVCLFramedModelComponentGL.Assign(pSource: TPersistent);
 var
     pSrc: TQRVCLFramedModelComponentGL;
 begin
-    inherited Assign(pSource);
-
     inherited Assign(pSource);
 
     // incorrect source type?

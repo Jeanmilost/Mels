@@ -1,0 +1,11 @@
+// component icons (used on designer and toolbars), must be the same name as component class
+TQRVCLSimpleRendererGL      RCDATA    "Resources\\Images\\Icons\\TQRVCLSimpleRendererGL_24x24.png"
+TQRVCLSurfaceGL             RCDATA    "Resources\\Images\\Icons\\TQRVCLSurfaceGL_24x24.png"
+TQRVCLBoxGL                 RCDATA    "Resources\\Images\\Icons\\TQRVCLBoxGL_24x24.png"
+TQRVCLSphereGL              RCDATA    "Resources\\Images\\Icons\\TQRVCLSphereGL_24x24.png"
+TQRVCLConeGL                RCDATA    "Resources\\Images\\Icons\\TQRVCLConeGL_24x24.png"
+TQRVCLTorusGL               RCDATA    "Resources\\Images\\Icons\\TQRVCLTorusGL_24x24.png"
+TQRVCLParabolaGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLParabolaGL_24x24.png"
+TQRVCLMD2ModelGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLMD2ModelGL_24x24.png"
+TQRVCLMD3ModelGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLMD3ModelGL_24x24.png"
+

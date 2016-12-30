@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="41">
+      <Unit0>
+        <Filename Value="CollisionDetection.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="12" Y="10"/>
+        <UsageCount Value="60"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <IsVisibleTab Value="True"/>
+        <UsageCount Value="60"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelsGL_Register.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLSimpleRendererComponentGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL_Register.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelRendererGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="18"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\Mels_VCLComponentsGL.rc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="85" Y="7"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.rc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLShapeComponentGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLMD3ModelComponentGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLMD2ModelComponentGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="17"/>
+        <Bookmarks Count="1">
+          <Item0 Y="1258" ID="4"/>
+        </Bookmarks>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelComponentGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="27"/>
+        <Bookmarks Count="4">
+          <Item0 X="32" Y="1017" ID="9"/>
+          <Item1 Y="1627" ID="1"/>
+          <Item2 X="6" Y="1278" ID="2"/>
+          <Item3 Y="1232" ID="3"/>
+        </Bookmarks>
+      </Unit11>
+      <Unit12>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2046"/>
+        <CursorPos X="17" Y="2067"/>
+        <UsageCount Value="12"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRDesignerHook.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="272"/>
+        <CursorPos X="64" Y="283"/>
+        <UsageCount Value="9"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelComponentPropertiesGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelRenderSurfaceGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="25"/>
+        <Bookmarks Count="2">
+          <Item0 X="20" Y="255" ID="7"/>
+          <Item1 Y="304" ID="8"/>
+        </Bookmarks>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelShaderGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLModelsGL.rc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels Player\Player\UTQRPlayerAL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL Components GL\UTQRVCLHelpersGL.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="22"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\packages\opengl\src\glext.pp"/>
+        <UnitName Value="GLext"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="16"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 X="25" Y="1795" ID="2"/>
+        </Bookmarks>
+      </Unit21>
+      <Unit22>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRModelGroup.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3066"/>
+        <CursorPos Y="3087"/>
+        <UsageCount Value="10"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\Lazarus\lcl\include\rasterimage.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="279"/>
+        <CursorPos Y="302"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\Lazarus\lcl\include\canvas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1577"/>
+        <CursorPos Y="1599"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="13"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\VCL\UTQRVCLModelRenderer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="18"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="C:\Lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="267"/>
+        <CursorPos X="3" Y="288"/>
+        <UsageCount Value="11"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="C:\Lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6882"/>
+        <CursorPos Y="6903"/>
+        <UsageCount Value="16"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="C:\Lazarus\lcl\include\controlcanvas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="65"/>
+        <CursorPos X="41" Y="73"/>
+        <UsageCount Value="11"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="C:\Lazarus\lcl\interfaces\win32\win32wsforms.pp"/>
+        <UnitName Value="Win32WSForms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="375"/>
+        <CursorPos Y="394"/>
+        <UsageCount Value="11"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="C:\Lazarus\lcl\interfaces\win32\win32wscontrols.pp"/>
+        <UnitName Value="Win32WSControls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="138"/>
+        <CursorPos Y="147"/>
+        <UsageCount Value="11"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\packages\opengl\src\glut.pp"/>
+        <UnitName Value="Glut"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="376"/>
+        <UsageCount Value="11"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="..\..\VCL\MD2\main.pas"/>
+        <UnitName Value="Main"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="C:\Lazarus\fpc\3.0.0\source\rtl\objpas\sysutils\sysstrh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="87"/>
+        <CursorPos X="10" Y="107"/>
+        <UsageCount Value="11"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="39" Y="455"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRGeometry.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="C:\Lazarus\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="C:\lazarus\components\opengl\openglcontext.pas"/>
+        <UnitName Value="OpenGLContext"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="151"/>
+        <CursorPos X="26" Y="168"/>
+        <UsageCount Value="11"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="..\..\VCL\MD2\UTOptions.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit40>
+    </Units>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="main.pas"/>
+        <Caret Line="105" TopLine="89"/>
+      </Position1>
+      <Position2>
+        <Filename Value="main.pas"/>
+        <Caret Line="105" TopLine="89"/>
+      </Position2>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="C:\Lazarus\fpc\3.0.0\source\packages\opengl\src\glext.pp"/>
+        <Line Value="9880"/>
+      </Item1>
+    </BreakPoints>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="m_hGLContext"/>
+      </Item1>
+      <Item2>
+        <Expression Value="pfd.nSize"/>
+      </Item2>
+    </Watches>
+  </Debugging>
+</CONFIG>

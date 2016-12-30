@@ -528,6 +528,26 @@ type
 
     {$REGION 'Documentation'}
     {**
+     Called when the model should be unpacked
+     @param(pGroup Group at which model belongs)
+     @param(pPackage MD2 model package)
+     @param(name @bold([out]) Model name without extension, as contained in package)
+     @param(handled @bold([in, out]) If @true, model will be considered as unpacked and no further
+                                     operation will be done. If @false, model will be unpacked using
+                                     the standard algorithm)
+     @return(@true on success, otherwise @false)
+     @br @bold(NOTE) Be careful, newly added files in memory dir may conflict with unpacked files
+                     while standard algorithm is applied if handled is set to @false
+    }
+    {$ENDREGION}
+    TQRUnpackMD2ModelEvent = function(const pGroup: TQRModelGroup;
+                                          pPackage: TStream;
+                                              pDir: TQRMemoryDir;
+                                          out name: TFileName;
+                                       var handled: Boolean): Boolean of object;
+
+    {$REGION 'Documentation'}
+    {**
      Job to load MD2 model from package (*.pk2 or .zip)
      @br @bold(NOTE) Some zip archives may be detected as valid but fails while stream is extracted,
                      by returning an incoherent stream content (no error is shown when this happen).
@@ -540,7 +560,10 @@ type
     {$ENDREGION}
     TQRLoadMD2PackageJob = class(TQRLoadMD2MemoryDirJob)
         private
-            m_pPackage: TStream;
+            m_pPackage:                TStream;
+            m_ExternalUnpackSucceeded: Boolean;
+            m_ExternalUnpackHandled:   Boolean;
+            m_fOnUnpackModel:          TQRUnpackMD2ModelEvent;
 
         protected
             {$REGION 'Documentation'}
@@ -550,6 +573,13 @@ type
             }
             {$ENDREGION}
             function Unpack: Boolean;
+
+            {$REGION 'Documentation'}
+            {**
+             Called when model is about to be unpacked externally
+            }
+            {$ENDREGION}
+            procedure OnUnpackModelExternally; virtual;
 
         public
             {$REGION 'Documentation'}
@@ -592,6 +622,14 @@ type
             }
             {$ENDREGION}
             function Process: Boolean; override;
+
+        public
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the OnUnpackModel event
+            }
+            {$ENDREGION}
+            property OnUnpackModel: TQRUnpackMD2ModelEvent read m_fOnUnpackModel write m_fOnUnpackModel;
     end;
 
     {$REGION 'Documentation'}
@@ -2009,6 +2047,10 @@ begin
                      defaultFrameIndex,
                      fOnLoadTexture);
 
+    m_ExternalUnpackSucceeded := False;
+    m_ExternalUnpackHandled   := False;
+    m_fOnUnpackModel          := nil;
+
     // create local variables
     m_pDir := TQRMemoryDir.Create(True);
 
@@ -2047,6 +2089,26 @@ begin
     end;
 
     try
+        // do unpack externally?
+        if (Assigned(m_fOnUnpackModel)) then
+        begin
+            TThread.Synchronize(nil, OnUnpackModelExternally);
+
+            // external unpack failed?
+            if (not m_ExternalUnpackSucceeded) then
+            begin
+                Result := False;
+                Exit;
+            end;
+
+            // external unpack was handled?
+            if (m_ExternalUnpackHandled) then
+            begin
+                Result := True;
+                Exit;
+            end;
+        end;
+
         // create zipper instance
         pZipFile := TZipFile.Create;
 
@@ -2133,6 +2195,33 @@ begin
     end;
 
     Result := True;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRLoadMD2PackageJob.OnUnpackModelExternally;
+begin
+    m_pLock.Lock;
+
+    try
+        if (GetStatus = EQR_JS_Canceled) then
+            Exit;
+
+        // no event defined?
+        if (not Assigned(m_fOnUnpackModel)) then
+        begin
+            m_ExternalUnpackSucceeded := False;
+            Exit;
+        end;
+
+        // call event
+        m_ExternalUnpackHandled   := True;
+        m_ExternalUnpackSucceeded := m_fOnUnpackModel(GetGroup,
+                                                      m_pPackage,
+                                                      m_pDir,
+                                                      m_Name,
+                                                      m_ExternalUnpackHandled);
+    finally
+        m_pLock.Unlock;
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMD2PackageJob.Process: Boolean;

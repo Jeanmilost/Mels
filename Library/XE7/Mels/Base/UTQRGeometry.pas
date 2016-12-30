@@ -751,12 +751,19 @@ type
 
     {$REGION 'Documentation'}
     {**
+     4x4 matrix table
+    }
+    {$ENDREGION}
+    TQRMatrix4x4Table = array [0..3, 0..3] of Single;
+
+    {$REGION 'Documentation'}
+    {**
      4x4 matrix
     }
     {$ENDREGION}
     TQRMatrix4x4 = record
         private
-            m_Table: array[0..3] of array [0..3] of Single;
+            m_Table: TQRMatrix4x4Table;
 
             {$REGION 'Documentation'}
             {**
@@ -2526,12 +2533,9 @@ var
     i, j: Byte;
 begin
     // copy matrix table from other
-    for i := 0 to 3 do
-        for j := 0 to 3 do
-            m_Table[i][j] := other.m_Table[i][j];
+    Move(other.m_Table, m_Table, SizeOf(m_Table));
 end;
 //--------------------------------------------------------------------------------------------------
-// FIXME MUST NOT BE INLINE!!!
 function TQRMatrix4x4.IsEqual(const other: TQRMatrix4x4): Boolean;
 var
     i, j: Byte;

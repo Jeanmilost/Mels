@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="Mels_VCLComponentsGL"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <IgnoredMessages idx5024="True"/>
+        </CompilerMessages>
+      </Other>
+    </CompilerOptions>
+    <Files Count="11">
+      <Item1>
+        <Filename Value="UTQRVCLHelpersGL.pas"/>
+        <UnitName Value="UTQRVCLHelpersGL"/>
+      </Item1>
+      <Item2>
+        <Filename Value="UTQRVCLMD2ModelComponentGL.pas"/>
+        <UnitName Value="UTQRVCLMD2ModelComponentGL"/>
+      </Item2>
+      <Item3>
+        <Filename Value="UTQRVCLMD3ModelComponentGL.pas"/>
+        <UnitName Value="UTQRVCLMD3ModelComponentGL"/>
+      </Item3>
+      <Item4>
+        <Filename Value="UTQRVCLModelComponentGL.pas"/>
+        <UnitName Value="UTQRVCLModelComponentGL"/>
+      </Item4>
+      <Item5>
+        <Filename Value="UTQRVCLModelComponentGL.rc"/>
+        <Type Value="Text"/>
+      </Item5>
+      <Item6>
+        <Filename Value="UTQRVCLModelComponentPropertiesGL.pas"/>
+        <UnitName Value="UTQRVCLModelComponentPropertiesGL"/>
+      </Item6>
+      <Item7>
+        <Filename Value="UTQRVCLModelRendererGL.pas"/>
+        <UnitName Value="UTQRVCLModelRendererGL"/>
+      </Item7>
+      <Item8>
+        <Filename Value="UTQRVCLModelRenderSurfaceGL.pas"/>
+        <UnitName Value="UTQRVCLModelRenderSurfaceGL"/>
+      </Item8>
+      <Item9>
+        <Filename Value="UTQRVCLModelShaderGL.pas"/>
+        <UnitName Value="UTQRVCLModelShaderGL"/>
+      </Item9>
+      <Item10>
+        <Filename Value="UTQRVCLShapeComponentGL.pas"/>
+        <UnitName Value="UTQRVCLShapeComponentGL"/>
+      </Item10>
+      <Item11>
+        <Filename Value="UTQRVCLSimpleRendererComponentGL.pas"/>
+        <UnitName Value="UTQRVCLSimpleRendererComponentGL"/>
+      </Item11>
+    </Files>
+    <RequiredPkgs Count="5">
+      <Item1>
+        <PackageName Value="Mels_VCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="Mels_Models"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="Mels_Base"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="generics_collections"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="FCL"/>
+      </Item5>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

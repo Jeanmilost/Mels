@@ -576,8 +576,8 @@ begin
         Exit;
     end;
 
-    // flush OpenGL
     glFinish;
+
     glPixelStorei(GL_PACK_ALIGNMENT,   4);
     glPixelStorei(GL_PACK_ROW_LENGTH,  0);
     glPixelStorei(GL_PACK_SKIP_ROWS,   0);
