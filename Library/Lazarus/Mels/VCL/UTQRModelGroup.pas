@@ -1539,7 +1539,7 @@ begin
 
     try
         pPoweredBmp.PixelFormat := pSrcBitmap.PixelFormat;
-        //FIXME pPoweredBmp.AlphaFormat := pSrcBitmap.AlphaFormat;
+        //pPoweredBmp.AlphaFormat := pSrcBitmap.AlphaFormat;
         pPoweredBmp.SetSize(TQRMathsHelper.GetClosestPowerOf2(pSrcBitmap.Width),
                             TQRMathsHelper.GetClosestPowerOf2(pSrcBitmap.Height));
 

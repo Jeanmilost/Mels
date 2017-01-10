@@ -2529,8 +2529,6 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMatrix4x4.Assign(const other: TQRMatrix4x4);
-var
-    i, j: Byte;
 begin
     // copy matrix table from other
     Move(other.m_Table, m_Table, SizeOf(m_Table));

@@ -45,6 +45,7 @@ uses Classes,
      UTQR3D,
      UTQRCollision,
      UTQRModel,
+     UTQRMD3,
      UTQRModelGroup,
      UTQRMD3ModelGroup,
      UTQRVCLModelComponentGL,
@@ -303,11 +304,11 @@ type
             {$REGION 'Documentation'}
             {**
              Creates a viewport for the component
-             @param(width -Viewport width)
-             @param(height Viewport height)
+             @param(viewWidth Viewport width)
+             @param(viewHeight Viewport height)
             }
             {$ENDREGION}
-            procedure CreateViewport(width, height: NativeUInt); override;
+            procedure CreateViewport(viewWidth, viewHeight: NativeInt); override;
 
             {$REGION 'Documentation'}
             {**
@@ -337,7 +338,8 @@ type
             {**
              Called when mesh texture should be loaded
              @param(pModel Model for which texture should be loaded)
-             @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not available)
+             @param(pBitmap Whenever possible, the bitmap containing the texture, @nil if not
+                            available)
              @param(pTexture Texture info)
              @param(loadNext @bold([out]) If @true, event will be called again with a new item to
                                           load next texture)
@@ -909,7 +911,7 @@ begin
     inherited DestroyHandle;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLMD3ModelGL.CreateViewport(width, height: NativeUInt);
+procedure TQRVCLMD3ModelGL.CreateViewport(viewWidth, viewHeight: NativeInt);
 var
     widthF, heightF, aspectRatio: Single;
     factor:                       NativeInt;
@@ -917,7 +919,7 @@ var
     hDC:                          THandle;
 begin
     // cannot create a viewport if there is no client surface to render to it
-    if ((ClientWidth = 0) or (ClientHeight = 0)) then
+    if ((viewWidth = 0) or (viewHeight = 0)) then
         Exit;
 
     // no render surface?
@@ -945,13 +947,13 @@ begin
 
         // resize local overlay, if any
         if (Assigned(Overlay)) then
-            Overlay.SetSize(ClientWidth, ClientHeight);
+            Overlay.SetSize(viewWidth, viewHeight);
 
         // get antialiasing factor to apply
         factor := GetAntialiasingFactor;
 
         // create OpenGL viewport to use to draw scene
-        Renderer.CreateViewport(ClientWidth * factor, ClientHeight * factor);
+        Renderer.CreateViewport(viewWidth * factor, viewHeight * factor);
 
         // notify user that scene matrix (i.e. projection and view matrix) are about to be created
         if (Assigned(OnCreateSceneMatrix)) then
@@ -967,14 +969,14 @@ begin
                 Exit;
 
         // convert width to single value
-        widthF := ClientWidth;
+        widthF := viewWidth;
 
         // is width out of bounds?
         if (widthF = 0.0) then
             widthF := 1.0;
 
         // convert height to single value
-        heightF := ClientHeight;
+        heightF := viewHeight;
 
         // is height out of bounds?
         if (heightF = 0.0) then

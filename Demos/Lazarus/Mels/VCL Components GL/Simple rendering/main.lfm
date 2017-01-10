@@ -1,0 +1,476 @@
+object MainForm: TMainForm
+  Left = 41
+  Height = 550
+  Top = 229
+  Width = 650
+  Caption = 'Simple rendering surface'
+  ClientHeight = 550
+  ClientWidth = 650
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
+  object spScenes: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 3
+    Top = 275
+    Width = 650
+    Align = alTop
+    ResizeAnchor = akTop
+  end
+  object paBlueScene: TPanel
+    Left = 0
+    Height = 275
+    Top = 0
+    Width = 650
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 275
+    ClientWidth = 650
+    TabOrder = 0
+    object spTop: TSplitter
+      Left = 275
+      Height = 275
+      Top = 0
+      Width = 5
+    end
+    object srBlueSurface: TQRVCLSimpleRendererGL
+      Left = 0
+      Height = 275
+      Top = 0
+      Width = 275
+      Color.Red = 0
+      Color.Green = 0
+      Color.Blue = 255
+      Color.VCLColor = clBlue
+      Color.WinColor = 16711680
+      AlphaBlending.GlobalLevel = 128
+      AlphaBlending.Enabled = True
+      OnInitializeScene = srBlueSurfaceInitializeScene
+      OnFinalizeScene = srBlueSurfaceFinalizeScene
+      Align = alLeft
+      OnDrawScene = srBlueSurfaceDrawScene
+    end
+    object paTopControls: TPanel
+      Left = 283
+      Height = 269
+      Top = 3
+      Width = 364
+      Align = alClient
+      BorderSpacing.Around = 3
+      BevelOuter = bvNone
+      ClientHeight = 269
+      ClientWidth = 364
+      TabOrder = 1
+      object laTopBelowText: TLabel
+        Left = 0
+        Height = 13
+        Top = 0
+        Width = 364
+        Align = alTop
+        Caption = 'Text below the scene'
+        ParentColor = False
+      end
+      object laTopAboveText: TLabel
+        Left = 0
+        Height = 13
+        Top = 37
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Text above the scene'
+        ParentColor = False
+      end
+      object laTopChangeGlobalTransparency: TLabel
+        Left = 0
+        Height = 13
+        Top = 164
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Change global transparency'
+        ParentColor = False
+      end
+      object edTopBelowText: TEdit
+        Left = 0
+        Height = 21
+        Top = 13
+        Width = 364
+        Align = alTop
+        OnChange = OnTopTextChange
+        TabOrder = 0
+        Text = 'This text is written below the scene'
+      end
+      object edTopAboveText: TEdit
+        Left = 0
+        Height = 21
+        Top = 50
+        Width = 364
+        Align = alTop
+        OnChange = OnTopTextChange
+        TabOrder = 1
+        Text = 'This text is written above the scene'
+      end
+      object ckTopEnableTransparency: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 132
+        Width = 364
+        Align = alTop
+        Caption = 'Enable alpha transparency'
+        Checked = True
+        OnClick = ckTopEnableTransparencyClick
+        State = cbChecked
+        TabOrder = 4
+      end
+      object ckTopShowBelowText: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 74
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Show below text'
+        Checked = True
+        OnClick = ckTopShowBelowTextClick
+        State = cbChecked
+        TabOrder = 2
+      end
+      object ckTopShowAboveText: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 103
+        Width = 364
+        Align = alTop
+        Caption = 'Show above text'
+        Checked = True
+        OnClick = ckTopShowAboveTextClick
+        State = cbChecked
+        TabOrder = 3
+      end
+      object tbTopGlobalTransparency: TTrackBar
+        Left = 0
+        Height = 45
+        Top = 177
+        Width = 364
+        Frequency = 25
+        Max = 255
+        OnChange = tbTopGlobalTransparencyChange
+        Position = 128
+        Align = alTop
+        TabOrder = 5
+      end
+      object paTopChangeColor: TPanel
+        Left = 5
+        Height = 40
+        Top = 227
+        Width = 354
+        Align = alTop
+        BorderSpacing.Around = 5
+        BevelOuter = bvNone
+        ClientHeight = 40
+        ClientWidth = 354
+        TabOrder = 6
+        object laTopChangeColor: TLabel
+          Left = 0
+          Height = 40
+          Top = 0
+          Width = 94
+          Align = alLeft
+          Caption = 'Change scene color'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object paTopChangeColorSelect: TPanel
+          Cursor = crHandPoint
+          Left = 314
+          Height = 40
+          Top = 0
+          Width = 40
+          Align = alRight
+          BevelOuter = bvNone
+          Color = clBlue
+          ParentColor = False
+          TabOrder = 1
+          OnClick = paTopChangeColorSelectClick
+        end
+        object paTopChangeColorAlpha: TPanel
+          Left = 186
+          Height = 40
+          Top = 0
+          Width = 128
+          Align = alRight
+          BevelOuter = bvNone
+          ClientHeight = 40
+          ClientWidth = 128
+          TabOrder = 0
+          object laTopChangeColorAlpha: TLabel
+            Left = 0
+            Height = 13
+            Top = 0
+            Width = 128
+            Align = alTop
+            Caption = 'Alpha'
+            ParentColor = False
+          end
+          object tbTopChangeColorAlpha: TTrackBar
+            Left = 0
+            Height = 20
+            Top = 13
+            Width = 128
+            Frequency = 25
+            Max = 255
+            OnChange = tbTopChangeColorAlphaChange
+            Position = 255
+            ShowSelRange = False
+            Align = alTop
+            TabOrder = 0
+          end
+        end
+      end
+    end
+  end
+  object paYellowScene: TPanel
+    Left = 0
+    Height = 272
+    Top = 278
+    Width = 650
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 272
+    ClientWidth = 650
+    TabOrder = 1
+    object spBottom: TSplitter
+      Left = 275
+      Height = 272
+      Top = 0
+      Width = 5
+    end
+    object srYellowSurface: TQRVCLSimpleRendererGL
+      Left = 0
+      Height = 272
+      Top = 0
+      Width = 275
+      Color.Red = 255
+      Color.Green = 255
+      Color.Blue = 0
+      Color.VCLColor = clYellow
+      Color.WinColor = 65535
+      AlphaBlending.GlobalLevel = 192
+      AlphaBlending.Enabled = True
+      OnInitializeScene = srYellowSurfaceInitializeScene
+      OnFinalizeScene = srYellowSurfaceFinalizeScene
+      Align = alLeft
+      SupportsGDI = True
+      OnDrawScene = srYellowSurfaceDrawScene
+    end
+    object paBottomControls: TPanel
+      Left = 283
+      Height = 266
+      Top = 3
+      Width = 364
+      Align = alClient
+      BorderSpacing.Around = 3
+      BevelOuter = bvNone
+      ClientHeight = 266
+      ClientWidth = 364
+      TabOrder = 1
+      object laBottomAboveText: TLabel
+        Left = 0
+        Height = 13
+        Top = 37
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Text above the scene'
+        ParentColor = False
+      end
+      object laBottomBelowText: TLabel
+        Left = 0
+        Height = 13
+        Top = 0
+        Width = 364
+        Align = alTop
+        Caption = 'Text below the scene'
+        ParentColor = False
+      end
+      object laBottomChangeGlobalTransparency: TLabel
+        Left = 0
+        Height = 13
+        Top = 164
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Change global transparency'
+        ParentColor = False
+      end
+      object ckBottomEnableTransparency: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 132
+        Width = 364
+        Align = alTop
+        Caption = 'Enable alpha transparency'
+        Checked = True
+        OnClick = ckBottomEnableTransparencyClick
+        State = cbChecked
+        TabOrder = 4
+      end
+      object ckBottomShowAboveText: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 103
+        Width = 364
+        Align = alTop
+        Caption = 'Show above text'
+        Checked = True
+        OnClick = ckBottomShowAboveTextClick
+        State = cbChecked
+        TabOrder = 3
+      end
+      object ckBottomShowBelowText: TCheckBox
+        Left = 0
+        Height = 29
+        Top = 74
+        Width = 364
+        Align = alTop
+        BorderSpacing.Top = 3
+        Caption = 'Show below text'
+        Checked = True
+        OnClick = ckBottomShowBelowTextClick
+        State = cbChecked
+        TabOrder = 2
+      end
+      object edBottomAboveText: TEdit
+        Left = 0
+        Height = 21
+        Top = 50
+        Width = 364
+        Align = alTop
+        OnChange = OnBottomTextChange
+        TabOrder = 1
+        Text = 'This text is written above the scene'
+      end
+      object edBottomBelowText: TEdit
+        Left = 0
+        Height = 21
+        Top = 13
+        Width = 364
+        Align = alTop
+        OnChange = OnBottomTextChange
+        TabOrder = 0
+        Text = 'This text is written below the scene'
+      end
+      object paBottomChangeColor: TPanel
+        Left = 5
+        Height = 40
+        Top = 227
+        Width = 354
+        Align = alTop
+        BorderSpacing.Around = 5
+        BevelOuter = bvNone
+        ClientHeight = 40
+        ClientWidth = 354
+        TabOrder = 6
+        object laBottomChangeColor: TLabel
+          Left = 0
+          Height = 40
+          Top = 0
+          Width = 94
+          Align = alLeft
+          Caption = 'Change scene color'
+          Layout = tlCenter
+          ParentColor = False
+        end
+        object paBottomChangeColorSelect: TPanel
+          Cursor = crHandPoint
+          Left = 314
+          Height = 40
+          Top = 0
+          Width = 40
+          Align = alRight
+          BevelOuter = bvNone
+          Color = clYellow
+          ParentColor = False
+          TabOrder = 1
+          OnClick = paBottomChangeColorSelectClick
+        end
+        object paBottomChangeColorAlpha: TPanel
+          Left = 186
+          Height = 40
+          Top = 0
+          Width = 128
+          Align = alRight
+          BevelOuter = bvNone
+          ClientHeight = 40
+          ClientWidth = 128
+          TabOrder = 0
+          object laBottomChangeColorAlpha: TLabel
+            Left = 0
+            Height = 13
+            Top = 0
+            Width = 128
+            Align = alTop
+            Caption = 'Alpha'
+            ParentColor = False
+          end
+          object tbBottomChangeColorAlpha: TTrackBar
+            Left = 0
+            Height = 20
+            Top = 13
+            Width = 128
+            Frequency = 25
+            Max = 255
+            OnChange = tbBottomChangeColorAlphaChange
+            Position = 255
+            ShowSelRange = False
+            Align = alTop
+            TabOrder = 0
+          end
+        end
+      end
+      object tbBottomGlobalTransparency: TTrackBar
+        Left = 0
+        Height = 45
+        Top = 177
+        Width = 364
+        Frequency = 25
+        Max = 255
+        OnChange = tbBottomGlobalTransparencyChange
+        Position = 192
+        Align = alTop
+        TabOrder = 5
+      end
+    end
+  end
+  object cdColors: TColorDialog
+    Color = clBlack
+    CustomColors.Strings = (
+      'ColorA=000000'
+      'ColorB=000080'
+      'ColorC=008000'
+      'ColorD=008080'
+      'ColorE=800000'
+      'ColorF=800080'
+      'ColorG=808000'
+      'ColorH=808080'
+      'ColorI=C0C0C0'
+      'ColorJ=0000FF'
+      'ColorK=00FF00'
+      'ColorL=00FFFF'
+      'ColorM=FF0000'
+      'ColorN=FF00FF'
+      'ColorO=FFFF00'
+      'ColorP=FFFFFF'
+      'ColorQ=C0DCC0'
+      'ColorR=F0CAA6'
+      'ColorS=F0FBFF'
+      'ColorT=A4A0A0'
+    )
+    left = 24
+    top = 16
+  end
+end

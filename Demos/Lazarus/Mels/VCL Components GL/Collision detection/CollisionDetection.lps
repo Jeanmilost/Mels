@@ -276,7 +276,7 @@
         <UsageCount Value="10"/>
       </Unit40>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="105" TopLine="89"/>
@@ -285,6 +285,14 @@
         <Filename Value="main.pas"/>
         <Caret Line="105" TopLine="89"/>
       </Position2>
+      <Position3>
+        <Filename Value="main.pas"/>
+        <Caret Line="28" Column="61" TopLine="103"/>
+      </Position3>
+      <Position4>
+        <Filename Value="main.pas"/>
+        <Caret Line="31"/>
+      </Position4>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

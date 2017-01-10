@@ -356,11 +356,11 @@ type
             {$REGION 'Documentation'}
             {**
              Creates a viewport for the component
-             @param(width Viewport width)
-             @param(height Viewport height)
+             @param(viewWidth Viewport width)
+             @param(viewHeight Viewport height)
             }
             {$ENDREGION}
-            procedure CreateViewport(width, height: NativeUInt); virtual;
+            procedure CreateViewport(viewWidth, viewHeight: NativeInt); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -378,6 +378,15 @@ type
             }
             {$ENDREGION}
             function DrawDefaultImage(hDC: THandle): Boolean; virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Draws the scene to the render surface
+             @param(hDC Component device context)
+             @return(@true on success, otherwise @false)
+            }
+            {$ENDREGION}
+            function DrawSceneOnRenderSurface(hDC: THandle): Boolean; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -515,13 +524,14 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Paints the control content to a device context
-             @param(dc Device context to paint to)
-             @param(x Position on the x axis where the scene will be drawn on the context, in pixels)
-             @param(y Position on the y axis where the scene will be drawn on the context, in pixels)
+             Gets the control content in a bitmap
+             @returns(Bitmap containing the scene, @nil on error)
+             @br @bold(NOTE) The caller is respopnsible to free the bitmap when useless
+             @br @bold(NOTE) The size of the returned bitmap is the client size multiplied by the
+                             antialiasing factor. However the antialiasing is not applied
             }
             {$ENDREGION}
-            procedure PaintTo(dc: HDC; x, y: Integer); overload; override;
+            function AsBitmap: Graphics.TBitmap;
 
             {$REGION 'Documentation'}
             {**
@@ -661,6 +671,13 @@ type
             }
             {$ENDREGION}
             property Anchors;
+
+            {$REGION 'Documentation'}
+            {**
+             Gets or sets the compnent border spacing
+            }
+            {$ENDREGION}
+            property BorderSpacing;
 
             {$REGION 'Documentation'}
             {**
@@ -1286,14 +1303,14 @@ begin
         m_pRenderSurface.Release;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLModelComponentGL.CreateViewport(width, height: NativeUInt);
+procedure TQRVCLModelComponentGL.CreateViewport(viewWidth, viewHeight: NativeInt);
 var
     factor:                  NativeInt;
     position, direction, up: TQRVector3D;
     hDC:                     THandle;
 begin
     // cannot create a viewport if there is no client surface to render to it
-    if ((ClientWidth = 0) or (ClientHeight = 0)) then
+    if ((viewWidth = 0) or (viewHeight = 0)) then
         Exit;
 
     // no render surface?
@@ -1321,7 +1338,7 @@ begin
 
         // resize local overlay, if any
         if (Assigned(m_pOverlay)) then
-            m_pOverlay.SetSize(ClientWidth, ClientHeight);
+            m_pOverlay.SetSize(viewWidth, viewHeight);
 
         // OpenGL was initialized correctly?
         if (m_Allowed) then
@@ -1330,7 +1347,7 @@ begin
             factor := GetAntialiasingFactor;
 
             // create OpenGL viewport to use to draw scene
-            m_pRenderer.CreateViewport(ClientWidth * factor, ClientHeight * factor);
+            m_pRenderer.CreateViewport(viewWidth * factor, viewHeight * factor);
 
             // notify user that scene matrix (i.e. projection and view matrix) are about to be created
             if (Assigned(m_fOnCreateSceneMatrix)) then
@@ -1464,6 +1481,7 @@ begin
         // create a new bitmap image
         pBitmap             := Graphics.TBitmap.Create;
         pBitmap.PixelFormat := pf32bit;
+        //pBitmap.AlphaFormat := afDefined;
         pBitmap.SetSize(m_pDefaultImage.Width, m_pDefaultImage.Height);
 
         rect.Left   := 0;
@@ -1513,6 +1531,44 @@ begin
     finally
         pBitmap.Free;
     end;
+
+    Result := True;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRVCLModelComponentGL.DrawSceneOnRenderSurface(hDC: THandle): Boolean;
+begin
+    // resize render surface to match with current component size
+    m_pRenderSurface.Resize;
+
+    // begin to draw the scene
+    if (not m_pRenderSurface.BeginScene) then
+        Exit(False);
+
+    // clear the scene background
+    glClearColor(m_pColor.RedF, m_pColor.GreenF, m_pColor.BlueF, m_pColor.AlphaF);
+    glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT);
+
+    // notify user that scene is about to be drawn
+    if (Assigned(m_fOnBeforeDrawScene)) then
+        m_fOnBeforeDrawScene(Self,
+                             hDC,
+                             m_pRenderSurface.GLContext,
+                             m_pRenderer,
+                             m_pShader);
+
+    // draw the scene
+    OnDrawSceneContent(hDC);
+
+    // notify user that scene is drawn
+    if (Assigned(m_fOnAfterDrawScene)) then
+        m_fOnAfterDrawScene(Self,
+                            hDC,
+                            m_pRenderSurface.GLContext,
+                            m_pRenderer,
+                            m_pShader);
+
+    // end the scene on render surface
+    m_pRenderSurface.EndScene;
 
     Result := True;
 end;
@@ -1586,11 +1642,8 @@ begin
             // update overlay size
             m_pOverlay.SetSize(antialiasingWidth, antialiasingHeight);
 
-        // resize render surface
-        m_pRenderSurface.Resize;
-
         // begin to draw scene on overlay surface
-        if (not m_pRenderSurface.BeginScene) then
+        if (not DrawSceneOnRenderSurface(hDC)) then
         begin
             // allow user to draw his own default image
             if (Assigned(m_fOnDrawDefaultImage)) then
@@ -1600,32 +1653,6 @@ begin
             DrawDefaultImage(hDC);
             Exit;
         end;
-
-        // clear the scene
-        glClearColor(m_pColor.RedF, m_pColor.GreenF, m_pColor.BlueF, m_pColor.AlphaF);
-        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT);
-
-        // notify user that scene is about to be drawn
-        if (Assigned(m_fOnBeforeDrawScene)) then
-            m_fOnBeforeDrawScene(Self,
-                                 hDC,
-                                 m_pRenderSurface.GLContext,
-                                 m_pRenderer,
-                                 m_pShader);
-
-        // draw the scene
-        OnDrawSceneContent(hDC);
-
-        // notify user that scene is drawn
-        if (Assigned(m_fOnAfterDrawScene)) then
-            m_fOnAfterDrawScene(Self,
-                                hDC,
-                                m_pRenderSurface.GLContext,
-                                m_pRenderer,
-                                m_pShader);
-
-        // end scene on render surface
-        m_pRenderSurface.EndScene;
 
         try
             m_pOverlay.BeginUpdate;
@@ -1639,7 +1666,7 @@ begin
         // notify user that scene is initialized and ready to be drawn. NOTE the scene is
         // initialized after OpenGL painted it, because an overlay was used in this case, and
         // initializing scene just before copying overlay reduce flickering
-        if (Assigned(m_fOnInitializeScene)) then
+        if (m_SupportsGDI and Assigned(m_fOnInitializeScene)) then
             m_fOnInitializeScene(Self, hDC);
 
         if (AlphaBlending.Enabled and (AlphaBlending.GlobalLevel <> 255)) then
@@ -1674,7 +1701,7 @@ begin
                                            ClientHeight,
                                            factor)
         else
-            // apply antialiasing
+            // copy scene from overlay to final device context
             BitBlt(hDC,
                    0,
                    0,
@@ -1683,10 +1710,10 @@ begin
                    m_pOverlay.Canvas.Handle,
                    0,
                    0,
-                   SRCCOPY)
+                   SRCCOPY);
     finally
         // notify user that scene is completely drawn
-        if (Assigned(m_fOnFinalizeScene)) then
+        if (m_SupportsGDI and Assigned(m_fOnFinalizeScene)) then
             m_fOnFinalizeScene(Self, hDC);
     end;
 end;
@@ -1753,9 +1780,111 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.DrawSceneTo(hDC: THandle; x, y: Integer);
+var
+    rect:                                          TRect;
+    factor, antialiasingWidth, antialiasingHeight: NativeInt;
 begin
-    // draw the scene on the device context
-    DrawScene(hDC);
+    // no received device context to draw to?
+    if (hDC = 0) then
+        Exit;
+
+    try
+        // not allowed to draw the scene? (i.e. OpenGL was not initialized correctly)
+        if (not m_Allowed) then
+        begin
+            // allow user to draw his own default image
+            if (Assigned(m_fOnDrawDefaultImage)) then
+                if (m_fOnDrawDefaultImage(Self, hDC)) then
+                    Exit;
+
+            DrawDefaultImage(hDC);
+            Exit;
+        end;
+
+        // for the design time, paint the background in black to avoid visual artifacts if alpha
+        // blending is enabled
+        if ((m_pAlphaBlending.Enabled)      and
+            (csDesigning in ComponentState) and
+            (m_hBackgroundBrush <> 0))
+        then
+        begin
+            rect.Left   := 0;
+            rect.Top    := 0;
+            rect.Right  := ClientWidth;
+            rect.Bottom := ClientHeight;
+
+            FillRect(hDC, rect, m_hBackgroundBrush);
+        end;
+
+        // resize antialiasing overlay, if any
+        if (not Assigned(m_pOverlay)) then
+        begin
+            // allow user to draw his own default image
+            if (Assigned(m_fOnDrawDefaultImage)) then
+                if (m_fOnDrawDefaultImage(Self, hDC)) then
+                    Exit;
+
+            DrawDefaultImage(hDC);
+            Exit;
+        end;
+
+        // clear overlay and make it transparent
+        m_pOverlay.Canvas.Brush.Style := bsClear;
+        m_pOverlay.Canvas.Brush.Color := Color.VCLColor;
+        m_pOverlay.Canvas.FillRect(rect);
+
+        factor             := GetAntialiasingFactor;
+        antialiasingWidth  := ClientWidth  * factor;
+        antialiasingHeight := ClientHeight * factor;
+
+        // overlay size changed since last draw?
+        if ((m_pOverlay.Width  <> antialiasingWidth) or (m_pOverlay.Height <> antialiasingHeight))
+        then
+            // update overlay size
+            m_pOverlay.SetSize(antialiasingWidth, antialiasingHeight);
+
+        // begin to draw scene on overlay surface
+        if (not DrawSceneOnRenderSurface(hDC)) then
+        begin
+            // allow user to draw his own default image
+            if (Assigned(m_fOnDrawDefaultImage)) then
+                if (m_fOnDrawDefaultImage(Self, hDC)) then
+                    Exit;
+
+            DrawDefaultImage(hDC);
+            Exit;
+        end;
+
+        try
+            m_pOverlay.BeginUpdate;
+
+            // get drawn scene as bitmap
+            m_pRenderSurface.GetBitmap(m_pOverlay);
+        finally
+            m_pOverlay.EndUpdate;
+        end;
+
+        // notify user that scene is initialized and ready to be drawn. NOTE the scene is
+        // initialized after OpenGL painted it, because an overlay was used in this case, and
+        // initializing scene just before copying overlay reduce flickering
+        if (Assigned(m_fOnInitializeScene)) then
+            m_fOnInitializeScene(Self, hDC);
+
+        // copy scene from overlay to final device context
+        BitBlt(hDC,
+               0,
+               0,
+               ClientWidth,
+               ClientHeight,
+               m_pOverlay.Canvas.Handle,
+               0,
+               0,
+               SRCCOPY);
+    finally
+        // notify user that scene is completely drawn
+        if (Assigned(m_fOnFinalizeScene)) then
+            m_fOnFinalizeScene(Self, hDC);
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRVCLModelComponentGL.OnReceivePropNotification(pSender: TObject;
@@ -1773,9 +1902,33 @@ procedure TQRVCLModelComponentGL.OnNotified(message: TQRMessage);
 begin
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLModelComponentGL.PaintTo(dc: HDC; x, y: Integer);
+function TQRVCLModelComponentGL.AsBitmap: Graphics.TBitmap;
+var
+    success: Boolean;
 begin
-    DrawSceneTo(dc, x, y);
+    Result  := nil;
+    success := False;
+
+    try
+        // create and configure resulting bitmap
+        Result             := Graphics.TBitmap.Create;
+        Result.PixelFormat := pf32bit;
+        Result.SetSize(ClientWidth, ClientHeight);
+
+        // draw the scene
+        DrawSceneTo(Result.Canvas.Handle, 0, 0);
+
+        // copy the scene to result bitmap
+        Result.Assign(m_pOverlay);
+
+        success := True;
+    finally
+        if (not success) then
+        begin
+            Result.Free;
+            Result := nil;
+        end;
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLModelComponentGL.Assign(pSource: TPersistent);

@@ -358,11 +358,11 @@ type
             {$REGION 'Documentation'}
             {**
              Creates a viewport for the component
-             @param(width Viewport width)
-             @param(height Viewport height)
+             @param(viewWidth Viewport width)
+             @param(viewHeight Viewport height)
             }
             {$ENDREGION}
-            procedure CreateViewport(width, height: NativeUInt); virtual;
+            procedure CreateViewport(viewWidth, viewHeight: NativeInt); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -1377,14 +1377,14 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLModelComponentGL.CreateViewport(width, height: NativeUInt);
+procedure TQRVCLModelComponentGL.CreateViewport(viewWidth, viewHeight: NativeInt);
 var
     factor:                  NativeInt;
     position, direction, up: TQRVector3D;
     hDC:                     THandle;
 begin
     // cannot create a viewport if there is no client surface to render to it
-    if ((ClientWidth = 0) or (ClientHeight = 0)) then
+    if ((viewWidth = 0) or (viewHeight = 0)) then
         Exit;
 
     // no render surface?
@@ -1412,7 +1412,7 @@ begin
 
         // resize local overlay, if any
         if (Assigned(m_pOverlay)) then
-            m_pOverlay.SetSize(ClientWidth, ClientHeight);
+            m_pOverlay.SetSize(viewWidth, viewHeight);
 
         // OpenGL was initialized correctly?
         if (m_Allowed) then
@@ -1421,7 +1421,7 @@ begin
             factor := GetAntialiasingFactor;
 
             // create OpenGL viewport to use to draw scene
-            m_pRenderer.CreateViewport(ClientWidth * factor, ClientHeight * factor);
+            m_pRenderer.CreateViewport(viewWidth * factor, viewHeight * factor);
 
             // notify user that scene matrix (i.e. projection and view matrix) are about to be created
             if (Assigned(m_fOnCreateSceneMatrix)) then
@@ -1492,7 +1492,6 @@ var
     hPackageInstance: NativeUInt;
     pStream:          TResourceStream;
     pBitmap:          Vcl.Graphics.TBitmap;
-    rect:             TRect;
     bf:               TBlendFunction;
 begin
     // is component currently deleting?
@@ -1732,7 +1731,7 @@ begin
             // notify user that scene is initialized and ready to be drawn. NOTE the scene is
             // initialized after OpenGL painted it, because an overlay was used in this case, and
             // initializing scene just before copying overlay reduce flickering
-            if (Assigned(m_fOnInitializeScene)) then
+            if (m_SupportsGDI and Assigned(m_fOnInitializeScene)) then
                 m_fOnInitializeScene(Self, hDC);
 
             // configure alpha blending operation
@@ -2145,6 +2144,10 @@ begin
     case (EQRVCLAnimationTimerMessages(message.m_Type)) of
         EQR_AM_Animate:
         begin
+            // not allowed to draw the scene? (Stop here to prevent the default image to flick)
+            if (not m_Allowed) then
+                Exit;
+
             // don't animate?
             if (m_NoAnimation) then
                 Exit;

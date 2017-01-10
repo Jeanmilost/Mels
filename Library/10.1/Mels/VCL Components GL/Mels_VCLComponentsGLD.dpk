@@ -25,7 +25,7 @@ package Mels_VCLComponentsGLD;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Mels VCL components using OpenGL to draw them - design time package'}
+{$DESCRIPTION 'Mels VCL components using OpenGL to draw them - design time package.'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 

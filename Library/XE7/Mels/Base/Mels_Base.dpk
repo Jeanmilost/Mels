@@ -25,7 +25,7 @@ package Mels_Base;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Mels base library, provides the common functions and classes'}
+{$DESCRIPTION 'Mels base library, provides the common functions and classes.'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 

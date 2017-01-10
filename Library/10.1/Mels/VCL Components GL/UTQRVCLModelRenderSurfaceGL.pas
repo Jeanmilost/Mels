@@ -616,6 +616,10 @@ begin
         Exit;
     end;
 
+    glFlush;
+
+    glReadBuffer(GL_FRONT);
+
     try
         // get OpenGL scene as pixel array
         if (not GetPixels(hDC, pixels)) then

@@ -777,7 +777,7 @@ var
     offset, offsetX:                          NativeUInt;
     pixelSize, lineSize, x, y, width, height: Cardinal;
     pLineRGB:                                 PQRRGBTripleArray;
-    pLineRGBA:                                PRGBQuadArray;
+    pLineRGBA:                                PQRRGBQuadArray;
 begin
     // no bitmap?
     if (not Assigned(pBitmap)) then
@@ -822,7 +822,7 @@ begin
         if (pBitmap.PixelFormat = pf24bit) then
         begin
             // get pixels line from bitmap
-            pLineRGB := pBitmap.ScanLine[y];
+            pLineRGB := PQRRGBTripleArray(pBitmap.ScanLine[y]);
 
             // do swap pixels?
             if (bgr) then
@@ -844,7 +844,7 @@ begin
         else
         begin
             // get pixels line from bitmap
-            pLineRGBA := pBitmap.ScanLine[y];
+            pLineRGBA := PQRRGBQuadArray(pBitmap.ScanLine[y]);
 
             // do swap pixels?
             if (bgr) then
@@ -858,10 +858,10 @@ begin
                     offsetX := offset + (x * pixelSize);
 
                     // copy and swap pixel
-                    pPixels[offsetX]     := (pLineRGBA^)[x].rgbRed;
-                    pPixels[offsetX + 1] := (pLineRGBA^)[x].rgbGreen;
-                    pPixels[offsetX + 2] := (pLineRGBA^)[x].rgbBlue;
-                    pPixels[offsetX + 3] := (pLineRGBA^)[x].rgbReserved;
+                    pPixels[offsetX]     := pLineRGBA[x].rgbRed;
+                    pPixels[offsetX + 1] := pLineRGBA[x].rgbGreen;
+                    pPixels[offsetX + 2] := pLineRGBA[x].rgbBlue;
+                    pPixels[offsetX + 3] := pLineRGBA[x].rgbReserved;
                 end;
         end;
     end;
@@ -1566,7 +1566,7 @@ begin
 
     // configure destination bitmap
     pDest.PixelFormat := pSource.PixelFormat;
-    //FIXME pDest.AlphaFormat := pSource.AlphaFormat;
+    //pDest.AlphaFormat := pSource.AlphaFormat;
     pDest.SetSize(pSource.Width div factor, pSource.Height div factor);
 
     // apply antialiasing

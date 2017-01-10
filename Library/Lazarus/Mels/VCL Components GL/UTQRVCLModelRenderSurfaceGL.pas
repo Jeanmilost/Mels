@@ -31,7 +31,7 @@ unit UTQRVCLModelRenderSurfaceGL;
 
 interface
 
-uses Graphics,  Classes, SysUtils,
+uses Graphics,
      Controls,
      Forms,
      Windows,
@@ -224,8 +224,8 @@ begin
     m_pOverlay              := TForm.Create(nil);
     m_pOverlay.BorderStyle  := bsNone;
     m_pOverlay.BorderIcons  := [];
-    m_pOverlay.ClientWidth  := m_Width  * m_Factor;
-    m_pOverlay.ClientHeight := m_Height * m_Factor;
+    m_pOverlay.ClientWidth  := Screen.DesktopWidth  - 1; // required, otherwise a strange clip may happen on resize (Lazarus bug?)
+    m_pOverlay.ClientHeight := Screen.DesktopHeight - 1; // required, otherwise a strange clip may happen on resize (Lazarus bug?)
     m_pOverlay.Visible      := False;
     m_pOverlay.HandleNeeded;
 
@@ -273,8 +273,8 @@ begin
 
     // OpenGL was initialized correctly and surface is allowed to work?
     if (m_Allowed and (m_hGLContext <> 0)) then
-            // shutdown OpenGL instance
-            m_pRenderer.DisableOpenGL(0, 0, m_hGLContext);
+        // shutdown OpenGL instance
+        m_pRenderer.DisableOpenGL(0, 0, m_hGLContext);
 
     m_pOverlay.Free;
     m_pOverlay := nil;

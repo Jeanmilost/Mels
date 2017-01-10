@@ -7,10 +7,11 @@ unit Mels_VCLComponentsGL;
 interface
 
 uses
-    UTQRVCLHelpersGL, UTQRVCLMD2ModelComponentGL, UTQRVCLMD3ModelComponentGL, 
+    UTQRVCLMD2ModelComponentGL, UTQRVCLMD3ModelComponentGL, 
     UTQRVCLModelComponentGL, UTQRVCLModelComponentPropertiesGL, 
-    UTQRVCLModelRendererGL, UTQRVCLModelRenderSurfaceGL, UTQRVCLModelShaderGL, 
-    UTQRVCLShapeComponentGL, UTQRVCLSimpleRendererComponentGL;
+    UTQRVCLModelRendererGL, UTQRVCLModelShaderGL, UTQRVCLShapeComponentGL, 
+    UTQRVCLSimpleRendererComponentGL, UTQRVCLHelpersGL, 
+    UTQRVCLModelRenderSurfaceGL;
 
 implementation
 
