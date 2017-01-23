@@ -100,7 +100,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value to this vector
-             @param(value Value to add to vector)
+             @param(value Value to add to this vector)
              @return(Added vector)
             }
             {$ENDREGION}
@@ -118,7 +118,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value to this vector
-             @param(value Value to subtract to this vector)
+             @param(value Value to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -127,7 +127,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts to this vector the contents of another vector
-             @param(other Other vector to subtract to this vector)
+             @param(other Other vector to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -136,7 +136,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies a value to this vector
-             @param(value Value to multiply to this vector)
+             @param(value Value by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -145,7 +145,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another vector to this vector
-             @param(other Other vector to multiply to this vector)
+             @param(other Other vector by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -154,7 +154,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value to this vector
-             @param(value Value to divide to this vector)
+             @param(value Value by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -163,7 +163,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another vector to this vector
-             @param(other Other vector to divide to this vector)
+             @param(other Other vector by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -172,7 +172,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value and assigns the result to this vector
-             @param(value Value to add to vector)
+             @param(value Value to add to this vector)
              @return(Added vector)
             }
             {$ENDREGION}
@@ -190,7 +190,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value and assigns the result to this vector
-             @param(value Value to subtract to vector)
+             @param(value Value to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -199,7 +199,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts the content of another vector and assigns the result to this vector
-             @param(other Other vector to subtract to this vector)
+             @param(other Other vector to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -208,7 +208,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multilpies a value and assigns the result to this vector
-             @param(value Value to multiply to vector)
+             @param(value Value by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -217,7 +217,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another vector and assigns the result to this vector
-             @param(other Other vector to multiply to this vector)
+             @param(other Other vector by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -226,7 +226,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value and assigns the result to this vector
-             @param(value Value to divide to vector)
+             @param(value Value by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -235,7 +235,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another vector and assigns the result to this vector
-             @param(other Other vector to divide to this vector)
+             @param(other Other vector by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -371,7 +371,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value to this vector
-             @param(value Value to add to vector)
+             @param(value Value to add to this vector)
              @return(Added vector)
             }
             {$ENDREGION}
@@ -389,7 +389,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value to this vector
-             @param(value Value to subtract to this vector)
+             @param(value Value to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -398,7 +398,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts to this vector the contents of another vector
-             @param(other Other vector to subtract to this vector)
+             @param(other Other vector to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -407,7 +407,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies a value to this vector
-             @param(value Value to multiply to this vector)
+             @param(value Value by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -416,7 +416,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another vector to this vector
-             @param(other Other vector to multiply to this vector)
+             @param(other Other vector by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -425,7 +425,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value to this vector
-             @param(value Value to divide to this vector)
+             @param(value Value by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -434,7 +434,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another vector to this vector
-             @param(other Other vector to divide to this vector)
+             @param(other Other vector by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -443,7 +443,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value and assigns the result to this vector
-             @param(value Value to add to vector)
+             @param(value Value to add to this vector)
              @return(Added vector)
             }
             {$ENDREGION}
@@ -461,7 +461,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value and assigns the result to this vector
-             @param(value Value to subtract to vector)
+             @param(value Value to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -470,7 +470,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts the content of another vector and assigns the result to this vector
-             @param(other Other vector to subtract to this vector)
+             @param(other Other vector to subtract from this vector)
              @return(Subtracted vector)
             }
             {$ENDREGION}
@@ -479,7 +479,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multilpies a value and assigns the result to this vector
-             @param(value Value to multiply to vector)
+             @param(value Value by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -488,7 +488,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another vector and assigns the result to this vector
-             @param(other Other vector to multiply to this vector)
+             @param(other Other vector by which this vector will be multiplied)
              @return(Multiplied vector)
             }
             {$ENDREGION}
@@ -497,7 +497,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value and assigns the result to this vector
-             @param(value Value to divide to vector)
+             @param(value Value by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -506,7 +506,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another vector and assigns the result to this vector
-             @param(other Other vector to divide to this vector)
+             @param(other Other vector by which this vector will be divided)
              @return(Divided vector)
             }
             {$ENDREGION}
@@ -1089,7 +1089,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value to this quaternion
-             @param(value Value to add to quaternion)
+             @param(value Value to add to this quaternion)
              @return(Added quaternion)
             }
             {$ENDREGION}
@@ -1107,7 +1107,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value to this quaternion
-             @param(value Value to subtract to this quaternion)
+             @param(value Value to subtract from this quaternion)
              @return(Subtracted quaternion)
             }
             {$ENDREGION}
@@ -1116,7 +1116,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts to this quaternion the contents of another quaternion
-             @param(other Other quaternion to subtract to this quaternion)
+             @param(other Other quaternion to subtract from this quaternion)
              @return(Subtracted quaternion)
             }
             {$ENDREGION}
@@ -1125,7 +1125,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies a value to this quaternion
-             @param(value Value to multiply to this quaternion)
+             @param(value Value by which this quaternion will be multiplied)
              @return(Multiplied quaternion)
             }
             {$ENDREGION}
@@ -1134,7 +1134,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another quaternion to this quaternion
-             @param(other Other quaternion to multiply to this quaternion)
+             @param(other Other quaternion by which this quaternion will be multiplied)
              @return(Multiplied quaternion)
             }
             {$ENDREGION}
@@ -1143,7 +1143,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value to this quaternion
-             @param(value Value to divide to this quaternion)
+             @param(value Value by which this quaternion will be divided)
              @return(Divided quaternion)
             }
             {$ENDREGION}
@@ -1152,7 +1152,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another quaternion to this quaternion
-             @param(other Other quaternion to divide to this quaternion)
+             @param(other Other quaternion by which this quaternion will be divided)
              @return(Divided quaternion)
             }
             {$ENDREGION}
@@ -1161,7 +1161,7 @@ type
             {$REGION 'Documentation'}
             {**
              Adds a value and assigns the result to this quaternion
-             @param(value Value to add to quaternion)
+             @param(value Value to add to this quaternion)
              @return(Added quaternion)
             }
             {$ENDREGION}
@@ -1179,7 +1179,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts a value and assigns the result to this quaternion
-             @param(value Value to subtract to quaternion)
+             @param(value Value to subtract from this quaternion)
              @return(Subtracted quaternion)
             }
             {$ENDREGION}
@@ -1188,7 +1188,7 @@ type
             {$REGION 'Documentation'}
             {**
              Subtracts the content of another quaternion and assigns the result to this quaternion
-             @param(other Other quaternion to subtract to this quaternion)
+             @param(other Other quaternion to subtract from this quaternion)
              @return(Subtracted quaternion)
             }
             {$ENDREGION}
@@ -1197,7 +1197,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multilpies a value and assigns the result to this quaternion
-             @param(value Value to multiply to quaternion)
+             @param(value Value by which this quaternion will be multiplied)
              @return(Multiplied quaternion)
             }
             {$ENDREGION}
@@ -1206,7 +1206,7 @@ type
             {$REGION 'Documentation'}
             {**
              Multiplies the content of another quaternion and assigns the result to this quaternion
-             @param(other Other quaternion to multiply to this quaternion)
+             @param(other Other quaternion by which this quaternion will be multiplied)
              @return(Multiplied quaternion)
             }
             {$ENDREGION}
@@ -1215,7 +1215,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides a value and assigns the result to this quaternion
-             @param(value Value to divide to quaternion)
+             @param(value Value by which this quaternion will be divided)
              @return(Divided quaternion)
             }
             {$ENDREGION}
@@ -1224,7 +1224,7 @@ type
             {$REGION 'Documentation'}
             {**
              Divides the content of another quaternion and assigns the result to this quaternion
-             @param(other Other quaternion to divide to this quaternion)
+             @param(other Other quaternion by which this quaternion will be divided)
              @return(Divided quaternion)
             }
             {$ENDREGION}

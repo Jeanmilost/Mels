@@ -155,7 +155,7 @@ type
             {**
              Populates AABB tree
              @param(pNode Root or parent node to create from)
-             @param(pPolygons Source polygon array)
+             @param(polygons Source polygon array)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
             }
@@ -169,7 +169,7 @@ type
              Resolves AABB tree
              @param(pRay Ray against which tree boxes will be tested)
              @param(pNode Root or parent node to resolve)
-             @param(pPolygons @bold([in, out]) Polygons belonging to boxes hit by ray)
+             @param(polygons @bold([in, out]) Polygons belonging to boxes hit by ray)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Polygon list content should be deleted when useless
             }
@@ -196,7 +196,7 @@ type
             {$REGION 'Documentation'}
             {**
              Populates AABB tree
-             @param(pPolygons Source polygon array)
+             @param(polygons Source polygon array)
              @param(hIsCanceled Callback function that allows to break the operation, can be @nil)
              @return(@true on success, otherwise @false)
             }
@@ -208,7 +208,7 @@ type
             {**
              Resolves AABB tree
              @param(pRay Ray against which tree boxes will be tested)
-             @param(pPolygons @bold([in, out]) Polygons belonging to boxes hit by ray)
+             @param(polygons @bold([in, out]) Polygons belonging to boxes hit by ray)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Polygon list content should be deleted when useless
             }
