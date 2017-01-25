@@ -189,7 +189,7 @@ type
              @param(pPixels Texture pixels array)
              @param(minFiltter Min filter to apply)
              @param(magFilter Mag filter to apply)
-             @param(targetID OpenGL target identigier, e.g. GL_TEXTURE_2D)
+             @param(targetID OpenGL target identifier, e.g. GL_TEXTURE_2D)
              @return(Newly created texture identifier)
             }
             {$ENDREGION}
