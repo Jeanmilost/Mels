@@ -661,8 +661,8 @@ constructor TQRModelCache.Create;
 begin
     inherited Create;
 
-    m_pMeshCache          := TQRCache<NativeUInt, PQRMesh>.Create;
-    m_pAABBTreeCache      := TQRCache<NativeUInt, TQRAABBTree>.Create;
+    m_pMeshCache     := TQRCache<NativeUInt, PQRMesh>.Create;
+    m_pAABBTreeCache := TQRCache<NativeUInt, TQRAABBTree>.Create;
 
     // set callbacks
     m_pMeshCache.OnDeleteFromCache     := OnDeleteMesh;
