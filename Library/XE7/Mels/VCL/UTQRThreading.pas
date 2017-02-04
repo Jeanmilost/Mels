@@ -958,29 +958,12 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLThreadWorker.AddJob(pJob: TQRThreadJob);
-var
-    count, i: NativeUInt;
-    found:    Boolean;
 begin
     m_pLock.Lock;
 
     try
-        found := false;
-
-        // get job count
-        count := m_pJobs.Count;
-
-        // iterate through jobs and check if job was already added
-        if (count > 0) then
-            for i := 0 to count - 1 do
-                if (m_pJobs[i] = pJob) then
-                begin
-                    found := True;
-                    break;
-                end;
-
-        // add job to job list
-        if (not found) then
+        // check if job is already in the list, add it to job list if not
+        if (m_pJobs.IndexOf(pJob) = -1) then
         begin
             pJob.SetStatus(EQR_JS_NotStarted);
             m_pJobs.Add(pJob);
@@ -991,8 +974,6 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLThreadWorker.DeleteJob(pJob: TQRThreadJob; doCancel: Boolean);
-var
-    count, i: NativeUInt;
 begin
     // no job to cancel?
     if (not Assigned(pJob)) then
@@ -1009,19 +990,7 @@ begin
     m_pLock.Lock;
 
     try
-        // get job count
-        count := m_pJobs.Count;
-
-        // iterate through jobs
-        if (count > 0) then
-            for i := 0 to count - 1 do
-                // found job to delete?
-                if (m_pJobs[i] = pJob) then
-                begin
-                    // delete job
-                    m_pJobs.Delete(i);
-                    break;
-                end;
+        m_pJobs.Remove(pJob);
     finally
         m_pLock.Unlock;
     end;
@@ -1036,8 +1005,8 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLThreadWorker.Cancel;
 var
-    count, i: NativeUInt;
-    running:  Boolean;
+    pJob:    Pointer;
+    running: Boolean;
 begin
     running := False;
 
@@ -1067,24 +1036,22 @@ begin
     // notify that job is canceled
     Synchronize(OnCanceledNotify);
 
-    // get job count
-    m_pLock.Lock;
-    count := m_pJobs.Count;
-    m_pLock.Unlock;
-
     // iterate through jobs to cancel
-    if (count > 0) then
-        for i := 0 to count - 1 do
-        begin
-            // get next job to cancel
-            m_pLock.Lock;
-            m_pProcessingJob := m_pJobs[i];
-            m_pProcessingJob.SetStatus(EQR_JS_Canceled);
-            m_pLock.Unlock;
+    for pJob in m_pJobs do
+    begin
+        m_pLock.Lock;
 
-            // notify that job is canceled
-            Synchronize(OnCanceledNotify);
+        try
+            // get next job to cancel
+            m_pProcessingJob := pJob;
+            m_pProcessingJob.SetStatus(EQR_JS_Canceled);
+        finally
+            m_pLock.Unlock;
         end;
+
+        // notify that job is canceled
+        Synchronize(OnCanceledNotify);
+    end;
 
     // clear local values
     m_pLock.Lock;

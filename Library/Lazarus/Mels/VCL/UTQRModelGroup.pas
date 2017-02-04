@@ -1365,17 +1365,11 @@ var
 begin
     // no stream to load from?
     if (not Assigned(pStream)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // convert extension to lower case
     ext := LowerCase(extension);
@@ -1388,10 +1382,7 @@ begin
 
         // is image empty?
         if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end
     else
     if ((ext = '.jpg') or (extension = '.jpeg')) then
@@ -1405,10 +1396,7 @@ begin
 
             // is image empty?
             if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
         finally
             pJPEG.Free;
         end;
@@ -1425,10 +1413,7 @@ begin
 
             // is image empty?
             if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
         finally
             pPNG.Free;
         end;
@@ -1445,10 +1430,7 @@ begin
 
             // is image empty?
             if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
         finally
             pGIF.Free;
         end;
@@ -1458,40 +1440,25 @@ begin
     begin
         // targa (.tga) image
         if (not TQRVCLPictureHelper.LoadTGA(pStream, pStream.Size, False, pBitmap)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // is image empty?
         if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end
     else
     if (ext = '.pcx') then
     begin
         // personal computer exchange (.pcx) image
         if (not TQRVCLPictureHelper.LoadPCX(pStream, pStream.Size, pBitmap)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // is image empty?
         if ((pBitmap.Width = 0) or (pBitmap.Height = 0)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end
     else
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := True;
 end;
@@ -1504,24 +1471,15 @@ var
 begin
     // no source bitmap?
     if (not Assigned(pSrcBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no destination bitmap?
     if (not Assigned(pDstBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is source bitmap empty?
     if ((pSrcBitmap.Width = 0) or (pSrcBitmap.Height = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is texture already a power of 2?
     if (TQRMathsHelper.IsPowerOfTwo(pSrcBitmap.Width) and
@@ -1530,8 +1488,7 @@ begin
     begin
         // copy source to destination
         pDstBitmap.Assign(pSrcBitmap);
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // create a bitmap that will contain the texture rounded to the nearest power of 2 values
@@ -1890,10 +1847,7 @@ begin
 
     // no line to parse?
     if (Length(line) = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // search for comment marker
     commentPos := System.Pos('//', line) - 1;
@@ -1912,10 +1866,7 @@ begin
 
     // nothing to parse?
     if (Length(data) = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // don't forget, the UnicodeString index system is 1 based
     i    := 1;
@@ -1959,10 +1910,7 @@ begin
                 begin
                     // parse it
                     if (not ParseWord(word, lineNb)) then
-                    begin
-                        Result := False;
-                        Exit;
-                    end;
+                        Exit(False);
 
                     // clear parsed word to read next
                     word := '';
@@ -1991,18 +1939,12 @@ begin
 
     // skip all chars inside a long comment
     if (m_LongComment) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // last word to parse?
     if (Length(word) > 0) then
-    begin
         // parse it
-        Result := ParseWord(word, lineNb);
-        Exit;
-    end;
+        Exit(ParseWord(word, lineNb));
 
     Result := True;
 end;
@@ -2020,10 +1962,7 @@ end;
 function TQRFramedModelAnimCfgFile.GetItem(index: NativeInt): PQRModelAnimCfgItem;
 begin
     if (index >= Length(m_Items)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Items[index];
 end;
@@ -2066,17 +2005,11 @@ var
 begin
     // no animation info?
     if ((fps = 0) or (startIndex = endIndex)) then
-    begin
-        Result := TQRFramedModelAnimation.Create(startIndex, startIndex, 0.0, False);
-        Exit;
-    end;
+        Exit(TQRFramedModelAnimation.Create(startIndex, startIndex, 0.0, False));
 
     // is animation paused?
     if (m_Paused) then
-    begin
-        Result := TQRFramedModelAnimation.Create(frameIndex, frameIndex, interpolationFactor, loop);
-        Exit;
-    end;
+        Exit(TQRFramedModelAnimation.Create(frameIndex, frameIndex, interpolationFactor, loop));
 
     // calculate time interval between each frames
     timeInterval := (1000.0 / fps);
@@ -2124,11 +2057,10 @@ begin
                 nextFrameIndex := endIndex;
         end;
 
-        Result := TQRFramedModelAnimation.Create(frameIndex,
-                                                 nextFrameIndex,
-                                                 interpolationFactor,
-                                                 loop);
-        Exit;
+        Exit(TQRFramedModelAnimation.Create(frameIndex,
+                                            nextFrameIndex,
+                                            interpolationFactor,
+                                            loop));
     end;
 
     // calculate next indexes to render
@@ -2152,10 +2084,7 @@ begin
 
     // is index out of bounds?
     if ((index >= startIndex) and (index <= endIndex)) then
-    begin
-        Result := index;
-        Exit;
-    end;
+        Exit(index);
 
     // calculate range
     range := (endIndex - startIndex) + 1;
@@ -2231,7 +2160,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetTextureExtCount: NativeInt;
 begin
-    REsult := Length(m_TextureExt);
+    Result := Length(m_TextureExt);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRModelJob.GetMeshCount: NativeUInt;
@@ -2282,10 +2211,7 @@ begin
     // more valid, even if the job persists. This happen e.g. when the job is executing while his
     // group is deleted, and is postponed to be deleted after his execution ends
     if (GetStatus = EQR_JS_Canceled) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     m_pLock.Lock;
     Result := m_pGroup;
@@ -2370,16 +2296,15 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRModelWorker.Destroy;
 var
-    i: NativeInt;
+    pJob: TQRThreadJob;
 begin
     // cancel all jobs and free the worker
     m_pWorker.Cancel;
     m_pWorker.Free;
 
     // clear eventual remaining jobs
-    if (m_pGarbage.Count > 0) then
-        for i := 0 to m_pGarbage.Count - 1 do
-            m_pGarbage[i].Free;
+    for pJob in m_pGarbage do
+        pJob.Free;
 
     // clear garbage collector
     m_pGarbage.Free;
@@ -2391,30 +2316,26 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRModelWorker.OnThreadJobDone(pJob: TQRThreadJob);
 var
-    i: NativeInt;
+    index: NativeInt;
 begin
     // search for done job in garbage collector
-    if (m_pGarbage.Count > 0) then
-        for i := 0 to m_pGarbage.Count - 1 do
-            // found it?
-            if (pJob = m_pGarbage[i]) then
-            begin
-                // clear done job
-                m_pGarbage[i].Free;
-                m_pGarbage.Delete(i);
-                break;
-            end;
+    index := m_pGarbage.IndexOf(pJob);
+
+    // found it?
+    if (index >= 0) then
+    begin
+        // clear done job
+        m_pGarbage[index].Free;
+        m_pGarbage.Delete(index);
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelWorker.GetInstance: TQRModelWorker;
 begin
     // is singleton instance already initialized?
     if (Assigned(m_pInstance)) then
-    begin
         // get it
-        Result := m_pInstance;
-        Exit;
-    end;
+        Exit(m_pInstance);
 
     // create new singleton instance
     m_pInstance := TQRModelWorker.Create;

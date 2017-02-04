@@ -1280,49 +1280,31 @@ var
 begin
     // no model?
     if (not Assigned(pModel)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no destination texture?
     if (not Assigned(pTexture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is source texture empty?
     if ((m_pTexture.Width = 0) or (m_pTexture.Height = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // check if handle was successfully allocated
     if (not HandleAllocated) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get the device context for this control
     hDC := GetDC(WindowHandle);
 
     // found it?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // enable OpenGL rendering context
         if (not RenderSurface.EnableContext(hDC)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pSrcBitmap := Vcl.Graphics.TBitmap.Create;
 
@@ -1536,24 +1518,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a surface?
     if (not (m_pShape is TQRSurfaceGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -1564,10 +1537,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);
@@ -1665,24 +1635,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a box?
     if (not (m_pShape is TQRBoxGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -1693,10 +1654,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);
@@ -1798,24 +1756,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a sphere?
     if (not (m_pShape is TQRSphereGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -1826,10 +1775,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);
@@ -1978,24 +1924,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a cone?
     if (not (m_pShape is TQRConeGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -2006,10 +1943,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);
@@ -2158,24 +2092,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a sphere?
     if (not (m_pShape is TQRTorusGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -2186,10 +2111,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);
@@ -2311,24 +2233,15 @@ begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
     if ((csLoading in ComponentState) or (csDestroying in ComponentState)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is OpenGL context created?
     if (RenderSurface.GLContext = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a parabola?
     if (not (m_pShape is TQRParabolaGroup)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if ((m_pVertexShader.Position > 0) and (m_pFragmentShader.Position > 0)) then
@@ -2339,10 +2252,7 @@ begin
 
         // try to build shader
         if (not BuildShader(m_pVertexShader, m_pFragmentShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end;
 
     SetModelLoaded(False);

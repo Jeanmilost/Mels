@@ -120,11 +120,11 @@ type
             {$REGION 'Documentation'}
             {**
              Parses script
-             @param(strings String list containing loaded script file to parse)
+             @param(lines String list containing loaded script file lines to parse)
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            function Parse(const strings: TStringList): Boolean; virtual;
+            function Parse(const lines: TStringList): Boolean; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -231,10 +231,7 @@ var
 begin
     // no buffer to add?
     if (not Assigned(pBuffer)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is case sensitive?
     if (caseSensitive) then
@@ -247,10 +244,7 @@ begin
     begin
         // file cannot be overwritten?
         if (not overwrite) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // do delete file content?
         if (m_DeleteOnDestroy) then
@@ -284,10 +278,7 @@ begin
 
     // file not exists?
     if (not m_pFiles.ContainsKey(name)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // get stream matching with file
     Result := m_pFiles.Items[name];
@@ -314,31 +305,25 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRScript.Parse(const strings: TStringList): Boolean;
+function TQRScript.Parse(const lines: TStringList): Boolean;
 var
-    i, lineCount: NativeUInt;
+    line:  UnicodeString;
+    index: NativeUInt;
 begin
     // clear all previous data before parsing new
     Clear;
 
-    // get line count
-    lineCount := strings.Count;
-
-    // no line to parse?
-    if (lineCount = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+    index := 0;
 
     // iterate through lines to parse
-    for i := 0 to lineCount - 1 do
+    for line in lines do
+    begin
         // parse line
-        if (not ParseLine(strings[i], i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+        if (not ParseLine(line, index)) then
+            Exit(False);
+
+        Inc(Index);
+    end;
 
     Result := True;
 end;
@@ -354,10 +339,7 @@ var
 begin
     // script file exists?
     if (not FileExists(fileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     fileBuffer := nil;
 
@@ -367,10 +349,7 @@ begin
 
         // succeeded?
         if (fileBuffer.Size = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         fileBuffer.Seek(0, soBeginning);
 

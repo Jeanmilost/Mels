@@ -1138,10 +1138,7 @@ function TQRMD3Parser.GetFrame(index: NativeInt): PQRMD3Frame;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Frames))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Frames[index];
 end;
@@ -1150,10 +1147,7 @@ function TQRMD3Parser.GetTag(index: NativeInt): PQRMD3Tag;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Tags))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Tags[index];
 end;
@@ -1162,10 +1156,7 @@ function TQRMD3Parser.GetMesh(index: NativeInt): PQRMD3Mesh;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Meshes))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Meshes[index];
 end;
@@ -1194,10 +1185,7 @@ begin
     try
         // file exists?
         if (not FileExists(fileName)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create a file buffer and open it for read
         pBuffer := TFileStream.Create(fileName, fmOpenRead);
@@ -1214,25 +1202,19 @@ end;
 function TQRMD3Parser.Load(const pBuffer: TStream; readLength: NativeUInt): Boolean;
 var
     i, j, tagCount, verticesFrameCount: Cardinal;
-    offset:                            NativeUInt;
+    offset:                             NativeUInt;
 begin
     try
         // is pBuffer empty?
         if (pBuffer.Size = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // read file header
         m_Header.Read(pBuffer);
 
         // is MD3 file and version correct?
         if ((m_Header.m_ID <> CQR_MD3_ID) or (m_Header.m_Version <> CQR_MD3_Mesh_File_Version)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create bones
         SetLength(m_Frames, m_Header.m_FrameCount);
@@ -1313,8 +1295,7 @@ begin
                 Inc(offset, m_Meshes[i].m_Info.m_MeshEndOffset);
             end;
 
-        Result := True;
-        Exit;
+        Exit(True);
     except
         on e: Exception do ; // ignore any error
     end;
@@ -1635,17 +1616,11 @@ var
 begin
     // no mesh count?
     if (m_pParser.m_Header.m_MeshCount = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is frame index out of bounds?
     if (index >= GetMeshCount) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1667,52 +1642,31 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains vertices to get
         if (not m_pVertices.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no vertex?
         if (Length(m_pVertices.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains normals to get
         if (not m_pNormals.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no normals?
         if (Length(m_pNormals.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains textures coordinates to get
         if (not m_pTexCoords.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no normals?
         if (Length(m_pTexCoords.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add mesh to output
         meshIndex := Length(mesh);
@@ -1729,10 +1683,7 @@ begin
 
         // no indices?
         if (indiceCount = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add memory for vertex buffer
         SetLength(mesh[meshIndex].m_Buffer, indiceCount * 3 * mesh[meshIndex].m_Stride);
@@ -1764,17 +1715,11 @@ var
 begin
     // no mesh count?
     if (m_pParser.m_Header.m_MeshCount = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is frame index out of bounds?
     if (index >= GetMeshCount) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1796,52 +1741,31 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains vertices to get
         if (not m_pVertices.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no vertex?
         if (Length(m_pVertices.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains normals to get
         if (not m_pNormals.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no normals?
         if (Length(m_pNormals.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // check if cache contains textures coordinates to get
         if (not m_pTexCoords.ContainsKey(i)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no normals?
         if (Length(m_pTexCoords.Items[i]) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add mesh to output
         meshIndex := Length(mesh);
@@ -1858,10 +1782,7 @@ begin
 
         // no indices?
         if (indiceCount = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add memory for vertex buffer
         SetLength(mesh[meshIndex].m_Buffer, indiceCount * 3 * mesh[meshIndex].m_Stride);

@@ -451,10 +451,7 @@ begin
 
     // found it?
     if (pos = 0) then
-    begin
-        Result := fileName;
-        Exit;
-    end;
+        Exit(fileName);
 
     // extract file name
     Result := Copy(fileName, pos + 1);
@@ -496,10 +493,7 @@ begin
 
     // dir name already contains delimiter at end?
     if (dirName[Length(dirName)] = delimiter) then
-    begin
-        Result := dirName;
-        Exit;
-    end;
+        Exit(dirName);
 
     // append delimiter
     Result := dirName + delimiter;
@@ -519,10 +513,7 @@ end;
 class function TQRMathsHelper.RoundUpToNearestPowerOf2(value: TQRUInt32): TQRUInt32;
 begin
     if (value = 0) then
-    begin
-        Result := 1;
-        Exit;
-    end;
+        Exit(1);
 
     Dec(value);
     value := value or (value shr 1);

@@ -974,15 +974,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRShapeJob.Destroy;
 var
-    i: NativeUInt;
+    pTexture: TQRTexture;
 begin
     m_pLock.Lock;
 
     try
         // clear textures
-        if (Length(m_Textures) > 0) then
-            for i := 0 to Length(m_Textures) - 1 do
-                m_Textures[i].Free;
+        for pTexture in m_Textures do
+            pTexture.Free;
 
         SetLength(m_Textures, 0);
 
@@ -1008,10 +1007,7 @@ begin
     m_pLock.Lock;
 
     if (index >= Length(m_Textures)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_Textures[index];
 
@@ -1100,10 +1096,7 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     try
         // check if cache should be created
@@ -1158,8 +1151,7 @@ begin
         if (not doCreateCache) then
         begin
             IsLoaded := True;
-            Result   := True;
-            Exit;
+            Exit(True);
         end;
 
         // create mesh
@@ -1183,8 +1175,7 @@ begin
             // failed or canceled?
             Dispose(pMesh);
             pTree.Free;
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // add mesh to cache, note that from now cache will take care of the pointer

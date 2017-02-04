@@ -970,23 +970,17 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2AnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
 var
-    i:       NativeUInt;
+    c:       WideChar;
     gesture: NativeInt;
 begin
     // nothing to parse?
     if (Length(word) = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // by default, each line contains 4 numeric values, that describes the animation
-    for i := 1 to Length(word) do
-        if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], False))) then
-        begin
-            Result := False;
-            Exit;
-        end;
+    for c in word do
+        if ((c <> '\0') and (not TQRStringHelper.IsNumeric(c, False))) then
+            Exit(False);
 
     // first item to parse?
     if (GetItemCount = 0) then
@@ -1016,8 +1010,7 @@ begin
         2: Items[GetItemCount - 1].m_LoopingFrames   := StrToInt(AnsiString(word));
         3: Items[GetItemCount - 1].m_FramesPerSecond := StrToInt(AnsiString(word));
     else
-        Result := False;
-        Exit;
+        Exit(False);
     end;
 
     IncColumn;
@@ -1066,15 +1059,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRMD2Job.Destroy;
 var
-    i: NativeUInt;
+    pTexture: TQRTexture;
 begin
     m_pLock.Lock;
 
     try
         // clear textures
-        if (Length(m_Textures) > 0) then
-            for i := 0 to Length(m_Textures) - 1 do
-                m_Textures[i].Free;
+        for pTexture in m_Textures do
+            pTexture.Free;
 
         SetLength(m_Textures, 0);
 
@@ -1106,10 +1098,7 @@ begin
     m_pLock.Lock;
 
     if (index >= Length(m_Textures)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_Textures[index];
 
@@ -1345,10 +1334,7 @@ var
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     index := 0;
 
@@ -1366,10 +1352,7 @@ begin
 
     // found a texture file to load?
     if (not textureExists) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // load image file in a stream
     pFileStream := TFileStream.Create(fileName, fmOpenRead);
@@ -1377,10 +1360,7 @@ begin
     try
         // found it?
         if (not Assigned(pFileStream)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // load texture
         Result := TQRModelGroupHelper.LoadTexture(pFileStream,
@@ -1409,10 +1389,7 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     try
         Progress := 0.0;
@@ -1430,8 +1407,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // load md2 model
@@ -1444,8 +1420,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // get mesh count
@@ -1583,8 +1558,7 @@ begin
         if (not doCreateCache) then
         begin
             IsLoaded := True;
-            Result   := True;
-            Exit;
+            Exit(True);
         end;
 
         // animations are loaded, add one step to progress
@@ -1620,8 +1594,7 @@ begin
                     // failed or canceled?
                     Dispose(pMesh);
                     pTree.Free;
-                    Result := False;
-                    Exit;
+                    Exit(False);
                 end;
 
                 // add mesh to cache, note that from now cache will take care of the pointer
@@ -1717,10 +1690,7 @@ var
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     index := 0;
 
@@ -1739,20 +1709,14 @@ begin
 
     // found a texture file to load?
     if (not textureExists) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get image stream
     pImageStream := m_pDir.GetFile(fileName);
 
     // found it?
     if (not Assigned(pImageStream)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pImageStream.Position := 0;
 
@@ -1785,10 +1749,7 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     try
         Progress := 0.0;
@@ -1806,8 +1767,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // get stream containing md2 data
@@ -1823,8 +1783,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // load md2 model
@@ -1837,8 +1796,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // check if cache should be created
@@ -1990,8 +1948,7 @@ begin
         if (not doCreateCache) then
         begin
             IsLoaded := True;
-            Result   := True;
-            Exit;
+            Exit(True);
         end;
 
         // animations are loaded, add one step to progress
@@ -2026,8 +1983,7 @@ begin
                     // failed or canceled?
                     Dispose(pMesh);
                     pTree.Free;
-                    Result := False;
-                    Exit;
+                    Exit(False);
                 end;
 
                 // add mesh to cache, note that from now cache will take care of the pointer
@@ -2211,10 +2167,7 @@ var
 begin
     // no stream to load to?
     if (not Assigned(m_pPackage)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // do unpack externally?
@@ -2224,17 +2177,11 @@ begin
 
             // external unpack failed?
             if (not m_ExternalUnpackSucceeded) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // external unpack was handled?
             if (m_ExternalUnpackHandled) then
-            begin
-                Result := True;
-                Exit;
-            end;
+                Exit(True);
         end;
 
         pZipFile := nil;
@@ -2300,19 +2247,13 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     Progress := 0.0;
 
     // unpack model package
     if (not Unpack) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := inherited Process;
 end;
@@ -2878,25 +2819,16 @@ function TQRMD2Group.GetMemoryDir: TQRMemoryDir;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // is job a memory dir job?
     if (m_pJob is TQRLoadMD2MemoryDirJob) then
-    begin
         // get and return memory dir
-        Result := TQRLoadMD2MemoryDirJob(m_pJob).MemoryDir;
-        Exit;
-    end;
+        Exit(TQRLoadMD2MemoryDirJob(m_pJob).MemoryDir);
 
     Result := nil;
 end;
@@ -3015,10 +2947,7 @@ var
 begin
     // file exists?
     if (not FileExists(fileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // open a stream from file
     pPackage := TFileStream.Create(fileName, fmOpenRead);
@@ -3043,10 +2972,7 @@ function TQRMD2Group.Load(const pPackage: TStream;
 begin
     // is package defined?
     if (not Assigned(pPackage)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // clear previous group instance
@@ -3083,17 +3009,11 @@ function TQRMD2Group.Loaded: Boolean;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := True;
 end;

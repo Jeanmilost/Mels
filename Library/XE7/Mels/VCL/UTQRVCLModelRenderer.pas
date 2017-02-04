@@ -110,10 +110,7 @@ var
 begin
     // no device context?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // configure default flags
     flags := PFD_DRAW_TO_WINDOW or PFD_SUPPORT_OPENGL;
@@ -172,17 +169,11 @@ var
 begin
     // no bitmap?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is bitmap empty?
     if ((pBitmap.Width <= 0) or (pBitmap.Height <= 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get bitmap size
     width  := pBitmap.Width;

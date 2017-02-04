@@ -486,19 +486,13 @@ function TQRPlayerAL.Open(const pFileBuffer: PByte;
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Release;
 
     // no sound file to load?
     if (not(Assigned(pFileBuffer)) or (fileSize = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // select the "preferred device"
@@ -507,8 +501,7 @@ begin
         // found it?
         if (not Assigned(m_pDevice)) then
         begin
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // use the device to make a context
@@ -518,8 +511,7 @@ begin
         if (not Assigned(m_pContext)) then
         begin
             Release;
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // set context to the currently active one
@@ -558,16 +550,10 @@ function TQRPlayerAL.Play: Boolean;
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (m_ID = CQR_ErrorID) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (Assigned(m_fOnPlay)) then
         m_fOnPlay(Self);
@@ -580,16 +566,10 @@ function TQRPlayerAL.Pause: Boolean;
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (m_ID = CQR_ErrorID) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (Assigned(m_fOnPause)) then
         m_fOnPause(Self);
@@ -602,16 +582,10 @@ function TQRPlayerAL.Stop: Boolean;
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (m_ID = CQR_ErrorID) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (Assigned(m_fOnStop)) then
         m_fOnStop(Self);
@@ -626,16 +600,10 @@ var
 begin
     // allowed to use OpenAL?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (m_ID = CQR_ErrorID) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     alGetSourcei(m_ID, AL_SOURCE_STATE, @state);
 
@@ -645,27 +613,20 @@ end;
 function TQRPlayerAL.ChangeVolume(const value: Single): Boolean;
 begin
     if (m_ID = CQR_ErrorID) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if ((value >= 0.0) and (value <= 1.0)) then
     begin
         // allowed to use OpenAL?
         if (not m_Allowed) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         alSourcef(m_ID, AL_GAIN, value);
 
         if (Assigned(m_fOnChangeVolume)) then
             m_fOnChangeVolume(Self, value);
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     Result := False;

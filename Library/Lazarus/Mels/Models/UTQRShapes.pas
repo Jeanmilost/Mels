@@ -824,10 +824,7 @@ begin
 
     // is canceled?
     if (Assigned(hIsCanceled) and hIsCanceled) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     mesh[0].m_Name      := 'qr_surface';
     mesh[0].m_Stride    := stride;
@@ -837,10 +834,7 @@ begin
 
     // is canceled?
     if (Assigned(hIsCanceled) and hIsCanceled) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do include texture coordinates?
     if (EQR_VF_TexCoords in VertexFormat) then
@@ -872,10 +866,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add left bottom vertex
         TQRShapeHelper.AddVertex(@vertices[i], @normal, @texCoords[i], Color, index, mesh[0]);
@@ -943,10 +934,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // generate the 4 first vertices on the left, and 4 last on the right
         if (Floor(i div 4) = 0) then
@@ -975,10 +963,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         mesh[i].m_Name      := 'qr_box';
         mesh[i].m_Stride    := stride;
@@ -1071,10 +1056,7 @@ begin
 
     // is canceled?
     if (Assigned(hIsCanceled) and hIsCanceled) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     index := 0;
 
@@ -1171,24 +1153,15 @@ var
 begin
     // no slices?
     if (m_Slices = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no stacks?
     if (m_Stacks = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no radius?
     if (m_Radius = 0.0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1214,10 +1187,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // calculate values for next slice
         a  := i        * majorStep;
@@ -1249,10 +1219,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             c := j * minorStep;
             x := Cos(c);
@@ -1405,10 +1372,7 @@ var
 begin
     // no face count?
     if (m_FaceCount = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1485,10 +1449,7 @@ begin
 
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // calculate apex and base vertices for current subdivision
         apex := TQRVector3D.Create(m_TopRadiusX    * Cos(angle * i),
@@ -1535,10 +1496,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // do include texture coordinates?
             if (EQR_VF_TexCoords in VertexFormat) then
@@ -1569,10 +1527,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // do include texture coordinates?
             if (EQR_VF_TexCoords in VertexFormat) then
@@ -1630,17 +1585,11 @@ var
 begin
     // no slice count?
     if (m_Slices = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no faces per slice count?
     if (m_FacesPerSlices = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1667,10 +1616,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         mesh[i].m_Name      := 'qr_torus';
         mesh[i].m_Stride    := stride;
@@ -1690,10 +1636,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         theta     := ( u      * uStep);
         nextTheta := ((u + 1) * uStep);
@@ -1704,10 +1647,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             phi := (v * vStep);
 
@@ -1820,24 +1760,15 @@ var
 begin
     // no slice count?
     if (m_Slices = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no faces per slice count?
     if (m_FacesPerSlices = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // negative radius or no radius?
     if (m_Radius <= 0.0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // basically stride is the coordinates values size
     stride := 3;
@@ -1864,10 +1795,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         mesh[i].m_Name      := 'qr_parabola';
         mesh[i].m_Stride    := stride;
@@ -1887,10 +1815,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         extIndex := 0;
         intIndex := 0;
@@ -1900,10 +1825,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             theta := (v * vStep);
 

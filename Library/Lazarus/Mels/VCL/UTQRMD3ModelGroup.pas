@@ -1890,10 +1890,7 @@ class function TQRMD3Helper.BuildName(const templateName,
 begin
     // no template to build from?
     if (Length(templateName) = 0) then
-    begin
-        Result := prefix;
-        Exit;
-    end;
+        Exit(prefix);
 
     // build name from template
     Result := UnicodeString(StringReplace(AnsiString(templateName),
@@ -1947,8 +1944,9 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3AnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
 var
-    i, index: NativeUInt;
-    gesture:  NativeInt;
+    index:   NativeUInt;
+    gesture: NativeInt;
+    c:       WideChar;
 begin
     // search word meaning
     if (word = 'sex') then
@@ -1964,10 +1962,7 @@ begin
         if (word = 'f') then
             m_Gender := EQR_GN_MD3_Female
         else
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
     end
     else
     if (word = 'headoffset') then
@@ -1978,18 +1973,12 @@ begin
     begin
         // is word empty?
         if (Length(word) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to Length(word) do
-            if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
-            begin
-                Result := False;
-                Exit;
-            end;
+        for c in word do
+            if ((c <> '\0') and (not TQRStringHelper.IsNumeric(c, False))) then
+                Exit(False);
 
         // search for head offset value to set
         case (Column) of
@@ -1997,8 +1986,7 @@ begin
             1: m_HeadOffset.m_UnknownOffset2 := StrToInt(AnsiString(word));
             2: m_HeadOffset.m_UnknownOffset3 := StrToInt(AnsiString(word));
         else
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         IncColumn;
@@ -2017,18 +2005,12 @@ begin
     begin
         // is word empty?
         if (Length(word) = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // by default, each line contains 4 numeric values, that describes the animation
-        for i := 1 to Length(word) do
-            if ((word[i] <> '\0') and (not TQRStringHelper.IsNumeric(word[i], false))) then
-            begin
-                Result := False;
-                Exit;
-            end;
+        for c in word do
+            if ((c <> '\0') and (not TQRStringHelper.IsNumeric(c, False))) then
+                Exit(False);
 
         // first item to parse?
         if (GetItemCount = 0) then
@@ -2049,10 +2031,7 @@ begin
 
             // invalid type?
             if (gesture >= NativeInt(EQR_AG_MD3_Max_Animations)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // create and populate new item, and add it to list
             SetItemCount(index + 1);
@@ -2070,8 +2049,7 @@ begin
             2: Items[index].m_LoopingFrames   := StrToInt(AnsiString(word));
             3: Items[index].m_FramesPerSecond := StrToInt(AnsiString(word));
         else
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         IncColumn;
@@ -2168,23 +2146,20 @@ end;
 function TQRMD3Skin.OnParseLine(const line: UnicodeString; lineNb: NativeUInt): Boolean;
 var
     name, path: UnicodeString;
+    c:          WideChar;
     readPath:   Boolean;
-    i:          NativeUInt;
 begin
     // no line to parse?
     if (Length(line) = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     readPath := False;
 
     // iterate through line chars
-    for i := 1 to Length(line) do
+    for c in line do
     begin
         // dispatch char
-        case (line[i]) of
+        case (c) of
             ',':
             begin
                 // found separator, from now path should be read
@@ -2196,45 +2171,35 @@ begin
             if (readPath) then
             begin
                 // add char to path
-                path := path + line[i];
+                path := path + c;
                 continue;
             end;
 
             // add char to name
-            name := name + line[i];
+            name := name + c;
         end;
     end;
 
     // empty name?
     if (Length(name) = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no path?
     if (Length(path) = 0) then
     begin
         // in this case, the line contains a link key. Check if the name key already exists
         if (m_LinkKeys.IndexOf(AnsiString(name)) <> -1) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // add link key to table
         m_LinkKeys.Add(AnsiString(name));
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // name already exists in path table?
     if (m_PathTable.ContainsKey(name)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // add name and path in table
     m_PathTable.Add(name, path);
@@ -2252,10 +2217,7 @@ function TQRMD3Skin.GetPath(const name: UnicodeString): UnicodeString;
 begin
     // name exists in table?
     if (not m_PathTable.ContainsKey(name)) then
-    begin
-        Result := '';
-        Exit;
-    end;
+        Exit('');
 
     Result := m_PathTable[name];
 end;
@@ -2328,8 +2290,9 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRMD3ModelItem.Destroy;
 var
-    i:        Cardinal;
     animItem: TPair<EQRMD3AnimationGesture, TQRMD3AnimationItem>;
+    pTexture: TQRTexture;
+    pLink:    TQRMD3ModelLink;
 begin
     // clear animations
     for animItem in m_pAnimations do
@@ -2338,23 +2301,20 @@ begin
     m_pAnimations.Free;
 
     // clear textures
-    if (Length(m_Textures) > 0) then
-        for i := 0 to Length(m_Textures) - 1 do
-            m_Textures[i].Free;
+    for pTexture in m_Textures do
+        pTexture.Free;
 
     SetLength(m_Textures, 0);
 
     // clear links from
-    if (Length(m_LinksFrom) > 0) then
-        for i := 0 to Length(m_LinksFrom) - 1 do
-            m_LinksFrom[i].Free;
+    for pLink in m_LinksFrom do
+        pLink.Free;
 
     SetLength(m_LinksFrom, 0);
 
     // clear links to
-    if (Length(m_LinksTo) > 0) then
-        for i := 0 to Length(m_LinksTo) - 1 do
-            m_LinksTo[i].Free;
+    for pLink in m_LinksTo do
+        pLink.Free;
 
     SetLength(m_LinksTo, 0);
 
@@ -2370,18 +2330,14 @@ procedure TQRMD3ModelItem.AddLink(var links: TQRMD3ModelLinks;
                               const pTarget: TQRMD3ModelItem;
                                    tagIndex: NativeUInt);
 var
-    linkCount, i: NativeInt;
-    index:        NativeUInt;
+    pLink: TQRMD3ModelLink;
+    index: NativeUInt;
 begin
-    // get link count
-    linkCount := Length(links);
-
     // iterate through existing links
-    if (linkCount > 0) then
-        for i := 0 to linkCount - 1 do
-            // link already added?
-            if (links[i].m_pItem = pTarget) then
-                Exit;
+    for pLink in links do
+        // link already added?
+        if (pLink.m_pItem = pTarget) then
+            Exit;
 
     // add link
     index := Length(links);
@@ -2392,10 +2348,7 @@ end;
 function TQRMD3ModelItem.GetAnimation(gesture: EQRMD3AnimationGesture): TQRMD3AnimationItem;
 begin
     if (not m_pAnimations.ContainsKey(gesture)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_pAnimations[gesture];
 end;
@@ -2416,10 +2369,7 @@ end;
 function TQRMD3ModelItem.GetTexture(index: NativeInt): TQRTexture;
 begin
     if (index >= Length(m_Textures)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_Textures[index];
 end;
@@ -2427,10 +2377,7 @@ end;
 function TQRMD3ModelItem.GetLinkFrom(index: NativeInt): TQRMD3ModelLink;
 begin
     if (index >= Length(m_LinksFrom)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_LinksFrom[index];
 end;
@@ -2438,10 +2385,7 @@ end;
 function TQRMD3ModelItem.GetLinkTo(index: NativeInt): TQRMD3ModelLink;
 begin
     if (index >= Length(m_LinksTo)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := m_LinksTo[index];
 end;
@@ -2535,10 +2479,7 @@ function TQRMD3GroupInfo.GetPrefix(index: NativeInt): UnicodeString;
 begin
     // is index out of bounds?
     if (index >= m_pPrefixes.Count) then
-    begin
-        Result := '';
-        Exit;
-    end;
+        Exit('');
 
     Result := UnicodeString(m_pPrefixes[index]);
 end;
@@ -2586,15 +2527,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRMD3Job.Destroy;
 var
-    i: NativeInt;
+    pItem: TQRMD3ModelItem;
 begin
     m_pLock.Lock;
 
     try
         // clear items
-        if (Length(m_Items) > 0) then
-            for i := 0 to Length(m_Items) - 1 do
-                m_Items[i].Free;
+        for pItem in m_Items do
+            pItem.Free;
 
         SetLength(m_Items, 0);
 
@@ -2615,10 +2555,7 @@ begin
 
     try
         if (index >= Length(m_Items)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         Result := m_Items[index];
     finally
@@ -2632,10 +2569,7 @@ begin
 
     try
         if (not m_pItemDictionary.ContainsKey(name)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         Result := m_pItemDictionary[name];
     finally
@@ -2776,27 +2710,18 @@ var
 begin
     // no item?
     if (not Assigned(pItem)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // item contains no model?
     if (not Assigned(pItem.m_pModel)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get model parser
     pParser := pItem.m_pModel.Parser;
 
     // found it?
     if (not Assigned(pParser)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // iterate through model meshes
     if (pParser.Header.m_MeshCount > 0) then
@@ -2840,10 +2765,7 @@ begin
 
             // failed to load texture?
             if (not textureLoaded) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
         end;
 
     // iterate through all skin path entries and load remaining textures
@@ -2899,10 +2821,7 @@ begin
 
             // failed to load texture?
             if (not textureLoaded) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
         end;
 
     Result := True;
@@ -2911,7 +2830,7 @@ end;
 function TQRMD3Job.LinkAnimations(const pInfo: TQRMD3GroupInfo;
                             const pAnimations: TQRMD3AnimCfgFile): Boolean;
 var
-    animCount, lowerDelta, i, j: NativeUInt;
+    animCount, lowerDelta, i, j: NativeInt;
     pItem, pStartItem, pEndItem: PQRModelAnimCfgItem;
     pAnimItem:                   TQRMD3AnimationItem;
 begin
@@ -2919,10 +2838,7 @@ begin
     lowerDelta := 0;
 
     if (animCount = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // iterate through animations to link
     for i := 0 to animCount - 1 do
@@ -2940,21 +2856,20 @@ begin
         then
         begin
             // iterate through model parts
-            if (pInfo.m_pPrefixes.Count > 0) then
-                for j := 0 to pInfo.m_pPrefixes.Count - 1 do
-                    // found upper or lower index?
-                    if ((pInfo.m_pPrefixes[j] = 'upper') or (pInfo.m_pPrefixes[j] = 'lower')) then
-                    begin
-                        // create and populate new animation item
-                        pAnimItem                   := TQRMD3AnimationItem.Create;
-                        pAnimItem.m_StartFrame      := pItem.m_StartFrame;
-                        pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
-                        pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
-                        pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
+            for j := 0 to pInfo.m_pPrefixes.Count - 1 do
+                // found upper or lower index?
+                if ((pInfo.m_pPrefixes[j] = 'upper') or (pInfo.m_pPrefixes[j] = 'lower')) then
+                begin
+                    // create and populate new animation item
+                    pAnimItem                   := TQRMD3AnimationItem.Create;
+                    pAnimItem.m_StartFrame      := pItem.m_StartFrame;
+                    pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
+                    pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
+                    pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
 
-                        // add animation to model item
-                        m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
-                    end;
+                    // add animation to model item
+                    m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
+                end;
         end
         else
         if ((pItem.m_Gesture >= Integer(EQR_AG_MD3_Torso_Gesture)) and
@@ -2962,21 +2877,20 @@ begin
         then
         begin
             // iterate through model parts
-            if (pInfo.m_pPrefixes.Count > 0) then
-                for j := 0 to pInfo.m_pPrefixes.Count - 1 do
-                    // found upper index?
-                    if (pInfo.m_pPrefixes[j] = 'upper') then
-                    begin
-                        // create and populate new animation item
-                        pAnimItem                   := TQRMD3AnimationItem.Create;
-                        pAnimItem.m_StartFrame      := pItem.m_StartFrame;
-                        pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
-                        pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
-                        pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
+            for j := 0 to pInfo.m_pPrefixes.Count - 1 do
+                // found upper index?
+                if (pInfo.m_pPrefixes[j] = 'upper') then
+                begin
+                    // create and populate new animation item
+                    pAnimItem                   := TQRMD3AnimationItem.Create;
+                    pAnimItem.m_StartFrame      := pItem.m_StartFrame;
+                    pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
+                    pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
+                    pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
 
-                        // add animation to model item
-                        m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
-                    end;
+                    // add animation to model item
+                    m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
+                end;
         end
         else
         if ((pItem.m_Gesture >= Integer(EQR_AG_MD3_Legs_Walk_Crouching)) and
@@ -2992,35 +2906,31 @@ begin
 
                 // found them?
                 if ((not Assigned(pStartItem)) or (not Assigned(pEndItem))) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // calculate animation delta to apply to lower model part
                 lowerDelta := pEndItem.m_StartFrame - pStartItem.m_StartFrame;
             end;
 
             // iterate through model parts
-            if (pInfo.m_pPrefixes.Count > 0) then
-                for j := 0 to pInfo.m_pPrefixes.Count - 1 do
-                    // found lower index?
-                    if (pInfo.m_pPrefixes[j] = 'lower') then
-                    begin
-                        // create and populate new animation item
-                        pAnimItem                   := TQRMD3AnimationItem.Create;
-                        pAnimItem.m_StartFrame      := pItem.m_StartFrame;
-                        pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
-                        pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
-                        pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
+            for j := 0 to pInfo.m_pPrefixes.Count - 1 do
+                // found lower index?
+                if (pInfo.m_pPrefixes[j] = 'lower') then
+                begin
+                    // create and populate new animation item
+                    pAnimItem                   := TQRMD3AnimationItem.Create;
+                    pAnimItem.m_StartFrame      := pItem.m_StartFrame;
+                    pAnimItem.m_EndFrame        := pItem.m_StartFrame + (pItem.m_FrameCount - 1);
+                    pAnimItem.m_Loop            := Boolean(pItem.m_LoopingFrames);
+                    pAnimItem.m_FramesPerSecond := pItem.m_FramesPerSecond;
 
-                        // apply delta to animation values
-                        Dec(pAnimItem.m_StartFrame, lowerDelta);
-                        Dec(pAnimItem.m_EndFrame,   lowerDelta);
+                    // apply delta to animation values
+                    Dec(pAnimItem.m_StartFrame, lowerDelta);
+                    Dec(pAnimItem.m_EndFrame,   lowerDelta);
 
-                        // add animation to model item
-                        m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
-                    end;
+                    // add animation to model item
+                    m_Items[j].Animations[EQRMD3AnimationGesture(pItem.m_Gesture)] := pAnimItem;
+                end;
         end;
     end;
 
@@ -3185,10 +3095,7 @@ function TQRLoadMD3FileJob.LoadSkin(const fileName: TFileName;
 begin
     // load skin file
     if (not pItem.m_pSkin.Load(fileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := LinkSkin(pItem.m_pSkin,
                        TQRFileHelper.AppendDelimiter(UnicodeString(ExtractFileDir(fileName))),
@@ -3205,10 +3112,7 @@ begin
     try
         // load animation configuration file
         if (not pAnimations.Load(fileName)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         Result := LinkAnimations(pInfo, pAnimations);
     finally
@@ -3237,20 +3141,14 @@ var
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // build texture file name
     fileName := AnsiString(TQRFileHelper.AppendDelimiter(pTexture.Dir)) + pTexture.FileName;
 
     // check if texture file exists
     if (not FileExists(fileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // load image file in a stream
     pFileStream := TFileStream.Create(fileName, fmOpenRead);
@@ -3258,10 +3156,7 @@ begin
     try
         // found it?
         if (not Assigned(pFileStream)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // load texture
         Result := TQRModelGroupHelper.LoadTexture(pFileStream,
@@ -3288,10 +3183,7 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     try
         Progress := 0.0;
@@ -3307,10 +3199,7 @@ begin
 
         // iterate through sub-models to load
         if (subModelGroupCount = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         m_pLock.Lock;
 
@@ -3357,8 +3246,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // load md3 model
@@ -3371,8 +3259,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // get mesh count
@@ -3412,8 +3299,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // load md3 skin
@@ -3426,8 +3312,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             m_pLock.Lock;
@@ -3507,8 +3392,7 @@ begin
                         // failed or canceled?
                         Dispose(pMesh);
                         pTree.Free;
-                        Result := False;
-                        Exit;
+                        Exit(False);
                     end;
 
                     // add mesh to cache, note that from now cache will take care of the pointer
@@ -3562,8 +3446,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // model is fully loaded
@@ -3616,10 +3499,7 @@ function TQRLoadMD3MemoryDirJob.LoadSkin(pStream: TStream; const pItem: TQRMD3Mo
 begin
     // load skin file
     if (not pItem.m_pSkin.Load(pStream, pStream.Size)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := LinkSkin(pItem.m_pSkin, '', pItem);
 end;
@@ -3634,10 +3514,7 @@ begin
     try
         // load animation configuration file
         if (not pAnimations.Load(pStream, pStream.Size)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         Result := LinkAnimations(pInfo, pAnimations);
     finally
@@ -3665,27 +3542,18 @@ var
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // file exists in memory dir?
     if (not m_pDir.FileExists(pTexture.FileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get image stream
     pImageStream := m_pDir.GetFile(pTexture.FileName);
 
     // found it?
     if (not Assigned(pImageStream)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pImageStream.Position := 0;
 
@@ -3718,10 +3586,7 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     try
         Progress := 0.0;
@@ -3737,10 +3602,7 @@ begin
 
         // iterate through sub-models to load
         if (subModelGroupCount = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         m_pLock.Lock;
 
@@ -3787,8 +3649,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // get stream containing md3 data
@@ -3804,8 +3665,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // load md3 model
@@ -3818,8 +3678,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // get mesh count
@@ -3858,8 +3717,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // get stream containing skin data
@@ -3875,8 +3733,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             // load md3 skin
@@ -3889,8 +3746,7 @@ begin
                                                ClassName);
                 {$endif}
 
-                Result := False;
-                Exit;
+                Exit(False);
             end;
 
             m_pLock.Lock;
@@ -3970,8 +3826,7 @@ begin
                         // failed or canceled?
                         Dispose(pMesh);
                         pTree.Free;
-                        Result := False;
-                        Exit;
+                        Exit(False);
                     end;
 
                     // add mesh to cache, note that from now cache will take care of the pointer
@@ -4022,8 +3877,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // get stream containing animation data
@@ -4039,8 +3893,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // open it
@@ -4053,8 +3906,7 @@ begin
                                            ClassName);
             {$endif}
 
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // model is fully loaded
@@ -4238,10 +4090,7 @@ var
 begin
     // no stream to load to?
     if (not Assigned(m_pPackage)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // do unpack externally?
@@ -4251,17 +4100,11 @@ begin
 
             // external unpack failed?
             if (not m_ExternalUnpackSucceeded) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // external unpack was handled?
             if (m_ExternalUnpackHandled) then
-            begin
-                Result := True;
-                Exit;
-            end;
+                Exit(True);
         end;
 
         pZipFile := nil;
@@ -4307,17 +4150,11 @@ begin
     try
         // no texture bitmap to load to?
         if (not Assigned(m_pIcon)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // icon was already loaded?
         if ((m_pIcon.Width > 0) and (m_pIcon.Height > 0)) then
-        begin
-            Result := m_pIcon;
-            Exit;
-        end;
+            Exit(m_pIcon);
 
         index := 0;
 
@@ -4338,27 +4175,18 @@ begin
 
         // found a icon file to load?
         if (not iconExists) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // get icon stream
         pIconStream := m_pDir.GetFile(fileName);
 
         // found it?
         if (not Assigned(pIconStream)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // load texture
         if (not TQRModelGroupHelper.LoadTexture(pIconStream, extension, m_pIcon)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         Result := m_pIcon;
     finally
@@ -4373,24 +4201,15 @@ begin
     try
         // is virtual dir assigned?
         if (not Assigned(m_pDir)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // no shader file?
         if (Length(m_ShaderFileName) = 0) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // file exists?
         if (not m_pDir.FileExists(m_ShaderFileName)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // get file
         Result := m_pDir.GetFile(m_ShaderFileName);
@@ -4408,10 +4227,7 @@ begin
     try
         // is virtual dir assigned?
         if (not Assigned(m_pDir)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // search for file name to use
         case (index) of
@@ -4434,17 +4250,11 @@ begin
 
         // no sound file?
         if (Length(fileName) = 0) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // file exists?
         if (not m_pDir.FileExists(fileName)) then
-        begin
-            Result := nil;
-            Exit;
-        end;
+            Exit(nil);
 
         // get file
         Result := m_pDir.GetFile(fileName);
@@ -4486,19 +4296,13 @@ begin
     // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
     // then all remaining jobs are added back, calling thus the Process() function again
     if (IsLoaded) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     Progress := 0.0;
 
     // unpack model package
     if (not Unpack) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := inherited Process;
 end;
@@ -4932,7 +4736,6 @@ procedure TQRMD3Group.DrawMesh(const pItem: TQRMD3ModelItem; const matrix: TQRMa
 var
     pParser:                          TQRMD3Parser;
     interpolationFactor:              Double;
-    linkCount, i:                     NativeUInt;
     pLink:                            TQRMD3ModelLink;
     tagCount, tagIndex, nextTagIndex: NativeUInt;
     pTag, pNextTag:                   PQRMD3Tag;
@@ -4979,23 +4782,13 @@ begin
     // get interpolation factor
     interpolationFactor := pItem.m_pAnimation.InterpolationFactor;
 
-    // get model tag count
-    linkCount := Length(pItem.m_LinksTo);
-
     // no links?
-    if (linkCount = 0) then
+    if (Length(pItem.m_LinksTo) = 0) then
         Exit;
 
     // iterate through model tags
-    for i := 0 to linkCount - 1 do
+    for pLink in pItem.m_LinksTo do
     begin
-        // get sub-model link
-        pLink := pItem.m_LinksTo[i];
-
-        // found it?
-        if (not Assigned(pLink)) then
-            Exit;
-
         // get tag count (tags contain some important link info as e.g. position and rotation matrix)
         tagCount := pParser.Header.m_TagCount;
 
@@ -5045,25 +4838,16 @@ function TQRMD3Group.GetMemoryDir: TQRMemoryDir;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // is job a memory dir job?
     if (m_pJob is TQRLoadMD3MemoryDirJob) then
-    begin
         // get and return memory dir
-        Result := TQRLoadMD3MemoryDirJob(m_pJob).MemoryDir;
-        Exit;
-    end;
+        Exit(TQRLoadMD3MemoryDirJob(m_pJob).MemoryDir);
 
     Result := nil;
 end;
@@ -5072,25 +4856,16 @@ function TQRMD3Group.GetIcon: TBitmap;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // is job a package job?
     if (m_pJob is TQRLoadMD3PackageJob) then
-    begin
         // get and return icon
-        Result := TQRLoadMD3PackageJob(m_pJob).Icon;
-        Exit;
-    end;
+        Exit(TQRLoadMD3PackageJob(m_pJob).Icon);
 
     Result := nil;
 end;
@@ -5099,25 +4874,16 @@ function TQRMD3Group.GetShader: TStream;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // is job a package job?
     if (m_pJob is TQRLoadMD3PackageJob) then
-    begin
         // get and return shader file
-        Result := TQRLoadMD3PackageJob(m_pJob).Shader;
-        Exit;
-    end;
+        Exit(TQRLoadMD3PackageJob(m_pJob).Shader);
 
     Result := nil;
 end;
@@ -5126,25 +4892,16 @@ function TQRMD3Group.GetSound(index: EQRMD3PackageSound): TStream;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // model still loading?
     if (m_pJob.GetStatus <> EQR_JS_Done) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     // is job a package job?
     if (m_pJob is TQRLoadMD3PackageJob) then
-    begin
         // get and return sound
-        Result := TQRLoadMD3PackageJob(m_pJob).Sound[index];
-        Exit;
-    end;
+        Exit(TQRLoadMD3PackageJob(m_pJob).Sound[index]);
 
     Result := nil;
 end;
@@ -5241,10 +4998,7 @@ var
 begin
     // file exists?
     if (not FileExists(fileName)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // open a stream from file
     pPackage := TFileStream.Create(fileName, fmOpenRead);
@@ -5263,10 +5017,7 @@ function TQRMD3Group.Load(const pPackage: TStream;
 begin
     // is package defined?
     if (not Assigned(pPackage)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // clear previous group instance
@@ -5310,33 +5061,23 @@ begin
     begin
         // model is not ready, postpone gesture
         m_pPostponedGestures.AddOrSetValue(name, gesture);
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // animation dictionary contains sub-model for which animation should be changed?
     if (not m_pJob.m_pItemDictionary.ContainsKey(name)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get sub-model item
     pItem := m_pJob.m_pItemDictionary[name];
 
     // found it?
     if (not Assigned(pItem)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is gesture supported by sub-model?
     if (not pItem.m_pAnimations.ContainsKey(gesture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     doLoop := pItem.m_pAnimations[gesture].Loop;
 
@@ -5378,7 +5119,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMD3Group.Draw(const elapsedTime: Double);
 var
-    itemCount, i:         NativeUInt;
+    pItem:                TQRMD3ModelItem;
     modelMatrix:          TQRMatrix4x4;
     postponedGestureItem: TPair<UnicodeString, EQRMD3AnimationGesture>;
 begin
@@ -5415,16 +5156,13 @@ begin
         m_pPostponedGestures.Clear;
     end;
 
-    // get sub-model item count
-    itemCount := Length(m_pJob.m_Items);
-
     // no sub-models to draw?
-    if (itemCount = 0) then
+    if (Length(m_pJob.m_Items) = 0) then
         Exit;
 
     // animate each sub-model
-    for i := 0 to itemCount - 1 do
-        AnimateModel(elapsedTime, m_pJob.m_Items[i]);
+    for pItem in m_pJob.m_Items do
+        AnimateModel(elapsedTime, pItem);
 
     // get model matrix
     modelMatrix := GetMatrix;

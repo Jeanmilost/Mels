@@ -2090,16 +2090,10 @@ function TQRVector2D.Interpolate(const other: TQRVector2D; const position: Singl
 begin
     // is position out of bounds? Limit to min or max values in this case
     if (position < 0.0) then
-    begin
-        Result := Self;
-        Exit;
-    end
+        Exit(Self)
     else
     if (position > 1.0) then
-    begin
-        Result := other;
-        Exit;
-    end;
+        Exit(other);
 
     // calculate interpolation
     Result.m_X := m_X + position * (other.m_X - m_X);
@@ -2313,16 +2307,10 @@ function TQRVector3D.Interpolate(const other: TQRVector3D; const position: Singl
 begin
     // is position out of bounds? Limit to min or max values in this case
     if (position < 0.0) then
-    begin
-        Result := Self;
-        Exit;
-    end
+        Exit(Self)
     else
     if (position > 1.0) then
-    begin
-        Result := other;
-        Exit;
-    end;
+        Exit(other);
 
     // calculate interpolation
     Result.m_X := m_X + position * (other.m_X - m_X);
@@ -2406,10 +2394,7 @@ begin
     // either parallel to the plane and there are no solutions or the line is
     // on the plane in which case there are an infinite number of solutions
     if (dot = 0.0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     temp := (m_D + normal.Dot(rp)) / dot;
 
@@ -2544,10 +2529,7 @@ begin
     for i := 0 to 3 do
         for j := 0 to 3 do
             if (m_Table[i][j] <> other.m_Table[i][j]) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
     Result := True;
 end;
@@ -3058,10 +3040,7 @@ begin
     len := Length;
 
     if (len = 0.0) then
-    begin
-        Result := Default(TQRQuaternion);
-        Exit;
-    end;
+        Exit(Default(TQRQuaternion));
 
     Result := TQRQuaternion.Create((m_X / len), (m_Y / len), (m_Z / len), (m_W / len));
 end;
@@ -3090,10 +3069,7 @@ begin
 
     // empty quaternion?
     if (quatNorm = 0.0) then
-    begin
-        Result := Default(TQRQuaternion);
-        Exit;
-    end;
+        Exit(Default(TQRQuaternion));
 
     Result := Conjugate.Scale(1.0 / quatNorm);
 end;
@@ -3105,10 +3081,7 @@ var
 begin
     // are quaternions identical?
     if (IsEqual(other)) then
-    begin
-        Result := Self;
-        Exit;
-    end;
+        Exit(Self);
 
     // calculate dot product between q1 and q2
     quatDot := Dot(other);

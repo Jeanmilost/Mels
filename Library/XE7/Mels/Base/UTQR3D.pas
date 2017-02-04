@@ -802,10 +802,7 @@ function TQRShader.GetAttributeName(attribute: EQRShaderAttribute): UnicodeStrin
 begin
     // no dictionary defined?
     if (not Assigned(m_pAttributeDictionary)) then
-    begin
-        Result := '';
-        Exit;
-    end;
+        Exit('');
 
     Result := m_pAttributeDictionary.Strings[NativeInt(attribute)];
 end;

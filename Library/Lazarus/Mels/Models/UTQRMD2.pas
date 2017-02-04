@@ -1190,10 +1190,7 @@ function TQRMD2Parser.GetSkin(index: NativeInt): PQRMD2Skin;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Skins))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Skins[index];
 end;
@@ -1202,10 +1199,7 @@ function TQRMD2Parser.GetTexCoord(index: NativeInt): PQRMD2TextureCoord;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_TexCoords))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_TexCoords[index];
 end;
@@ -1214,10 +1208,7 @@ function TQRMD2Parser.GetPolygon(index: NativeInt): PQRMD2Polygon;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Polygons))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Polygons[index];
 end;
@@ -1226,10 +1217,7 @@ function TQRMD2Parser.GetFrame(index: NativeInt): PQRMD2Frame;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_Frames))) then
-    begin
-        Result := nil;
-        Exit;
-    end;
+        Exit(nil);
 
     Result := @m_Frames[index];
 end;
@@ -1238,10 +1226,7 @@ function TQRMD2Parser.GetGlCmd(index: NativeInt): TQRInt32;
 begin
     // is index out of bounds?
     if ((index < 0) or (index >= Length(m_GlCmds))) then
-    begin
-        Result := -1;
-        Exit;
-    end;
+        Exit(-1);
 
     Result := m_GlCmds[index];
 end;
@@ -1280,10 +1265,7 @@ begin
     try
         // file exists?
         if (not FileExists(fileName)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create a file buffer and open it for read
         pBuffer := TFileStream.Create(fileName, fmOpenRead);
@@ -1305,10 +1287,7 @@ begin
     try
         // is buffer empty?
         if (pBuffer.Size = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // get current offset
         offset := pBuffer.Position;
@@ -1318,10 +1297,7 @@ begin
 
         // is MD2 file and version correct?
         if ((m_Header.m_ID <> CQR_MD2_ID) or (m_Header.m_Version <> CQR_MD2_Mesh_File_Version)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create mesh buffers
         SetLength(m_Skins,     m_Header.m_SkinCount);
@@ -1377,8 +1353,7 @@ begin
                 m_Frames[i].Read(pBuffer, m_Header);
         end;
 
-        Result := True;
-        Exit;
+        Exit(True);
     except
         on e: Exception do ; // ignore any error
     end;
@@ -1558,10 +1533,7 @@ begin
     try
         // file exists?
         if (not FileExists(fileName)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create a file buffer and open it for read
         pBuffer := TFileStream.Create(fileName, fmOpenRead);
@@ -1586,10 +1558,7 @@ begin
 
     // is buffer empty?
     if (pBuffer.Size = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     fileVersion := 0;
 
@@ -1598,10 +1567,7 @@ begin
 
     // is version correct?
     if (fileVersion <> CQR_MD2_Normals_Table_File_Version) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     dataLength := 0;
 
@@ -1610,10 +1576,7 @@ begin
 
     // is file empty?
     if (dataLength = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // reserve memory for normals table
     SetLength(m_Normals, dataLength);
@@ -1639,48 +1602,28 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2Model.GetSkinNames(const pNames: TStringList): Boolean;
 var
-    skinCount, i: NativeInt;
+    skin: TQRMD2Skin;
 begin
     if (not Assigned(pNames)) then
-    begin
-        Result := False;
-        Exit;
-    end;
-
-    // get skin count
-    skinCount := Length(m_pParser.m_Skins);
-
-    // no skin?
-    if (skinCount = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // iterate through source skins and get each name
-    for i := 0 to skinCount - 1 do
-        pNames.Add(AnsiString(m_pParser.m_Skins[i].m_Name));
+    for skin in m_pParser.m_Skins do
+        pNames.Add(AnsiString(skin.m_Name));
 
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2Model.GetFrameNames(const pNames: TStringList): Boolean;
 var
-    frameCount, i: NativeInt;
+    frame: TQRMD2Frame;
 begin
-    // get frame count
-    frameCount := Length(m_pParser.m_Frames);
-
-    // no frame?
-    if (frameCount = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+    if (not Assigned(pNames)) then
+        Exit(False);
 
     // iterate through source frames and get each name
-    for i := 0 to frameCount - 1 do
-        pNames.Add(AnsiString(m_pParser.m_Frames[i].m_Name));
+    for frame in m_pParser.m_Frames do
+        pNames.Add(AnsiString(frame.m_Name));
 
     Result := True;
 end;
@@ -1703,20 +1646,14 @@ var
 begin
     // is frame index out of bounds?
     if (index >= GetMeshCount) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get normal count
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
     if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get source frame from which mesh should be extracted
     srcFrame := m_pParser.m_Frames[index];
@@ -1745,10 +1682,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // the first command is the number of vertices to process, already read, so skip it
         Inc(i);
@@ -1779,10 +1713,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // get source vertex
             srcVertex := srcFrame.m_Vertex[m_pParser.m_GLCmds[i + 2]];
@@ -1807,10 +1738,7 @@ begin
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // get vertex normal
                 normal := m_Normals[srcVertex.m_NormalIndex];
@@ -1913,17 +1841,11 @@ begin
 
     // canceled?
     if (Assigned(hIsCanceled) and hIsCanceled) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // no aligned-axis bounding box tree to populate?
     if (not Assigned(pAABBTree)) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // populate aligned-axis bounding box tree
     Result := TQRModelHelper.PopulateAABBTree(mesh, pAABBTree, hIsCanceled);
@@ -1947,20 +1869,14 @@ var
 begin
     // is frame index out of bounds?
     if ((index >= GetMeshCount) or (nextIndex >= GetMeshCount)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get normal count
     normalCount := Length(m_Normals);
 
     // do use m_Normals and pre-calculated m_Normals table wasn't populated?
     if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get source frame from which mesh should be extracted, and frame to interpolate with
     srcFrame := m_pParser.m_Frames[index];
@@ -1990,10 +1906,7 @@ begin
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // the first command is the number of vertices to process, already read, so skip it
         Inc(i);
@@ -2024,10 +1937,7 @@ begin
         begin
             // is canceled?
             if (Assigned(hIsCanceled) and hIsCanceled) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // get source vertex, and vertex to interpolate with
             srcVertex := srcFrame.m_Vertex[m_pParser.m_GLCmds[i + 2]];
@@ -2060,10 +1970,7 @@ begin
             begin
                 // is normal index out of bounds?
                 if (srcVertex.m_NormalIndex >= normalCount) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // get vertex normal, and normal to interpolate with
                 normal    := m_Normals[srcVertex.m_NormalIndex];

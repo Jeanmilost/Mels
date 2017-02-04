@@ -625,7 +625,7 @@ end;
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
     list: TStringList;
-    i:    Integer;
+    item: UnicodeString;
 begin
     Result := False;
     list   := TStringList.Create;
@@ -638,14 +638,9 @@ begin
         if (list.Count = 0) then
             Exit;
 
-        for i := 0 to list.Count - 1 do
-        begin
-            if MatchesMask(fileName, list[i]) then
-            begin
-                Result := True;
-                Exit;
-            end;
-        end;
+        for item in list do
+            if (MatchesMask(fileName, item)) then
+                Exit(True);
     finally
         list.Free;
     end;
@@ -655,17 +650,11 @@ class function TQRVCLPictureHelper.ToBitmap(const pPicture: TPicture; pBitmap: G
 begin
     // no source picture?
     if (not Assigned(pPicture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no destination bitmap?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pBitmap.Width  := pPicture.Width;
     pBitmap.Height := pPicture.Height;
@@ -680,11 +669,8 @@ var
 begin
     // no picture to check?
     if (not Assigned(pPicture)) then
-    begin
         // undefined
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get picture graphic. DO NOT try to get picture bitmap property, otherwise existing image will
     // be erased
@@ -701,11 +687,8 @@ begin
 
     // no picture to get from?
     if (not Assigned(pPicture)) then
-    begin
         // undefined
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is picture a bitmap?
     if (IsBitmap(pPicture)) then
@@ -713,8 +696,8 @@ begin
         // in case of bitmap, picture width and height can be used directly
         width  := pPicture.Width;
         height := pPicture.Height;
-        Result := True;
-        Exit;
+
+        Exit(True);
     end;
 
     // otherwise use internal graphic, if possible
@@ -722,8 +705,8 @@ begin
     begin
         width  := pPicture.Graphic.Width;
         height := pPicture.Graphic.Height;
-        Result := True;
-        Exit;
+
+        Exit(True);
     end;
 
     Result := False;
@@ -733,10 +716,7 @@ class function TQRVCLPictureHelper.GetBitmapPixelFormat(const pBitmap: Graphics.
 begin
     // no bitmap defined?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := 0;
-        Exit;
-    end;
+        Exit(0);
 
     // search for bitmap pixel format
     case pBitmap.PixelFormat of
@@ -781,17 +761,11 @@ var
 begin
     // no bitmap?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is bitmap empty?
     if ((pBitmap.Width <= 0) or (pBitmap.Height <= 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get bitmap size
     width  := pBitmap.Width;
@@ -937,24 +911,15 @@ var
 begin
     // no source bytes?
     if (not Assigned(pPixels)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no destination image?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no image size?
     if ((width = 0) or (height = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // set destination image size
     pBitmap.SetSize(width, height);
@@ -1070,17 +1035,11 @@ var
 begin
     // no destination bitmap?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // length is too small to read image?
     if (readLength < SizeOf(TQRTGAHeader)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // clear image
     GetMem(pImage, 0);
@@ -1093,17 +1052,11 @@ begin
 
     // is TGA 24/32 bit RGB or compressed TGA RGB?
     if ((header.m_ImageType <> 2) and (header.m_ImageType <> 10)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is color mapped file?
     if (header.m_ColorMapType <> 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get the width, height and color depth
     width      := header.m_Width[0]  + header.m_Width[1]  * 256;
@@ -1113,10 +1066,7 @@ begin
     flipY      := ((header.m_OrigY[0] <> 0) or (header.m_OrigY[1] <> 1));
 
     if (colorDepth < 24) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // allocate memory for image
@@ -1127,10 +1077,7 @@ begin
         begin
             // is enough length remaining to read pixels?
             if (imageSize > (pStream.Size - pStream.Position)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // read image pixels
             pStream.ReadBuffer(pImage^, imageSize);
@@ -1182,10 +1129,7 @@ begin
         begin
             // is enough length remaining to read pixels?
             if (readLength - sizeOf(TQRTGAHeader) > (pStream.Size - pStream.Position)) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             colorDepth   := colorDepth div 8;
             currentByte  :=0;
@@ -1334,18 +1278,12 @@ var
 begin
     // no source stream?
     if (not Assigned(pStream)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     try
         // not enough size in file to read header?
         if (SizeOf(TQRPCXHeader) >= readLength) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         header := Default(TQRPCXHeader);
 
@@ -1354,10 +1292,7 @@ begin
 
         // not a PCX file?
         if (header.m_Identifier <> $0A) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // read image data
         dataSize := readLength - SizeOf(TQRPCXHeader);
@@ -1372,10 +1307,7 @@ begin
 
         // no width or height?
         if ((width = 0) or (height = 0)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // create buffer to contain pixel colors
         pixelsPerLine := (scanLineLength + linePaddingSize);
@@ -1389,10 +1321,7 @@ begin
         repeat
             // check buffer overrun
             if (srcIndex >= dataSize) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // get next pixel
             pixel := fileData[srcIndex];
@@ -1403,10 +1332,7 @@ begin
             begin
                 // check buffer overrun
                 if (srcIndex >= dataSize) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // get run count and pixel value
                 runCount := pixel and $3F;
@@ -1422,10 +1348,7 @@ begin
 
             // no run count?
             if (runCount = 0) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             padding := 0;
 
@@ -1434,10 +1357,7 @@ begin
             begin
                 // check buffer overrun
                 if ((i + padding) >= pixelCount) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // set next pixel
                 pixels[i + padding] := runValue;
@@ -1477,10 +1397,7 @@ begin
             begin
                 // check buffer overrun
                 if (srcIndex + 3 > dataSize) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // read RGB palette entry
                 palette[entry] := (fileData[srcIndex]     shl 16) or
@@ -1500,10 +1417,7 @@ begin
             begin
                 // check buffer overrun
                 if (srcIndex + 3 > dataSize) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // read RGB palette entry
                 palette[entry] := (fileData[srcIndex]     shl 16) or

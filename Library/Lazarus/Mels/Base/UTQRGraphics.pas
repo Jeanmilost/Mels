@@ -602,17 +602,11 @@ var
 begin
     // do return internal color?
     if (offset <= 0.0) then
-    begin
-        Result := TQRColor.Create(Self);
-        Exit;
-    end;
+        Exit(TQRColor.Create(Self));
 
     // do return other color?
     if (offset >= 1.0) then
-    begin
-        Result := TQRColor.Create(pOther);
-        Exit;
-    end;
+        Exit(TQRColor.Create(pOther));
 
     // calculate blended color components
     colorR := (m_R + offset * (pOther.m_R - m_R));

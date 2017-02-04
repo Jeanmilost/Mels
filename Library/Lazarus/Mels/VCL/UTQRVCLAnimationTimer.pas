@@ -104,7 +104,7 @@ type
             {$REGION 'Documentation'}
             {**
              Gets animation timer instance, creates one if still not created
-             @return(Model cache instance)
+             @return(Animation timer instance)
             }
             {$ENDREGION}
             class function GetInstance: IQRSubject; static;
@@ -199,11 +199,8 @@ class function TQRVCLAnimationTimer.GetInstance: IQRSubject;
 begin
     // is singleton instance already initialized?
     if (Assigned(m_pInstance)) then
-    begin
         // get it
-        Result := m_pInstance;
-        Exit;
-    end;
+        Exit(m_pInstance);
 
     // create new singleton instance
     m_pInstance := TQRVCLAnimationTimer.Create;
@@ -229,18 +226,14 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLAnimationTimer.Notify(message: TQRMessage);
 var
-    i:     NativeInt;
-    pItem: IQRObserver;
+    pObject: Pointer;
+    pItem:   IQRObserver;
 begin
-    // nothing to do?
-    if (m_pObservers.Count = 0) then
-        Exit;
-
     // iterate through observers to notify
-    for i := 0 to m_pObservers.Count - 1 do
+    for pObject in m_pObservers do
     begin
-        // get observer to notify
-        pItem := IQRObserver(m_pObservers[i]);
+        // get observer
+        pItem := IQRObserver(pObject);
 
         // found it?
         if (not Assigned(pItem)) then
