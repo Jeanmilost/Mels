@@ -251,10 +251,7 @@ var
 begin
     // file exists?
     if (not FileExists(fileName)) then
-    begin
-        Result := 0;
-        Exit;
-    end;
+        Exit(0);
 
     // open shader file
     AssignFile(pShaderFile, fileName);
@@ -299,8 +296,7 @@ begin
             LogShaderError;
         {$IFEND}
 
-        Result := 0;
-        Exit;
+        Exit(0);
     end;
 
     // query program to know if link succeeded
@@ -313,8 +309,7 @@ begin
             LogShaderError;
         {$IFEND}
 
-        Result := 0;
-        Exit;
+        Exit(0);
     end;
 
     // return shader index
@@ -364,10 +359,7 @@ var
 begin
     // no stream to read from?
     if (not Assigned(pStream)) then
-    begin
-        Result := 0;
-        Exit;
-    end;
+        Exit(0);
 
     // create string list
     pStringList := TStringList.Create;
@@ -393,10 +385,7 @@ begin
 
     // succeeded?
     if (shaderID = 0) then
-    begin
-        Result := 0;
-        Exit;
-    end;
+        Exit(0);
 
     // attach shader to program
     glAttachShader(m_ProgramID, shaderID);
@@ -426,10 +415,7 @@ begin
 
     // succeeded?
     if (shaderID = 0) then
-    begin
-        Result := 0;
-        Exit;
-    end;
+        Exit(0);
 
     // attach shader to program
     glAttachShader(m_ProgramID, shaderID);
@@ -466,8 +452,7 @@ var
             LogShaderError;
         {$IFEND}
 
-        Result := False;
-        Exit;
+        Exit(False);
     end;
 
     // do use linked program immediately?

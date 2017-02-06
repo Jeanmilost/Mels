@@ -221,17 +221,11 @@ function TQRVCLModelRenderSurfaceGL.CreateARGBRenderBuffers(hDC: THandle;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // make render context as OpenGL current context
     if (not EnableContext(hDC)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (width <= 0) then
         width := 1;
@@ -303,24 +297,15 @@ function TQRVCLModelRenderSurfaceGL.Initialize(hDC: THandle;
 begin
     // no device context to render to?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no owner?
     if (not Assigned(m_pOwner)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no renderer?
     if (not Assigned(m_pRenderer)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // release previous instance if exists
     Release(hDC);
@@ -336,8 +321,7 @@ begin
         begin
             TQRLogHelper.LogToCompiler('TQRVCLModelRenderSurfaceGL - FAILED - Could not create render context');
             Release(hDC);
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // check if OpenGL Extension is already initialized. If not, try to initialize it
@@ -345,8 +329,7 @@ begin
         begin
             TQRLogHelper.LogToCompiler('TQRVCLModelRenderSurfaceGL - FAILED - Could not initialize the OpenGL Extension module');
             Release(hDC);
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         m_Allowed := True;
@@ -360,20 +343,17 @@ begin
         begin
             TQRLogHelper.LogToCompiler('TQRVCLModelRenderSurfaceGL - FAILED - Could not create ARGB surface');
             Release(hDC);
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // owner handle still not allocated?
     if (not m_pOwner.HandleAllocated) then
     begin
         Release(hDC);
-        Result := False;
-        Exit;
+        Exit(False);
     end;
 
     // start OpenGL instance
@@ -381,8 +361,7 @@ begin
     begin
         TQRLogHelper.LogToCompiler('TQRVCLModelRenderSurfaceGL - FAILED - Could not create render context');
         Release(hDC);
-        Result := False;
-        Exit;
+        Exit(False);
     end;
 
     // check if OpenGL Extension is already initialized. If not, try to initialize it
@@ -390,8 +369,7 @@ begin
     begin
         TQRLogHelper.LogToCompiler('TQRVCLModelRenderSurfaceGL - FAILED - Could not initialize the OpenGL Extension module');
         Release(hDC);
-        Result := False;
-        Exit;
+        Exit(False);
     end;
 
     m_Allowed := True;
@@ -460,7 +438,6 @@ begin
         // reset size
         m_Width  := 0;
         m_Height := 0;
-        Exit;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -468,17 +445,11 @@ function TQRVCLModelRenderSurfaceGL.EnableContext(hDC: THandle): Boolean;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // OpenGL should be enabled
     if ((hDC = 0) or (m_hGLContext = 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // make render context as OpenGL current context
     Result := wglMakeCurrent(hDC, m_hGLContext);
@@ -488,17 +459,11 @@ function TQRVCLModelRenderSurfaceGL.BeginScene(hDC: THandle): Boolean;
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // make render context as OpenGL current context
     if (not EnableContext(hDC)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // configure OpenGL depth testing
     glEnable(GL_DEPTH_TEST);
@@ -543,17 +508,11 @@ function TQRVCLModelRenderSurfaceGL.GetPixels(hDC: THandle; var pixels: TQRByteA
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no owner?
     if (not Assigned(m_pOwner)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // size is empty or does not match with owner?
     if ((m_Width  <= 0)                    or
@@ -561,17 +520,11 @@ begin
         (m_Width  <> m_pOwner.ClientWidth) or
         (m_Height <> m_pOwner.ClientHeight))
     then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // make render context as OpenGL current context
     if (not EnableContext(hDC)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     glFinish;
 
@@ -611,10 +564,7 @@ var
 begin
     // OpenGL was not initialized correctly and surface is not allowed to work?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     glFlush;
 
@@ -623,10 +573,7 @@ begin
     try
         // get OpenGL scene as pixel array
         if (not GetPixels(hDC, pixels)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         offset := 0;
 
@@ -698,8 +645,7 @@ begin
                                 pLine32[x].rgbReserved := Trunc(alphaFactor * pixels[offset + 3]);
                             end;
                         else
-                            Result := False;
-                            Exit;
+                            Exit(False);
                         end;
 
                         Inc(offset, 4);
@@ -707,8 +653,7 @@ begin
                 end;
             end;
         else
-            Result := False;
-            Exit;
+            Exit(False);
         end;
     finally
         // clear memory

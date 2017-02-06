@@ -231,20 +231,19 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.OnMessage(var message: TMessage);
 var
-    hookMsg:  TQRMessage;
-    count, i: NativeUInt;
-    found:    Boolean;
+    hookMsg: TQRMessage;
+    filter:  NativeUInt;
+    found:   Boolean;
 begin
     // don't send notifications if hooked control is deleting
     if (csDestroying in m_pHookedControl.ComponentState) then
         Exit;
 
-    count := Length(m_Filters);
-    found := (count = 0);
+    found := False;
 
     // is message filtered?
-    for i := 0 to count - 1 do
-        if (m_Filters[i] = message.Msg) then
+    for filter in m_Filters do
+        if (filter = message.Msg) then
         begin
             found := True;
             break;
@@ -296,11 +295,8 @@ var
 begin
     // is singleton instance already initialized?
     if (Assigned(m_pInstance)) then
-    begin
         // get it
-        Result := m_pInstance;
-        Exit;
-    end;
+        Exit(m_pInstance);
 
     // create new singleton instance
     pInstance := TQRDesignerHook.Create;
@@ -373,34 +369,30 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.AddFilter(filter: NativeUInt);
 var
-    count, i: NativeInt;
+    existingFilter: NativeUInt;
+    index:          NativeInt;
 begin
-    count := Length(m_Filters);
-
     // is filter already added?
-    for i := 0 to count - 1 do
-        if (m_Filters[i] = filter) then
+    for existingFilter in m_Filters do
+        if (existingFilter = filter) then
             Exit;
 
     // add filter to list
-    SetLength(m_Filters, count + 1);
-    m_Filters[count] := filter;
+    index := Length(m_Filters);
+    SetLength(m_Filters, index + 1);
+    m_Filters[index] := filter;
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRDesignerHook.Notify(message: TQRMessage);
 var
-    i:     NativeInt;
-    pItem: IQRObserver;
+    pObject: Pointer;
+    pItem:   IQRObserver;
 begin
-    // nothing to do?
-    if (m_pObservers.Count = 0) then
-        Exit;
-
     // iterate through observers to notify
-    for i := 0 to m_pObservers.Count - 1 do
+    for pObject in m_pObservers do
     begin
         // get observer to notify
-        pItem := IQRObserver(m_pObservers[i]);
+        pItem := IQRObserver(pObject);
 
         // found it?
         if (not Assigned(pItem)) then

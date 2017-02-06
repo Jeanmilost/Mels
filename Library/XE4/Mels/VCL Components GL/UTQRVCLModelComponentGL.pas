@@ -1473,10 +1473,7 @@ function TQRVCLModelComponentGL.BuildShader(pVertexPrg, pFragmentPrg: TStream): 
 begin
     // OpenGL was not initialized correctly?
     if (not m_Allowed) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // load and compile shader
     m_pShader.CreateProgram;
@@ -1496,17 +1493,11 @@ var
 begin
     // is component currently deleting?
     if (csDestroying in ComponentState) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no device context to draw to?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // fill control background (to avoid transparency error in case the scene draw failed)
     if (m_hBackgroundBrush <> 0) then
@@ -1524,10 +1515,7 @@ begin
             if ((hPackageInstance = 0) or
                 (FindResource(hPackageInstance, PChar('RC_BROKEN_MODEL_IMAGE'), RT_RCDATA) = 0))
             then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // load normals table from stream
             pStream := TResourceStream.Create(hPackageInstance,
@@ -1766,26 +1754,17 @@ var
 begin
     // is component currently destroying?
     if (csDestroying in ComponentState) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     hDC := THandle(message.WParam);
 
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do check if control is visible before draw scene to device context?
     if ((message.LParam and PRF_CHECKVISIBLE) <> 0) then
         if (not Visible) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
     // do erase background before draw the scene to the device context?
     if ((message.LParam and PRF_ERASEBKGND) <> 0) then

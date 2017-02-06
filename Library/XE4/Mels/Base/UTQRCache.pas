@@ -217,10 +217,7 @@ begin
 
         // notify that previous item is about to be deleted
         if (Assigned(m_fOnDeleteFromCache) and not m_fOnDeleteFromCache(key, prevValue)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // delete previous item from cache
         m_pCache.Remove(key);
@@ -259,10 +256,7 @@ function TQRCache<T, U>.Get(const key: T; out value: U): Boolean;
 begin
     // search for existing key in cache
     if (not m_pCache.ContainsKey(key)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get item from cache
     value  := m_pCache.Items[key];

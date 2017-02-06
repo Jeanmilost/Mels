@@ -471,10 +471,7 @@ class function TQRModelHelper.ValidateNextRead(pBuffer: TStream;
 begin
     // check if buffer is large enough to read next data block
     if ((pBuffer.Position + lengthToRead) <= pBuffer.Size) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // build error message containing debug informations
     errorMsg := 'offset - '              + IntToStr(pBuffer.Position) +
@@ -488,36 +485,19 @@ class function TQRModelHelper.PopulateAABBTree(const mesh: TQRMesh;
                                                 pAABBTree: TQRAABBTree;
                                               hIsCanceled: TQRIsCanceledEvent): Boolean;
 var
-    meshCount, i: NativeUInt;
-    polygons:     TQRPolygons;
+    vertex:   TQRVertex;
+    polygons: TQRPolygons;
 begin
     // no destination tree?
     if (not Assigned(pAABBTree)) then
-    begin
         // it's not an error so return true
-        Result := True;
-        Exit;
-    end;
-
-    // get mesh count
-    meshCount := Length(mesh);
-
-    // no source mesh?
-    if (meshCount = 0) then
-    begin
-        // it's not an error so return true
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // iterate through meshes
-    for i := 0 to meshCount - 1 do
+    for vertex in mesh do
         // get collide polygons
-        if (not TQRCollisionHelper.GetPolygons(mesh[i], polygons, hIsCanceled)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+        if (not TQRCollisionHelper.GetPolygons(vertex, polygons, hIsCanceled)) then
+            Exit(False);
 
     // populate aligned-axis bounding box tree
     Result := pAABBTree.Populate(polygons, hIsCanceled);
@@ -536,34 +516,22 @@ begin
 
     // are mesh compatible?
     if (count <> Length(mesh2)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is mesh empty?
     if (count = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // iterate through mesh to interpolate
     for i := 0 to count - 1 do
     begin
         // are frame compatibles?
         if (not mesh1[i].CompareFormat(mesh2[i])) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // not a 3D coordinate?
         if (mesh1[i].m_CoordType <> EQR_VC_XYZ) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         vertex.m_Name      := mesh1[i].m_Name;
         vertex.m_Stride    := mesh1[i].m_Stride;

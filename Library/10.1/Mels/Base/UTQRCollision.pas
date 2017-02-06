@@ -377,14 +377,14 @@ function TQRAABBTree.Populate(pNode: PQRAABBNode;
                      const polygons: TQRPolygons;
                         hIsCanceled: TQRIsCanceledEvent): Boolean;
 var
-    i,
     polygonIndex,
     leftPolygonIndex,
     rightPolygonIndex,
     polygonCount,
     leftPolygonCount,
     rightPolygonCount:                         NativeUInt;
-    j, k:                                      Byte;
+    polygon:                                   TQRPolygon;
+    i, j:                                      Byte;
     pLeftBox, pRightBox:                       PQRBox;
     leftPolygons, rightPolygons:               TQRPolygons;
     boxEmpty, canResolveLeft, canResolveRight: Boolean;
@@ -405,21 +405,16 @@ begin
     // create a collision box
     New(pNode.m_pBox);
 
-    // get polygon count
-    polygonCount := Length(polygons);
+    // iterate through polygons to divide
+    for polygon in polygons do
+    begin
+        // is canceled?
+        if (Assigned(hIsCanceled) and hIsCanceled) then
+            Exit;
 
-    // no polygons? (should never happen, but...)
-    if (polygonCount > 0) then
-        // iterate through polygons to divide
-        for i := 0 to polygonCount - 1 do
-        begin
-            // is canceled?
-            if (Assigned(hIsCanceled) and hIsCanceled) then
-                Exit;
-
-            // calculate bounding box
-            AddPolygonToBoundingBox(polygons[i], pNode.m_pBox, boxEmpty);
-        end;
+        // calculate bounding box
+        AddPolygonToBoundingBox(polygon, pNode.m_pBox, boxEmpty);
+    end;
 
     pLeftBox  := nil;
     pRightBox := nil;
@@ -433,15 +428,15 @@ begin
         pNode.m_pBox.Cut(pLeftBox^, pRightBox^);
 
         // iterate again through polygons to divide
-        for i := 0 to polygonCount - 1 do
-            for j := 0 to 2 do
+        for polygon in polygons do
+            for i := 0 to 2 do
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
                     Exit;
 
                 // check if first polygon vertice belongs to left or right sub-box
-                if (VectorIsBetween(polygons[i].GetVertex(j),
+                if (VectorIsBetween(polygon.GetVertex(i),
                                     pLeftBox.Min^,
                                     pLeftBox.Max^,
                                     QR_Epsilon))
@@ -454,13 +449,13 @@ begin
                     SetLength(leftPolygons, leftPolygonIndex + 1);
 
                     // copy polygon
-                    for k := 0 to 2 do
-                        leftPolygons[leftPolygonIndex].SetVertex(k, polygons[i].GetVertex(k));
+                    for j := 0 to 2 do
+                        leftPolygons[leftPolygonIndex].SetVertex(j, polygon.GetVertex(j));
 
                     break;
                 end
                 else
-                if (VectorIsBetween(polygons[i].GetVertex(j),
+                if (VectorIsBetween(polygon.GetVertex(i),
                                     pRightBox.Min^,
                                     pRightBox.Max^,
                                     QR_Epsilon))
@@ -473,8 +468,8 @@ begin
                     SetLength(rightPolygons, rightPolygonIndex + 1);
 
                     // copy polygon
-                    for k := 0 to 2 do
-                        rightPolygons[rightPolygonIndex].SetVertex(k, polygons[i].GetVertex(k));
+                    for j := 0 to 2 do
+                        rightPolygons[rightPolygonIndex].SetVertex(j, polygon.GetVertex(j));
 
                     break;
                 end;
@@ -487,6 +482,7 @@ begin
             Dispose(pRightBox);
     end;
 
+    polygonCount      := Length(polygons);
     leftPolygonCount  := Length(leftPolygons);
     rightPolygonCount := Length(rightPolygons);
     canResolveLeft    := ((leftPolygonCount  > 0) and (leftPolygonCount  < polygonCount));
@@ -495,28 +491,25 @@ begin
     // leaf reached?
     if ((not canResolveLeft) and (not canResolveRight)) then
     begin
-        // polygons to copy?
-        if (polygonCount > 0) then
-            // iterate through polygons to copy
-            for i := 0 to polygonCount - 1 do
-            begin
-                // get current polygon index
-                polygonIndex := Length(pNode.m_Polygons);
+        // iterate through polygons to copy
+        for polygon in polygons do
+        begin
+            // get current polygon index
+            polygonIndex := Length(pNode.m_Polygons);
 
-                // add polygon to leaf
-                SetLength(pNode.m_Polygons, polygonIndex + 1);
+            // add polygon to leaf
+            SetLength(pNode.m_Polygons, polygonIndex + 1);
 
-                // copy polygon content
-                for j := 0 to 2 do
-                    pNode.m_Polygons[polygonIndex].SetVertex(j, polygons[i].GetVertex(j));
-            end;
+            // copy polygon content
+            for i := 0 to 2 do
+                pNode.m_Polygons[polygonIndex].SetVertex(i, polygon.GetVertex(i));
+        end;
 
         // delete left and right lists, as they will no more be used
         SetLength(leftPolygons,  0);
         SetLength(rightPolygons, 0);
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // do create left node?
@@ -550,16 +543,14 @@ function TQRAABBTree.Resolve(const pRay: TQRRay;
                             const pNode: PQRAABBNode;
                            var polygons: TQRPolygons): Boolean;
 var
-    i, index, polygonLength:     NativeUInt;
-    j:                           Byte;
+    i:                           Byte;
+    index:                       NativeUInt;
+    polygon:                     TQRPolygon;
     leftResolved, rightResolved: Boolean;
 begin
     // no node to resolve? (this should never happen, but...)
     if (not Assigned(pNode)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     leftResolved  := False;
     rightResolved := False;
@@ -567,27 +558,21 @@ begin
     // is leaf?
     if ((not Assigned(pNode.m_pLeft)) and (not Assigned(pNode.m_pRight))) then
     begin
-        // get polygon count the leaf contains
-        polygonLength := Length(pNode.m_Polygons);
+        // iterate through polygons
+        for polygon in pNode.m_Polygons do
+        begin
+            // get current output list index
+            index := Length(polygons);
 
-        // leaf contains polygons?
-        if (polygonLength > 0) then
-            // iterate through polygons
-            for i := 0 to polygonLength - 1 do
-            begin
-                // get current output list index
-                index := Length(polygons);
+            // add new polygon to output list
+            SetLength(polygons, index + 1);
 
-                // add new polygon to output list
-                SetLength(polygons, index + 1);
+            // copy polygon content
+            for i := 0 to 2 do
+                polygons[index].SetVertex(i, polygon.GetVertex(i));
+        end;
 
-                // copy polygon content
-                for j := 0 to 2 do
-                    polygons[index].SetVertex(j, pNode.m_Polygons[i].GetVertex(j));
-            end;
-
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // check if ray intersects the left box
@@ -655,10 +640,7 @@ begin
 
     // calculate the intersection point
     if (not polygonPlane.IntersectRay(pRay.Pos^, pRay.Dir^, pointOnPlane)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // check if calculated point is inside the polygon
     Result := polygon.Inside(pointOnPlane);
@@ -670,17 +652,11 @@ var
 begin
     // no ray to check?
     if (not Assigned(pRay)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no box to check against?
     if (not Assigned(pBox)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // calculate nearest point where ray intersects box on x coordinate
     if (not IsInfinite(pRay.InvDir.X)) then
@@ -764,10 +740,7 @@ begin
 
     // no data to extract from?
     if (vbLength = 0) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // search for vertex type
     case vertex.m_Type of
@@ -782,10 +755,7 @@ begin
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 AddPolygon(vertex.m_Buffer,
                            i,
@@ -796,8 +766,7 @@ begin
                 Inc(i, step);
             end;
 
-            Result := True;
-            Exit;
+            Exit(True);
         end;
 
         EQR_VT_TriangleStrip:
@@ -812,10 +781,7 @@ begin
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // extract polygon from source buffer, revert odd polygons
                 if ((index = 0) or ((index mod 2) = 0)) then
@@ -835,8 +801,7 @@ begin
                 Inc(index);
             end;
 
-            Result := True;
-            Exit;
+            Exit(True);
         end;
 
         EQR_VT_TriangleFan:
@@ -850,10 +815,7 @@ begin
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // extract polygon from source buffer
                 AddPolygon(vertex.m_Buffer,
@@ -865,8 +827,7 @@ begin
                 Inc(i, vertex.m_Stride);
             end;
 
-            Result := True;
-            Exit;
+            Exit(True);
         end;
 
         EQR_VT_Quads:
@@ -880,10 +841,7 @@ begin
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // calculate vertices position
                 v1 := i;
@@ -898,8 +856,7 @@ begin
                 Inc(i, step);
             end;
 
-            Result := True;
-            Exit;
+            Exit(True);
         end;
 
         EQR_VT_QuadStrip:
@@ -916,10 +873,7 @@ begin
             begin
                 // is canceled?
                 if (Assigned(hIsCanceled) and hIsCanceled) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // calculate vertices position
                 v1 := i;
@@ -934,8 +888,7 @@ begin
                 Inc(i, step);
             end;
 
-            Result := True;
-            Exit;
+            Exit(True);
         end;
     else
         Result := False;

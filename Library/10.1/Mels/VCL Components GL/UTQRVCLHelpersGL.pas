@@ -58,10 +58,7 @@ class function TQRVCLOpenGLHelper.InitializeOpenGL: Boolean;
 begin
     // is OpenGL Extension already initialized?
     if (Assigned(@glGenRenderbuffers)) then
-    begin
-        Result := True;
-        Exit;
-    end;
+        Exit(True);
 
     // initialize OpenGL extension library
     InitOpenGLext;
