@@ -361,44 +361,29 @@ class function TQROpenGLHelper.EnableOpenGL(hWnd: THandle;
 begin
     // no window handle?
     if (hWnd = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get the device context (DC)
     hDC := GetDC(hWnd);
 
     // failed to get device context?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // configure pixel format
     if (not SetTargetPixelFormat(hDC)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // create OpenGL render context
     hRC := wglCreateContext(hDC);
 
     // succeeded?
     if (hRC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // enable OpenGL render context
     if (not wglMakeCurrent(hDC, hRC)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     Result := True;
 end;
@@ -424,10 +409,7 @@ var
 begin
     // no device context?
     if (hDC = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     with pfd do
     begin
@@ -631,20 +613,14 @@ var
 begin
     // no window or control?
     if (hWnd = 0) then
-    begin
-        Result := Default(TQRVector3D);
-        Exit;
-    end;
+        Exit(Default(TQRVector3D));
 
     // get mouse position
     GetCursorPos(p);
 
     // convert to window or control client coordinates
     if (not ScreenToClient(hWnd, p)) then
-    begin
-        Result := Default(TQRVector3D);
-        Exit;
-    end;
+        Exit(Default(TQRVector3D));
 
     mouseX := p.x;
     mouseY := p.y;
@@ -658,10 +634,7 @@ begin
 
     // invalid client width or height?
     if ((clientWidth = 0.0) or (clientHeight = 0.0)) then
-    begin
-        Result := Default(TQRVector3D);
-        Exit;
-    end;
+        Exit(Default(TQRVector3D));
 
     // convert mouse position to OpenGL position
     Result := TQRVector3D.Create(viewRect.Min.X + ((mouseX * viewRect.Width)  / clientWidth),
@@ -741,17 +714,11 @@ var
 begin
     // no bitmap?
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is bitmap empty?
     if ((pBitmap.Width <= 0) or (pBitmap.Height <= 0)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // get bitmap size
     width  := pBitmap.Width;
@@ -863,20 +830,14 @@ end;
     begin
         // no shader?
         if (not Assigned(pShader)) then
-        begin
-            Result := -1;
-            Exit;
-        end;
+            Exit(-1);
 
         // get uniform property name
         propertyName := AnsiString(pShader.GetAttributeName(uniform));
 
         // found it?
         if (Length(propertyName) = 0) then
-        begin
-            Result := -1;
-            Exit;
-        end;
+            Exit(-1);
 
         // get model matrix slot from shader
         Result := glGetUniformLocation(pShader.GetProgramID, PAnsiChar(propertyName));
@@ -891,20 +852,14 @@ end;
     begin
         // no shader?
         if (not Assigned(pShader)) then
-        begin
-            Result := -1;
-            Exit;
-        end;
+            Exit(-1);
 
         // get attribute property name
         propertyName := AnsiString(pShader.GetAttributeName(attribute));
 
         // found it?
         if (Length(propertyName) = 0) then
-        begin
-            Result := -1;
-            Exit;
-        end;
+            Exit(-1);
 
         // get shader interpolation position attribute
         Result := glGetAttribLocation(pShader.GetProgramID, PAnsiChar(propertyName));
@@ -919,15 +874,9 @@ class procedure TQROpenGLHelper.Draw(const mesh: TQRMesh;
                                     const scale: TQRVector3D;
                                  const textures: TQRTextures);
 var
-    count, stride, offset, i: NativeUInt;
+    stride, offset: NativeUInt;
+    vertex:         TQRVertex;
 begin
-    // get mesh count
-    count := Length(mesh);
-
-    // no mesh to draw?
-    if (count = 0) then
-        Exit;
-
     // calculate stride. As all meshes share the same vertex properties, the first mesh can be used
     // to extract vertex format info
     if (mesh[0].m_CoordType = EQR_VC_XYZ) then
@@ -959,59 +908,59 @@ begin
     glScalef(scale.X, scale.Y, scale.Z);
 
     // iterate through vertices to draw
-    for i := 0 to count - 1 do
+    for vertex in mesh do
     begin
-        SelectTexture(textures, mesh[i].m_Name);
+        SelectTexture(textures, vertex.m_Name);
 
         // bind vertex array
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3,
                         GL_FLOAT,
                         stride * SizeOf(Single),
-                        @mesh[i].m_Buffer[0]);
+                        @vertex.m_Buffer[0]);
 
         offset := 3;
 
         // bind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
         begin
             glEnableClientState(GL_NORMAL_ARRAY);
             glNormalPointer(GL_FLOAT,
                             stride * SizeOf(Single),
-                            @mesh[i].m_Buffer[offset]);
+                            @vertex.m_Buffer[offset]);
 
             Inc(offset, 3);
         end;
 
         // bind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
         begin
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2,
                               GL_FLOAT,
                               stride * SizeOf(Single),
-                              @mesh[i].m_Buffer[offset]);
+                              @vertex.m_Buffer[offset]);
 
             Inc(offset, 2);
         end;
 
         // bind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
         begin
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4,
                            GL_FLOAT,
                            stride * SizeOf(Single),
-                           @mesh[i].m_Buffer[offset]);
+                           @vertex.m_Buffer[offset]);
         end;
 
         // draw mesh
-        case mesh[i].m_Type of
-            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
+        case vertex.m_Type of
+            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(vertex.m_Buffer)) div stride);
         else
             raise Exception.Create('Unknown vertex type');
         end;
@@ -1020,15 +969,15 @@ begin
         glDisableClientState(GL_VERTEX_ARRAY);
 
         // unbind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
             glDisableClientState(GL_NORMAL_ARRAY);
 
         // unbind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         // unbind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
             glDisableClientState(GL_COLOR_ARRAY);
 
         glFlush;
@@ -1041,15 +990,9 @@ class procedure TQROpenGLHelper.Draw(const mesh: TQRMesh;
                               const modelMatrix: TQRMatrix4x4;
                                  const textures: TQRTextures);
 var
-    count, stride, offset, i: NativeUInt;
+    vertex:         TQRVertex;
+    stride, offset: NativeUInt;
 begin
-    // get mesh count
-    count := Length(mesh);
-
-    // no mesh to draw?
-    if (count = 0) then
-        Exit;
-
     // calculate stride. As all meshes share the same vertex properties, the first mesh can be used
     // to extract vertex format info
     if (mesh[0].m_CoordType = EQR_VC_XYZ) then
@@ -1077,59 +1020,59 @@ begin
     glLoadMatrixf(PGLfloat(modelMatrix.GetPtr));
 
     // iterate through vertices to draw
-    for i := 0 to count - 1 do
+    for vertex in mesh do
     begin
-        SelectTexture(textures, mesh[i].m_Name);
+        SelectTexture(textures, vertex.m_Name);
 
         // bind vertex array
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3,
                         GL_FLOAT,
                         stride * SizeOf(Single),
-                        @mesh[i].m_Buffer[0]);
+                        @vertex.m_Buffer[0]);
 
         offset := 3;
 
         // bind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
         begin
             glEnableClientState(GL_NORMAL_ARRAY);
             glNormalPointer(GL_FLOAT,
                             stride * SizeOf(Single),
-                            @mesh[i].m_Buffer[offset]);
+                            @vertex.m_Buffer[offset]);
 
             Inc(offset, 3);
         end;
 
         // bind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
         begin
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2,
                               GL_FLOAT,
                               stride * SizeOf(Single),
-                              @mesh[i].m_Buffer[offset]);
+                              @vertex.m_Buffer[offset]);
 
             Inc(offset, 2);
         end;
 
         // bind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
         begin
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4,
                            GL_FLOAT,
                            stride * SizeOf(Single),
-                           @mesh[i].m_Buffer[offset]);
+                           @vertex.m_Buffer[offset]);
         end;
 
         // draw mesh
-        case (mesh[i].m_Type) of
-            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
+        case (vertex.m_Type) of
+            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(vertex.m_Buffer)) div stride);
         else
             raise Exception.Create('Unknown vertex type');
         end;
@@ -1138,15 +1081,15 @@ begin
         glDisableClientState(GL_VERTEX_ARRAY);
 
         // unbind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
             glDisableClientState(GL_NORMAL_ARRAY);
 
         // unbind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         // unbind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
             glDisableClientState(GL_COLOR_ARRAY);
 
         glFlush;
@@ -1161,25 +1104,13 @@ end;
                                     const textures: TQRTextures;
                                            pShader: TQRShader): Boolean;
     var
-        count, stride, offset, i:                                NativeUInt;
+        vertex:                                                  TQRVertex;
+        stride, offset:                                          NativeUInt;
         uniform, posAttrib, normalAttrib, uvAttrib, colorAttrib: GLint;
     begin
-        // get mesh count
-        count := Length(mesh);
-
-        // no mesh to draw?
-        if (count = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
-
         // no shader program?
         if (not Assigned(pShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         try
             // bind shader program
@@ -1190,10 +1121,7 @@ end;
 
             // found it?
             if (uniform = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // connect model matrix to shader
             glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr));
@@ -1203,10 +1131,7 @@ end;
 
             // found it?
             if (posAttrib = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // calculate stride. As all meshes share the same vertex properties, the first mesh can
             // be used to extract vertex format info
@@ -1225,10 +1150,7 @@ end;
 
                 // found it?
                 if (normalAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 Inc(stride, 3);
             end;
@@ -1243,10 +1165,7 @@ end;
 
                 // found it?
                 if (uvAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // add texture coordinates to stride
                 Inc(stride, 2);
@@ -1262,19 +1181,16 @@ end;
 
                 // found it?
                 if (colorAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // add color to stride
                 Inc(stride, 4);
             end;
 
             // iterate through OpenGL meshes
-            for i := 0 to count - 1 do
+            for vertex in mesh do
             begin
-                SelectTexture(pShader, textures, mesh[i].m_Name);
+                SelectTexture(pShader, textures, vertex.m_Name);
 
                 offset := 0;
 
@@ -1285,9 +1201,9 @@ end;
                                       GL_FLOAT,
                                       GL_FALSE,
                                       stride * SizeOf(Single),
-                                      @mesh[i].m_Buffer[offset]);
+                                      @vertex.m_Buffer[offset]);
 
-                if (mesh[i].m_CoordType = EQR_VC_XYZ) then
+                if (vertex.m_CoordType = EQR_VC_XYZ) then
                     offset := 3
                 else
                     offset := 2;
@@ -1302,7 +1218,7 @@ end;
                                           GL_FLOAT,
                                           GL_FALSE,
                                           stride * SizeOf(Single),
-                                          @mesh[i].m_Buffer[offset]);
+                                          @vertex.m_Buffer[offset]);
 
                     Inc(offset, 3);
                 end;
@@ -1318,7 +1234,7 @@ end;
                                           GL_FLOAT,
                                           GL_FALSE,
                                           stride * SizeOf(Single),
-                                          @mesh[i].m_Buffer[offset]);
+                                          @vertex.m_Buffer[offset]);
 
                     Inc(offset, 2);
                 end;
@@ -1334,16 +1250,16 @@ end;
                                           GL_FLOAT,
                                           GL_FALSE,
                                           stride * SizeOf(Single),
-                                          @mesh[i].m_Buffer[offset]);
+                                          @vertex.m_Buffer[offset]);
                 end;
 
                 // draw mesh
-                case (mesh[i].m_Type) of
-                    EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-                    EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-                    EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-                    EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-                    EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
+                case (vertex.m_Type) of
+                    EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+                    EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+                    EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+                    EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+                    EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(vertex.m_Buffer)) div stride);
                 else
                     raise Exception.Create('Unknown vertex type');
                 end;
@@ -1382,17 +1298,11 @@ end;
 
         // no mesh to draw?
         if (count = 0) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // no shader program?
         if (not Assigned(pShader)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         try
             // bind shader program
@@ -1403,10 +1313,7 @@ end;
 
             // found it?
             if (uniform = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // connect model matrix to shader
             glUniformMatrix4fv(uniform, 1, GL_FALSE, PGLfloat(modelMatrix.GetPtr));
@@ -1416,10 +1323,7 @@ end;
 
             // found interpolation attribute?
             if (interpolationAttrib = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // send interpolation factor to shader program
             glUniform1f(interpolationAttrib, interpolationFactor);
@@ -1429,20 +1333,14 @@ end;
 
             // found it?
             if (posAttrib = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // get shader interpolation position attribute
             iPosAttrib := GetAttribute(pShader, EQR_SA_InterpolationPos);
 
             // found it?
             if (iPosAttrib = -1) then
-            begin
-                Result := False;
-                Exit;
-            end;
+                Exit(False);
 
             // calculate stride. As all meshes share the same vertex properties, the first mesh can
             // be used to extract vertex format info
@@ -1462,20 +1360,14 @@ end;
 
                 // found it?
                 if (normalAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // get shader normal attribute
                 iNormalAttrib := GetAttribute(pShader, EQR_SA_InterpolationNormal);
 
                 // found it?
                 if (iNormalAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 Inc(stride, 3);
             end;
@@ -1490,10 +1382,7 @@ end;
 
                 // found it?
                 if (uvAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // add texture coordinates to stride
                 Inc(stride, 2);
@@ -1509,10 +1398,7 @@ end;
 
                 // found it?
                 if (colorAttrib = -1) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // add color to stride
                 Inc(stride, 4);
@@ -1629,36 +1515,21 @@ end;
 class procedure TQROpenGLHelper.SelectTexture(const textures: TQRTextures;
                                              const modelName: UnicodeString);
 var
-    index:           NativeInt;
-    textureCount, i: NativeUInt;
+    pTexture: TQRTexture;
 begin
-    textureCount := Length(textures);
-
-    // do draw textures?
-    if (textureCount = 0) then
-    begin
-        glDisable(GL_TEXTURE_2D);
-        Exit;
-    end;
-
-    index := -1;
+    pTexture := nil;
 
     // iterate through textures belonging to model
-    for i := 0 to textureCount - 1 do
+    for pTexture in textures do
         // found a texture to draw?
-        if (Assigned(textures[i]) and (textures[i].Enabled) and (textures[i].Name = modelName)) then
-        begin
-            // get texture index
-            index := i;
+        if (Assigned(pTexture) and (pTexture.Enabled) and (pTexture.Name = modelName)) then
             break;
-        end;
 
-    // found texture index to draw?
-    if (index >= 0) then
+    // draw texture, if one was found
+    if (Assigned(pTexture)) then
     begin
-        // draw texture
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, textures[index].Index);
+        glBindTexture(GL_TEXTURE_2D, pTexture.Index);
         Exit;
     end;
 
@@ -1670,9 +1541,8 @@ end;
                                            const textures: TQRTextures;
                                           const modelName: UnicodeString);
     var
-        uniform:         GLint;
-        index:           NativeInt;
-        textureCount, i: NativeUInt;
+        uniform:  GLint;
+        pTexture: TQRTexture;
     begin
         // get color map slot from shader
         uniform := GetUniform(pShader, EQR_SA_ColorMap);
@@ -1682,33 +1552,19 @@ end;
             // nothing to do (some shader may have no texture to handle)
             Exit;
 
-        textureCount := Length(textures);
-
-        // do draw textures?
-        if (textureCount = 0) then
-        begin
-            glDisable(GL_TEXTURE_2D);
-            Exit;
-        end;
-
-        index := -1;
+        pTexture := nil;
 
         // iterate through textures belonging to model
-        for i := 0 to textureCount - 1 do
+        for pTexture in textures do
             // found a texture to draw?
-            if (Assigned(textures[i]) and (textures[i].Enabled) and (textures[i].Name = modelName)) then
-            begin
-                // get texture index
-                index := i;
+            if (Assigned(pTexture) and (pTexture.Enabled) and (pTexture.Name = modelName)) then
                 break;
-            end;
 
-        // found texture index to draw?
-        if (index >= 0) then
+        // draw texture, if one was found
+        if (Assigned(pTexture)) then
         begin
-            // draw texture
             glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, textures[index].Index);
+            glBindTexture(GL_TEXTURE_2D, pTexture.Index);
             glActiveTexture(GL_TEXTURE0);
             Exit;
         end;
