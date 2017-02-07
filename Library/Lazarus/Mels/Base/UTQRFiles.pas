@@ -315,7 +315,6 @@ begin
 
     index := 0;
 			 
-    // FIXME EMBARCADERO
     // iterate through lines to parse
     for line in lines do
     begin
