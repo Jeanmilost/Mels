@@ -307,8 +307,8 @@ type
     PQRVector2D = ^TQRVector2D;
 
     {**
-    * Vector 3D
-    *}
+     Vector 3D
+    }
     TQRVector3D = record
         private
             m_X: Single;
