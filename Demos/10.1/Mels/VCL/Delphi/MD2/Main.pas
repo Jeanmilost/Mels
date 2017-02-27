@@ -514,10 +514,7 @@ begin
 
     // found it?
     if (hPackageInstance = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if (m_pOptions.ckUseShader.Checked) then
@@ -547,10 +544,7 @@ begin
 
                 // try to build shader
                 if (not BuildShader(pVertexPrg, pFragmentPrg, m_pTextureShader)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
             finally
                 // delete resource streams, if needed
                 pVertexPrg.Free;
@@ -582,10 +576,7 @@ begin
 
                 // try to build shader
                 if (not BuildShader(pVertexPrg, pFragmentPrg, m_pColorShader)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
             finally
                 // delete resource streams, if needed
                 pVertexPrg.Free;
@@ -636,8 +627,7 @@ begin
             2: Include(modelOptions, EQR_MO_Dynamic_Frames);
             3: begin end;
         else
-            Result := False;
-            Exit;
+            Exit(False);
         end;
 
         // if shader is used, interpolation will be done on the shader side
@@ -689,34 +679,22 @@ begin
         pMemDir := TQRMemoryDir.Create(True);
 
         if (not pMemDir.AddFile('marvin.md2', pModelStream, False)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pModelStream := nil;
 
         if (not pMemDir.AddFile('marvin.bin', pNTStream, False)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pNTStream := nil;
 
         if (not pMemDir.AddFile('marvin.cfg', pAnimCfgStream, False)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pAnimCfgStream := nil;
 
         if (not pMemDir.AddFile('marvin.bmp', pTextureStream, False)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pTextureStream := nil;
 
@@ -731,10 +709,7 @@ begin
                             modelOptions,
                             framedModelOptions))
         then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pMemDir := nil;
 
@@ -832,16 +807,17 @@ end;
 procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
                                               const pAABBTree: TQRAABBTree);
 var
-    rect:                                        TQRRect;
-    rayPos, rayDir:                              TQRVector3D;
-    invertMatrix:                                TQRMatrix4x4;
-    determinant:                                 Single;
-    pRay:                                        TQRRay;
-    mesh:                                        TQRMesh;
-    polygons, polygonToDraw:                     TQRPolygons;
-    textures:                                    TQRTextures;
-    polygonCount, polygonToDrawCount, i, offset: NativeUInt;
-    uniform:                                     GLint;
+    rect:                    TQRRect;
+    rayPos, rayDir:          TQRVector3D;
+    invertMatrix:            TQRMatrix4x4;
+    determinant:             Single;
+    pRay:                    TQRRay;
+    mesh:                    TQRMesh;
+    polygons, polygonToDraw: TQRPolygons;
+    polygon:                 TQRPolygon;
+    textures:                TQRTextures;
+    polygonCount, offset:    NativeUInt;
+    uniform:                 GLint;
 begin
     if ((not m_pOptions.ckShowCollisions.Checked) or (not Assigned(pAABBTree))) then
         Exit;
@@ -880,23 +856,20 @@ begin
     // get polygons to check for collision by resolving AABB tree
     pAABBTree.Resolve(pRay, polygons);
 
-    polygonCount := Length(polygons);
-
     // iterate through polygons to check
-    if (polygonCount > 0) then
-        for i := 0 to polygonCount - 1 do
-            // is polygon intersecting ray?
-            if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygons[i])) then
-            begin
-                // add polygon in collision to resulting list
-                SetLength(polygonToDraw, Length(polygonToDraw) + 1);
-                polygonToDraw[Length(polygonToDraw) - 1] := polygons[i];
-            end;
+    for polygon in polygons do
+        // is polygon intersecting ray?
+        if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygon)) then
+        begin
+            // add polygon in collision to resulting list
+            SetLength(polygonToDraw, Length(polygonToDraw) + 1);
+            polygonToDraw[Length(polygonToDraw) - 1] := polygon;
+        end;
 
-    polygonToDrawCount := Length(polygonToDraw);
+    polygonCount := Length(polygonToDraw);
 
     // found polgons to draw?
-    if (polygonToDrawCount = 0) then
+    if (polygonCount = 0) then
         Exit;
 
     SetLength(mesh, 1);
@@ -905,31 +878,31 @@ begin
     mesh[0].m_CoordType := EQR_VC_XYZ;
     mesh[0].m_Stride    := 7;
     mesh[0].m_Format    := [EQR_VF_Colors];
-    SetLength(mesh[0].m_Buffer, polygonToDrawCount * (mesh[0].m_Stride * 3));
+    SetLength(mesh[0].m_Buffer, polygonCount * (mesh[0].m_Stride * 3));
 
     offset := 0;
 
     // iterate through polygons to draw
-    for i := 0 to polygonToDrawCount - 1 do
+    for polygon in polygonToDraw do
     begin
         // build polygon to show
-        mesh[0].m_Buffer[offset]      := polygonToDraw[i].Vertex1.X;
-        mesh[0].m_Buffer[offset + 1]  := polygonToDraw[i].Vertex1.Y;
-        mesh[0].m_Buffer[offset + 2]  := polygonToDraw[i].Vertex1.Z;
+        mesh[0].m_Buffer[offset]      := polygon.Vertex1.X;
+        mesh[0].m_Buffer[offset + 1]  := polygon.Vertex1.Y;
+        mesh[0].m_Buffer[offset + 2]  := polygon.Vertex1.Z;
         mesh[0].m_Buffer[offset + 3]  := 1.0;
         mesh[0].m_Buffer[offset + 4]  := 0.0;
         mesh[0].m_Buffer[offset + 5]  := 0.0;
         mesh[0].m_Buffer[offset + 6]  := 1.0;
-        mesh[0].m_Buffer[offset + 7]  := polygonToDraw[i].Vertex2.X;
-        mesh[0].m_Buffer[offset + 8]  := polygonToDraw[i].Vertex2.Y;
-        mesh[0].m_Buffer[offset + 9]  := polygonToDraw[i].Vertex2.Z;
+        mesh[0].m_Buffer[offset + 7]  := polygon.Vertex2.X;
+        mesh[0].m_Buffer[offset + 8]  := polygon.Vertex2.Y;
+        mesh[0].m_Buffer[offset + 9]  := polygon.Vertex2.Z;
         mesh[0].m_Buffer[offset + 10] := 0.8;
         mesh[0].m_Buffer[offset + 11] := 0.0;
         mesh[0].m_Buffer[offset + 12] := 0.2;
         mesh[0].m_Buffer[offset + 13] := 1.0;
-        mesh[0].m_Buffer[offset + 14] := polygonToDraw[i].Vertex3.X;
-        mesh[0].m_Buffer[offset + 15] := polygonToDraw[i].Vertex3.Y;
-        mesh[0].m_Buffer[offset + 16] := polygonToDraw[i].Vertex3.Z;
+        mesh[0].m_Buffer[offset + 14] := polygon.Vertex3.X;
+        mesh[0].m_Buffer[offset + 15] := polygon.Vertex3.Y;
+        mesh[0].m_Buffer[offset + 16] := polygon.Vertex3.Z;
         mesh[0].m_Buffer[offset + 17] := 1.0;
         mesh[0].m_Buffer[offset + 18] := 0.12;
         mesh[0].m_Buffer[offset + 19] := 0.2;
@@ -1055,22 +1028,13 @@ var
     pPixels:     PByte;
 begin
     if (not Assigned(pModel)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (not Assigned(pTexture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (not Assigned(pBitmap)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     if (pBitmap.PixelFormat = pf32bit) then
         pixelFormat := GL_RGBA

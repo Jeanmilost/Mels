@@ -271,13 +271,14 @@ procedure TMainForm.OnDrawCustomStaticModelItem(const pGroup: TQRModelGroup;
                                               const textures: TQRTextures;
                                                 const matrix: TQRMatrix4x4);
 var
-    pSphereModel:                        TQRSphereModel;
-    rect:                                TQRRect;
-    rayPos, rayDir:                      TQRVector3D;
-    rotateMatrix:                        TQRMatrix4x4;
-    polygons, polygonToDraw:             TQRPolygons;
-    polygonCount, polygonToDrawCount, i: NativeUInt;
-    pRay:                                TQRRay;
+    pSphereModel:                     TQRSphereModel;
+    rect:                             TQRRect;
+    rayPos, rayDir:                   TQRVector3D;
+    rotateMatrix:                     TQRMatrix4x4;
+    polygons, polygonToDraw:          TQRPolygons;
+    polygon:                          TQRPolygon;
+    polygonCount, polygonToDrawCount: NativeUInt;
+    pRay:                             TQRRay;
 begin
     // no model?
     if (not Assigned(pModel)) then
@@ -332,15 +333,14 @@ begin
         m_HighestHit := Max(m_HighestHit, polygonCount);
 
         // iterate through polygons to check
-        if (polygonCount > 0) then
-            for i := 0 to polygonCount - 1 do
-                // is polygon intersecting ray?
-                if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygons[i])) then
-                begin
-                    // ad polygon in collision to resulting list
-                    SetLength(polygonToDraw, Length(polygonToDraw) + 1);
-                    polygonToDraw[Length(polygonToDraw) - 1] := polygons[i];
-                end;
+        for polygon in polygons do
+            // is polygon intersecting ray?
+            if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygon)) then
+            begin
+                // ad polygon in collision to resulting list
+                SetLength(polygonToDraw, Length(polygonToDraw) + 1);
+                polygonToDraw[Length(polygonToDraw) - 1] := polygon;
+            end;
     finally
         pRay.Free;
     end;
@@ -354,27 +354,21 @@ begin
 
     // found collide polygons to draw?
     if (polygonToDrawCount > 0) then
-        for i := 0 to polygonToDrawCount - 1 do
+        for polygon in polygonToDraw do
         begin
             glBegin(GL_TRIANGLES);
 
             // draw vertex 1
             glColor3f(1.0, 0.0, 0.0);
-            glVertex3f(polygonToDraw[i].Vertex1^.X,
-                       polygonToDraw[i].Vertex1^.Y,
-                       polygonToDraw[i].Vertex1^.Z);
+            glVertex3f(polygon.Vertex1^.X, polygon.Vertex1^.Y, polygon.Vertex1^.Z);
 
             // draw vertex 2
             glColor3f(0.8, 0.0, 0.2);
-            glVertex3f(polygonToDraw[i].Vertex2^.X,
-                       polygonToDraw[i].Vertex2^.Y,
-                       polygonToDraw[i].Vertex2^.Z);
+            glVertex3f(polygon.Vertex2^.X, polygon.Vertex2^.Y, polygon.Vertex2^.Z);
 
             // draw vertex 3
             glColor3f(1.0, 0.12, 0.2);
-            glVertex3f(polygonToDraw[i].Vertex3^.X,
-                       polygonToDraw[i].Vertex3^.Y,
-                       polygonToDraw[i].Vertex3^.Z);
+            glVertex3f(polygon.Vertex3^.X, polygon.Vertex3^.Y, polygon.Vertex3^.Z);
 
             glEnd;
 

@@ -286,6 +286,9 @@ begin
                                                    PChar('ID_MD2_MODEL'),
                                                    RT_RCDATA);
 
+        if (not Assigned(pModelStream)) then
+           Exit;
+
         // create in-memory model directory
         pMemDir := TQRMemoryDir.Create(True);
 

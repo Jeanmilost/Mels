@@ -117,6 +117,17 @@ begin
                                               PChar('ID_DEFAULT_SOUND'),
                                               RT_RCDATA);
 
+            if (not Assigned(pStream)) then
+            begin
+                MessageDlg('Sound not found in resources.' + #13#10#13#10 + 'Application will close.',
+                           mtError,
+                           [mbOK],
+                           0);
+
+                Application.Terminate;
+                Exit;
+            end;
+
             pSound := TMemoryStream.Create;
             pSound.CopyFrom(pStream, pStream.Size);
         end;

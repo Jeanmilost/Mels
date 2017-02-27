@@ -472,10 +472,7 @@ begin
 
     // found it?
     if (hPackageInstance = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // do use shader?
     if (useShader) then
@@ -494,10 +491,7 @@ begin
                                                          RT_RCDATA);
 
                 if (not Assigned(pVertexPrg)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // found resource containing the fragment shader program to load?
                 if (FindResource(hPackageInstance, PChar('ID_COLOR_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
@@ -507,20 +501,14 @@ begin
                                                            RT_RCDATA);
 
                 if (not Assigned(pFragmentPrg)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // create color shader
                 m_pColorShader := TQRShaderOpenGL.Create;
 
                 // try to build shader
                 if (not BuildShader(pVertexPrg, pFragmentPrg, m_pColorShader)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
             finally
                 // delete resource streams, if needed
                 pVertexPrg.Free;
@@ -541,10 +529,7 @@ begin
                                                          RT_RCDATA);
 
                 if (not Assigned(pVertexPrg)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // found resource containing the fragment shader program to load?
                 if (FindResource(hPackageInstance, PChar('ID_TEXTURE_FRAGMENT_SHADER'), RT_RCDATA) <> 0)
@@ -554,20 +539,14 @@ begin
                                                            RT_RCDATA);
 
                 if (not Assigned(pFragmentPrg)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
 
                 // create texture shader
                 m_pTextureShader := TQRShaderOpenGL.Create;
 
                 // try to build shader
                 if (not BuildShader(pVertexPrg, pFragmentPrg, m_pTextureShader)) then
-                begin
-                    Result := False;
-                    Exit;
-                end;
+                    Exit(False);
             finally
                 // delete resource streams, if needed
                 pVertexPrg.Free;
@@ -595,10 +574,7 @@ begin
                                                    RT_RCDATA);
 
         if (not Assigned(pModelStream)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // found resource containing the fragment shader program to load?
         if (FindResource(hPackageInstance, PChar('ID_MD2_NORMALS_TABLE'), RT_RCDATA) <> 0)
@@ -608,26 +584,17 @@ begin
                                                 RT_RCDATA);
 
         if (not Assigned(pNTStream)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         pModelColor := TQRColor.Create(255, 255, 255, 255);
 
         // load model
         if (not m_pMD2.Load(pModelStream, pModelStream.Size)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // load normals table
         if (not m_pMD2.LoadNormals(pNTStream, pNTStream.Size)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         m_pMD2.VertexFormat := [EQR_VF_TexCoords, EQR_VF_Colors];
 
@@ -702,16 +669,17 @@ procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
                                               const pAABBTree: TQRAABBTree;
                                         useShader, collisions: Boolean);
 var
-    rect:                                        TQRRect;
-    rayPos, rayDir:                              TQRVector3D;
-    invertMatrix:                                TQRMatrix4x4;
-    determinant:                                 Single;
-    pRay:                                        TQRRay;
-    mesh:                                        TQRMesh;
-    polygons, polygonToDraw:                     TQRPolygons;
-    textures:                                    TQRTextures;
-    polygonCount, polygonToDrawCount, i, offset: NativeUInt;
-    uniform:                                     GLint;
+    rect:                       TQRRect;
+    rayPos, rayDir:             TQRVector3D;
+    invertMatrix:               TQRMatrix4x4;
+    determinant:                Single;
+    pRay:                       TQRRay;
+    mesh:                       TQRMesh;
+    polygon:                    TQRPolygon;
+    polygons, polygonToDraw:    TQRPolygons;
+    textures:                   TQRTextures;
+    polygonToDrawCount, offset: NativeUInt;
+    uniform:                    GLint;
 begin
     if ((not collisions) or (not Assigned(pAABBTree))) then
         Exit;
@@ -743,18 +711,15 @@ begin
     // get polygons to check for collision by resolving AABB tree
     pAABBTree.Resolve(pRay, polygons);
 
-    polygonCount := Length(polygons);
-
     // iterate through polygons to check
-    if (polygonCount > 0) then
-        for i := 0 to polygonCount - 1 do
-            // is polygon intersecting ray?
-            if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygons[i])) then
-            begin
-                // add polygon in collision to resulting list
-                SetLength(polygonToDraw, Length(polygonToDraw) + 1);
-                polygonToDraw[Length(polygonToDraw) - 1] := polygons[i];
-            end;
+    for polygon in polygons do
+        // is polygon intersecting ray?
+        if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygon)) then
+        begin
+            // add polygon in collision to resulting list
+            SetLength(polygonToDraw, Length(polygonToDraw) + 1);
+            polygonToDraw[Length(polygonToDraw) - 1] := polygon;
+        end;
 
     polygonToDrawCount := Length(polygonToDraw);
 
@@ -773,26 +738,26 @@ begin
     offset := 0;
 
     // iterate through polygons to draw
-    for i := 0 to polygonToDrawCount - 1 do
+    for polygon in polygonToDraw do
     begin
         // build polygon to show
-        mesh[0].m_Buffer[offset]      := polygonToDraw[i].Vertex1.X;
-        mesh[0].m_Buffer[offset + 1]  := polygonToDraw[i].Vertex1.Y;
-        mesh[0].m_Buffer[offset + 2]  := polygonToDraw[i].Vertex1.Z;
+        mesh[0].m_Buffer[offset]      := polygon.Vertex1.X;
+        mesh[0].m_Buffer[offset + 1]  := polygon.Vertex1.Y;
+        mesh[0].m_Buffer[offset + 2]  := polygon.Vertex1.Z;
         mesh[0].m_Buffer[offset + 3]  := 1.0;
         mesh[0].m_Buffer[offset + 4]  := 0.0;
         mesh[0].m_Buffer[offset + 5]  := 0.0;
         mesh[0].m_Buffer[offset + 6]  := 1.0;
-        mesh[0].m_Buffer[offset + 7]  := polygonToDraw[i].Vertex2.X;
-        mesh[0].m_Buffer[offset + 8]  := polygonToDraw[i].Vertex2.Y;
-        mesh[0].m_Buffer[offset + 9]  := polygonToDraw[i].Vertex2.Z;
+        mesh[0].m_Buffer[offset + 7]  := polygon.Vertex2.X;
+        mesh[0].m_Buffer[offset + 8]  := polygon.Vertex2.Y;
+        mesh[0].m_Buffer[offset + 9]  := polygon.Vertex2.Z;
         mesh[0].m_Buffer[offset + 10] := 0.8;
         mesh[0].m_Buffer[offset + 11] := 0.0;
         mesh[0].m_Buffer[offset + 12] := 0.2;
         mesh[0].m_Buffer[offset + 13] := 1.0;
-        mesh[0].m_Buffer[offset + 14] := polygonToDraw[i].Vertex3.X;
-        mesh[0].m_Buffer[offset + 15] := polygonToDraw[i].Vertex3.Y;
-        mesh[0].m_Buffer[offset + 16] := polygonToDraw[i].Vertex3.Z;
+        mesh[0].m_Buffer[offset + 14] := polygon.Vertex3.X;
+        mesh[0].m_Buffer[offset + 15] := polygon.Vertex3.Y;
+        mesh[0].m_Buffer[offset + 16] := polygon.Vertex3.Z;
         mesh[0].m_Buffer[offset + 17] := 1.0;
         mesh[0].m_Buffer[offset + 18] := 0.12;
         mesh[0].m_Buffer[offset + 19] := 0.2;
@@ -918,10 +883,7 @@ var
     pPixels:          PByte;
 begin
     if (not Assigned(pTexture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pTexture.Name := 'qr_md2';
 
@@ -930,10 +892,7 @@ begin
 
     // found it?
     if (hPackageInstance = 0) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pStream       := nil;
     pMemoryStream := nil;
@@ -949,10 +908,7 @@ begin
                                               RT_RCDATA);
 
         if (not Assigned(pStream)) then
-        begin
-            Result := False;
-            Exit;
-        end;
+            Exit(False);
 
         // the copy below is required for Lazarus because TBitmap fails to read from the resource
         // stream directly (I really don't know why)

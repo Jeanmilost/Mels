@@ -35,16 +35,16 @@ uses System.Classes,
      Vcl.Controls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.OpenGL,
+     Winapi.Messages,
+     Winapi.Windows,
      UTQR3D,
      UTQRGeometry,
      UTQRCollision,
      UTQRVCLModelComponentGL,
      UTQRVCLMD2ModelComponentGL,
      UTQRVCLModelRendererGL,
-     UTQRVCLModelShaderGL,
-     Winapi.OpenGL,
-     Winapi.Messages,
-     Winapi.Windows;
+     UTQRVCLModelShaderGL;
 
 type
     {**

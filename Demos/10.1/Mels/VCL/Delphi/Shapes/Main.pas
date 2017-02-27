@@ -235,7 +235,7 @@ begin
         MessageDlg('OpenGL could not be initialized.' + #13#10#13#10 + 'Application will close.',
                    mtError,
                    [mbOK],
-                   0);;
+                   0);
 
         Application.Terminate;
         Exit;
@@ -453,10 +453,7 @@ begin
 
     // found it?
     if (hPackageInstance = 0) then
-    begin
-        Result := -1;
-        Exit;
-    end;
+        Exit(-1);
 
     pTextureStream := nil;
     pBitmap        := nil;
@@ -466,10 +463,7 @@ begin
         if (FindResource(hPackageInstance, resName, RT_RCDATA) <> 0) then
             pTextureStream := TResourceStream.Create(hPackageInstance, resName, RT_RCDATA)
         else
-        begin
-            Result := -1;
-            Exit;
-        end;
+            Exit(-1);
 
         // load box texture
         pBitmap := Vcl.Graphics.TBitmap.Create;
@@ -511,24 +505,17 @@ function TMainForm.OnLoadMeshTexture(const pGroup: TQRModelGroup;
 begin
     // no model?
     if (not Assigned(pModel)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // no texture?
     if (not Assigned(pTexture)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     // is model a surface?
     if (pModel is TQRSurfaceModel) then
     begin
         pTexture.Index := LoadTexture('ID_SURFACE_TEXTURE');
-        Result         := True;
-        Exit;
+        Exit(True);
     end;
 
     // is model a sphere?
@@ -541,16 +528,14 @@ begin
         if (pGroup = m_pTetrahedron) then
             pTexture.Index := LoadTexture('ID_STONE_TEXTURE');
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // is model a box?
     if (pModel is TQRBoxModel) then
     begin
         pTexture.Index := LoadTexture('ID_BOX_TEXTURE');
-        Result         := True;
-        Exit;
+        Exit(True);
     end;
 
     // is model a cone?
@@ -566,24 +551,21 @@ begin
         if (pGroup = m_pPyramid) then
             pTexture.Index := LoadTexture('ID_PYRAMID_TEXTURE');
 
-        Result := True;
-        Exit;
+        Exit(True);
     end;
 
     // is model a torus?
     if (pModel is TQRTorusModel) then
     begin
         pTexture.Index := LoadTexture('ID_TORUS_TEXTURE');
-        Result         := True;
-        Exit;
+        Exit(True);
     end;
 
     // is model a parabola?
     if (pModel is TQRParabolaModel) then
     begin
         pTexture.Index := LoadTexture('ID_PARABOLA_TEXTURE');
-        Result         := True;
-        Exit;
+        Exit(True);
     end;
 
     Result := True;

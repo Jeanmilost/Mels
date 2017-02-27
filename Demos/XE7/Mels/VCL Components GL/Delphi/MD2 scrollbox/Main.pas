@@ -122,7 +122,7 @@ begin
 
     try
         hSaveFont := SelectObject(hDCt, reQuakeII.Handle);
-        GetTextMetrics(hDCt, &metrics);
+        GetTextMetrics(hDCt, @metrics);
         SelectObject(hDCt, hSaveFont);
     finally
         ReleaseDC(reQuakeII.Handle, hDCt);

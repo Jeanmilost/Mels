@@ -867,15 +867,9 @@ class procedure TQROpenGLHelper.Draw(const mesh: TQRMesh;
                                     const scale: TQRVector3D;
                                  const textures: TQRTextures);
 var
-    count, stride, offset, i: NativeUInt;
+    stride, offset: NativeUInt;
+    vertex:         TQRVertex;
 begin
-    // get mesh count
-    count := Length(mesh);
-
-    // no mesh to draw?
-    if (count = 0) then
-        Exit;
-
     // calculate stride. As all meshes share the same vertex properties, the first mesh can be used
     // to extract vertex format info
     if (mesh[0].m_CoordType = EQR_VC_XYZ) then
@@ -907,59 +901,59 @@ begin
     glScalef(scale.X, scale.Y, scale.Z);
 
     // iterate through vertices to draw
-    for i := 0 to count - 1 do
+    for vertex in mesh do
     begin
-        SelectTexture(textures, mesh[i].m_Name);
+        SelectTexture(textures, vertex.m_Name);
 
         // bind vertex array
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(3,
                         GL_FLOAT,
                         stride * SizeOf(Single),
-                        @mesh[i].m_Buffer[0]);
+                        @vertex.m_Buffer[0]);
 
         offset := 3;
 
         // bind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
         begin
             glEnableClientState(GL_NORMAL_ARRAY);
             glNormalPointer(GL_FLOAT,
                             stride * SizeOf(Single),
-                            @mesh[i].m_Buffer[offset]);
+                            @vertex.m_Buffer[offset]);
 
             Inc(offset, 3);
         end;
 
         // bind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
         begin
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             glTexCoordPointer(2,
                               GL_FLOAT,
                               stride * SizeOf(Single),
-                              @mesh[i].m_Buffer[offset]);
+                              @vertex.m_Buffer[offset]);
 
             Inc(offset, 2);
         end;
 
         // bind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
         begin
             glEnableClientState(GL_COLOR_ARRAY);
             glColorPointer(4,
                            GL_FLOAT,
                            stride * SizeOf(Single),
-                           @mesh[i].m_Buffer[offset]);
+                           @vertex.m_Buffer[offset]);
         end;
 
         // draw mesh
-        case mesh[i].m_Type of
-            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
-            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(mesh[i].m_Buffer)) div stride);
+        case vertex.m_Type of
+            EQR_VT_Triangles:     glDrawArrays(GL_TRIANGLES,      0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleStrip: glDrawArrays(GL_TRIANGLE_STRIP, 0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_TriangleFan:   glDrawArrays(GL_TRIANGLE_FAN,   0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_Quads:         glDrawArrays(GL_QUADS,          0, NativeUInt(Length(vertex.m_Buffer)) div stride);
+            EQR_VT_QuadStrip:     glDrawArrays(GL_QUAD_STRIP,     0, NativeUInt(Length(vertex.m_Buffer)) div stride);
         else
             raise Exception.Create('Unknown vertex type');
         end;
@@ -968,15 +962,15 @@ begin
         glDisableClientState(GL_VERTEX_ARRAY);
 
         // unbind normals array
-        if (EQR_VF_Normals in mesh[i].m_Format) then
+        if (EQR_VF_Normals in vertex.m_Format) then
             glDisableClientState(GL_NORMAL_ARRAY);
 
         // unbind texture coordinates array
-        if (EQR_VF_TexCoords in mesh[i].m_Format) then
+        if (EQR_VF_TexCoords in vertex.m_Format) then
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         // unbind colors array
-        if (EQR_VF_Colors in mesh[i].m_Format) then
+        if (EQR_VF_Colors in vertex.m_Format) then
             glDisableClientState(GL_COLOR_ARRAY);
 
         glFlush;

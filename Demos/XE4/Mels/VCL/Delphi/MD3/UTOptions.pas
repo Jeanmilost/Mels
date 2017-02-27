@@ -39,9 +39,9 @@ uses System.Classes,
      Vcl.StdCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
-     Winapi.OpenGL,
      Winapi.Messages,
      Winapi.Windows,
+     Winapi.OpenGL,
      UTQRSmartPointer,
      UTQR3D,
      UTQRGeometry,
@@ -233,12 +233,11 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TOptions.Destroy;
 var
-    i: NativeUInt;
+    pTexture: Vcl.Graphics.TBitmap;
 begin
     // delete all textures
-    if (m_pTextures.Count > 0) then
-        for i := 0 to m_pTextures.Count - 1 do
-            m_pTextures[i].Free;
+    for pTexture in m_pTextures do
+        pTexture.Free;
 
     // delete texture list
     m_pTextures.Free;
@@ -507,7 +506,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TOptions.LoadPreview(var pStream: TStream): Boolean;
 var
-    i:                  NativeUInt;
+    pTexture:           Vcl.Graphics.TBitmap;
     pMD3:               TQRMD3Group;
     pColor:             TQRColor;
     modelOptions:       TQRModelOptions;
@@ -518,9 +517,8 @@ begin
     imPreview.Picture.Assign(nil);
 
     // delete previous textures
-    if (m_pTextures.Count > 0) then
-        for i := 0 to m_pTextures.Count - 1 do
-            m_pTextures[i].Free;
+    for pTexture in m_pTextures do
+        pTexture.Free;
 
     m_pTextures.Clear;
 
@@ -533,10 +531,7 @@ begin
 
     // no stream to load?
     if (not Assigned(pStream)) then
-    begin
-        Result := False;
-        Exit;
-    end;
+        Exit(False);
 
     pColor := nil;
     pMD3   := nil;
@@ -561,8 +556,7 @@ begin
         then
         begin
             pStream := nil;
-            Result  := False;
-            Exit;
+            Exit(False);
         end;
 
         pStream := nil;
