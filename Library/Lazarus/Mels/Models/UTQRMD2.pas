@@ -23,7 +23,7 @@
  @abstract(@name provides the features to load a md2 model and build his vertex buffer.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRMD2;
 

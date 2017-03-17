@@ -414,7 +414,7 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
     m_ModelMatrix.Translate(TQRVector3D(0.0f, 0.0f, -1.5f));
     m_ModelMatrix.Rotate(-(M_PI / 2.0f), TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
     m_ModelMatrix.Rotate(-(M_PI / 4.0f), TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.015f, 0.015f, 0.015f));
+    m_ModelMatrix.Scale(TQRVector3D(0.03f, 0.03f, 0.03f));
 
     std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
     LoadTexture(pTexture.get());
@@ -452,22 +452,18 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
+    TQRVector3D rayDir = TQRVector3D(rayPos.X, rayPos.Y, 1.0f);
 
-    // this is a lazy way to correct a perspective issue. In fact, the model is much larger than its
-    // image on the screen, but it is placed very far in relation to the screen. In the model
-    // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed to
-    // keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model feet are
-    // not always well detected), but this is efficient for the majority of cases
-    rayPos.MulAndAssign(1.4f);
+    // unproject the ray to make it inside the 3d world coordinates
+    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 
-    // transform the ray to be on the same coordinates system as the model
-    TQRMatrix4x4 invertMatrix =
-            const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
-    rayPos       = invertMatrix.Transform(rayPos);
-    rayDir       = invertMatrix.Transform(rayDir);
+    // now transform the ray to match with the model position
+    TQRMatrix4x4 invertModel = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
+    rayPos                   = invertModel.Transform(rayPos);
+    rayDir                   = invertModel.TransformNormal(rayDir);
+    rayDir                   = rayDir.Normalize();
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());

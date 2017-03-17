@@ -22,7 +22,7 @@
 {**
  @abstract(@name provides the features to access the OpenGL shader language to use to render models.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRShaderOpenGL;
 
@@ -334,7 +334,7 @@ end;
 procedure TQRShaderOpenGL.CreateProgram;
 begin
     // create new shader program
-    m_ProgramID := glCreateProgram;
+    m_ProgramID := glCreateProgram();
 
     // succeeded?
     if (m_ProgramID = 0) then

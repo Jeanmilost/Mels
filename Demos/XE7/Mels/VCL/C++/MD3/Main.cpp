@@ -1,10 +1,26 @@
-/**************************************************************************************************
- * ==> Main --------------------------------------------------------------------------------------*
- **************************************************************************************************
- * Description : MD3 demo main form                                                               *
- * Developer   : Jean-Milost Reymond                                                              *
- * Copyright   : 2015 - 2016, this file is part of the Mels library, all right reserved           *
- **************************************************************************************************/
+/*************************************************************************************************
+ * ==> Main -------------------------------------------------------------------------------------*
+ *************************************************************************************************
+ * Description : MD3 demo main form                                                              *
+ * Developer   : Jean-Milost Reymond                                                             *
+ *************************************************************************************************
+ * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
+ *                                                                                               *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software *
+ * and associated documentation files (the "Software"), to deal in the Software without          *
+ * restriction, including without limitation the rights to use, copy, modify, merge, publish,    *
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the *
+ * Software is furnished to do so, subject to the following conditions:                          *
+ *                                                                                               *
+ * The above copyright notice and this permission notice shall be included in all copies or      *
+ * substantial portions of the Software.                                                         *
+ *                                                                                               *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING *
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND    *
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  *
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING      *
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
+ *************************************************************************************************/
 
 #include <vcl.h>
 #pragma hdrstop
@@ -472,8 +488,8 @@ bool TMainForm::LoadModel()
     else
     {
         // translate and scale model
-        *m_pMD3->Translation = TQRVector3D(0.0f,   -0.1f,   -1.5f);
-        *m_pMD3->Scaling     = TQRVector3D(0.015f,  0.015f,  0.015f);
+        *m_pMD3->Translation = TQRVector3D(0.0f,  -0.1f,  -1.5f);
+        *m_pMD3->Scaling     = TQRVector3D(0.03f,  0.03f,  0.03f);
     }
 
     // rotate model
@@ -564,33 +580,24 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
+    TQRVector3D rayDir;
 
     // orthogonal matrix is used?
     if (!m_pOptions->ckUseOrthoMatrix->Checked)
-        // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
-        // its image on the screen, but it is placed very far in relation to the screen. In the model
-        // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
-        // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
-        // feet are not always well detected), but this is efficient for the majority of cases
-        rayPos.MulAndAssign(TQRVector3D(0.8f, 0.6f, 0.8f));
+        rayDir = TQRVector3D(rayPos.X, rayPos.Y, 1.0f);
     else
-        // here the correction is also applied because the correction was distorted while the
-        // position is removed below
-        rayPos.MulAndAssign(TQRVector3D(0.45f, 0.4f, 0.3f));
+        rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
+
+    // unproject the ray to make it inside the 3d world coordinates
+    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 
-    // transform the ray to be on the same coordinates system as the model
-    TQRMatrix4x4 invertMatrix = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
-    rayPos                    = invertMatrix.Transform(rayPos);
-
-    // remove position from matrix
-    invertMatrix.Table[3][0] = 0.0f;
-    invertMatrix.Table[3][1] = 0.0f;
-    invertMatrix.Table[3][2] = 0.0f;
-
-    rayDir = invertMatrix.Transform(rayDir);
+    // now transform the ray to match with the model position
+    TQRMatrix4x4 invertModel = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
+    rayPos                   = invertModel.Transform(rayPos);
+    rayDir                   = invertModel.TransformNormal(rayDir);
+    rayDir                   = rayDir.Normalize();
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());

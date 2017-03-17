@@ -64,7 +64,7 @@ object MainForm: TMainForm
       Model.Scaling.Z = 1
       Model.Translation.X = 0
       Model.Translation.Y = 0
-      Model.Translation.Z = -100
+      Model.Translation.Z = -50.000000000000000000
       Model.RotationX = -1.57070004940033
       Model.RotationY = -1.57070004940033
       Model.RotationZ = 0

@@ -151,11 +151,11 @@ void __fastcall TMainForm::DrawScene(const double& elapsedTime)
     if (m_Rotate)
     {
         // calculate next rotation angle
-        m_Theta = m_Theta + (0.001 * elapsedTime);
+        m_Theta = m_Theta + (0.001f * elapsedTime);
 
         // correct it if out of bounds
-        if (m_Theta > (M_PI * 2.0))
-            m_Theta -= (M_PI * 2.0);
+        if (m_Theta > (M_PI * 2.0f))
+            m_Theta -= (M_PI * 2.0f);
     }
 
     TQRTextures textures;

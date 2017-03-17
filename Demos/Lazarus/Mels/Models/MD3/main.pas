@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the MD3 demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 
@@ -707,7 +707,7 @@ procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
 var
     rect:                       TQRRect;
     rayPos, rayDir:             TQRVector3D;
-    invertMatrix:               TQRMatrix4x4;
+    invertModel:                TQRMatrix4x4;
     determinant:                Single;
     pRay:                       TQRRay;
     mesh:                       TQRMesh;
@@ -727,13 +727,14 @@ begin
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    // correct the ray position to be conform with the model
-    rayPos.Y := rayPos.Y + 0.35;
+    // unproject the ray to make it inside the 3d world coordinates
+    TQROpenGLHelper.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
-    // transform the ray to be on the same coordinates system as the model
-    invertMatrix := modelMatrix.Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
-    rayPos       := invertMatrix.Transform(rayPos);
-    rayDir       := invertMatrix.Transform(rayDir);
+    // now transform the ray to match with the model position
+    invertModel := modelMatrix.Inverse(determinant);
+    rayPos      := invertModel.Transform(rayPos);
+    rayDir      := invertModel.TransformNormal(rayDir);
+    rayDir      := rayDir.Normalize();
 
     // create and populate ray from mouse position
     pRay     := TQRRay.Create;

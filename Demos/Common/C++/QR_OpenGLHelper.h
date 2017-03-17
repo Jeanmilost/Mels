@@ -158,6 +158,18 @@ class QR_OpenGLHelper
                                      TQRVector3D& up);
 
         /**
+        * Unprojects a ray (i.e. transforms it in viewport coordinates)
+        *@param projectionMatrix - projection matrix
+        *@param viewMatrix - view matrix
+        *@param[in, out] rayPos - ray position, unprojected ray position on function ends
+        *@param[in, out] rayDir - ray direction, unprojected ray direction on function ends
+        */
+        static void Unproject(const TQRMatrix4x4& projectionMatrix,
+                              const TQRMatrix4x4& viewMatrix,
+                                    TQRVector3D&  rayPos,
+                                    TQRVector3D&  rayDir);
+
+        /**
         * Converts mouse position to OpenGL point (i.e. a point in the OpenGL space)
         *@param hWnd - handle of the window or control on which mouse is hoving
         *@param viewRect - OpenGL view rectangle        *@return converted point in the OpenGL space

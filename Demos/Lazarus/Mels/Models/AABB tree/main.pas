@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the 3D ray picking with AABB tree simplification demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 
@@ -171,7 +171,7 @@ begin
         m_pAABBTree := TQRAABBTree.Create;
 
         pSphereModel.GetMesh(m_Mesh, m_pAABBTree);
-finally
+    finally
         pSphereModel.Free;
         pColor.Free;
     end;

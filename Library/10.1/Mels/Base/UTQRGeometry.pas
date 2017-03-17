@@ -23,7 +23,7 @@
  @abstract(@name provides features required to process calculation based on geometry.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRGeometry;
 
@@ -958,6 +958,15 @@ type
             }
             {$ENDREGION}
             function Transform(const vector: TQRVector3D): TQRVector3D; inline;
+
+            {$REGION 'Documentation'}
+            {**
+             Transforms a normal by applying the matrix
+             @param(normal Normal to transform)
+             @return(Transformed normal)
+            }
+            {$ENDREGION}
+            function TransformNormal(const normal: TQRVector3D): TQRVector3D; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -2716,20 +2725,20 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Transform(const vector: TQRVector3D): TQRVector3D;
 begin
-    // calculates x, y and z coordinates (don't use w component), and returns
-    // transformed vector
-    Result := TQRVector3D.Create((vector.m_X * m_Table[0][0] +
-                                  vector.m_Y * m_Table[1][0] +
-                                  vector.m_Z * m_Table[2][0] +
-                                  m_Table[3][0]),
-                                 (vector.m_X * m_Table[0][1] +
-                                  vector.m_Y * m_Table[1][1] +
-                                  vector.m_Z * m_Table[2][1] +
-                                  m_Table[3][1]),
-                                 (vector.m_X * m_Table[0][2] +
-                                  vector.m_Y * m_Table[1][2] +
-                                  vector.m_Z * m_Table[2][2] +
-                                  m_Table[3][2]));
+    // calculates x, y and z coordinates (don't use w component), and returns transformed vector
+    Result := TQRVector3D.Create
+            ((vector.m_X * m_Table[0][0] + vector.m_Y * m_Table[1][0] + vector.m_Z * m_Table[2][0] + m_Table[3][0]),
+             (vector.m_X * m_Table[0][1] + vector.m_Y * m_Table[1][1] + vector.m_Z * m_Table[2][1] + m_Table[3][1]),
+             (vector.m_X * m_Table[0][2] + vector.m_Y * m_Table[1][2] + vector.m_Z * m_Table[2][2] + m_Table[3][2]));
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRMatrix4x4.TransformNormal(const normal: TQRVector3D): TQRVector3D;
+begin
+    // calculates x, y and z coordinates (don't use w component), and returns transformed vector
+    Result := TQRVector3D.Create
+            ((normal.m_X * m_Table[0][0] + normal.m_Y * m_Table[1][0] + normal.m_Z * m_Table[2][0]),
+             (normal.m_X * m_Table[0][1] + normal.m_Y * m_Table[1][1] + normal.m_Z * m_Table[2][1]),
+             (normal.m_X * m_Table[0][2] + normal.m_Y * m_Table[1][2] + normal.m_Z * m_Table[2][2]));
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.GetPtr: PSingle;

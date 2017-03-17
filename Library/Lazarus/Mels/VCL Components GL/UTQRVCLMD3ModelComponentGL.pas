@@ -23,7 +23,7 @@
  @abstract(@name provides a MD3 model component using OpenGL to draw it.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRVCLMD3ModelComponentGL;
 
@@ -45,7 +45,6 @@ uses Classes,
      UTQR3D,
      UTQRCollision,
      UTQRModel,
-     UTQRMD3,
      UTQRModelGroup,
      UTQRMD3ModelGroup,
      UTQRVCLModelComponentGL,

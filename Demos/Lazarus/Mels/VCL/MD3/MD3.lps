@@ -18,7 +18,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <UsageCount Value="38"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -29,8 +28,12 @@
         <ComponentName Value="Options"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="501"/>
+        <CursorPos X="28" Y="520"/>
         <UsageCount Value="38"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
@@ -134,7 +137,15 @@
     <OtherDefines Count="1">
       <Define0 Value="USE_SHADER"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="UTOptions.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="UTOptions.pas"/>
+        <Caret Line="232" Column="15" TopLine="212"/>
+      </Position2>
+    </JumpHistory>
   </ProjectSession>
   <Debugging>
     <Watches Count="3">

@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the MD3 demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 
@@ -736,8 +736,8 @@ begin
     else
     begin
         // translate and scale model
-        m_pMD3.Translation^ := TQRVector3D.Create(0.0,   -0.1,   -1.5);
-        m_pMD3.Scaling^     := TQRVector3D.Create(0.015,  0.015,  0.015);
+        m_pMD3.Translation^ := TQRVector3D.Create(0.0,  -0.1,  -1.5);
+        m_pMD3.Scaling^     := TQRVector3D.Create(0.03,  0.03,  0.03);
     end;
 
     // rotate model
@@ -843,7 +843,7 @@ procedure TMainForm.DetectAndDrawCollisions(const modelMatrix: TQRMatrix4x4;
 var
     rect:                    TQRRect;
     rayPos, rayDir:          TQRVector3D;
-    invertMatrix:            TQRMatrix4x4;
+    invertModel:             TQRMatrix4x4;
     determinant:             Single;
     pRay:                    TQRRay;
     mesh:                    TQRMesh;
@@ -861,31 +861,21 @@ begin
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     rayPos := TQROpenGLHelper.MousePosToGLPoint(Handle, rect);
-    rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
     // orthogonal matrix is used?
     if (not m_pOptions.ckUseOrthoMatrix.Checked) then
-        // this is a lazy way to correct a perspective issue. In fact, the model is much larger than
-        // its image on the screen, but it is placed very far in relation to the screen. In the model
-        // coordinates, the ray location is beyond the mouse coordinate. For that, a ratio is needed
-        // to keep the ray coordinates coherent with the mouse position. Not ideal (e.g. the model
-        // feet are not always well detected), but this is efficient for the majority of cases
-        rayPos.MulAndAssign(TQRVector3D.Create(0.8, 0.6, 0.8))
+        rayDir := TQRVector3D.Create(rayPos.X, rayPos.Y, 1.0)
     else
-        // here the correction is also applied because the correction was distorted while the
-        // position is removed below
-        rayPos.MulAndAssign(TQRVector3D.Create(0.45, 0.4, 0.3));
+        rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
-    // transform the ray to be on the same coordinates system as the model
-    invertMatrix := modelMatrix.Inverse(determinant);
-    rayPos       := invertMatrix.Transform(rayPos);
+    // unproject the ray to make it inside the 3d world coordinates
+    TQROpenGLHelper.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
-    // remove position from matrix
-    invertMatrix.Table[3, 0] := 0.0;
-    invertMatrix.Table[3, 1] := 0.0;
-    invertMatrix.Table[3, 2] := 0.0;
-
-    rayDir := invertMatrix.Transform(rayDir);
+    // now transform the ray to match with the model position
+    invertModel := modelMatrix.Inverse(determinant);
+    rayPos      := invertModel.Transform(rayPos);
+    rayDir      := invertModel.TransformNormal(rayDir);
+    rayDir      := rayDir.Normalize();
 
     // create and populate ray from mouse position
     pRay     := TQRRay.Create;

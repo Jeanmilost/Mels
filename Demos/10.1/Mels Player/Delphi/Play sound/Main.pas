@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the sound player demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 
@@ -116,6 +116,17 @@ begin
             pStream := TResourceStream.Create(hPackageInstance,
                                               PChar('ID_DEFAULT_SOUND'),
                                               RT_RCDATA);
+
+            if (not Assigned(pStream)) then
+            begin
+                MessageDlg('Sound not found in resources.' + #13#10#13#10 + 'Application will close.',
+                           mtError,
+                           [mbOK],
+                           0);
+
+                Application.Terminate;
+                Exit;
+            end;
 
             pSound := TMemoryStream.Create;
             pSound.CopyFrom(pStream, pStream.Size);

@@ -68,7 +68,7 @@ object MainForm: TMainForm
       Model.Scaling.X = 1.000000000000000000
       Model.Scaling.Y = 1.000000000000000000
       Model.Scaling.Z = 1.000000000000000000
-      Model.Translation.Z = -100.000000000000000000
+      Model.Translation.Z = -50.000000000000000000
       Model.RotationX = -1.570700049400330000
       Model.RotationY = -1.570700049400330000
       Model.SwapYZ = False
@@ -13633,6 +13633,7 @@ object MainForm: TMainForm
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
+      Zoom = 100
     end
     object btSaveToFile: TButton
       AlignWithMargins = True

@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the MD3 scrollbox demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 
@@ -122,7 +122,7 @@ begin
 
     try
         hSaveFont := SelectObject(hDCt, reQuakeIII.Handle);
-        GetTextMetrics(hDCt, &metrics);
+        GetTextMetrics(hDCt, metrics);
         SelectObject(hDCt, hSaveFont);
     finally
         ReleaseDC(reQuakeIII.Handle, hDCt);

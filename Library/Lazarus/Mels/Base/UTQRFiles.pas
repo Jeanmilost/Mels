@@ -23,7 +23,7 @@
  @abstract(@name provides some additional features to facilitate the work with files.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRFiles;
 
@@ -314,7 +314,7 @@ begin
     Clear;
 
     index := 0;
-			 
+
     // iterate through lines to parse
     for line in lines do
     begin

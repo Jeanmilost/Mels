@@ -23,7 +23,7 @@
  @abstract(@name provides a basic interface to implement a model renderer.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRModelRenderer;
 
@@ -137,6 +137,18 @@ type
             class function LookAtRH(const position,
                                          direction,
                                                 up: TQRVector3D): TQRMatrix4x4; static;
+
+            {$REGION 'Documentation'}
+            {**
+             Unprojects a ray (i.e. transforms it in viewport coordinates)
+             @param(projectionMatrix Projection matrix)
+             @param(viewMatrix View matrix)
+             @param(rayPos @bold([in, out]) Ray position, unprojected ray position on function ends)
+             @param(rayDir @bold([in, out]) Ray direction, unprojected ray direction on function ends)
+            }
+            {$ENDREGION}
+            class procedure Unproject(const projectionMatrix, viewMatrix: TQRMatrix4x4;
+                                                      var rayPos, rayDir: TQRVector3D); static;
 
             {$REGION 'Documentation'}
             {**
@@ -285,10 +297,10 @@ begin
     mtb  := top   - bottom;
 
     // build matrix
-    Result := TQRMatrix4x4.Create(x2n / mrl, 0.0,       0.0,         0.0,
-                                  0.0,       x2n / mtb, 0.0,         0.0,
-                                  prl / mrl, ptb / mtb, pfn  / mnf, -1.0,
-                                  0.0,       0.0,       x2nf / mnf,  0.0);
+    Result := TQRMatrix4x4.Create(x2n / mrl, 0.0,        0.0,        0.0,
+                                  0.0,       x2n / mtb,  0.0,        0.0,
+                                  prl / mrl, ptb / mtb,  pfn  / mnf, x2nf / mnf,
+                                  0.0,       0.0,       -1.0,        0.0);
 end;
 //--------------------------------------------------------------------------------------------------
 class function TQRModelRenderer.GetPerspective(fov,
@@ -339,6 +351,21 @@ begin
                                   xAxis.Y,             yAxis.Y,             zAxis.Y,             0.0,
                                   xAxis.Z,             yAxis.Z,             zAxis.Z,             0.0,
                                   xAxis.Dot(position), yAxis.Dot(position), zAxis.Dot(position), 1.0);
+end;
+//--------------------------------------------------------------------------------------------------
+class procedure TQRModelRenderer.Unproject(const projectionMatrix, viewMatrix: TQRMatrix4x4;
+                                                           var rayPos, rayDir: TQRVector3D);
+var
+    determinant:                          Single;
+    invertProj, invertView, unprojectMat: TQRMatrix4x4;
+begin
+    // unproject the ray to make it in the viewport coordinates
+    invertProj   := projectionMatrix.Inverse(determinant);
+    invertView   := viewMatrix.Inverse(determinant);
+    unprojectMat := invertProj.Multiply(invertView);
+    rayPos       := unprojectMat.Transform(rayPos);
+    rayDir       := unprojectMat.Transform(rayDir);
+    rayDir       := rayDir.Normalize();
 end;
 //--------------------------------------------------------------------------------------------------
 

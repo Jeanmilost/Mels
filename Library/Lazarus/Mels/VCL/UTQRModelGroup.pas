@@ -23,7 +23,7 @@
  @abstract(@name provides the features to load and link all model files together.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRModelGroup;
 
@@ -1496,7 +1496,6 @@ begin
 
     try
         pPoweredBmp.PixelFormat := pSrcBitmap.PixelFormat;
-        //pPoweredBmp.AlphaFormat := pSrcBitmap.AlphaFormat;
         pPoweredBmp.SetSize(TQRMathsHelper.GetClosestPowerOf2(pSrcBitmap.Width),
                             TQRMathsHelper.GetClosestPowerOf2(pSrcBitmap.Height));
 

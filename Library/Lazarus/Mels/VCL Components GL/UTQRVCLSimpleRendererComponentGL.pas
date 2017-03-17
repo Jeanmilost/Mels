@@ -23,7 +23,7 @@
  @abstract(@name provides a simple renderer that OpenGL can use to draw on it.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRVCLSimpleRendererComponentGL;
 

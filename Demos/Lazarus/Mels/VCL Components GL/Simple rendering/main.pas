@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the simple rendering demo main form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit Main;
 

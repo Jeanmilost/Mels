@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the MD2 demo options form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTOptions;
 
@@ -229,7 +229,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 destructor TOptions.Destroy;
 var
-    pTexture: Vcl.Graphics.TBitmap;
+    pTexture: Graphics.TBitmap;
 begin
     // delete all textures
     for pTexture in m_pTextures do
@@ -506,7 +506,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TOptions.LoadPreview(var pStream: TStream): Boolean;
 var
-    pTexture:           Vcl.Graphics.TBitmap;
+    pTexture:           Graphics.TBitmap;
     pMD3:               TQRMD3Group;
     pColor:             TQRColor;
     modelOptions:       TQRModelOptions;

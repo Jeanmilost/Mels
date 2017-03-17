@@ -23,7 +23,7 @@
  @abstract(@name provides the common properties that can be exposed by a model component.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRVCLModelComponentPropertiesGL;
 

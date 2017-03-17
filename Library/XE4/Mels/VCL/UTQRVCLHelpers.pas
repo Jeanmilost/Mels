@@ -23,7 +23,7 @@
  @abstract(@name provides some features that the VCL don't care.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRVCLHelpers;
 

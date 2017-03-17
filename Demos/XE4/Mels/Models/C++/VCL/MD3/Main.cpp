@@ -427,22 +427,22 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
         return;
 
     // calculate client rect in OpenGL coordinates
-    TQRRect rect(-1.0, 1.0, 2.0, 2.0);
+    TQRRect rect(-1.0f, 1.0f, 2.0f, 2.0f);
 
     // convert mouse position to OpenGL point, that will be used as ray start pos, and create ray dir
     TQRVector3D rayPos = QR_OpenGLHelper::MousePosToGLPoint(Handle, rect);
-    TQRVector3D rayDir = TQRVector3D(0.0, 0.0, 1.0);
+    TQRVector3D rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
 
-    // correct the ray position to be conform with the model
-    rayPos.Y += 0.35f;
+    // unproject the ray to make it inside the 3d world coordinates
+    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 
-    // transform the ray to be on the same coordinates system as the model
-    TQRMatrix4x4 invertMatrix =
-            const_cast<TQRMatrix4x4&>(modelMatrix).Multiply(m_ViewMatrix).Multiply(m_ProjectionMatrix).Inverse(determinant);
-    rayPos                    = invertMatrix.Transform(rayPos);
-    rayDir                    = invertMatrix.Transform(rayDir);
+    // now transform the ray to match with the model position
+    TQRMatrix4x4 invertModel = const_cast<TQRMatrix4x4&>(modelMatrix).Inverse(determinant);
+    rayPos                   = invertModel.Transform(rayPos);
+    rayDir                   = invertModel.TransformNormal(rayDir);
+    rayDir                   = rayDir.Normalize();
 
     // create and populate ray from mouse position
     std::auto_ptr<TQRRay> pRay(new TQRRay());

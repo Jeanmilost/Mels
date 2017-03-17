@@ -229,10 +229,10 @@ TQRMatrix4x4 QR_OpenGLHelper::GetFrustum(float left,
     const float mtb  = top   - bottom;
 
     // build matrix
-    return TQRMatrix4x4(x2n / mrl, 0.0,       0.0,         0.0,
-                        0.0,       x2n / mtb, 0.0,         0.0,
-                        prl / mrl, ptb / mtb, pfn  / mnf, -1.0,
-                        0.0,       0.0,       x2nf / mnf,  0.0);
+    return TQRMatrix4x4(x2n / mrl, 0.0,        0.0,        0.0,
+                        0.0,       x2n / mtb,  0.0,        0.0,
+                        prl / mrl, ptb / mtb,  pfn  / mnf, x2nf / mnf,
+                        0.0,       0.0,       -1.0,        0.0);
 }
 //--------------------------------------------------------------------------------------------------
 TQRMatrix4x4 QR_OpenGLHelper::GetPerspective(float fov,
@@ -281,6 +281,22 @@ TQRMatrix4x4 QR_OpenGLHelper::LookAtRH(TQRVector3D& position,
                         xAxis.Y,             yAxis.Y,             zAxis.Y,             0.0f,
                         xAxis.Z,             yAxis.Z,             zAxis.Z,             0.0f,
                         xAxis.Dot(position), yAxis.Dot(position), zAxis.Dot(position), 1.0f);
+}
+//---------------------------------------------------------------------------
+void QR_OpenGLHelper::Unproject(const TQRMatrix4x4& projectionMatrix,
+                                const TQRMatrix4x4& viewMatrix,
+                                      TQRVector3D&  rayPos,
+                                      TQRVector3D&  rayDir)
+{
+    float determinant;
+
+    // unproject the ray to make it in the viewport coordinates
+    TQRMatrix4x4 invertProj   = const_cast<TQRMatrix4x4&>(projectionMatrix).Inverse(determinant);
+    TQRMatrix4x4 invertView   = const_cast<TQRMatrix4x4&>(viewMatrix).Inverse(determinant);
+    TQRMatrix4x4 unprojectMat = invertProj.Multiply(invertView);
+    rayPos                    = unprojectMat.Transform(rayPos);
+    rayDir                    = unprojectMat.Transform(rayDir);
+    rayDir                    = rayDir.Normalize();
 }
 //--------------------------------------------------------------------------------------------------
 TQRVector3D QR_OpenGLHelper::MousePosToGLPoint(HWND hWnd, TQRRect& viewRect)

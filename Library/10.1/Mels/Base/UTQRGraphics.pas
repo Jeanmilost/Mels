@@ -23,7 +23,7 @@
  @abstract(@name provides features to facilitate the work with colors and graphics.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTQRGraphics;
 

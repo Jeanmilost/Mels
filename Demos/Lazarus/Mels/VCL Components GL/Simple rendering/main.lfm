@@ -52,6 +52,7 @@ object MainForm: TMainForm
       OnInitializeScene = srBlueSurfaceInitializeScene
       OnFinalizeScene = srBlueSurfaceFinalizeScene
       Align = alLeft
+      SupportsGDI = True
       OnDrawScene = srBlueSurfaceDrawScene
     end
     object paTopControls: TPanel
@@ -87,7 +88,7 @@ object MainForm: TMainForm
       object laTopChangeGlobalTransparency: TLabel
         Left = 0
         Height = 13
-        Top = 164
+        Top = 134
         Width = 364
         Align = alTop
         BorderSpacing.Top = 3
@@ -116,8 +117,8 @@ object MainForm: TMainForm
       end
       object ckTopEnableTransparency: TCheckBox
         Left = 0
-        Height = 29
-        Top = 132
+        Height = 19
+        Top = 112
         Width = 364
         Align = alTop
         Caption = 'Enable alpha transparency'
@@ -128,7 +129,7 @@ object MainForm: TMainForm
       end
       object ckTopShowBelowText: TCheckBox
         Left = 0
-        Height = 29
+        Height = 19
         Top = 74
         Width = 364
         Align = alTop
@@ -141,8 +142,8 @@ object MainForm: TMainForm
       end
       object ckTopShowAboveText: TCheckBox
         Left = 0
-        Height = 29
-        Top = 103
+        Height = 19
+        Top = 93
         Width = 364
         Align = alTop
         Caption = 'Show above text'
@@ -154,7 +155,7 @@ object MainForm: TMainForm
       object tbTopGlobalTransparency: TTrackBar
         Left = 0
         Height = 45
-        Top = 177
+        Top = 147
         Width = 364
         Frequency = 25
         Max = 255
@@ -166,7 +167,7 @@ object MainForm: TMainForm
       object paTopChangeColor: TPanel
         Left = 5
         Height = 40
-        Top = 227
+        Top = 197
         Width = 354
         Align = alTop
         BorderSpacing.Around = 5
@@ -300,7 +301,7 @@ object MainForm: TMainForm
       object laBottomChangeGlobalTransparency: TLabel
         Left = 0
         Height = 13
-        Top = 164
+        Top = 134
         Width = 364
         Align = alTop
         BorderSpacing.Top = 3
@@ -309,8 +310,8 @@ object MainForm: TMainForm
       end
       object ckBottomEnableTransparency: TCheckBox
         Left = 0
-        Height = 29
-        Top = 132
+        Height = 19
+        Top = 112
         Width = 364
         Align = alTop
         Caption = 'Enable alpha transparency'
@@ -321,8 +322,8 @@ object MainForm: TMainForm
       end
       object ckBottomShowAboveText: TCheckBox
         Left = 0
-        Height = 29
-        Top = 103
+        Height = 19
+        Top = 93
         Width = 364
         Align = alTop
         Caption = 'Show above text'
@@ -333,7 +334,7 @@ object MainForm: TMainForm
       end
       object ckBottomShowBelowText: TCheckBox
         Left = 0
-        Height = 29
+        Height = 19
         Top = 74
         Width = 364
         Align = alTop
@@ -367,7 +368,7 @@ object MainForm: TMainForm
       object paBottomChangeColor: TPanel
         Left = 5
         Height = 40
-        Top = 227
+        Top = 197
         Width = 354
         Align = alTop
         BorderSpacing.Around = 5
@@ -435,7 +436,7 @@ object MainForm: TMainForm
       object tbBottomGlobalTransparency: TTrackBar
         Left = 0
         Height = 45
-        Top = 177
+        Top = 147
         Width = 364
         Frequency = 25
         Max = 255

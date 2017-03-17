@@ -19,7 +19,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <UsageCount Value="27"/>
         <Bookmarks Count="3">
           <Item0 X="12" Y="929" ID="2"/>
@@ -41,16 +40,21 @@
       <Unit3>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="317"/>
+        <CursorPos X="21" Y="337"/>
         <UsageCount Value="26"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="772"/>
-        <CursorPos X="56" Y="803"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="774"/>
+        <CursorPos X="50" Y="794"/>
         <UsageCount Value="26"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="resources.rc"/>
@@ -153,7 +157,19 @@
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit19>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+        <Caret Line="803" Column="56" TopLine="772"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <Caret Line="337" Column="20" TopLine="317"/>
+      </Position3>
+    </JumpHistory>
   </ProjectSession>
   <Debugging>
     <Watches Count="3">

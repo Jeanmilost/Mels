@@ -22,7 +22,7 @@
 {**
  @abstract(@name contains the MD2 demo options form.)
  @author(Jean-Milost Reymond)
- @created(2015 - 2016, this file is part of the Mels library)
+ @created(2015 - 2017, this file is part of the Mels library)
 }
 unit UTOptions;
 
@@ -37,9 +37,9 @@ uses System.Classes,
      Vcl.StdCtrls,
      Vcl.Forms,
      Vcl.Dialogs,
+     Winapi.OpenGL,
      Winapi.Messages,
      Winapi.Windows,
-     Winapi.OpenGL,
      UTQRSmartPointer,
      UTQR3D,
      UTQRGeometry,
@@ -288,6 +288,9 @@ begin
             pModelStream := TResourceStream.Create(hPackageInstance,
                                                    PChar('ID_MD2_MODEL'),
                                                    RT_RCDATA);
+
+        if (not Assigned(pModelStream)) then
+           Exit;
 
         // create in-memory model directory
         pMemDir := TQRMemoryDir.Create(True);
