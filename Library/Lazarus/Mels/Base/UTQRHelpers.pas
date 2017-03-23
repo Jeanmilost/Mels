@@ -462,7 +462,7 @@ begin
 
     // found it?
     if (pos = 0) then
-        Exit(fileName);
+        Exit(UnicodeString(fileName));
 
     // extract file name
     Result := UnicodeString(Copy(fileName, pos + 1));

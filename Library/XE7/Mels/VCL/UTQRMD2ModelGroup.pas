@@ -41,6 +41,7 @@ uses System.Classes,
      UTQRFiles,
      UTQRGraphics,
      UTQR3D,
+     UTQRLight,
      UTQRCollision,
      UTQRModel,
      UTQRMD2,
@@ -162,7 +163,7 @@ type
             m_Textures:           TQRTextures;
             m_pColor:             TQRColor;
             m_pAnimations:        TQRMD2AnimCfgFile;
-            m_pLight:             TQRMD2Light;
+            m_pLight:             TQRDirectionalLight;
             m_pDefaultMesh:       PQRMesh;
             m_MaxTexture:         NativeUInt;
             m_DefaultFrameIndex:  NativeUInt;
@@ -270,7 +271,7 @@ type
             {$ENDREGION}
             constructor Create(pGroup: TQRModelGroup;
                          const pColor: TQRColor;
-                         const pLight: TQRMD2Light;
+                         const pLight: TQRDirectionalLight;
                                rhToLh: Boolean;
                          modelOptions: TQRModelOptions;
                    framedModelOptions: TQRFramedModelOptions;
@@ -408,7 +409,7 @@ type
                             const dir: UnicodeString;
                            const name: TFileName;
                          const pColor: TQRColor;
-                         const pLight: TQRMD2Light;
+                         const pLight: TQRDirectionalLight;
                                rhToLh: Boolean;
                          modelOptions: TQRModelOptions;
                    framedModelOptions: TQRFramedModelOptions;
@@ -494,7 +495,7 @@ type
                            const pDir: TQRMemoryDir;
                            const name: TFileName;
                          const pColor: TQRColor;
-                         const pLight: TQRMD2Light;
+                         const pLight: TQRDirectionalLight;
                                rhToLh: Boolean;
                          modelOptions: TQRModelOptions;
                    framedModelOptions: TQRFramedModelOptions;
@@ -601,7 +602,7 @@ type
             constructor Create(pGroup: TQRModelGroup;
                        const pPackage: TStream;
                          const pColor: TQRColor;
-                         const pLight: TQRMD2Light;
+                         const pLight: TQRDirectionalLight;
                                rhToLh: Boolean;
                          modelOptions: TQRModelOptions;
                    framedModelOptions: TQRFramedModelOptions;
@@ -788,7 +789,7 @@ type
             function Load(const dir: UnicodeString;
                          const name: TFileName;
                        const pColor: TQRColor;
-                       const pLight: TQRMD2Light;
+                       const pLight: TQRDirectionalLight;
                              rhToLh: Boolean;
                        modelOptions: TQRModelOptions;
                  framedModelOptions: TQRFramedModelOptions;
@@ -827,7 +828,7 @@ type
             function Load(const pDir: TQRMemoryDir;
                           const name: TFileName;
                         const pColor: TQRColor;
-                        const pLight: TQRMD2Light;
+                        const pLight: TQRDirectionalLight;
                               rhToLh: Boolean;
                         modelOptions: TQRModelOptions;
                   framedModelOptions: TQRFramedModelOptions;
@@ -848,7 +849,7 @@ type
             {$ENDREGION}
             function Load(const fileName: TFileName;
                             const pColor: TQRColor;
-                            const pLight: TQRMD2Light;
+                            const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
                             modelOptions: TQRModelOptions;
                       framedModelOptions: TQRFramedModelOptions;
@@ -870,7 +871,7 @@ type
             {$ENDREGION}
             function Load(const pPackage: TStream;
                             const pColor: TQRColor;
-                            const pLight: TQRMD2Light;
+                            const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
                             modelOptions: TQRModelOptions;
                       framedModelOptions: TQRFramedModelOptions;
@@ -997,7 +998,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 constructor TQRMD2Job.Create(pGroup: TQRModelGroup;
                        const pColor: TQRColor;
-                       const pLight: TQRMD2Light;
+                       const pLight: TQRDirectionalLight;
                              rhToLh: Boolean;
                        modelOptions: TQRModelOptions;
                  framedModelOptions: TQRFramedModelOptions;
@@ -1251,7 +1252,7 @@ constructor TQRLoadMD2FileJob.Create(pGroup: TQRModelGroup;
                                   const dir: UnicodeString;
                                  const name: TFileName;
                                const pColor: TQRColor;
-                               const pLight: TQRMD2Light;
+                               const pLight: TQRDirectionalLight;
                                      rhToLh: Boolean;
                                modelOptions: TQRModelOptions;
                          framedModelOptions: TQRFramedModelOptions;
@@ -1597,7 +1598,7 @@ constructor TQRLoadMD2MemoryDirJob.Create(pGroup: TQRModelGroup;
                                       const pDir: TQRMemoryDir;
                                       const name: TFileName;
                                     const pColor: TQRColor;
-                                    const pLight: TQRMD2Light;
+                                    const pLight: TQRDirectionalLight;
                                           rhToLh: Boolean;
                                     modelOptions: TQRModelOptions;
                               framedModelOptions: TQRFramedModelOptions;
@@ -1985,7 +1986,7 @@ end;
 constructor TQRLoadMD2PackageJob.Create(pGroup: TQRModelGroup;
                                 const pPackage: TStream;
                                   const pColor: TQRColor;
-                                  const pLight: TQRMD2Light;
+                                  const pLight: TQRDirectionalLight;
                                         rhToLh: Boolean;
                                   modelOptions: TQRModelOptions;
                             framedModelOptions: TQRFramedModelOptions;
@@ -2795,7 +2796,7 @@ end;
 function TQRMD2Group.Load(const dir: UnicodeString;
                          const name: TFileName;
                        const pColor: TQRColor;
-                       const pLight: TQRMD2Light;
+                       const pLight: TQRDirectionalLight;
                              rhToLh: Boolean;
                        modelOptions: TQRModelOptions;
                  framedModelOptions: TQRFramedModelOptions;
@@ -2825,7 +2826,7 @@ end;
 function TQRMD2Group.Load(const pDir: TQRMemoryDir;
                           const name: TFileName;
                         const pColor: TQRColor;
-                        const pLight: TQRMD2Light;
+                        const pLight: TQRDirectionalLight;
                               rhToLh: Boolean;
                         modelOptions: TQRModelOptions;
                   framedModelOptions: TQRFramedModelOptions;
@@ -2865,7 +2866,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const fileName: TFileName;
                             const pColor: TQRColor;
-                            const pLight: TQRMD2Light;
+                            const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
                             modelOptions: TQRModelOptions;
                       framedModelOptions: TQRFramedModelOptions;
@@ -2896,7 +2897,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2Group.Load(const pPackage: TStream;
                             const pColor: TQRColor;
-                            const pLight: TQRMD2Light;
+                            const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
                             modelOptions: TQRModelOptions;
                       framedModelOptions: TQRFramedModelOptions;

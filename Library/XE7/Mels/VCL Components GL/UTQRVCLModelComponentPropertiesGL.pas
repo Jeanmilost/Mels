@@ -33,6 +33,7 @@ uses System.Classes,
      System.SysUtils,
      UTQRGeometry,
      UTQR3D,
+     UTQRLight,
      UTQRModelGroup,
      UTQRVCLGraphics,
      UTQRMD2,
@@ -1078,7 +1079,7 @@ type
              @param(pLight Light to update)
             }
             {$ENDREGION}
-            procedure Apply(pLight: TQRMD2Light); virtual;
+            procedure Apply(pLight: TQRDirectionalLight); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -2012,7 +2013,7 @@ begin
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLPreCalculatedLightComponentPropertyGL.Apply(pLight: TQRMD2Light);
+procedure TQRVCLPreCalculatedLightComponentPropertyGL.Apply(pLight: TQRDirectionalLight);
 begin
     // no light?
     if (not Assigned(pLight)) then

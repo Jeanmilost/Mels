@@ -40,11 +40,11 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <VerInfo_Build>5</VerInfo_Build>
+        <VerInfo_Build>6</VerInfo_Build>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.5;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL (Design Time);ProductVersion=0.0.0.5;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.6;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL (Design Time);ProductVersion=0.0.0.6;Comments=</VerInfo_Keys>
         <DCC_Description>Mels VCL components using OpenGL to draw them - design time package.</DCC_Description>
         <GenPackage>true</GenPackage>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
@@ -120,10 +120,7 @@
                     <Source Name="MainSource">Mels_VCLComponentsGLD.dpk</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k210.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp210.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\TWSVG.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\TWSVG.bpl not found</Excluded_Packages>
                 </Excluded_Packages>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
