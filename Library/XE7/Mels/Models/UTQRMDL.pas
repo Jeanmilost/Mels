@@ -1371,7 +1371,7 @@ const
     );
 
 var
-    arraySize, i: NativeUInt;
+    arraySize, i: Integer;
 
 begin
     arraySize := Length(normals);
@@ -1493,7 +1493,7 @@ begin
         meshIndex := Length(mesh) - 1;
 
         // create and populate new vertex
-        mesh[meshIndex].m_Name      := 'qr_MDL';
+        mesh[meshIndex].m_Name      := 'qr_mdl';
         mesh[meshIndex].m_Stride    := stride;
         mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;
@@ -1695,7 +1695,7 @@ begin
         meshIndex := Length(mesh) - 1;
 
         // create and populate new vertex
-        mesh[meshIndex].m_Name      := 'qr_MDL';
+        mesh[meshIndex].m_Name      := 'qr_mdl';
         mesh[meshIndex].m_Stride    := stride;
         mesh[meshIndex].m_Format    := VertexFormat;
         mesh[meshIndex].m_CoordType := EQR_VC_XYZ;

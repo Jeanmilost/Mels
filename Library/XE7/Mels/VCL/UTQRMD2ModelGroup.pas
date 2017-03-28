@@ -1149,8 +1149,8 @@ begin
             // notify that a texture is about to be loaded
             BeforeLoadTexture(m_Textures[textureIndex], not loadFirst);
 
-            // do load texture for the first time? (NOTE , so only try to load the first texture, others are user
-            // defined textures)
+            // do load texture for the first time? (NOTE try to load only the first texture, others
+            // are user defined textures)
             if (loadFirst) then
             begin
                 pTexture := Vcl.Graphics.TBitmap.Create;
@@ -1352,9 +1352,7 @@ var
     progressStep, totalStep:             Single;
     doCreateCache:                       Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 
@@ -1417,13 +1415,8 @@ begin
 
         // set pre-calculated light, if needed
         if (Assigned(m_pLight)) then
-        begin
             // copy light properties
-            m_pModel.PreCalculatedLight.Ambient    := m_pLight.Ambient;
-            m_pModel.PreCalculatedLight.Color      := m_pLight.Color;
-            m_pModel.PreCalculatedLight.Direction^ := m_pLight.Direction^;
-            m_pModel.PreCalculatedLight.Enabled    := m_pLight.Enabled;
-        end;
+            m_pModel.PreCalculatedLight.Assign(m_pLight);
 
         // build normals table file name
         normalsName   := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.bin';
@@ -1712,9 +1705,7 @@ var
     progressStep, totalStep:                      Single;
     doCreateCache:                                Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 
@@ -1793,13 +1784,8 @@ begin
 
         // set pre-calculated light, if needed
         if (Assigned(m_pLight)) then
-        begin
             // copy light properties
-            m_pModel.PreCalculatedLight.Ambient    := m_pLight.Ambient;
-            m_pModel.PreCalculatedLight.Color      := m_pLight.Color;
-            m_pModel.PreCalculatedLight.Direction^ := m_pLight.Direction^;
-            m_pModel.PreCalculatedLight.Enabled    := m_pLight.Enabled;
-        end;
+            m_pModel.PreCalculatedLight.Assign(m_pLight);
 
         // build normals table file name
         normalsName   := m_Name + '.bin';
@@ -2172,9 +2158,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMD2PackageJob.Process: Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 

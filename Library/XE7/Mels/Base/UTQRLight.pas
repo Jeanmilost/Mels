@@ -239,6 +239,13 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRLight.Assign(const pOther: TQRLight);
 begin
+    if (not Assigned(pOther)) then
+    begin
+        m_pAmbient.Assign(nil);
+        m_Enabled := False;
+        Exit;
+    end;
+
     // copy light from other
     m_pAmbient.Assign(pOther.m_pAmbient);
     m_Enabled := pOther.m_Enabled;
@@ -287,8 +294,12 @@ var
 begin
     inherited Assign(pOther);
 
-    if (not(pOther is TQRDirectionalLight)) then
+    if (not Assigned(pOther) or not (pOther is TQRDirectionalLight)) then
+    begin
+        m_pColor.Assign(nil);
+        m_Direction := TQRVector3D.Create(0.0, 0.0, 1.0);
         Exit;
+    end;
 
     pSource := pOther as TQRDirectionalLight;
 
