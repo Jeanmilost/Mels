@@ -625,7 +625,7 @@ end;
 class function TQRVCLPictureHelper.IsGraphicClassRegistered(const fileName: TFileName): Boolean;
 var
     list: TStringList;
-    item: UnicodeString;
+    item: AnsiString;
 begin
     Result := False;
     list   := TStringList.Create;
