@@ -1159,24 +1159,8 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLBasicModelComponentPropertyGL.Assign(pSource: TPersistent);
-var
-    pSrc: TQRVCLBasicModelComponentPropertyGL;
 begin
     inherited Assign(pSource);
-
-    // incorrect source type?
-    if (not(pSource is TQRVCLBasicModelComponentPropertyGL)) then
-    begin
-        // reset values to default
-        m_pOwner             := nil;
-        m_fOnNotifyPropOwner := nil;
-        Exit;
-    end;
-
-    // copy content from source
-    pSrc                 := pSource as TQRVCLBasicModelComponentPropertyGL;
-    m_pOwner             := pSrc.m_pOwner;
-    m_fOnNotifyPropOwner := pSrc.m_fOnNotifyPropOwner;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentVector3GL
