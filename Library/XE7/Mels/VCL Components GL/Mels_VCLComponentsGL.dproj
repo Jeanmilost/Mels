@@ -97,6 +97,7 @@
         <DCCReference Include="UTQRDesignerHook.pas"/>
         <DCCReference Include="UTQRVCLShapeComponentGL.pas"/>
         <DCCReference Include="UTQRVCLMD3ModelComponentGL.pas"/>
+        <DCCReference Include="UTQRVCLMDLModelComponentGL.pas"/>
         <RcCompile Include="UTQRVCLModelComponentGL.rc">
             <Form>UTQRVCLModelComponentGL.res</Form>
         </RcCompile>
@@ -167,6 +168,12 @@
             </Delphi.Personality>
             <Deployment>
                 <DeployFile LocalName="..\..\..\..\..\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>Mels_VCLComponentsGL.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\Mels_VCLComponentsGL.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Mels_VCLComponentsGL.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

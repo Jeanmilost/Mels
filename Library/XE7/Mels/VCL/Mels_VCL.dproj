@@ -94,6 +94,7 @@
         <DCCReference Include="UTQRVCLHelpers.pas"/>
         <DCCReference Include="UTQRVCLModelRenderer.pas"/>
         <DCCReference Include="UTQRShapeGroup.pas"/>
+        <DCCReference Include="UTQRMDLModelGroup.pas"/>
         <RcCompile Include="UTQRMD2ModelGroup.rc">
             <Form>UTQRMD2ModelGroup.res</Form>
         </RcCompile>
