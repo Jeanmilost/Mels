@@ -1552,9 +1552,22 @@ begin
                 // do include texture coordinates?
                 if (EQR_VF_TexCoords in VertexFormat) then
                 begin
-                    // get vertex texture coordinates
+                    // get vertex texture coordinates. Be careful, here a pointer of
+                    // type float should be read from memory, for that the conversion
+                    // cannot be done from M_Precision
                     tu := m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_U;
                     tv := m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_V;
+
+                    // is texture coordinate on the back face?
+                    if ((m_pParser.m_Polygons[j].m_FacesFront = 0) and
+                        (m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_OnSeam <> 0))
+                    then
+                        // correct the texture coordinate to put it on the back face
+                        tu := tu + m_pParser.m_Header.m_SkinWidth * 0.5;
+
+                    // scale s and t to range from 0.0 to 1.0
+                    tu := (tu + 0.5) / m_pParser.m_Header.m_SkinWidth;
+                    tv := (tv + 0.5) / m_pParser.m_Header.m_SkinHeight;
 
                     SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 2);
                     mesh[meshIndex].m_Buffer[offset]     := tu;
@@ -1769,9 +1782,22 @@ begin
                 // do include texture coordinates?
                 if (EQR_VF_TexCoords in VertexFormat) then
                 begin
-                    // get vertex texture coordinates
+                    // get vertex texture coordinates. Be careful, here a pointer of
+                    // type float should be read from memory, for that the conversion
+                    // cannot be done from M_Precision
                     tu := m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_U;
                     tv := m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_V;
+
+                    // is texture coordinate on the back face?
+                    if ((m_pParser.m_Polygons[j].m_FacesFront = 0) and
+                        (m_pParser.m_TexCoords[m_pParser.m_Polygons[j].m_VertexIndex[k]].m_OnSeam <> 0))
+                    then
+                        // correct the texture coordinate to put it on the back face
+                        tu := tu + m_pParser.m_Header.m_SkinWidth * 0.5;
+
+                    // scale s and t to range from 0.0 to 1.0
+                    tu := (tu + 0.5) / m_pParser.m_Header.m_SkinWidth;
+                    tv := (tv + 0.5) / m_pParser.m_Header.m_SkinHeight;
 
                     SetLength(mesh[meshIndex].m_Buffer, Length(mesh[meshIndex].m_Buffer) + 2);
                     mesh[meshIndex].m_Buffer[offset]     := tu;
