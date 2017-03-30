@@ -1109,7 +1109,7 @@ begin
         WM_PAINT:
         begin
             // handle is allocated and component isn't currently destroying?
-            if (HandleAllocated and (not(csDestroying in ComponentState))) then
+            if (HandleAllocated and not(csDestroying in ComponentState)) then
             begin
                 // although this is not documented inside the MS documentation, sometimes the device
                 // context to use may be sent inside the wParam property. If it's the case, use it
