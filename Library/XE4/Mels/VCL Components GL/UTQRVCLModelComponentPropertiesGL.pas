@@ -33,6 +33,7 @@ uses System.Classes,
      System.SysUtils,
      UTQRGeometry,
      UTQR3D,
+     UTQRLight,
      UTQRModelGroup,
      UTQRVCLGraphics,
      UTQRMD2,
@@ -1078,7 +1079,7 @@ type
              @param(pLight Light to update)
             }
             {$ENDREGION}
-            procedure Apply(pLight: TQRMD2Light); virtual;
+            procedure Apply(pLight: TQRDirectionalLight); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -1158,24 +1159,8 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLBasicModelComponentPropertyGL.Assign(pSource: TPersistent);
-var
-    pSrc: TQRVCLBasicModelComponentPropertyGL;
 begin
     inherited Assign(pSource);
-
-    // incorrect source type?
-    if (not(pSource is TQRVCLBasicModelComponentPropertyGL)) then
-    begin
-        // reset values to default
-        m_pOwner             := nil;
-        m_fOnNotifyPropOwner := nil;
-        Exit;
-    end;
-
-    // copy content from source
-    pSrc                 := pSource as TQRVCLBasicModelComponentPropertyGL;
-    m_pOwner             := pSrc.m_pOwner;
-    m_fOnNotifyPropOwner := pSrc.m_fOnNotifyPropOwner;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRVCLModelComponentVector3GL
@@ -2012,7 +1997,7 @@ begin
         m_fOnNotifyPropOwner(Self, EQR_PM_RecreateWnd);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRVCLPreCalculatedLightComponentPropertyGL.Apply(pLight: TQRMD2Light);
+procedure TQRVCLPreCalculatedLightComponentPropertyGL.Apply(pLight: TQRDirectionalLight);
 begin
     // no light?
     if (not Assigned(pLight)) then

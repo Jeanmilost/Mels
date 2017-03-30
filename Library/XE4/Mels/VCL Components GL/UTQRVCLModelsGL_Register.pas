@@ -32,6 +32,7 @@ interface
 uses System.Classes,
      UTQRVCLSimpleRendererComponentGL,
      UTQRVCLShapeComponentGL,
+     UTQRVCLMDLModelComponentGL,
      UTQRVCLMD2ModelComponentGL,
      UTQRVCLMD3ModelComponentGL;
 
@@ -56,6 +57,7 @@ begin
                                 TQRVCLConeGL,
                                 TQRVCLTorusGL,
                                 TQRVCLParabolaGL,
+                                TQRVCLMDLModelGL,
                                 TQRVCLMD2ModelGL,
                                 TQRVCLMD3ModelGL]);
 end;

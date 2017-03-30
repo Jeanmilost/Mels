@@ -674,15 +674,6 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Loads MD3 from file
-             @param(fileName File name)
-             @return(@true on success, otherwise @false)
-            }
-            {$ENDREGION}
-            function Load(const fileName: TFileName): Boolean; override;
-
-            {$REGION 'Documentation'}
-            {**
              Loads MD3 from buffer
              @param(pBuffer Buffer)
              @param(readLength Length to read in buffer, in bytes (not used here, can be 0))
@@ -1174,29 +1165,6 @@ end;
 function TQRMD3Parser.GetMeshCount: NativeInt;
 begin
     Result := Length(m_Meshes);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.Load(const fileName: TFileName): Boolean;
-var
-    pBuffer: TFileStream;
-begin
-    pBuffer := nil;
-
-    try
-        // file exists?
-        if (not FileExists(fileName)) then
-            Exit(False);
-
-        // create a file buffer and open it for read
-        pBuffer := TFileStream.Create(fileName, fmOpenRead);
-        pBuffer.Seek(0, soBeginning);
-
-        // read MD3 content
-        Result := Load(pBuffer, pBuffer.Size);
-    finally
-        // clear buffer
-        pBuffer.Free;
-    end;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3Parser.Load(const pBuffer: TStream; readLength: NativeUInt): Boolean;

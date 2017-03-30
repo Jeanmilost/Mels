@@ -31,12 +31,12 @@ interface
 
 uses System.Classes,
      System.SysUtils,
-     System.Math,
      UTQRCommon,
      UTQRHelpers,
      UTQRGraphics,
      UTQRGeometry,
      UTQR3D,
+     UTQRLight,
      UTQRCollision,
      UTQRModel;
 
@@ -510,15 +510,6 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Loads MD2 from file
-             @param(fileName File name)
-             @return(@true on success, otherwise @false)
-            }
-            {$ENDREGION}
-            function Load(const fileName: TFileName): Boolean; override;
-
-            {$REGION 'Documentation'}
-            {**
              Loads MD2 from buffer
              @param(pBuffer Buffer)
              @param(readLength Length to read in buffer, in bytes (not used here, can be 0))
@@ -608,144 +599,6 @@ type
             property GlCmdCount: NativeInt read GetGlCmdCount;
     end;
 
-    {$REGION 'Documentation'}
-    {**
-     MD2 pre-calculated light. This light is calculated while the mesh is generated, and thus is
-     embedded in the vertex buffer itself
-    }
-    {$ENDREGION}
-    TQRMD2Light = class
-        private
-            m_pAmbient:  TQRColor;
-            m_pColor:    TQRColor;
-            m_Direction: TQRVector3D;
-            m_Enabled:   Boolean;
-
-        protected
-            {$REGION 'Documentation'}
-            {**
-             Gets the ambient color
-             @return(The ambient color)
-             @br @bold(NOTE) The ambient color is the color of all meshes that are not illuminated
-                             by another light. This can be compared e.g. to a room where no light
-                             source are visible
-            }
-            {$ENDREGION}
-            function GetAmbient: TQRColor; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Sets the ambient color
-             @param(pColor The ambient color)
-             @br @bold(NOTE) The ambient color is the color of all meshes that are not illuminated
-                             by another light. This can be compared e.g. to a room where no light
-                             source are visible
-            }
-            {$ENDREGION}
-            procedure SetAmbient(const pColor: TQRColor); virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets the light color
-             @return(The light color)
-            }
-            {$ENDREGION}
-            function GetColor: TQRColor; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Sets the light color
-             @param(pColor The light color)
-            }
-            {$ENDREGION}
-            procedure SetColor(const pColor: TQRColor); virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets the light direction
-             @return(The light direction)
-            }
-            {$ENDREGION}
-            function GetDirection: PQRVector3D; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Sets the light direction
-             @param(pDirection The light direction)
-            }
-            {$ENDREGION}
-            procedure SetDirection(const pDirection: PQRVector3D); virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets the enabled flag
-             @return(The enabled flag)
-            }
-            {$ENDREGION}
-            function GetEnabled: Boolean; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Sets the enabled flag
-             @param(value The enabled flag value to set)
-            }
-            {$ENDREGION}
-            procedure SetEnabled(value: Boolean); virtual;
-
-        public
-            {$REGION 'Documentation'}
-            {**
-             Constructor
-            }
-            {$ENDREGION}
-            constructor Create; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Destructor
-            }
-            {$ENDREGION}
-            destructor Destroy; override;
-
-            {$REGION 'Documentation'}
-            {**
-             Assigns (i.e. copies) the light content from another light
-             @param(pOther Other light to assign from
-            }
-            {$ENDREGION}
-            procedure Assign(const pOther: TQRMD2Light); virtual;
-
-        // Properties
-        public
-            {$REGION 'Documentation'}
-            {**
-             Gets or sets the ambient light color
-            }
-            {$ENDREGION}
-            property Ambient: TQRColor read GetAmbient write SetAmbient;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets or sets the light color
-            }
-            {$ENDREGION}
-            property Color: TQRColor read GetColor write SetColor;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets or sets the light direction
-            }
-            {$ENDREGION}
-            property Direction: PQRVector3D read GetDirection write SetDirection;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets or sets the light enabled state
-            }
-            {$ENDREGION}
-            property Enabled: Boolean read GetEnabled write SetEnabled;
-    end;
-
     TQRMD2Normals = array of TQRVector3D;
 
     {$REGION 'Documentation'}
@@ -758,7 +611,7 @@ type
             m_pParser:             TQRMD2Parser;
             m_Normals:             TQRMD2Normals;
             m_RHToLH:              Boolean;
-            m_pPreCalculatedLight: TQRMD2Light;
+            m_pPreCalculatedLight: TQRDirectionalLight;
 
         protected
             {$REGION 'Documentation'}
@@ -774,32 +627,19 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets the vertex pre-calculated light color
-             @param(pLight MD2 pre-calculated light model to use)
-             @param(normal Vertex normal)
-             @return(The vertex color)
+             Gets pre-calculated light
+             @return(The pre-calculated light)
             }
             {$ENDREGION}
-            function GetPreCalculatedLightColor(const pLight: TQRMD2Light;
-                                                const normal: TQRVector3D): TQRColor; virtual;
+            function GetPreCalculatedLight: TQRDirectionalLight; virtual;
 
             {$REGION 'Documentation'}
             {**
-             Gets vertex pre-calculated light
-             @param(normal Vertex normal)
-             @return(The vertex color)
+             Sets pre-calculated light
+             @param(pLight Pre-calculated light)
             }
             {$ENDREGION}
-            function GetPreCalculatedLight: TQRMD2Light; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Sets vertex pre-calculated light
-             @param(normal Vertex normal)
-             @return(The vertex color)
-            }
-            {$ENDREGION}
-            procedure SetPreCalculatedLight(const light: TQRMD2Light); virtual;
+            procedure SetPreCalculatedLight(const pLight: TQRDirectionalLight); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -883,28 +723,6 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Gets skin names list
-             @param(pNames Skin names)
-             @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Names list should be empty and not sorted, otherwise skin index in
-                             source parser may not match
-            }
-            {$ENDREGION}
-            function GetSkinNames(const pNames: TStringList): Boolean; virtual;
-
-            {$REGION 'Documentation'}
-            {**
-             Gets frame names list
-             @param(pNames Frame names)
-             @return(@true on success, otherwise @false)
-             @br @bold(NOTE) Names list should be empty and not sorted, otherwise frame index in
-                             source parser may not match
-            }
-            {$ENDREGION}
-            function GetFrameNames(const pNames: TStringList): Boolean; virtual;
-
-            {$REGION 'Documentation'}
-            {**
              Gets the model frame mesh
              @param(index Frame mesh index to create)
              @param(mesh @bold([out]) Frame mesh)
@@ -965,7 +783,7 @@ type
              Gets or sets the pre-calculated light to use
             }
             {$ENDREGION}
-            property PreCalculatedLight: TQRMD2Light  read GetPreCalculatedLight write SetPreCalculatedLight;
+            property PreCalculatedLight: TQRDirectionalLight read GetPreCalculatedLight write SetPreCalculatedLight;
 
             {$REGION 'Documentation'}
             {**
@@ -1248,29 +1066,6 @@ begin
     Result := Length(m_GlCmds);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Parser.Load(const fileName: TFileName): Boolean;
-var
-    pBuffer: TFileStream;
-begin
-    pBuffer := nil;
-
-    try
-        // file exists?
-        if (not FileExists(fileName)) then
-            Exit(False);
-
-        // create a file buffer and open it for read
-        pBuffer := TFileStream.Create(fileName, fmOpenRead);
-        pBuffer.Seek(0, soBeginning);
-
-        // read MD2 content
-        Result := Load(pBuffer, pBuffer.Size);
-    finally
-        // clear buffer
-        pBuffer.Free;
-    end;
-end;
-//--------------------------------------------------------------------------------------------------
 function TQRMD2Parser.Load(const pBuffer: TStream; readLength: NativeUInt): Boolean;
 var
     offset: NativeUInt;
@@ -1353,75 +1148,6 @@ begin
     Result := False;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRMD2Light
-//--------------------------------------------------------------------------------------------------
-constructor TQRMD2Light.Create;
-begin
-    inherited Create;
-
-    m_pAmbient  := TQRColor.Create(0, 0, 0);
-    m_pColor    := TQRColor.Create(0, 0, 0);
-    m_Direction := TQRVector3D.Create(0.0, 0.0, 0.0);
-    m_Enabled   := False;
-end;
-//--------------------------------------------------------------------------------------------------
-destructor TQRMD2Light.Destroy;
-begin
-    m_pAmbient.Free;
-    m_pColor.Free;
-
-    inherited Destroy;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetAmbient: TQRColor;
-begin
-    Result := m_pAmbient;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRMD2Light.SetAmbient(const pColor: TQRColor);
-begin
-    m_pAmbient.Assign(pColor);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetColor: TQRColor;
-begin
-    Result := m_pColor;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRMD2Light.SetColor(const pColor: TQRColor);
-begin
-    m_pColor.Assign(pColor);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetDirection: PQRVector3D;
-begin
-    Result := @m_Direction;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRMD2Light.SetDirection(const pDirection: PQRVector3D);
-begin
-    m_Direction := pDirection^;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Light.GetEnabled: Boolean;
-begin
-    Result := m_Enabled;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRMD2Light.SetEnabled(value: Boolean);
-begin
-    m_Enabled := value;
-end;
-//--------------------------------------------------------------------------------------------------
-procedure TQRMD2Light.Assign(const pOther: TQRMD2Light);
-begin
-    // copy light from other
-    m_pAmbient.Assign(pOther.m_pAmbient);
-    m_pColor.Assign(pOther.m_pColor);
-    m_Direction := pOther.m_Direction;
-    m_Enabled   := pOther.m_Enabled;
-end;
-//--------------------------------------------------------------------------------------------------
 // TQRMD2Model
 //--------------------------------------------------------------------------------------------------
 constructor TQRMD2Model.Create;
@@ -1429,7 +1155,7 @@ begin
     inherited Create;
 
     m_pParser             := TQRMD2Parser.Create;
-    m_pPreCalculatedLight := TQRMD2Light.Create;
+    m_pPreCalculatedLight := TQRDirectionalLight.Create;
     m_RHToLH              := False;
 end;
 //--------------------------------------------------------------------------------------------------
@@ -1457,38 +1183,14 @@ begin
     Result := TQRVector3D.Create(vertArray[0], vertArray[1], vertArray[2]);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetPreCalculatedLightColor(const pLight: TQRMD2Light;
-                                                const normal: TQRVector3D): TQRColor;
-var
-    lightAngle: Single;
-    r, g, b, a: Cardinal;
-begin
-    // calculate light angle
-    lightAngle := normal.Dot(pLight.Direction^);
-
-    // is light angle out of bounds? (necessary to ensure that the light is not calculated on the 2
-    // sides of the vertex, and thus give the impression that the light comes from two opposite
-    // sides at once)
-    if (lightAngle < 0.0) then
-        lightAngle := 0.0;
-
-    // calculate light color
-    r := Floor(Min(255.0, Max((pLight.Color.GetRed   * lightAngle), pLight.Ambient.GetRed)));
-    g := Floor(Min(255.0, Max((pLight.Color.GetGreen * lightAngle), pLight.Ambient.GetGreen)));
-    b := Floor(Min(255.0, Max((pLight.Color.GetBlue  * lightAngle), pLight.Ambient.GetBlue)));
-    a := Floor(Min(255.0, Max((pLight.Color.GetAlpha * lightAngle), pLight.Ambient.GetAlpha)));
-
-    Result := TQRColor.Create(PByte(@r)^, PByte(@g)^, PByte(@b)^, PByte(@a)^);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetPreCalculatedLight: TQRMD2Light;
+function TQRMD2Model.GetPreCalculatedLight: TQRDirectionalLight;
 begin
     Result := m_pPreCalculatedLight;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Model.SetPreCalculatedLight(const light: TQRMD2Light);
+procedure TQRMD2Model.SetPreCalculatedLight(const pLight: TQRDirectionalLight);
 begin
-    m_pPreCalculatedLight.Assign(light);
+    m_pPreCalculatedLight.Assign(pLight);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD2Model.GetRHToLH: Boolean;
@@ -1584,34 +1286,6 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetSkinNames(const pNames: TStringList): Boolean;
-var
-    skin: TQRMD2Skin;
-begin
-    if (not Assigned(pNames)) then
-        Exit(False);
-
-    // iterate through source skins and get each name
-    for skin in m_pParser.m_Skins do
-        pNames.Add(UnicodeString(skin.m_Name));
-
-    Result := True;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD2Model.GetFrameNames(const pNames: TStringList): Boolean;
-var
-    frame: TQRMD2Frame;
-begin
-    if (not Assigned(pNames)) then
-        Exit(False);
-
-    // iterate through source frames and get each name
-    for frame in m_pParser.m_Frames do
-        pNames.Add(UnicodeString(frame.m_Name));
-
-    Result := True;
-end;
-//--------------------------------------------------------------------------------------------------
 function TQRMD2Model.GetMesh(index: NativeUInt;
                           out mesh: TQRMesh;
                          pAABBTree: TQRAABBTree;
@@ -1635,7 +1309,7 @@ begin
     // get normal count
     normalCount := Length(m_Normals);
 
-    // do use m_Normals and pre-calculated m_Normals table wasn't populated?
+    // do use normals and pre-calculated normals table wasn't populated?
     if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
         Exit(False);
 
@@ -1791,7 +1465,7 @@ begin
                     if (foundNormal) then
                     begin
                         doFreeColor := True;
-                        pMeshColor  := GetPreCalculatedLightColor(m_pPreCalculatedLight, normal);
+                        pMeshColor  := CalculateLight(normal, m_pPreCalculatedLight);
                     end
                     else
                         // unfortunately normal isn't available, so use the ambient color (not the
@@ -1858,7 +1532,7 @@ begin
     // get normal count
     normalCount := Length(m_Normals);
 
-    // do use m_Normals and pre-calculated m_Normals table wasn't populated?
+    // do use normals and pre-calculated normals table wasn't populated?
     if ((EQR_VF_Normals in VertexFormat) and (normalCount = 0)) then
         Exit(False);
 
@@ -1958,7 +1632,7 @@ begin
 
                 // get vertex normal, and normal to interpolate with
                 normal    := m_Normals[srcVertex.m_NormalIndex];
-                intNormal := m_Normals[srcVertex.m_NormalIndex];
+                intNormal := m_Normals[intVertex.m_NormalIndex];
 
                 // do convert right hand <-> left hand coordinate system?
                 if (m_RHToLH) then
@@ -2016,13 +1690,20 @@ begin
                         end
                         else
                         begin
-                            // get vertex normal
-                            normal := m_Normals[srcVertex.m_NormalIndex];
+                            // get vertex normal, and normal to interpolate with
+                            normal    := m_Normals[srcVertex.m_NormalIndex];
+                            intNormal := m_Normals[intVertex.m_NormalIndex];
 
                             // do convert right hand <-> left hand coordinate system?
                             if (m_RHToLH) then
+                            begin
                                 // apply conversion
-                                normal.X := -normal.X;
+                                normal.X    := -normal.X;
+                                intNormal.X := -intNormal.X;
+                            end;
+
+                            // calculate final vertex normal
+                            finalNormal := normal.Interpolate(intNormal, interpolationFactor);
                         end;
                     end;
 
@@ -2030,7 +1711,7 @@ begin
                     if (foundNormal) then
                     begin
                         doFreeColor := True;
-                        pMeshColor   := GetPreCalculatedLightColor(m_pPreCalculatedLight, normal);
+                        pMeshColor   := CalculateLight(finalNormal, m_pPreCalculatedLight);
                     end
                     else
                         // unfortunately normal isn't available, so use the ambient color (not the

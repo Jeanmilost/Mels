@@ -1091,9 +1091,7 @@ var
     progressStep, totalStep: Single;
     doCreateCache:           Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 

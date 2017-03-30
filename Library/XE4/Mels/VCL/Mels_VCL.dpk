@@ -5,7 +5,7 @@ package Mels_VCL;
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
-{$DEBUGINFO ON}
+{$DEBUGINFO OFF}
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
@@ -46,6 +46,7 @@ contains
   UTQRVCLGraphics in 'UTQRVCLGraphics.pas',
   UTQRVCLHelpers in 'UTQRVCLHelpers.pas',
   UTQRVCLModelRenderer in 'UTQRVCLModelRenderer.pas',
-  UTQRShapeGroup in 'UTQRShapeGroup.pas';
+  UTQRShapeGroup in 'UTQRShapeGroup.pas',
+  UTQRMDLModelGroup in 'UTQRMDLModelGroup.pas';
 
 end.

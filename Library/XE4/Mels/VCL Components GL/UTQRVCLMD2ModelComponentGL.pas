@@ -38,6 +38,7 @@ uses System.Classes,
      UTQRLogging,
      UTQRGeometry,
      UTQR3D,
+     UTQRLight,
      UTQRCollision,
      UTQRModel,
      UTQRMD2,
@@ -862,7 +863,7 @@ end;
 function TQRVCLMD2ModelGL.LoadModel: Boolean;
 var
     pPackage:  TMemoryStream;
-    pMD2Light: TQRMD2Light;
+    pMD2Light: TQRDirectionalLight;
 begin
     // do nothing in case component is loading (in this case model will be loaded immediately after)
     // or deleting (in this case model will no more be loaded)
@@ -921,7 +922,7 @@ begin
     // configure pre-calculated light to use, if any
     if (m_pPreCalculatedLight.Enabled) then
     begin
-        pMD2Light := TQRMD2Light.Create;
+        pMD2Light := TQRDirectionalLight.Create;
         m_pPreCalculatedLight.Apply(pMD2Light);
     end
     else

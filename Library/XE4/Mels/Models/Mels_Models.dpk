@@ -5,7 +5,7 @@ package Mels_Models;
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
-{$DEBUGINFO ON}
+{$DEBUGINFO OFF}
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
@@ -38,6 +38,7 @@ contains
   UTQRMD3 in 'UTQRMD3.pas',
   UTQRModel in 'UTQRModel.pas',
   UTQRModelRenderer in 'UTQRModelRenderer.pas',
-  UTQRShapes in 'UTQRShapes.pas';
+  UTQRShapes in 'UTQRShapes.pas',
+  UTQRMDL in 'UTQRMDL.pas';
 
 end.
