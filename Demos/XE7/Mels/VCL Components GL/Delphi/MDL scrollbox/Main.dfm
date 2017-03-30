@@ -25,7 +25,6 @@ object MainForm: TMainForm
     Width = 310
     Height = 510
     HorzScrollBar.Visible = False
-    VertScrollBar.Position = 860
     Align = alClient
     BorderStyle = bsNone
     DoubleBuffered = True
@@ -34,7 +33,7 @@ object MainForm: TMainForm
     object laTitle: TLabel
       AlignWithMargins = True
       Left = 3
-      Top = -726
+      Top = 134
       Width = 287
       Height = 33
       Align = alTop
@@ -46,13 +45,12 @@ object MainForm: TMainForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
-      ExplicitTop = 134
       ExplicitWidth = 86
     end
     object reQuakeII: TRichEdit
       AlignWithMargins = True
       Left = 5
-      Top = -690
+      Top = 170
       Width = 283
       Height = 1200
       Margins.Left = 5
@@ -179,7 +177,7 @@ object MainForm: TMainForm
     object btSaveToFile: TButton
       AlignWithMargins = True
       Left = 97
-      Top = -749
+      Top = 111
       Width = 100
       Height = 20
       Margins.Left = 97
@@ -200,7 +198,7 @@ object MainForm: TMainForm
     object mlModel: TQRVCLMDLModelGL
       AlignWithMargins = True
       Left = 97
-      Top = -850
+      Top = 10
       Width = 100
       Height = 100
       Margins.Left = 97
