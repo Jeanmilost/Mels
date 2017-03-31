@@ -48,6 +48,7 @@ contains
   UTQRVCLSimpleRendererComponentGL in 'UTQRVCLSimpleRendererComponentGL.pas',
   UTQRDesignerHook in 'UTQRDesignerHook.pas',
   UTQRVCLShapeComponentGL in 'UTQRVCLShapeComponentGL.pas',
-  UTQRVCLMD3ModelComponentGL in 'UTQRVCLMD3ModelComponentGL.pas';
+  UTQRVCLMD3ModelComponentGL in 'UTQRVCLMD3ModelComponentGL.pas',
+  UTQRVCLMDLModelComponentGL in 'UTQRVCLMDLModelComponentGL.pas';
 
 end.

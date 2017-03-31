@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> UTQRMD2ModelGroup ------------------------------------------------------------------------*
+// * ==> UTQRMDLModelGroup ------------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -20,17 +20,14 @@
 // *************************************************************************************************
 
 {**
- @abstract(@name provides the features to load and link all files composing the MD2 together.)
+ @abstract(@name provides the features to load and link all files composing the MDL together.)
  @image(Resources/Images/Documentation/Mels.svg)
  @author(Jean-Milost Reymond)
  @created(2015 - 2017, this file is part of the Mels library)
 }
-unit UTQRMD2ModelGroup;
+unit UTQRMDLModelGroup;
 
 interface
-
-// resources
-{$R UTQRMD2ModelGroup.res}
 
 uses System.Classes,
      System.SysUtils,
@@ -44,7 +41,7 @@ uses System.Classes,
      UTQRLight,
      UTQRCollision,
      UTQRModel,
-     UTQRMD2,
+     UTQRMDL,
      UTQRModelGroup,
      UTQRLogging,
      UTQRThreading,
@@ -55,62 +52,10 @@ uses System.Classes,
 type
     {$REGION 'Documentation'}
     {**
-     Standard MD2 animation set, as commonly defined in the Quake engine
-     @value(EQR_AG_MD2_Stand Selects the stand gesture to be played by the model)
-     @value(EQR_AG_MD2_Run Selects the run gesture to be played by the model)
-     @value(EQR_AG_MD2_Attack Selects the attack gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain1 Selects the pain nb. 1 gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain2 Selects the pain nb. 2 gesture to be played by the model)
-     @value(EQR_AG_MD2_Pain3 Selects the pain nb. 3 gesture to be played by the model)
-     @value(EQR_AG_MD2_Jump Selects the jump gesture to be played by the model)
-     @value(EQR_AG_MD2_Flip Selects the flip gesture to be played by the model)
-     @value(EQR_AG_MD2_Salute Selects the salute gesture to be played by the model)
-     @value(EQR_AG_MD2_Taunt Selects the taunt gesture to be played by the model)
-     @value(EQR_AG_MD2_Wave Selects the wave gesture to be played by the model)
-     @value(EQR_AG_MD2_Point Selects the point gesture to be played by the model)
-     @value(EQR_AG_MD2_CRStand Selects the crouching stand gesture to be played by the model)
-     @value(EQR_AG_MD2_CRWalk Selects the crouching walk gesture to be played by the model)
-     @value(EQR_AG_MD2_CRAttack Selects the crouching attack gesture to be played by the model)
-     @value(EQR_AG_MD2_CRPain Selects the crouching pain gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath Selects the death nb. 1 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath2 Selects the death nb. 2 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath3 Selects the death nb. 3 gesture to be played by the model)
-     @value(EQR_AG_MD2_CRDeath4 Selects the death nb. 4 gesture to be played by the model)
-     @br @bold(NOTE) These gestures are given for convenience, you are free to define your own
-                     gestures. However these gestures must match with those defined in the model.cfg
-                     file
+     MDL animation configuration file
     }
     {$ENDREGION}
-    EQRMD2AnimationGesture =
-    (
-        EQR_AG_MD2_Stand = 0,
-        EQR_AG_MD2_Run,
-        EQR_AG_MD2_Attack,
-        EQR_AG_MD2_Pain1,
-        EQR_AG_MD2_Pain2,
-        EQR_AG_MD2_Pain3,
-        EQR_AG_MD2_Jump,
-        EQR_AG_MD2_Flip,
-        EQR_AG_MD2_Salute,
-        EQR_AG_MD2_Taunt,
-        EQR_AG_MD2_Wave,
-        EQR_AG_MD2_Point,
-        EQR_AG_MD2_CRStand,
-        EQR_AG_MD2_CRWalk,
-        EQR_AG_MD2_CRAttack,
-        EQR_AG_MD2_CRPain,
-        EQR_AG_MD2_CRDeath,
-        EQR_AG_MD2_CRDeath2,
-        EQR_AG_MD2_CRDeath3,
-        EQR_AG_MD2_CRDeath4
-    );
-
-    {$REGION 'Documentation'}
-    {**
-     MD2 animation configuration file
-    }
-    {$ENDREGION}
-    TQRMD2AnimCfgFile = class(TQRFramedModelAnimCfgFile)
+    TQRMDLAnimCfgFile = class(TQRFramedModelAnimCfgFile)
         private
             m_StartLine: NativeUInt;
             m_CurLine:   NativeUInt;
@@ -151,20 +96,28 @@ type
 
     {$REGION 'Documentation'}
     {**
-     Generic MD2 job
+     MDL texture palette
+    }
+    {$ENDREGION}
+    TQRMDLPalette = array of TQRColor;
+
+    {$REGION 'Documentation'}
+    {**
+     Generic MDL job
      @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
-                     by a worker. A MD2 job is designed to load all the files composing the MD2
+                     by a worker. A MDL job is designed to load all the files composing the MDL
                      model, and provides the data to be used by the group
     }
     {$ENDREGION}
-    TQRMD2Job = class(TQRModelJob)
+    TQRMDLJob = class(TQRModelJob)
         private
-            m_pModel:             TQRMD2Model;
+            m_pModel:             TQRMDLModel;
             m_Textures:           TQRTextures;
             m_pColor:             TQRColor;
-            m_pAnimations:        TQRMD2AnimCfgFile;
+            m_pAnimations:        TQRMDLAnimCfgFile;
             m_pLight:             TQRDirectionalLight;
             m_pDefaultMesh:       PQRMesh;
+            m_Palette:            TQRMDLPalette;
             m_MaxTexture:         NativeUInt;
             m_DefaultFrameIndex:  NativeUInt;
             m_RhToLh:             Boolean;
@@ -173,6 +126,13 @@ type
             m_FramedModelOptions: TQRFramedModelOptions;
             m_fOnLoadTexture:     TQRLoadMeshTextureEvent;
 
+            {$REGION 'Documentation'}
+            {**
+             Ppopulates the palette to use for uncompress the texture
+            }
+            {$ENDREGION}
+            procedure PopulatePalette;
+
         protected
             {$REGION 'Documentation'}
             {**
@@ -180,7 +140,7 @@ type
              @return(The model)
             }
             {$ENDREGION}
-            function GetModel: TQRMD2Model; virtual;
+            function GetModel: TQRMDLModel; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -201,6 +161,18 @@ type
 
             {$REGION 'Documentation'}
             {**
+             Uncompresses the texture
+             @param(pParser Model parser)
+             @param(index Texture index)
+             @param(pTexture Texture to populate)
+            }
+            {$ENDREGION}
+            procedure UncompressTexture(const pParser: TQRMDLParser;
+                                                index: NativeUInt;
+                                             pTexture: Vcl.Graphics.TBitmap); virtual;
+
+            {$REGION 'Documentation'}
+            {**
              Gets the model color
              @return(The model color)
             }
@@ -213,7 +185,7 @@ type
              @return(Animations)
             }
             {$ENDREGION}
-            function GetAnimations: TQRMD2AnimCfgFile; virtual;
+            function GetAnimations: TQRMDLAnimCfgFile; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -307,7 +279,7 @@ type
              Gets the model
             }
             {$ENDREGION}
-            property Model: TQRMD2Model read GetModel;
+            property Model: TQRMDLModel read GetModel;
 
             {$REGION 'Documentation'}
             {**
@@ -335,7 +307,7 @@ type
              Gets the animations
             }
             {$ENDREGION}
-            property Animations: TQRMD2AnimCfgFile read GetAnimations;
+            property Animations: TQRMDLAnimCfgFile read GetAnimations;
 
             {$REGION 'Documentation'}
             {**
@@ -354,13 +326,13 @@ type
 
     {$REGION 'Documentation'}
     {**
-     Job to load MD2 from file
+     Job to load MDL from file
      @br @bold(NOTE) The role of a job is to do something in a thread. A Job is basically executed
-                     by a worker. A MD2 job is designed to load all the files composing the MD2
+                     by a worker. A MDL job is designed to load all the files composing the MDL
                      model, and provides the data to be used by the group
     }
     {$ENDREGION}
-    TQRLoadMD2FileJob = class(TQRMD2Job)
+    TQRLoadMDLFileJob = class(TQRMDLJob)
         private
             m_Dir:  UnicodeString;
             m_Name: TFileName;
@@ -394,7 +366,7 @@ type
              @param(pGroup Group that owns the job)
              @param(dir Directory containing all the model files to load)
              @param(name Name that identifies the files belonging to the model in the directory,
-                         e.g. 'Ogro' for Ogro.md2, Ogro.bmp, ...)
+                         e.g. 'Ogro' for Ogro.mdl, Ogro.cfg, ...)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
              @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
@@ -434,10 +406,10 @@ type
 
     {$REGION 'Documentation'}
     {**
-     Job to load MD2 from memory dir
+     Job to load MDL from memory dir
     }
     {$ENDREGION}
-    TQRLoadMD2MemoryDirJob = class(TQRMD2Job)
+    TQRLoadMDLMemoryDirJob = class(TQRMDLJob)
         private
             m_pDir: TQRMemoryDir;
             m_Name: TFileName;
@@ -479,7 +451,7 @@ type
              @param(pGroup Group that owns the job)
              @param(pDir Memory directory containing all model files to load)
              @param(name Name that identifies the files belonging to model in the directory, e.g.
-                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+                         'Ogro' for Ogro.mdl, Ogro.cfg, ...)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
              @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
@@ -531,7 +503,7 @@ type
     {**
      Called when the model should be unpacked
      @param(pGroup Group at which model belongs)
-     @param(pPackage MD2 model package)
+     @param(pPackage MDL model package)
      @param(name @bold([out]) Model name without extension, as contained in package)
      @param(handled @bold([in, out]) If @true, model will be considered as unpacked and no further
                                      operation will be done. If @false, model will be unpacked using
@@ -541,7 +513,7 @@ type
                      while standard algorithm is applied if handled is set to @false
     }
     {$ENDREGION}
-    TQRUnpackMD2ModelEvent = function(const pGroup: TQRModelGroup;
+    TQRUnpackMDLModelEvent = function(const pGroup: TQRModelGroup;
                                           pPackage: TStream;
                                               pDir: TQRMemoryDir;
                                           out name: TFileName;
@@ -549,7 +521,7 @@ type
 
     {$REGION 'Documentation'}
     {**
-     Job to load MD2 model from package (*.pk2 or .zip)
+     Job to load MDL model from package (*.pk2 or .zip)
      @br @bold(NOTE) Some zip archives may be detected as valid but fails while stream is extracted,
                      by returning an incoherent stream content (no error is shown when this happen).
                      This seems to be a limitation of the zip library provided with the Embarcadero
@@ -559,12 +531,12 @@ type
                      recreate the package using a recent zipper
     }
     {$ENDREGION}
-    TQRLoadMD2PackageJob = class(TQRLoadMD2MemoryDirJob)
+    TQRLoadMDLPackageJob = class(TQRLoadMDLMemoryDirJob)
         private
             m_pPackage:                TStream;
             m_ExternalUnpackSucceeded: Boolean;
             m_ExternalUnpackHandled:   Boolean;
-            m_fOnUnpackModel:          TQRUnpackMD2ModelEvent;
+            m_fOnUnpackModel:          TQRUnpackMDLModelEvent;
 
         protected
             {$REGION 'Documentation'}
@@ -630,17 +602,17 @@ type
              Gets or sets the OnUnpackModel event
             }
             {$ENDREGION}
-            property OnUnpackModel: TQRUnpackMD2ModelEvent read m_fOnUnpackModel write m_fOnUnpackModel;
+            property OnUnpackModel: TQRUnpackMDLModelEvent read m_fOnUnpackModel write m_fOnUnpackModel;
     end;
 
     {$REGION 'Documentation'}
     {**
-     MD2 model group, contains all items and functions needed to manage a complete MD2 model
+     MDL model group, contains all items and functions needed to manage a complete MDL model
     }
     {$ENDREGION}
-    TQRMD2Group = class(TQRFramedModelGroup)
+    TQRMDLGroup = class(TQRFramedModelGroup)
         private
-            m_pJob:             TQRMD2Job;               // contains in-memory model after job ends
+            m_pJob:             TQRMDLJob;               // contains in-memory model after job ends
             m_pAnimation:       TQRFramedModelAnimation; // current running animation
             m_Gesture:          NativeInt;               // current running gesture
             m_PostponedGesture: NativeInt;               // gesture to set after model will be loaded
@@ -762,7 +734,7 @@ type
              Loads group from dir
              @param(dir Directory containing all model files to load)
              @param(name Name that identifies the files belonging to model in the directory, e.g.
-                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+                         'Ogro' for Ogro.mdl, Ogro.cfg, ...)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
              @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
@@ -770,10 +742,8 @@ type
              @param(framedModelOptions Framed model options to apply)
              @param(defaultFrameIndex Index of the default frame to show while model is loaded)
              @return(@true on success, otherwise @false)
-             @br @bold(NOTE) A MD2 model is generally composed by the following files:
-                             @br - a .md2 file that contains the model itself
-                             @br - a texture file, can be of any type: bmp, jpg, pcx, ...
-                             @br - an optional binary file that contains the normals table
+             @br @bold(NOTE) A MDL model is generally composed by the following files:
+                             @br - a .mdl file that contains the model itself
                              @br In addition, this model system requires a configuration file for
                              the animations, that is composed as follow:
                              @longcode(
@@ -800,7 +770,7 @@ type
              Loads group from memory dir
              @param(pDir Memory directory containing all model streams to load)
              @param(name Name that identifies the files belonging to model in the directory, e.g.
-                         'Ogro' for Ogro.md2, Ogro.bmp, ...)
+                         'Ogro' for Ogro.mdl, Ogro.cfg, ...)
              @param(pColor Model color)
              @param(pLight Pre-calculated light, ignored if @nil)
              @param(rhToLh If @true, right hand coordinates will be transformed to left hand)
@@ -809,10 +779,8 @@ type
              @param(defaultFrameIndex Index of the default frame to show while model is loaded)
              @return(@true on success, otherwise @false)
              @br @bold(NOTE) Memory dir will be deleted internally, do not try to delete it from outside
-             @br @bold(NOTE) A MD2 model is generally composed by the following files:
-                             @br - a .md2 file that contains the model itself
-                             @br - a texture file, can be of any type: bmp, jpg, pcx, ...
-                             @br - an optional binary file that contains the normals table
+             @br @bold(NOTE) A MDL model is generally composed by the following files:
+                             @br - a .mdl file that contains the model itself
                              @br In addition, this model system requires a configuration file for
                              the animations, that is composed as follow:
                              @longcode(
@@ -920,9 +888,9 @@ type
 
 implementation
 //--------------------------------------------------------------------------------------------------
-// TQRMD2AnimCfgFile
+// TQRMDLAnimCfgFile
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2AnimCfgFile.Create;
+constructor TQRMDLAnimCfgFile.Create;
 begin
     inherited Create;
 
@@ -930,12 +898,12 @@ begin
     m_CurLine   := 0;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2AnimCfgFile.Destroy;
+destructor TQRMDLAnimCfgFile.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2AnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
+function TQRMDLAnimCfgFile.ParseWord(const word: UnicodeString; lineNb: NativeUInt): Boolean;
 var
     c:       WideChar;
     gesture: NativeInt;
@@ -985,7 +953,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2AnimCfgFile.Clear;
+procedure TQRMDLAnimCfgFile.Clear;
 begin
     inherited Clear;
 
@@ -994,9 +962,9 @@ begin
     m_CurLine   := 0;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRMD2Job
+// TQRMDLJob
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Job.Create(pGroup: TQRModelGroup;
+constructor TQRMDLJob.Create(pGroup: TQRModelGroup;
                        const pColor: TQRColor;
                        const pLight: TQRDirectionalLight;
                              rhToLh: Boolean;
@@ -1008,8 +976,8 @@ begin
     inherited Create(pGroup, modelOptions);
 
     // create local variables
-    m_pModel        := TQRMD2Model.Create;
-    m_pAnimations   := TQRMD2AnimCfgFile.Create;
+    m_pModel        := TQRMDLModel.Create;
+    m_pAnimations   := TQRMDLAnimCfgFile.Create;
     m_MaxTexture    := 100;
     m_TextureLoaded := False;
     m_IsCanceled    := False;
@@ -1022,15 +990,24 @@ begin
     m_FramedModelOptions := framedModelOptions;
     m_DefaultFrameIndex  := defaultFrameIndex;
     m_fOnLoadTexture     := fOnLoadTexture;
+
+    PopulatePalette;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Job.Destroy;
+destructor TQRMDLJob.Destroy;
 var
+    pColor:   TQRColor;
     pTexture: TQRTexture;
 begin
     m_pLock.Lock;
 
     try
+        // clear color palette
+        for pColor in m_Palette do
+            pColor.Free;
+
+        SetLength(m_Palette, 0);
+
         // clear textures
         for pTexture in m_Textures do
             pTexture.Free;
@@ -1052,15 +1029,137 @@ begin
 
     inherited Destroy;
 end;
+//---------------------------------------------------------------------------
+procedure TQRMDLJob.PopulatePalette;
+type
+    {**
+     Internal record representing a RGB color
+    }
+    IQRRGB = record
+        m_R: Byte;
+        m_G: Byte;
+        m_B: Byte;
+    end;
+
+const
+    {**
+     Default MDL model texture table
+    }
+    colors: array [0..255] of IQRRGB =
+    (
+        (m_R:   0; m_G:   0; m_B:   0), (m_R:  15; m_G:  15; m_B:  15), (m_R:  31; m_G:  31; m_B:  31),
+        (m_R:  47; m_G:  47; m_B:  47), (m_R:  63; m_G:  63; m_B:  63), (m_R:  75; m_G:  75; m_B:  75),
+        (m_R:  91; m_G:  91; m_B:  91), (m_R: 107; m_G: 107; m_B: 107), (m_R: 123; m_G: 123; m_B: 123),
+        (m_R: 139; m_G: 139; m_B: 139), (m_R: 155; m_G: 155; m_B: 155), (m_R: 171; m_G: 171; m_B: 171),
+        (m_R: 187; m_G: 187; m_B: 187), (m_R: 203; m_G: 203; m_B: 203), (m_R: 219; m_G: 219; m_B: 219),
+        (m_R: 235; m_G: 235; m_B: 235), (m_R:  15; m_G:  11; m_B:   7), (m_R:  23; m_G:  15; m_B:  11),
+        (m_R:  31; m_G:  23; m_B:  11), (m_R:  39; m_G:  27; m_B:  15), (m_R:  47; m_G:  35; m_B:  19),
+        (m_R:  55; m_G:  43; m_B:  23), (m_R:  63; m_G:  47; m_B:  23), (m_R:  75; m_G:  55; m_B:  27),
+        (m_R:  83; m_G:  59; m_B:  27), (m_R:  91; m_G:  67; m_B:  31), (m_R:  99; m_G:  75; m_B:  31),
+        (m_R: 107; m_G:  83; m_B:  31), (m_R: 115; m_G:  87; m_B:  31), (m_R: 123; m_G:  95; m_B:  35),
+        (m_R: 131; m_G: 103; m_B:  35), (m_R: 143; m_G: 111; m_B:  35), (m_R:  11; m_G:  11; m_B:  15),
+        (m_R:  19; m_G:  19; m_B:  27), (m_R:  27; m_G:  27; m_B:  39), (m_R:  39; m_G:  39; m_B:  51),
+        (m_R:  47; m_G:  47; m_B:  63), (m_R:  55; m_G:  55; m_B:  75), (m_R:  63; m_G:  63; m_B:  87),
+        (m_R:  71; m_G:  71; m_B: 103), (m_R:  79; m_G:  79; m_B: 115), (m_R:  91; m_G:  91; m_B: 127),
+        (m_R:  99; m_G:  99; m_B: 139), (m_R: 107; m_G: 107; m_B: 151), (m_R: 115; m_G: 115; m_B: 163),
+        (m_R: 123; m_G: 123; m_B: 175), (m_R: 131; m_G: 131; m_B: 187), (m_R: 139; m_G: 139; m_B: 203),
+        (m_R:   0; m_G:   0; m_B:   0), (m_R:   7; m_G:   7; m_B:   0), (m_R:  11; m_G:  11; m_B:   0),
+        (m_R:  19; m_G:  19; m_B:   0), (m_R:  27; m_G:  27; m_B:   0), (m_R:  35; m_G:  35; m_B:   0),
+        (m_R:  43; m_G:  43; m_B:   7), (m_R:  47; m_G:  47; m_B:   7), (m_R:  55; m_G:  55; m_B:   7),
+        (m_R:  63; m_G:  63; m_B:   7), (m_R:  71; m_G:  71; m_B:   7), (m_R:  75; m_G:  75; m_B:  11),
+        (m_R:  83; m_G:  83; m_B:  11), (m_R:  91; m_G:  91; m_B:  11), (m_R:  99; m_G:  99; m_B:  11),
+        (m_R: 107; m_G: 107; m_B:  15), (m_R:   7; m_G:   0; m_B:   0), (m_R:  15; m_G:   0; m_B:   0),
+        (m_R:  23; m_G:   0; m_B:   0), (m_R:  31; m_G:   0; m_B:   0), (m_R:  39; m_G:   0; m_B:   0),
+        (m_R:  47; m_G:   0; m_B:   0), (m_R:  55; m_G:   0; m_B:   0), (m_R:  63; m_G:   0; m_B:   0),
+        (m_R:  71; m_G:   0; m_B:   0), (m_R:  79; m_G:   0; m_B:   0), (m_R:  87; m_G:   0; m_B:   0),
+        (m_R:  95; m_G:   0; m_B:   0), (m_R: 103; m_G:   0; m_B:   0), (m_R: 111; m_G:   0; m_B:   0),
+        (m_R: 119; m_G:   0; m_B:   0), (m_R: 127; m_G:   0; m_B:   0), (m_R:  19; m_G:  19; m_B:   0),
+        (m_R:  27; m_G:  27; m_B:   0), (m_R:  35; m_G:  35; m_B:   0), (m_R:  47; m_G:  43; m_B:   0),
+        (m_R:  55; m_G:  47; m_B:   0), (m_R:  67; m_G:  55; m_B:   0), (m_R:  75; m_G:  59; m_B:   7),
+        (m_R:  87; m_G:  67; m_B:   7), (m_R:  95; m_G:  71; m_B:   7), (m_R: 107; m_G:  75; m_B:  11),
+        (m_R: 119; m_G:  83; m_B:  15), (m_R: 131; m_G:  87; m_B:  19), (m_R: 139; m_G:  91; m_B:  19),
+        (m_R: 151; m_G:  95; m_B:  27), (m_R: 163; m_G:  99; m_B:  31), (m_R: 175; m_G: 103; m_B:  35),
+        (m_R:  35; m_G:  19; m_B:   7), (m_R:  47; m_G:  23; m_B:  11), (m_R:  59; m_G:  31; m_B:  15),
+        (m_R:  75; m_G:  35; m_B:  19), (m_R:  87; m_G:  43; m_B:  23), (m_R:  99; m_G:  47; m_B:  31),
+        (m_R: 115; m_G:  55; m_B:  35), (m_R: 127; m_G:  59; m_B:  43), (m_R: 143; m_G:  67; m_B:  51),
+        (m_R: 159; m_G:  79; m_B:  51), (m_R: 175; m_G:  99; m_B:  47), (m_R: 191; m_G: 119; m_B:  47),
+        (m_R: 207; m_G: 143; m_B:  43), (m_R: 223; m_G: 171; m_B:  39), (m_R: 239; m_G: 203; m_B:  31),
+        (m_R: 255; m_G: 243; m_B:  27), (m_R:  11; m_G:   7; m_B:   0), (m_R:  27; m_G:  19; m_B:   0),
+        (m_R:  43; m_G:  35; m_B:  15), (m_R:  55; m_G:  43; m_B:  19), (m_R:  71; m_G:  51; m_B:  27),
+        (m_R:  83; m_G:  55; m_B:  35), (m_R:  99; m_G:  63; m_B:  43), (m_R: 111; m_G:  71; m_B:  51),
+        (m_R: 127; m_G:  83; m_B:  63), (m_R: 139; m_G:  95; m_B:  71), (m_R: 155; m_G: 107; m_B:  83),
+        (m_R: 167; m_G: 123; m_B:  95), (m_R: 183; m_G: 135; m_B: 107), (m_R: 195; m_G: 147; m_B: 123),
+        (m_R: 211; m_G: 163; m_B: 139), (m_R: 227; m_G: 179; m_B: 151), (m_R: 171; m_G: 139; m_B: 163),
+        (m_R: 159; m_G: 127; m_B: 151), (m_R: 147; m_G: 115; m_B: 135), (m_R: 139; m_G: 103; m_B: 123),
+        (m_R: 127; m_G:  91; m_B: 111), (m_R: 119; m_G:  83; m_B:  99), (m_R: 107; m_G:  75; m_B:  87),
+        (m_R:  95; m_G:  63; m_B:  75), (m_R:  87; m_G:  55; m_B:  67), (m_R:  75; m_G:  47; m_B:  55),
+        (m_R:  67; m_G:  39; m_B:  47), (m_R:  55; m_G:  31; m_B:  35), (m_R:  43; m_G:  23; m_B:  27),
+        (m_R:  35; m_G:  19; m_B:  19), (m_R:  23; m_G:  11; m_B:  11), (m_R:  15; m_G:   7; m_B:   7),
+        (m_R: 187; m_G: 115; m_B: 159), (m_R: 175; m_G: 107; m_B: 143), (m_R: 163; m_G:  95; m_B: 131),
+        (m_R: 151; m_G:  87; m_B: 119), (m_R: 139; m_G:  79; m_B: 107), (m_R: 127; m_G:  75; m_B:  95),
+        (m_R: 115; m_G:  67; m_B:  83), (m_R: 107; m_G:  59; m_B:  75), (m_R:  95; m_G:  51; m_B:  63),
+        (m_R:  83; m_G:  43; m_B:  55), (m_R:  71; m_G:  35; m_B:  43), (m_R:  59; m_G:  31; m_B:  35),
+        (m_R:  47; m_G:  23; m_B:  27), (m_R:  35; m_G:  19; m_B:  19), (m_R:  23; m_G:  11; m_B:  11),
+        (m_R:  15; m_G:   7; m_B:   7), (m_R: 219; m_G: 195; m_B: 187), (m_R: 203; m_G: 179; m_B: 167),
+        (m_R: 191; m_G: 163; m_B: 155), (m_R: 175; m_G: 151; m_B: 139), (m_R: 163; m_G: 135; m_B: 123),
+        (m_R: 151; m_G: 123; m_B: 111), (m_R: 135; m_G: 111; m_B:  95), (m_R: 123; m_G:  99; m_B:  83),
+        (m_R: 107; m_G:  87; m_B:  71), (m_R:  95; m_G:  75; m_B:  59), (m_R:  83; m_G:  63; m_B:  51),
+        (m_R:  67; m_G:  51; m_B:  39), (m_R:  55; m_G:  43; m_B:  31), (m_R:  39; m_G:  31; m_B:  23),
+        (m_R:  27; m_G:  19; m_B:  15), (m_R:  15; m_G:  11; m_B:   7), (m_R: 111; m_G: 131; m_B: 123),
+        (m_R: 103; m_G: 123; m_B: 111), (m_R:  95; m_G: 115; m_B: 103), (m_R:  87; m_G: 107; m_B:  95),
+        (m_R:  79; m_G:  99; m_B:  87), (m_R:  71; m_G:  91; m_B:  79), (m_R:  63; m_G:  83; m_B:  71),
+        (m_R:  55; m_G:  75; m_B:  63), (m_R:  47; m_G:  67; m_B:  55), (m_R:  43; m_G:  59; m_B:  47),
+        (m_R:  35; m_G:  51; m_B:  39), (m_R:  31; m_G:  43; m_B:  31), (m_R:  23; m_G:  35; m_B:  23),
+        (m_R:  15; m_G:  27; m_B:  19), (m_R:  11; m_G:  19; m_B:  11), (m_R:   7; m_G:  11; m_B:   7),
+        (m_R: 255; m_G: 243; m_B:  27), (m_R: 239; m_G: 223; m_B:  23), (m_R: 219; m_G: 203; m_B:  19),
+        (m_R: 203; m_G: 183; m_B:  15), (m_R: 187; m_G: 167; m_B:  15), (m_R: 171; m_G: 151; m_B:  11),
+        (m_R: 155; m_G: 131; m_B:   7), (m_R: 139; m_G: 115; m_B:   7), (m_R: 123; m_G:  99; m_B:   7),
+        (m_R: 107; m_G:  83; m_B:   0), (m_R:  91; m_G:  71; m_B:   0), (m_R:  75; m_G:  55; m_B:   0),
+        (m_R:  59; m_G:  43; m_B:   0), (m_R:  43; m_G:  31; m_B:   0), (m_R:  27; m_G:  15; m_B:   0),
+        (m_R:  11; m_G:   7; m_B:   0), (m_R:   0; m_G:   0; m_B: 255), (m_R:  11; m_G:  11; m_B: 239),
+        (m_R:  19; m_G:  19; m_B: 223), (m_R:  27; m_G:  27; m_B: 207), (m_R:  35; m_G:  35; m_B: 191),
+        (m_R:  43; m_G:  43; m_B: 175), (m_R:  47; m_G:  47; m_B: 159), (m_R:  47; m_G:  47; m_B: 143),
+        (m_R:  47; m_G:  47; m_B: 127), (m_R:  47; m_G:  47; m_B: 111), (m_R:  47; m_G:  47; m_B:  95),
+        (m_R:  43; m_G:  43; m_B:  79), (m_R:  35; m_G:  35; m_B:  63), (m_R:  27; m_G:  27; m_B:  47),
+        (m_R:  19; m_G:  19; m_B:  31), (m_R:  11; m_G:  11; m_B:  15), (m_R:  43; m_G:   0; m_B:   0),
+        (m_R:  59; m_G:   0; m_B:   0), (m_R:  75; m_G:   7; m_B:   0), (m_R:  95; m_G:   7; m_B:   0),
+        (m_R: 111; m_G:  15; m_B:   0), (m_R: 127; m_G:  23; m_B:   7), (m_R: 147; m_G:  31; m_B:   7),
+        (m_R: 163; m_G:  39; m_B:  11), (m_R: 183; m_G:  51; m_B:  15), (m_R: 195; m_G:  75; m_B:  27),
+        (m_R: 207; m_G:  99; m_B:  43), (m_R: 219; m_G: 127; m_B:  59), (m_R: 227; m_G: 151; m_B:  79),
+        (m_R: 231; m_G: 171; m_B:  95), (m_R: 239; m_G: 191; m_B: 119), (m_R: 247; m_G: 211; m_B: 139),
+        (m_R: 167; m_G: 123; m_B:  59), (m_R: 183; m_G: 155; m_B:  55), (m_R: 199; m_G: 195; m_B:  55),
+        (m_R: 231; m_G: 227; m_B:  87), (m_R: 127; m_G: 191; m_B: 255), (m_R: 171; m_G: 231; m_B: 255),
+        (m_R: 215; m_G: 255; m_B: 255), (m_R: 103; m_G:   0; m_B:   0), (m_R: 139; m_G:   0; m_B:   0),
+        (m_R: 179; m_G:   0; m_B:   0), (m_R: 215; m_G:   0; m_B:   0), (m_R: 255; m_G:   0; m_B:   0),
+        (m_R: 255; m_G: 243; m_B: 147), (m_R: 255; m_G: 247; m_B: 199), (m_R: 255; m_G: 255; m_B: 255),
+        (m_R: 159; m_G:  91; m_B:  83)
+    );
+
+var
+    arraySize, i: Integer;
+
+begin
+    arraySize := Length(colors);
+    SetLength(m_Palette, arraySize);
+
+    // initialize texture palette
+    for i := 0 to arraySize - 1 do
+    begin
+        m_Palette[i]   := TQRColor.Create;
+        m_Palette[i].R := colors[i].m_R;
+        m_Palette[i].G := colors[i].m_G;
+        m_Palette[i].B := colors[i].m_B;
+    end;
+end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetModel: TQRMD2Model;
+function TQRMDLJob.GetModel: TQRMDLModel;
 begin
     m_pLock.Lock;
     Result := m_pModel;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetTexture(index: NativeInt): TQRTexture;
+function TQRMDLJob.GetTexture(index: NativeInt): TQRTexture;
 begin
     m_pLock.Lock;
 
@@ -1072,54 +1171,108 @@ begin
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetTextureCount: NativeInt;
+function TQRMDLJob.GetTextureCount: NativeInt;
 begin
     m_pLock.Lock;
     Result := Length(m_Textures);
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetColor: TQRColor;
+procedure TQRMDLJob.UncompressTexture(const pParser: TQRMDLParser;
+                                              index: NativeUInt;
+                                           pTexture: Vcl.Graphics.TBitmap);
+var
+    skinLength, offset:  NativeUInt;
+    width, height, x, y: Integer;
+    pLineRGB:            PQRRGBTripleArray;
+begin
+    // no texture to populate?
+    if (not Assigned(pTexture)) then
+        Exit;
+
+    // no skin?
+    if (pParser.SkinCount = 0) then
+        Exit;
+
+    // get the length of a skin, in bytes
+    skinLength := pParser.Skins[0].m_TexLen;
+
+    // is skin length empty?
+    if (skinLength = 0) then
+        Exit;
+
+    // get skin width and height
+    width  := pParser.Header.m_SkinWidth;
+    height := pParser.Header.m_SkinHeight;
+
+    // configure texture bitmap
+    pTexture.PixelFormat := pf24bit;
+    pTexture.Width       := width;
+    pTexture.Height      := height;
+
+    offset := skinLength * index;
+
+    // iterate through bitmap lines
+    for y := 0 to height - 1 do
+    begin
+        // get pixels line from bitmap
+        pLineRGB := PQRRGBTripleArray(pTexture.ScanLine[y]);
+
+        // iterate through line pixels
+        for x := 0 to width - 1 do
+        begin
+            // get indexed pixel from palette
+            pLineRGB[x].rgbtRed   := m_Palette[pParser.Skins[0].m_Data[offset]].GetRed;
+            pLineRGB[x].rgbtGreen := m_Palette[pParser.Skins[0].m_Data[offset]].GetGreen;
+            pLineRGB[x].rgbtBlue  := m_Palette[pParser.Skins[0].m_Data[offset]].GetBlue;
+
+            // calculate next pixel offset
+            Inc(offset);
+        end;
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRMDLJob.GetColor: TQRColor;
 begin
     m_pLock.Lock;
     Result := m_pColor;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetAnimations: TQRMD2AnimCfgFile;
+function TQRMDLJob.GetAnimations: TQRMDLAnimCfgFile;
 begin
     m_pLock.Lock;
     Result := m_pAnimations;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetDefaultMesh: PQRMesh;
+function TQRMDLJob.GetDefaultMesh: PQRMesh;
 begin
     m_pLock.Lock;
     Result := m_pDefaultMesh;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.GetFramedModelOptions: TQRFramedModelOptions;
+function TQRMDLJob.GetFramedModelOptions: TQRFramedModelOptions;
 begin
     m_pLock.Lock;
     Result := m_FramedModelOptions;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.SetFramedModelOptions(options: TQRFramedModelOptions);
+procedure TQRMDLJob.SetFramedModelOptions(options: TQRFramedModelOptions);
 begin
     m_pLock.Lock;
     m_FramedModelOptions := options;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.OnLoadTexture;
+procedure TQRMDLJob.OnLoadTexture;
 var
-    textureIndex:        NativeInt;
-    max:                 NativeUInt;
-    loadNext, loadFirst: Boolean;
-    pTexture:            Vcl.Graphics.TBitmap;
+    textureIndex, skinCount, i: NativeInt;
+    max:                        NativeUInt;
+    loadNext:                   Boolean;
+    pTexture:                   Vcl.Graphics.TBitmap;
 begin
     m_pLock.Lock;
 
@@ -1129,17 +1282,22 @@ begin
         if (GetStatus = EQR_JS_Canceled) then
             Exit;
 
-        loadFirst := True;
+        skinCount := m_pModel.Parser.SkinCount;
         loadNext  := True;
         max       := 0;
 
-        // load next texture, until no more texture should be loaded
-        repeat
+        // iterate through skins to load
+        for i := 0 to skinCount - 1 do
+        begin
             // by default don't load another texture after the current one will be loaded, because
-            // in the MD2 standards, only one texture file belongs to model. However this value may
+            // in the MDL standards, only one texture file belongs to model. However this value may
             // be modified externally by any user that handle the OnLoadTexture event, to load any
             // additional textures as required
             loadNext := False;
+
+            // too many textures were loaded?
+            if (max > m_MaxTexture) then
+                raise Exception.Create('Too many textures were created');
 
             // add a new model texture to the texture list
             textureIndex := Length(m_Textures);
@@ -1147,63 +1305,76 @@ begin
             m_Textures[textureIndex] := TQRTexture.Create;
 
             // notify that a texture is about to be loaded
-            BeforeLoadTexture(m_Textures[textureIndex], not loadFirst);
+            BeforeLoadTexture(m_Textures[textureIndex], False);
 
-            // do load texture for the first time? (NOTE try to load only the first texture, others
-            // are user defined textures)
-            if (loadFirst) then
-            begin
-                pTexture := Vcl.Graphics.TBitmap.Create;
+            pTexture := Vcl.Graphics.TBitmap.Create;
 
-                try
-                    // load texture
-                    if (LoadTexture(m_Textures[textureIndex], pTexture)) then
-                    begin
-                        // notify that a texture is loading
-                        if (Assigned(m_fOnLoadTexture)) then
-                            if (not m_fOnLoadTexture(GetGroup,
-                                                     m_pModel,
-                                                     pTexture,
-                                                     m_Textures[textureIndex],
-                                                     loadNext))
-                            then
-                                Exit;
-                    end
-                    else
+            try
+                // normally the texture index represents the handle of the texture on the GPU memory,
+                // but exceptionnaly this index is used here to keep the skin index, thus the
+                // LoadTexture() function may receive it
+                m_Textures[textureIndex].Index := i;
+
+                // load texture
+                if (LoadTexture(m_Textures[textureIndex], pTexture)) then
+                begin
+                    // don't forget to release the previously used texture index
+                    m_Textures[textureIndex].Index := 0;
+
                     // notify that a texture is loading
                     if (Assigned(m_fOnLoadTexture)) then
                         if (not m_fOnLoadTexture(GetGroup,
                                                  m_pModel,
-                                                 nil,
+                                                 pTexture,
                                                  m_Textures[textureIndex],
                                                  loadNext))
                         then
                             Exit;
-                finally
-                    pTexture.Free;
-                end;
+                end
+                else
+                    // don't forget to release the previously used texture index
+                    m_Textures[textureIndex].Index := 0;
 
-                loadFirst := False;
-            end
-            else
-            begin
-                // notify that a texture is loading
-                if (Assigned(m_fOnLoadTexture)) then
-                    if (not m_fOnLoadTexture(GetGroup,
-                                             m_pModel,
-                                             nil,
-                                             m_Textures[textureIndex],
-                                             loadNext))
-                    then
-                        Exit;
+            finally
+                pTexture.Free;
             end;
 
             Inc(max);
+        end;
+
+        // load next texture, until no more texture should be loaded
+        while (loadNext) do
+        begin
+            // by default don't load another texture after the current one will be loaded, because
+            // in the MDL standards, only one texture file belongs to model. However this value may
+            // be modified externally by any user that handle the OnLoadTexture event, to load any
+            // additional textures as required
+            loadNext := False;
 
             // too many textures were loaded?
             if (max > m_MaxTexture) then
                 raise Exception.Create('Too many textures were created');
-        until (not loadNext);
+
+            // add a new model texture to the texture list
+            textureIndex := Length(m_Textures);
+            SetLength(m_Textures, textureIndex + 1);
+            m_Textures[textureIndex] := TQRTexture.Create;
+
+            // notify that a texture is about to be loaded
+            BeforeLoadTexture(m_Textures[textureIndex], True);
+
+            // notify that a texture is loading
+            if (Assigned(m_fOnLoadTexture)) then
+                if (not m_fOnLoadTexture(GetGroup,
+                                         m_pModel,
+                                         nil,
+                                         m_Textures[textureIndex],
+                                         loadNext))
+                then
+                    Exit;
+
+            Inc(max);
+        end;
 
         m_TextureLoaded := True;
     finally
@@ -1211,7 +1382,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.OnCreateDefaultMesh;
+procedure TQRMDLJob.OnCreateDefaultMesh;
 begin
     m_pLock.Lock;
 
@@ -1223,7 +1394,7 @@ begin
         if (not m_pModel.GetMesh(m_DefaultFrameIndex, m_pDefaultMesh^, nil)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('Failed to create default MD2 mesh - class name - ' +
+                TQRLogHelper.LogToCompiler('Failed to create default MDL mesh - class name - ' +
                                            ClassName);
             {$endif}
         end;
@@ -1232,23 +1403,23 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Job.Cancel;
+procedure TQRMDLJob.Cancel;
 begin
     m_pLock.Lock;
     m_IsCanceled := True;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Job.IsCanceled: Boolean;
+function TQRMDLJob.IsCanceled: Boolean;
 begin
     m_pLock.Lock;
     Result := m_IsCanceled;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRLoadMD2FileJob
+// TQRLoadMDLFileJob
 //--------------------------------------------------------------------------------------------------
-constructor TQRLoadMD2FileJob.Create(pGroup: TQRModelGroup;
+constructor TQRLoadMDLFileJob.Create(pGroup: TQRModelGroup;
                                   const dir: UnicodeString;
                                  const name: TFileName;
                                const pColor: TQRColor;
@@ -1273,84 +1444,45 @@ begin
     m_Name := name;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2FileJob.Destroy;
+destructor TQRLoadMDLFileJob.Destroy;
 begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRLoadMD2FileJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
+procedure TQRLoadMDLFileJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
-    pTexture.Name := 'qr_md2';
+    pTexture.Name := 'qr_mdl';
     pTexture.Dir  := m_Dir;
 
-    // set file name only if texture is not a custom user defined texture
-    if (custom) then
-        pTexture.FileName := ''
-    else
-        pTexture.FileName := m_Name;
+    // in MDL the texture is contained inside the model file itself, so texture has no file name
+    pTexture.FileName := ''
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2FileJob.LoadTexture(pTexture: TQRTexture;
+function TQRLoadMDLFileJob.LoadTexture(pTexture: TQRTexture;
                                         pBitmap: Vcl.Graphics.TBitmap): Boolean;
-var
-    fileName:      TFileName;
-    pFileStream:   TFileStream;
-    index:         NativeInt;
-    textureExists: Boolean;
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
         Exit(False);
 
-    index := 0;
+    // uncompress the model texture. Don't forget, the thread was already locked in the caller
+    // function, so the model parser can be accessed directly without locking the thread again
+    UncompressTexture(m_pModel.Parser, pTexture.Index, pBitmap);
 
-    repeat
-        // build texture file name
-        fileName := TQRFileHelper.AppendDelimiter(pTexture.Dir) +
-                    pTexture.FileName                           +
-                    TextureExt[index];
-
-        // check if texture file exists
-        textureExists := FileExists(fileName);
-
-        Inc(index);
-    until (textureExists or (index >= TextureExtCount));
-
-    // found a texture file to load?
-    if (not textureExists) then
-        Exit(False);
-
-    // load image file in a stream
-    pFileStream := TFileStream.Create(fileName, fmOpenRead);
-
-    try
-        // found it?
-        if (not Assigned(pFileStream)) then
-            Exit(False);
-
-        // load texture
-        Result := TQRModelGroupHelper.LoadTexture(pFileStream,
-                                                  ExtractFileExt(pTexture.FileName),
-                                                  pBitmap);
-    finally
-        // clear memory
-        pFileStream.Free;
-    end;
+    Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2FileJob.Process: Boolean;
+function TQRLoadMDLFileJob.Process: Boolean;
 var
-    modelName, normalsName, animCfgName: TFileName;
-    pNormalsStream:                      TResourceStream;
-    hPackageInstance:                    THandle;
-    frameCount, i:                       NativeUInt;
-    normalsLoaded, textureLoaded:        Boolean;
-    vertexFormat:                        TQRVertexFormat;
-    pMesh:                               PQRMesh;
-    pTree:                               TQRAABBTree;
-    progressStep, totalStep:             Single;
-    doCreateCache:                       Boolean;
+    modelName, animCfgName:  TFileName;
+    frameCount, i:           NativeUInt;
+    textureLoaded:           Boolean;
+    vertexFormat:            TQRVertexFormat;
+    pMesh:                   PQRMesh;
+    pTree:                   TQRAABBTree;
+    progressStep, totalStep: Single;
+    doCreateCache:           Boolean;
 begin
     // if job was still loaded, don't reload it
     if (IsLoaded) then
@@ -1360,13 +1492,13 @@ begin
         Progress := 0.0;
 
         // build model file name
-        modelName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.md2';
+        modelName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.mdl';
 
         // file exists?
         if (not FileExists(modelName)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('MD2 model file not exists - ' +
+                TQRLogHelper.LogToCompiler('MDL model file not exists - ' +
                                            modelName                      +
                                            ' - class name - '             +
                                            ClassName);
@@ -1375,11 +1507,11 @@ begin
             Exit(False);
         end;
 
-        // load md2 model
+        // load MDL model
         if (not m_pModel.Load(modelName)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('Failed to load MD2 model - file name - ' +
+                TQRLogHelper.LogToCompiler('Failed to load MDL model - file name - ' +
                                            modelName                                 +
                                            ' - class name - '                        +
                                            ClassName);
@@ -1418,42 +1550,6 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
-        normalsName   := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.bin';
-        normalsLoaded := False;
-
-        // normals file exists?
-        if (FileExists(normalsName)) then
-            // load normals table
-            if (m_pModel.LoadNormals(normalsName)) then
-                normalsLoaded := True;
-
-        // was normals loaded?
-        if (not normalsLoaded) then
-        begin
-            pNormalsStream := nil;
-
-            try
-                // get module instance at which this control belongs
-                hPackageInstance := FindClassHInstance(TQRMD2Model);
-
-                // found module and package contains the MD2 normals?
-                if ((hPackageInstance <> 0) and
-                    (FindResource(hPackageInstance, PChar('RC_MD2_NORMALS'), RT_RCDATA) <> 0))
-                then
-                begin
-                    // load normals table from stream
-                    pNormalsStream := TResourceStream.Create(hPackageInstance,
-                                                             PChar('RC_MD2_NORMALS'),
-                                                             RT_RCDATA);
-                    normalsLoaded  := m_pModel.LoadNormals(pNormalsStream, pNormalsStream.Size);
-                end;
-            finally
-                // delete resource stream, if needed
-                pNormalsStream.Free
-            end;
-        end;
-
         // normals are loaded, add one step to progress
         Progress := Progress + progressStep;
 
@@ -1478,7 +1574,7 @@ begin
             vertexFormat := [EQR_VF_Colors];
 
         // normals loaded?
-        if (normalsLoaded and (not(EQR_MO_Without_Normals in ModelOptions))) then
+        if (not(EQR_MO_Without_Normals in ModelOptions)) then
             Include(vertexFormat, EQR_VF_Normals);
 
         // texture loaded?
@@ -1505,7 +1601,7 @@ begin
             if (not m_pAnimations.Load(animCfgName)) then
             begin
                 {$ifdef DEBUG}
-                    TQRLogHelper.LogToCompiler('Failed to load MD2 model animations - file name - ' +
+                    TQRLogHelper.LogToCompiler('Failed to load MDL model animations - file name - ' +
                                                animCfgName                                          +
                                                ' - class name - '                                   +
                                                ClassName);
@@ -1543,7 +1639,7 @@ begin
                 if (not m_pModel.GetMesh(i, pMesh^, pTree, IsCanceled)) then
                 begin
                     {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('MD2 model frame creation failed or was canceled - name - ' +
+                        TQRLogHelper.LogToCompiler('MDL model frame creation failed or was canceled - name - ' +
                                                    m_Name                                                      +
                                                    ' - index - '                                               +
                                                    IntToStr(Int64(i))                                          +
@@ -1585,9 +1681,9 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRLoadMD2MemoryDirJob
+// TQRLoadMDLMemoryDirJob
 //--------------------------------------------------------------------------------------------------
-constructor TQRLoadMD2MemoryDirJob.Create(pGroup: TQRModelGroup;
+constructor TQRLoadMDLMemoryDirJob.Create(pGroup: TQRModelGroup;
                                       const pDir: TQRMemoryDir;
                                       const name: TFileName;
                                     const pColor: TQRColor;
@@ -1612,7 +1708,7 @@ begin
     m_Name := name;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2MemoryDirJob.Destroy;
+destructor TQRLoadMDLMemoryDirJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -1626,84 +1722,48 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRLoadMD2MemoryDirJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
+procedure TQRLoadMDLMemoryDirJob.BeforeLoadTexture(pTexture: TQRTexture; custom: Boolean);
 begin
     // populate texture
-    pTexture.Name := 'qr_md2';
+    pTexture.Name := 'qr_mdl';
     pTexture.Dir  := '';
 
-    // set file name only if texture is not a custom user defined texture
-    if (custom) then
-        pTexture.FileName := ''
-    else
-        pTexture.FileName := m_Name;
+    // in MDL the texture is contained inside the model file itself, so texture has no file name
+    pTexture.FileName := ''
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2MemoryDirJob.LoadTexture(pTexture: TQRTexture;
+function TQRLoadMDLMemoryDirJob.LoadTexture(pTexture: TQRTexture;
                                              pBitmap: Vcl.Graphics.TBitmap): Boolean;
-var
-    fileName:      TFileName;
-    fileExt:       UnicodeString;
-    pImageStream:  TStream;
-    index:         NativeInt;
-    textureExists: Boolean;
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
         Exit(False);
 
-    index := 0;
+    // uncompress the model texture. Don't forget, the thread was already locked in the caller
+    // function, so the model parser can be accessed directly without locking the thread again
+    UncompressTexture(m_pModel.Parser, pTexture.Index, pBitmap);
 
-    repeat
-        // get file extension
-        fileExt := TextureExt[index];
-
-        // build texture file name
-        fileName := pTexture.FileName + fileExt;
-
-        // check if texture file exists
-        textureExists := m_pDir.FileExists(fileName);
-
-        Inc(index);
-    until (textureExists or (index >= TextureExtCount));
-
-    // found a texture file to load?
-    if (not textureExists) then
-        Exit(False);
-
-    // get image stream
-    pImageStream := m_pDir.GetFile(fileName);
-
-    // found it?
-    if (not Assigned(pImageStream)) then
-        Exit(False);
-
-    pImageStream.Position := 0;
-
-    // load texture
-    Result := TQRModelGroupHelper.LoadTexture(pImageStream, fileExt, pBitmap);
+    Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2MemoryDirJob.GetMemoryDir: TQRMemoryDir;
+function TQRLoadMDLMemoryDirJob.GetMemoryDir: TQRMemoryDir;
 begin
     m_pLock.Lock;
     Result := m_pDir;
     m_pLock.Unlock;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2MemoryDirJob.Process: Boolean;
+function TQRLoadMDLMemoryDirJob.Process: Boolean;
 var
-    modelName, normalsName, animCfgName:          TFileName;
-    pModelStream, pNormalsStream, pAnimCfgStream: TStream;
-    pResNormalsStream:                            TResourceStream;
-    hPackageInstance:                             NativeUInt;
-    frameCount, i:                                NativeUInt;
-    normalsLoaded, textureLoaded:                 Boolean;
-    vertexFormat:                                 TQRVertexFormat;
-    pMesh:                                        PQRMesh;
-    pTree:                                        TQRAABBTree;
-    progressStep, totalStep:                      Single;
-    doCreateCache:                                Boolean;
+    modelName, animCfgName:       TFileName;
+    pModelStream, pAnimCfgStream: TStream;
+    frameCount, i:                NativeUInt;
+    textureLoaded:                Boolean;
+    vertexFormat:                 TQRVertexFormat;
+    pMesh:                        PQRMesh;
+    pTree:                        TQRAABBTree;
+    progressStep, totalStep:      Single;
+    doCreateCache:                Boolean;
 begin
     // if job was still loaded, don't reload it
     if (IsLoaded) then
@@ -1713,13 +1773,13 @@ begin
         Progress := 0.0;
 
         // build model file name
-        modelName := m_Name + '.md2';
+        modelName := m_Name + '.mdl';
 
         // file exists?
         if (not m_pDir.FileExists(modelName)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('MD2 model stream not exist - ' +
+                TQRLogHelper.LogToCompiler('MDL model stream not exist - ' +
                                            modelName                       +
                                            ' - class name - '              +
                                            ClassName);
@@ -1728,14 +1788,14 @@ begin
             Exit(False);
         end;
 
-        // get stream containing md2 data
+        // get stream containing MDL data
         pModelStream := m_pDir.GetFile(modelName);
 
         // found it?
         if (not Assigned(pModelStream)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('Failed to get MD2 model stream - ' +
+                TQRLogHelper.LogToCompiler('Failed to get MDL model stream - ' +
                                            modelName                           +
                                            ' - class name - '                  +
                                            ClassName);
@@ -1744,11 +1804,11 @@ begin
             Exit(False);
         end;
 
-        // load md2 model
+        // load MDL model
         if (not m_pModel.Load(pModelStream, pModelStream.Size)) then
         begin
             {$ifdef DEBUG}
-                TQRLogHelper.LogToCompiler('Failed to load MD2 model - stream name - ' +
+                TQRLogHelper.LogToCompiler('Failed to load MDL model - stream name - ' +
                                            modelName                                   +
                                            ' - class name - '                          +
                                            ClassName);
@@ -1787,49 +1847,6 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
-        normalsName   := m_Name + '.bin';
-        normalsLoaded := False;
-
-        // normals file exists?
-        if (m_pDir.FileExists(normalsName)) then
-        begin
-            // get stream containing normals
-            pNormalsStream := m_pDir.GetFile(normalsName);
-
-            // found it?
-            if (Assigned(pNormalsStream)) then
-                // load normals
-                if (m_pModel.LoadNormals(pNormalsStream, pNormalsStream.Size)) then
-                    normalsLoaded := True;
-        end;
-
-        // was normals loaded?
-        if (not normalsLoaded) then
-        begin
-            pResNormalsStream := nil;
-
-            try
-                // get module instance at which this control belongs
-                hPackageInstance := FindClassHInstance(TQRMD2Model);
-
-                // found module and package contains the MD2 normals?
-                if ((hPackageInstance <> 0) and
-                    (FindResource(hPackageInstance, PChar('RC_MD2_NORMALS'), RT_RCDATA) <> 0))
-                then
-                begin
-                    // load normals table from stream
-                    pResNormalsStream := TResourceStream.Create(hPackageInstance,
-                                                                PChar('RC_MD2_NORMALS'),
-                                                                RT_RCDATA);
-                    normalsLoaded  := m_pModel.LoadNormals(pResNormalsStream, pResNormalsStream.Size);
-                end;
-            finally
-                // delete resource stream, if needed
-                pResNormalsStream.Free
-            end;
-        end;
-
         // normals are loaded, add one step to progress
         Progress := Progress + progressStep;
 
@@ -1853,8 +1870,8 @@ begin
         else
             vertexFormat := [EQR_VF_Colors];
 
-        // normals loaded?
-        if (normalsLoaded and (not(EQR_MO_Without_Normals in ModelOptions))) then
+        // do include normals?
+        if (not (EQR_MO_Without_Normals in ModelOptions)) then
             Include(vertexFormat, EQR_VF_Normals);
 
         // texture loaded?
@@ -1887,7 +1904,7 @@ begin
                 if (not m_pAnimations.Load(pAnimCfgStream, pAnimCfgStream.Size)) then
                 begin
                     {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('Failed to load MD2 model animations - file name - ' +
+                        TQRLogHelper.LogToCompiler('Failed to load MDL model animations - file name - ' +
                                                    animCfgName                                          +
                                                    ' - class name - '                                   +
                                                    ClassName);
@@ -1926,7 +1943,7 @@ begin
                 if (not m_pModel.GetMesh(i, pMesh^, pTree, IsCanceled)) then
                 begin
                     {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('MD2 model frame creation failed or was canceled - name - ' +
+                        TQRLogHelper.LogToCompiler('MDL model frame creation failed or was canceled - name - ' +
                                                    m_Name                                                      +
                                                    ' - index - '                                               +
                                                    ' - class name - ' + ClassName                              +
@@ -1967,9 +1984,9 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRLoadMD2PackageJob
+// TQRLoadMDLPackageJob
 //--------------------------------------------------------------------------------------------------
-constructor TQRLoadMD2PackageJob.Create(pGroup: TQRModelGroup;
+constructor TQRLoadMDLPackageJob.Create(pGroup: TQRModelGroup;
                                 const pPackage: TStream;
                                   const pColor: TQRColor;
                                   const pLight: TQRDirectionalLight;
@@ -2001,7 +2018,7 @@ begin
     m_pPackage := pPackage;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRLoadMD2PackageJob.Destroy;
+destructor TQRLoadMDLPackageJob.Destroy;
 begin
     m_pLock.Lock;
 
@@ -2015,7 +2032,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2PackageJob.Unpack: Boolean;
+function TQRLoadMDLPackageJob.Unpack: Boolean;
 var
     pZipFile:     TZipFile;
     pLocalHeader: TZipHeader;
@@ -2069,7 +2086,7 @@ begin
                 if (m_pDir.FileExists(fileName)) then
                 begin
                     {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('MD2 - unpack - found duplicate - file should be unique in package - ' +
+                        TQRLogHelper.LogToCompiler('MDL - unpack - found duplicate - file should be unique in package - ' +
                                                    fileName                                                               +
                                                    ' - class name - '                                                     +
                                                    ClassName);
@@ -2088,7 +2105,7 @@ begin
                     if (not Assigned(pZipStream)) then
                     begin
                         {$ifdef DEBUG}
-                            TQRLogHelper.LogToCompiler('MD2 - unpack - failed to extract stream from zip - ' +
+                            TQRLogHelper.LogToCompiler('MDL - unpack - failed to extract stream from zip - ' +
                                                        fileName                                              +
                                                        ' - class name - '                                    +
                                                        ClassName);
@@ -2129,7 +2146,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRLoadMD2PackageJob.OnUnpackModelExternally;
+procedure TQRLoadMDLPackageJob.OnUnpackModelExternally;
 begin
     m_pLock.Lock;
 
@@ -2156,7 +2173,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRLoadMD2PackageJob.Process: Boolean;
+function TQRLoadMDLPackageJob.Process: Boolean;
 begin
     // if job was still loaded, don't reload it
     if (IsLoaded) then
@@ -2171,9 +2188,9 @@ begin
     Result := inherited Process;
 end;
 //--------------------------------------------------------------------------------------------------
-// TQRMD2Group
+// TQRMDLGroup
 //--------------------------------------------------------------------------------------------------
-constructor TQRMD2Group.Create;
+constructor TQRMDLGroup.Create;
 begin
     inherited Create;
 
@@ -2190,7 +2207,7 @@ begin
     SwapYZ             :=  True;
 end;
 //--------------------------------------------------------------------------------------------------
-destructor TQRMD2Group.Destroy;
+destructor TQRMDLGroup.Destroy;
 begin
     // delete model and his associated job, don't forget to unregister it from worker
     if (Assigned(m_pJob)) then
@@ -2205,7 +2222,7 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.GetGesture: NativeInt;
+function TQRMDLGroup.GetGesture: NativeInt;
 begin
     if (m_PostponedGesture > 0) then
         Result := m_PostponedGesture
@@ -2213,7 +2230,7 @@ begin
         Result := m_Gesture;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.SetGesture(gesture: NativeInt);
+procedure TQRMDLGroup.SetGesture(gesture: NativeInt);
 var
     pItem:                                       PQRModelAnimCfgItem;
     startFrame, endFrame, loopFrame, frameCount: NativeUInt;
@@ -2293,7 +2310,7 @@ begin
     m_pAnimation.Loop                    := Boolean(m_LoopFrame);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.SetGestureIfAvailable(gesture: NativeInt);
+procedure TQRMDLGroup.SetGestureIfAvailable(gesture: NativeInt);
 var
     pItem:                                       PQRModelAnimCfgItem;
     startFrame, endFrame, loopFrame, frameCount: NativeUInt;
@@ -2376,7 +2393,7 @@ begin
     m_pAnimation.Loop                    := Boolean(m_LoopFrame);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.AnimateModel(const elapsedTime: Double);
+procedure TQRMDLGroup.AnimateModel(const elapsedTime: Double);
 var
     frameIndex:          NativeUInt;
     interpolationFactor: Double;
@@ -2418,7 +2435,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.GetDynamicMesh(index: NativeUInt; out mesh: TQRMesh);
+procedure TQRMDLGroup.GetDynamicMesh(index: NativeUInt; out mesh: TQRMesh);
 var
     frameCount: NativeUInt;
 begin
@@ -2441,7 +2458,7 @@ begin
     then
     begin
         {$ifdef DEBUG}
-            TQRLogHelper.LogToCompiler('MD2 model frame creation failed - index - ' +
+            TQRLogHelper.LogToCompiler('MDL model frame creation failed - index - ' +
                                        IntToStr(index)                              +
                                        ' - class name - '                           +
                                        ClassName);
@@ -2449,7 +2466,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.GetDynamicMeshUseCache(index: NativeUInt;
+procedure TQRMDLGroup.GetDynamicMeshUseCache(index: NativeUInt;
                                          out pMesh: PQRMesh;
                                          out pTree: TQRAABBTree);
 var
@@ -2500,7 +2517,7 @@ begin
     then
     begin
         {$ifdef DEBUG}
-            TQRLogHelper.LogToCompiler('MD2 model frame creation failed - index - ' +
+            TQRLogHelper.LogToCompiler('MDL model frame creation failed - index - ' +
                                        IntToStr(m_pAnimation.FrameIndex)            +
                                        ' - class name - '                           +
                                        ClassName);
@@ -2529,7 +2546,7 @@ begin
         end;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.DrawDynamicModel;
+procedure TQRMDLGroup.DrawDynamicModel;
 var
     pMesh, pNextMesh: PQRMesh;
     interpolatedMesh: TQRMesh;
@@ -2637,7 +2654,7 @@ begin
                    pNextTree);
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.DrawCachedModel;
+procedure TQRMDLGroup.DrawCachedModel;
 var
     interpolatedMesh: TQRMesh;
 begin
@@ -2728,7 +2745,7 @@ begin
                    m_pJob.AABBTree[m_pAnimation.InterpolationFrameIndex]);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.GetMemoryDir: TQRMemoryDir;
+function TQRMDLGroup.GetMemoryDir: TQRMemoryDir;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -2739,14 +2756,14 @@ begin
         Exit(nil);
 
     // is job a memory dir job?
-    if (m_pJob is TQRLoadMD2MemoryDirJob) then
+    if (m_pJob is TQRLoadMDLMemoryDirJob) then
         // get and return memory dir
-        Exit(TQRLoadMD2MemoryDirJob(m_pJob).MemoryDir);
+        Exit(TQRLoadMDLMemoryDirJob(m_pJob).MemoryDir);
 
     Result := nil;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.Clear;
+procedure TQRMDLGroup.Clear;
 begin
     // previous job was created?
     if (Assigned(m_pJob)) then
@@ -2772,12 +2789,12 @@ begin
     m_pAnimation.Loop                    := False;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.IsEmpty: Boolean;
+function TQRMDLGroup.IsEmpty: Boolean;
 begin
     Result := (not Assigned(m_pJob));
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Load(const dir: UnicodeString;
+function TQRMDLGroup.Load(const dir: UnicodeString;
                          const name: TFileName;
                        const pColor: TQRColor;
                        const pLight: TQRDirectionalLight;
@@ -2790,7 +2807,7 @@ begin
     Clear;
 
     // prepare model job to load from file
-    m_pJob := TQRLoadMD2FileJob.Create(Self,
+    m_pJob := TQRLoadMDLFileJob.Create(Self,
                                        dir,
                                        name,
                                        pColor,
@@ -2807,7 +2824,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Load(const pDir: TQRMemoryDir;
+function TQRMDLGroup.Load(const pDir: TQRMemoryDir;
                           const name: TFileName;
                         const pColor: TQRColor;
                         const pLight: TQRDirectionalLight;
@@ -2831,7 +2848,7 @@ begin
     end;
 
     // prepare model job to load from file
-    m_pJob := TQRLoadMD2MemoryDirJob.Create(Self,
+    m_pJob := TQRLoadMDLMemoryDirJob.Create(Self,
                                             pDir,
                                             name,
                                             pColor,
@@ -2848,7 +2865,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Load(const fileName: TFileName;
+function TQRMDLGroup.Load(const fileName: TFileName;
                             const pColor: TQRColor;
                             const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
@@ -2879,7 +2896,7 @@ begin
                    defaultFrameIndex);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Load(const pPackage: TStream;
+function TQRMDLGroup.Load(const pPackage: TStream;
                             const pColor: TQRColor;
                             const pLight: TQRDirectionalLight;
                                   rhToLh: Boolean;
@@ -2906,7 +2923,7 @@ begin
     end;
 
     // prepare model job to load from package stream
-    m_pJob := TQRLoadMD2PackageJob.Create(Self,
+    m_pJob := TQRLoadMDLPackageJob.Create(Self,
                                           pPackage,
                                           pColor,
                                           pLight,
@@ -2922,7 +2939,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.Loaded: Boolean;
+function TQRMDLGroup.Loaded: Boolean;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -2935,7 +2952,7 @@ begin
     Result := True;
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRMD2Group.QueryJobStatus: TQRModelJobStatus;
+function TQRMDLGroup.QueryJobStatus: TQRModelJobStatus;
 begin
     // model not created?
     if (not Assigned(m_pJob)) then
@@ -2954,7 +2971,7 @@ begin
     Result := JobStatus;
 end;
 //--------------------------------------------------------------------------------------------------
-procedure TQRMD2Group.Draw(const elapsedTime: Double);
+procedure TQRMDLGroup.Draw(const elapsedTime: Double);
 begin
     // model not created?
     if (not Assigned(m_pJob)) then

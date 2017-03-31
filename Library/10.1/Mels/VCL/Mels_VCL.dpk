@@ -46,6 +46,7 @@ contains
   UTQRVCLGraphics in 'UTQRVCLGraphics.pas',
   UTQRVCLHelpers in 'UTQRVCLHelpers.pas',
   UTQRVCLModelRenderer in 'UTQRVCLModelRenderer.pas',
-  UTQRShapeGroup in 'UTQRShapeGroup.pas';
+  UTQRShapeGroup in 'UTQRShapeGroup.pas',
+  UTQRMDLModelGroup in 'UTQRMDLModelGroup.pas';
 
 end.

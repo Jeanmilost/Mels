@@ -121,9 +121,7 @@
                 <Source>
                     <Source Name="MainSource">Mels_VCLComponentsGL.dpk</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\TWSVG.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\TWSVG.bpl not found</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
                 <VersionInfo>
                     <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
                     <VersionInfo Name="AutoIncBuild">False</VersionInfo>

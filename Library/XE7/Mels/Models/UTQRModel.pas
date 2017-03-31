@@ -798,12 +798,6 @@ begin
         lightAngle := 0.0;
 
     // calculate light color
-    {REM
-    r := Floor(Min(255.0, Max((pLight.Color.GetRed   * lightAngle), pLight.Ambient.GetRed)));
-    g := Floor(Min(255.0, Max((pLight.Color.GetGreen * lightAngle), pLight.Ambient.GetGreen)));
-    b := Floor(Min(255.0, Max((pLight.Color.GetBlue  * lightAngle), pLight.Ambient.GetBlue)));
-    a := Floor(Min(255.0, Max((pLight.Color.GetAlpha * lightAngle), pLight.Ambient.GetAlpha)));
-    }
     r := Floor(Max(0.0, Min(255.0, (pLight.Color.GetRed   * lightAngle) + pLight.Ambient.GetRed)));
     g := Floor(Max(0.0, Min(255.0, (pLight.Color.GetGreen * lightAngle) + pLight.Ambient.GetGreen)));
     b := Floor(Max(0.0, Min(255.0, (pLight.Color.GetBlue  * lightAngle) + pLight.Ambient.GetBlue)));

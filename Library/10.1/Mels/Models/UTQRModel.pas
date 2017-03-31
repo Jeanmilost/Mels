@@ -31,11 +31,13 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     System.Math,
      UTQRCommon,
      UTQRCache,
      UTQRGraphics,
      UTQRGeometry,
      UTQR3D,
+     UTQRLight,
      UTQRCollision;
 
 type
@@ -250,7 +252,7 @@ type
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            function Load(const fileName: TFileName): Boolean; overload; virtual; abstract;
+            function Load(const fileName: TFileName): Boolean; overload; virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -307,6 +309,17 @@ type
             }
             {$ENDREGION}
             procedure SetVertexFormat(value: TQRVertexFormat); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Calculates the vertex color based on the light model
+             @param(normal Vertex normal)
+             @param(pLight Light model)
+             @return(The vertex color)
+            }
+            {$ENDREGION}
+            function CalculateLight(const normal: TQRVector3D;
+                                    const pLight: TQRDirectionalLight): TQRColor; virtual;
 
         public
             {$REGION 'Documentation'}
@@ -710,6 +723,29 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
+function TQRModelParser.Load(const fileName: TFileName): Boolean;
+var
+    pBuffer: TFileStream;
+begin
+    pBuffer := nil;
+
+    try
+        // file exists?
+        if (not FileExists(fileName)) then
+            Exit(False);
+
+        // create a file buffer and open it for read
+        pBuffer := TFileStream.Create(fileName, fmOpenRead);
+        pBuffer.Seek(0, soBeginning);
+
+        // read MD3 content
+        Result := Load(pBuffer, pBuffer.Size);
+    finally
+        // clear buffer
+        pBuffer.Free;
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
 // TQRModel
 //--------------------------------------------------------------------------------------------------
 constructor TQRModel.Create;
@@ -744,6 +780,30 @@ end;
 procedure TQRModel.SetVertexFormat(value: TQRVertexFormat);
 begin
     m_VertexFormat := value;
+end;
+//--------------------------------------------------------------------------------------------------
+function TQRModel.CalculateLight(const normal: TQRVector3D;
+                                 const pLight: TQRDirectionalLight): TQRColor;
+var
+    lightAngle: Single;
+    r, g, b, a: Byte;
+begin
+    // calculate light angle
+    lightAngle := normal.Dot(pLight.Direction^);
+
+    // is light angle out of bounds? (necessary to ensure that the light is not calculated on the 2
+    // sides of the vertex, and thus give the impression that the light comes from two opposite
+    // sides at once)
+    if (lightAngle < 0.0) then
+        lightAngle := 0.0;
+
+    // calculate light color
+    r := Floor(Max(0.0, Min(255.0, (pLight.Color.GetRed   * lightAngle) + pLight.Ambient.GetRed)));
+    g := Floor(Max(0.0, Min(255.0, (pLight.Color.GetGreen * lightAngle) + pLight.Ambient.GetGreen)));
+    b := Floor(Max(0.0, Min(255.0, (pLight.Color.GetBlue  * lightAngle) + pLight.Ambient.GetBlue)));
+    a := Floor(Max(0.0, Min(255.0, (pLight.Color.GetAlpha * lightAngle) + pLight.Ambient.GetAlpha)));
+
+    Result := TQRColor.Create(r, g, b, a);
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRStaticModel
