@@ -225,7 +225,6 @@ object MainForm: TMainForm
         'N:\Jeanmilost\Devel\Projects\Mels\GitHub\trunk\Demos\Common\Reso' +
         'urces\Models\ogre.pkl'
       Gesture = 1
-      ModelOptions = [EQR_MO_Create_Cache, EQR_MO_No_Collision]
       FramedModelOptions = []
       Package = {
         504B03041400000008008E824E4A4DEBB377740000005F010000080000006F67

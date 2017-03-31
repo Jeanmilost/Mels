@@ -50,11 +50,11 @@ type
            DoubleBuffered behave for other controls
     }
     TMainForm = class(TForm)
-    mlModel: TQRVCLMDLModelGL;
         published
+            mlModel: TQRVCLMDLModelGL;
             sbMain: TScrollBox;
             laTitle: TLabel;
-            reQuakeII: TRichEdit;
+            reQuake: TRichEdit;
             btSaveToFile: TButton;
             sdSave: TSaveDialog;
 
@@ -118,26 +118,26 @@ var
     metrics:                  TTextMetric;
     lineHeight, increase, lc: Integer;
 begin
-    hDCt := GetDC(reQuakeII.Handle);
+    hDCt := GetDC(reQuake.Handle);
 
     try
-        hSaveFont := SelectObject(hDCt, reQuakeII.Handle);
+        hSaveFont := SelectObject(hDCt, reQuake.Handle);
         GetTextMetrics(hDCt, metrics);
         SelectObject(hDCt, hSaveFont);
     finally
-        ReleaseDC(reQuakeII.Handle, hDCt);
+        ReleaseDC(reQuake.Handle, hDCt);
     end;
 
     lineHeight := metrics.tmHeight;
-    increase   := reQuakeII.Height;
-    lc         := reQuakeII.Lines.Count;
+    increase   := reQuake.Height;
+    lc         := reQuake.Lines.Count;
 
     if (lc < 1) then
         lc := 1;
 
-    reQuakeII.Height        := (lc * lineHeight)        + 8;
-    increase                := reQuakeII.Height        - increase;
-    reQuakeII.Parent.Height := reQuakeII.Parent.Height + increase;
+    reQuake.Height        := (lc * lineHeight)     + 8;
+    increase              := reQuake.Height        - increase;
+    reQuake.Parent.Height := reQuake.Parent.Height + increase;
 end;
 //--------------------------------------------------------------------------------------------------
 
