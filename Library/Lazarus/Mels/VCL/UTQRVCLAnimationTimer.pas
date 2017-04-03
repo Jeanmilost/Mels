@@ -27,6 +27,8 @@
 }
 unit UTQRVCLAnimationTimer;
 
+{$MODE Delphi}
+
 interface
 
 uses Classes,
@@ -153,7 +155,7 @@ begin
     // configure animation timer (an interval of 20 means ~50 fps)
     m_pTimer          := TTimer.Create(nil);
     m_pTimer.Interval := 20;
-    m_pTimer.OnTimer  := @OnAnimate;
+    m_pTimer.OnTimer  := OnAnimate;
     m_pTimer.Enabled  := True;
 end;
 //--------------------------------------------------------------------------------------------------

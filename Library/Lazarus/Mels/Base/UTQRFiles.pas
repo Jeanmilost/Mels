@@ -307,7 +307,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRScript.Parse(const lines: TStringList): Boolean;
 var
-    line:  UnicodeString;
+    line:  AnsiString;
     index: NativeUInt;
 begin
     // clear all previous data before parsing new
@@ -319,7 +319,7 @@ begin
     for line in lines do
     begin
         // parse line
-        if (not ParseLine(line, index)) then
+        if (not ParseLine(UnicodeString(line), index)) then
             Exit(False);
 
         Inc(Index);

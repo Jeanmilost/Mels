@@ -32,6 +32,7 @@ interface
 uses System.Classes,
      System.Math,
      System.SysUtils,
+     Vcl.Graphics,
      UTQRCommon,
      UTQRGraphics,
      UTQRGeometry,
@@ -40,8 +41,7 @@ uses System.Classes,
      UTQRShapes,
      UTQRModelGroup,
      UTQRThreading,
-     UTQRLogging,
-     Vcl.Graphics;
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}

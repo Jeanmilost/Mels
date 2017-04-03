@@ -28,6 +28,8 @@
 }
 unit UTQRVCLModelRenderer;
 
+{$MODE Delphi}
+
 interface
 
 uses Graphics,

@@ -30,10 +30,10 @@ unit UTQRVCLModelRenderer;
 
 interface
 
-uses UTQRVCLHelpers,
-     UTQRModelRenderer,
-     Vcl.Graphics,
-     Winapi.Windows;
+uses Vcl.Graphics,
+     Winapi.Windows,
+     UTQRVCLHelpers,
+     UTQRModelRenderer;
 
 type
     {$REGION 'Documentation'}

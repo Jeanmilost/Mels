@@ -1469,7 +1469,6 @@ begin
         // create a new bitmap image
         pBitmap             := Graphics.TBitmap.Create;
         pBitmap.PixelFormat := pf32bit;
-        //pBitmap.AlphaFormat := afDefined;
         pBitmap.SetSize(m_pDefaultImage.Width, m_pDefaultImage.Height);
 
         rect.Left   := 0;
@@ -1920,15 +1919,7 @@ begin
     if (not(pSource is TQRVCLModelComponentGL)) then
     begin
         // reset values to default
-        m_LogMessageLoop       := False;
-        m_fOnConfigureOpenGL   := nil;
-        m_fOnLoadTexture       := nil;
-        m_fOnCreateSceneMatrix := nil;
-        m_fOnInitializeScene   := nil;
-        m_fOnBeforeDrawScene   := nil;
-        m_fOnAfterDrawScene    := nil;
-        m_fOnFinalizeScene     := nil;
-        m_fOnDetectCollisions  := nil;
+        m_LogMessageLoop := False;
 
         m_pColor.Assign(nil);
         m_pAlphaBlending.Assign(nil);
@@ -1936,16 +1927,8 @@ begin
     end;
 
     // copy content from source
-    pSrc                   := pSource as TQRVCLModelComponentGL;
-    m_LogMessageLoop       := pSrc.m_LogMessageLoop;
-    m_fOnConfigureOpenGL   := pSrc.m_fOnConfigureOpenGL;
-    m_fOnLoadTexture       := pSrc.m_fOnLoadTexture;
-    m_fOnCreateSceneMatrix := pSrc.m_fOnCreateSceneMatrix;
-    m_fOnInitializeScene   := pSrc.m_fOnInitializeScene;
-    m_fOnBeforeDrawScene   := pSrc.m_fOnBeforeDrawScene;
-    m_fOnAfterDrawScene    := pSrc.m_fOnAfterDrawScene;
-    m_fOnFinalizeScene     := pSrc.m_fOnFinalizeScene;
-    m_fOnDetectCollisions  := pSrc.m_fOnDetectCollisions;
+    pSrc             := pSource as TQRVCLModelComponentGL;
+    m_LogMessageLoop := pSrc.m_LogMessageLoop;
 
     m_pColor.Assign(pSrc.m_pColor);
     m_pAlphaBlending.Assign(pSrc.m_pAlphaBlending);
@@ -2011,22 +1994,8 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLStaticModelComponentGL.Assign(pSource: TPersistent);
-var
-    pSrc: TQRVCLStaticModelComponentGL;
 begin
     inherited Assign(pSource);
-
-    // incorrect source type?
-    if (not(pSource is TQRVCLStaticModelComponentGL)) then
-    begin
-        // reset values to default
-        m_fDrawSceneStaticModelItemEvent := nil;
-        Exit;
-    end;
-
-    // copy content from source
-    pSrc                             := pSource as TQRVCLStaticModelComponentGL;
-    m_fDrawSceneStaticModelItemEvent := pSrc.m_fDrawSceneStaticModelItemEvent;
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRVCLAnimatedModelComponentGL
@@ -2146,22 +2115,8 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRVCLFramedModelComponentGL.Assign(pSource: TPersistent);
-var
-    pSrc: TQRVCLFramedModelComponentGL;
 begin
     inherited Assign(pSource);
-
-    // incorrect source type?
-    if (not(pSource is TQRVCLFramedModelComponentGL)) then
-    begin
-        // reset values to default
-        m_fDrawSceneFramedModelItemEvent := nil;
-        Exit;
-    end;
-
-    // copy content from source
-    pSrc                             := pSource as TQRVCLFramedModelComponentGL;
-    m_fDrawSceneFramedModelItemEvent := pSrc.m_fDrawSceneFramedModelItemEvent;
 end;
 //--------------------------------------------------------------------------------------------------
 

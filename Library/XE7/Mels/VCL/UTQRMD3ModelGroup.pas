@@ -34,6 +34,7 @@ uses System.Classes,
      System.Math,
      System.Generics.Collections,
      System.Zip,
+     Vcl.Graphics,
      UTQRCommon,
      UTQRLogging,
      UTQRHelpers,
@@ -45,8 +46,7 @@ uses System.Classes,
      UTQRCollision,
      UTQRModel,
      UTQRMD3,
-     UTQRModelGroup,
-     Vcl.Graphics;
+     UTQRModelGroup;
 
 type
     {$REGION 'Documentation'}

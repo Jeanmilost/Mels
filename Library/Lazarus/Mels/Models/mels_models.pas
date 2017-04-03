@@ -7,7 +7,7 @@ unit Mels_Models;
 interface
 
 uses
-    UTQRMD2, UTQRMD3, UTQRModel, UTQRModelRenderer, UTQRShapes;
+    UTQRMD2, UTQRMD3, UTQRModel, UTQRModelRenderer, UTQRShapes, UTQRMDL;
 
 implementation
 

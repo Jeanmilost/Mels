@@ -917,7 +917,7 @@ type
              @raises(Exception if end index is smaller than start index)
             }
             {$ENDREGION}
-            function ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt; virtual;
+            function ValidateIndex(index, startIndex, endIndex: NativeInt): NativeInt; virtual;
 
         public
             {$REGION 'Documentation'}
@@ -2073,9 +2073,9 @@ begin
                                              loop);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRFramedModelGroup.ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt;
+function TQRFramedModelGroup.ValidateIndex(index, startIndex, endIndex: NativeInt): NativeInt;
 var
-    range: NativeUInt;
+    range: NativeInt;
 begin
     // is range invalid?
     if (endIndex < startIndex) then

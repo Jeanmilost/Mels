@@ -2979,8 +2979,8 @@ begin
                 // notify that a texture is about to be loaded
                 BeforeLoadTexture(pModelTexture, not loadFirst);
 
-                // do load texture for the first time? (NOTE , so only try to load the first texture, others are user
-                // defined textures)
+                // do load texture for the first time? (NOTE try to load only the first texture,
+                // others are user defined textures)
                 if (loadFirst) then
                 begin
                     pTexture := Graphics.TBitmap.Create;
@@ -3179,9 +3179,7 @@ var
     progressStep, totalItemStep, totalStep:               Single;
     textureLoaded, doCreateCache:                         Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 
@@ -3582,9 +3580,7 @@ var
     progressStep, totalItemStep, totalStep:               Single;
     textureLoaded, doCreateCache:                         Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 
@@ -4292,9 +4288,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMD3PackageJob.Process: Boolean;
 begin
-    // if job was still loaded, don't reload it. A such scenario can happen when a job is deleted in
-    // the job list. In this case, all jobs are removed from list, the concerned job is deleted,
-    // then all remaining jobs are added back, calling thus the Process() function again
+    // if job was still loaded, don't reload it
     if (IsLoaded) then
         Exit(True);
 

@@ -676,15 +676,6 @@ type
 
             {$REGION 'Documentation'}
             {**
-             Loads MD3 from file
-             @param(fileName File name)
-             @return(@true on success, otherwise @false)
-            }
-            {$ENDREGION}
-            function Load(const fileName: TFileName): Boolean; override;
-
-            {$REGION 'Documentation'}
-            {**
              Loads MD3 from buffer
              @param(pBuffer Buffer)
              @param(readLength Length to read in buffer, in bytes (not used here, can be 0))
@@ -947,8 +938,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Header), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     {$IFDEF CPUX64}
@@ -988,8 +979,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3MeshInfo), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     {$IFDEF CPUX64}
@@ -1029,8 +1020,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Tag), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Name,     SizeOf(m_Name));
@@ -1046,8 +1037,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Frame), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Min,    SizeOf(m_Min));
@@ -1069,8 +1060,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Vertex), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Position, SizeOf(m_Position));
@@ -1085,8 +1076,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Face), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Indices, SizeOf(m_Indices));
@@ -1100,8 +1091,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3TextureCoord), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Coordinate, SizeOf(m_Coordinate));
@@ -1115,8 +1106,8 @@ var
 begin
     // check if buffer is large enough to read next data block
     if (not TQRModelHelper.ValidateNextRead(pBuffer, SizeOf(TQRMD3Shader), errorMsg)) then
-        raise Exception.Create('Not enough bytes in MD3 file to read next data - '
-                + AnsiString(errorMsg));
+        raise Exception.Create('Not enough bytes in MD3 file to read next data - ' +
+                               AnsiString(errorMsg));
 
     // read data from file
     pBuffer.Read(m_Name, SizeOf(m_Name));
@@ -1184,29 +1175,6 @@ end;
 function TQRMD3Parser.GetMeshCount: NativeInt;
 begin
     Result := Length(m_Meshes);
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMD3Parser.Load(const fileName: TFileName): Boolean;
-var
-    pBuffer: TFileStream;
-begin
-    pBuffer := nil;
-
-    try
-        // file exists?
-        if (not FileExists(fileName)) then
-            Exit(False);
-
-        // create a file buffer and open it for read
-        pBuffer := TFileStream.Create(fileName, fmOpenRead);
-        pBuffer.Seek(0, soBeginning);
-
-        // read MD3 content
-        Result := Load(pBuffer, pBuffer.Size);
-    finally
-        // clear buffer
-        pBuffer.Free;
-    end;
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMD3Parser.Load(const pBuffer: TStream; readLength: NativeUInt): Boolean;

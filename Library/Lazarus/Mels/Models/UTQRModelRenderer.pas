@@ -27,6 +27,8 @@
 }
 unit UTQRModelRenderer;
 
+{$MODE Delphi}
+
 interface
 
 uses SysUtils,

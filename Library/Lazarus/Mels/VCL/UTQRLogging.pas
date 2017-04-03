@@ -27,6 +27,8 @@
 }
 unit UTQRLogging;
 
+{$MODE Delphi}
+
 interface
 
 uses SysUtils,
@@ -249,14 +251,14 @@ begin
         EM_GETTHUMB:                    name := 'EM_GETTHUMB';
         EM_LINELENGTH:                  name := 'EM_LINELENGTH';
         EM_REPLACESEL:                  name := 'EM_REPLACESEL';
-        $C3:                            name := 'EM_SETFONT';
+        $c3:                            name := 'EM_SETFONT';
         EM_GETLINE:                     name := 'EM_GETLINE';
         EM_SETLIMITTEXT:                name := 'EM_SETLIMITTEXT';
         EM_CANUNDO:                     name := 'EM_CANUNDO';
         EM_UNDO:                        name := 'EM_UNDO';
         EM_FMTLINES:                    name := 'EM_FMTLINES';
         EM_LINEFROMCHAR:                name := 'EM_LINEFROMCHAR';
-        $CA:                            name := 'EM_SETWORDBREAK';
+        $ca:                            name := 'EM_SETWORDBREAK';
         EM_SETTABSTOPS:                 name := 'EM_SETTABSTOPS';
         EM_SETPASSWORDCHAR:             name := 'EM_SETPASSWORDCHAR';
         EM_EMPTYUNDOBUFFER:             name := 'EM_EMPTYUNDOBUFFER';
@@ -270,8 +272,8 @@ begin
         EM_GETLIMITTEXT:                name := 'EM_GETLIMITTEXT';
         EM_POSFROMCHAR:                 name := 'EM_POSFROMCHAR';
         EM_CHARFROMPOS:                 name := 'EM_CHARFROMPOS';
-        $D8:                            name := 'EM_SETIMESTATUS';
-        $D9:                            name := 'EM_GETIMESTATUS';
+        $d8:                            name := 'EM_SETIMESTATUS';
+        $d9:                            name := 'EM_GETIMESTATUS';
         SBM_SETPOS:                     name := 'SBM_SETPOS';
         SBM_GETPOS:                     name := 'SBM_GETPOS';
         SBM_SETRANGE:                   name := 'SBM_SETRANGE';
@@ -280,7 +282,7 @@ begin
         SBM_SETRANGEREDRAW:             name := 'SBM_SETRANGEREDRAW';
         SBM_SETSCROLLINFO:              name := 'SBM_SETSCROLLINFO';
         SBM_GETSCROLLINFO:              name := 'SBM_GETSCROLLINFO';
-        $EB:                            name := 'SBM_GETSCROLLBARINFO';
+        $eb:                            name := 'SBM_GETSCROLLBARINFO';
         BM_GETCHECK:                    name := 'BM_GETCHECK';
         BM_SETCHECK:                    name := 'BM_SETCHECK';
         BM_GETSTATE:                    name := 'BM_GETSTATE';
@@ -409,7 +411,7 @@ begin
         WM_PRINTCLIENT:                 name := 'WM_PRINTCLIENT';
         WM_APPCOMMAND:                  name := 'WM_APPCOMMAND';
         $358:                           name := 'WM_HANDHELDFIRST';
-        $35F:                           name := 'WM_HANDHELDLAST';
+        $35f:                           name := 'WM_HANDHELDLAST';
         $360:                           name := 'WM_AFXFIRST';
         $37f:                           name := 'WM_AFXLAST';
         WM_PENWINFIRST:                 name := 'WM_PENWINFIRST';
@@ -890,7 +892,7 @@ begin
         CM_UNTHEMECONTROL:              name := 'CM_UNTHEMECONTROL';
         CM_DOUBLEBUFFEREDCHANGED:       name := 'CM_DOUBLEBUFFEREDCHANGED';
         CM_PARENTDOUBLEBUFFEREDCHANGED: name := 'CM_PARENTDOUBLEBUFFEREDCHANGED';
-        $B051:                          name := 'CM_STYLECHANGED';
+        $b051:                          name := 'CM_STYLECHANGED';
         CM_GESTURE:                     name := 'CM_GESTURE';
         CM_CUSTOMGESTURESCHANGED:       name := 'CM_CUSTOMGESTURESCHANGED';
         CM_GESTUREMANAGERCHANGED:       name := 'CM_GESTUREMANAGERCHANGED';
@@ -898,7 +900,7 @@ begin
         CM_INPUTLANGCHANGE:             name := 'CM_INPUTLANGCHANGE';
         CM_TABLETOPTIONSCHANGED:        name := 'CM_TABLETOPTIONSCHANGED';
         CM_PARENTTABLETOPTIONSCHANGED:  name := 'CM_PARENTTABLETOPTIONSCHANGED';
-        $B059:                          name := 'CM_CUSTOMSTYLECHANGED';
+        $b059:                          name := 'CM_CUSTOMSTYLECHANGED';
 
         // RAD Studio VCL control notification IDs
         CN_BASE:                        name := 'CN_BASE';

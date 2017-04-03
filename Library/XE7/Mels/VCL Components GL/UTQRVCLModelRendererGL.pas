@@ -32,15 +32,15 @@ interface
     (*$NOINCLUDE Winapi.OpenGLext *)
 
 uses System.SysUtils,
+     Vcl.Graphics,
+     Winapi.Windows,
+     Winapi.OpenGL,
+     Winapi.OpenGLext,
      UTQRGeometry,
      UTQR3D,
      UTQRHelpers,
      UTQRVCLHelpers,
-     UTQRVCLModelRenderer,
-     Vcl.Graphics,
-     Winapi.Windows,
-     Winapi.OpenGL,
-     Winapi.OpenGLext;
+     UTQRVCLModelRenderer;
 
 type
     {$REGION 'Documentation'}

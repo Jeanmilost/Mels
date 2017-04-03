@@ -8,7 +8,7 @@ interface
 
 uses
     UTQR3D, UTQRCollision, UTQRCommon, UTQRDesignPatterns, UTQRFiles, 
-    UTQRGeometry, UTQRGraphics, UTQRHelpers, UTQRCache;
+    UTQRGeometry, UTQRGraphics, UTQRHelpers, UTQRCache, UTQRLight;
 
 implementation
 

@@ -9,7 +9,7 @@ interface
 uses
     UTQRLogging, UTQRMD2ModelGroup, UTQRMD3ModelGroup, UTQRModelGroup, 
     UTQRShapeGroup, UTQRThreading, UTQRVCLAnimationTimer, UTQRVCLGraphics, 
-    UTQRVCLHelpers, UTQRVCLModelRenderer;
+    UTQRVCLHelpers, UTQRVCLModelRenderer, UTQRMDLModelGroup;
 
 implementation
 

@@ -6,6 +6,7 @@ TQRVCLSphereGL              RCDATA    "Resources\\Images\\Icons\\TQRVCLSphereGL_
 TQRVCLConeGL                RCDATA    "Resources\\Images\\Icons\\TQRVCLConeGL_24x24.png"
 TQRVCLTorusGL               RCDATA    "Resources\\Images\\Icons\\TQRVCLTorusGL_24x24.png"
 TQRVCLParabolaGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLParabolaGL_24x24.png"
+TQRVCLMDLModelGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLMDLModelGL_24x24.png"
 TQRVCLMD2ModelGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLMD2ModelGL_24x24.png"
 TQRVCLMD3ModelGL            RCDATA    "Resources\\Images\\Icons\\TQRVCLMD3ModelGL_24x24.png"
 

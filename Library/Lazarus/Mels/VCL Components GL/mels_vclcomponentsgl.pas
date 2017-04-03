@@ -11,7 +11,7 @@ uses
     UTQRVCLModelComponentGL, UTQRVCLModelComponentPropertiesGL, 
     UTQRVCLModelRendererGL, UTQRVCLModelShaderGL, UTQRVCLShapeComponentGL, 
     UTQRVCLSimpleRendererComponentGL, UTQRVCLHelpersGL, 
-    UTQRVCLModelRenderSurfaceGL;
+    UTQRVCLModelRenderSurfaceGL, UTQRVCLMDLModelComponentGL;
 
 implementation
 

@@ -31,9 +31,9 @@ interface
 
 uses System.Classes,
      System.SysUtils,
-     UTQRGraphics,
      Vcl.Graphics,
-     Winapi.Windows;
+     Winapi.Windows,
+     UTQRGraphics;
 
 type
     {$REGION 'Documentation'}

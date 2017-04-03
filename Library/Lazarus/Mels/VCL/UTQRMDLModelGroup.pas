@@ -27,14 +27,16 @@
 }
 unit UTQRMDLModelGroup;
 
+{$MODE Delphi}
+
 interface
 
-uses System.Classes,
-     System.SysUtils,
-     System.Math,
-     System.Zip,
-     Vcl.Graphics,
-     Winapi.Windows,
+uses Classes,
+     SysUtils,
+     Math,
+     Graphics,
+     Windows,
+     Zipper,
      UTQRCommon,
      UTQRHelpers,
      UTQRFiles,
@@ -45,7 +47,6 @@ uses System.Classes,
      UTQRModel,
      UTQRMDL,
      UTQRModelGroup,
-     UTQRLogging,
      UTQRThreading,
      UTQRVCLHelpers;
 
@@ -169,7 +170,7 @@ type
             {$ENDREGION}
             procedure UncompressTexture(const pParser: TQRMDLParser;
                                                 index: NativeUInt;
-                                             pTexture: Vcl.Graphics.TBitmap); virtual;
+                                             pTexture: Graphics.TBitmap); virtual;
 
             {$REGION 'Documentation'}
             {**
@@ -357,7 +358,7 @@ type
             }
             {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
-                                  pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
+                                  pBitmap: Graphics.TBitmap): Boolean; override;
 
         public
             {$REGION 'Documentation'}
@@ -434,7 +435,7 @@ type
             }
             {$ENDREGION}
             function LoadTexture(pTexture: TQRTexture;
-                                  pBitmap: Vcl.Graphics.TBitmap): Boolean; override;
+                                  pBitmap: Graphics.TBitmap): Boolean; override;
 
             {$REGION 'Documentation'}
             {**
@@ -539,6 +540,40 @@ type
             m_fOnUnpackModel:          TQRUnpackMDLModelEvent;
 
         protected
+            {$REGION 'Documentation'}
+            {**
+             Called when an input ZIP stream should be opened
+             @param(pSender Event sender)
+             @param(pStream @bold([in, out]) ZIP stream to open, opened ZIP stream after function ends)
+            }
+            {$ENDREGION}
+            procedure OnOpenInputZipStream(pSender: TObject; var pStream: TStream); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Called when a ZIP stream should be created
+             @param(pSender Event sender)
+             @param(pStream @bold([in, out]) ZIP stream to create, created ZIP stream after function
+                                             ends)
+             @param(pItem ZIP item for which stream should be created)
+            }
+            {$ENDREGION}
+            procedure OnCreateOutZipStream(pSender: TObject;
+                                       var pStream: TStream;
+                                             pItem: TFullZipFileEntry); virtual;
+
+            {$REGION 'Documentation'}
+            {**
+             Called after a ZIP stream was populated
+             @param(pSender Event sender)
+             @param(pStream @bold([in, out]) stream containig the ZIP data)
+             @param(pItem ZIP item for which stream should be created)
+            }
+            {$ENDREGION}
+            procedure OnDoneOutZipStream(pSender: TObject;
+                                     var pStream: TStream;
+                                           pItem: TFullZipFileEntry); virtual;
+
             {$REGION 'Documentation'}
             {**
              Unpacks model package and prepare memory directory
@@ -940,10 +975,10 @@ begin
 
     // search for animation item value to set
     case Column of
-        0: Items[GetItemCount - 1].m_StartFrame      := StrToInt(word);
-        1: Items[GetItemCount - 1].m_FrameCount      := StrToInt(word);
-        2: Items[GetItemCount - 1].m_LoopingFrames   := StrToInt(word);
-        3: Items[GetItemCount - 1].m_FramesPerSecond := StrToInt(word);
+        0: Items[GetItemCount - 1].m_StartFrame      := StrToInt(AnsiString(word));
+        1: Items[GetItemCount - 1].m_FrameCount      := StrToInt(AnsiString(word));
+        2: Items[GetItemCount - 1].m_LoopingFrames   := StrToInt(AnsiString(word));
+        3: Items[GetItemCount - 1].m_FramesPerSecond := StrToInt(AnsiString(word));
     else
         Exit(False);
     end;
@@ -1180,7 +1215,7 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TQRMDLJob.UncompressTexture(const pParser: TQRMDLParser;
                                               index: NativeUInt;
-                                           pTexture: Vcl.Graphics.TBitmap);
+                                           pTexture: Graphics.TBitmap);
 var
     skinLength, offset:  NativeUInt;
     width, height, x, y: Integer;
@@ -1272,7 +1307,7 @@ var
     textureIndex, skinCount, i: NativeInt;
     max:                        NativeUInt;
     loadNext:                   Boolean;
-    pTexture:                   Vcl.Graphics.TBitmap;
+    pTexture:                   Graphics.TBitmap;
 begin
     m_pLock.Lock;
 
@@ -1307,7 +1342,7 @@ begin
             // notify that a texture is about to be loaded
             BeforeLoadTexture(m_Textures[textureIndex], False);
 
-            pTexture := Vcl.Graphics.TBitmap.Create;
+            pTexture := Graphics.TBitmap.Create;
 
             try
                 // normally the texture index represents the handle of the texture on the GPU memory,
@@ -1460,7 +1495,7 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMDLFileJob.LoadTexture(pTexture: TQRTexture;
-                                        pBitmap: Vcl.Graphics.TBitmap): Boolean;
+                                        pBitmap: Graphics.TBitmap): Boolean;
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
@@ -1492,7 +1527,7 @@ begin
         Progress := 0.0;
 
         // build model file name
-        modelName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.mdl';
+        modelName := TFileName(TQRFileHelper.AppendDelimiter(m_Dir)) + m_Name + '.mdl';
 
         // file exists?
         if (not FileExists(modelName)) then
@@ -1593,7 +1628,7 @@ begin
         Progress := Progress + progressStep;
 
         // build animations config file name
-        animCfgName := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.cfg';
+        animCfgName := TFileName(TQRFileHelper.AppendDelimiter(m_Dir)) + m_Name + '.cfg';
 
         // animations config file exists?
         if (FileExists(animCfgName)) then
@@ -1733,7 +1768,7 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRLoadMDLMemoryDirJob.LoadTexture(pTexture: TQRTexture;
-                                             pBitmap: Vcl.Graphics.TBitmap): Boolean;
+                                             pBitmap: Graphics.TBitmap): Boolean;
 begin
     // no texture bitmap to load to?
     if (not Assigned(pBitmap)) then
@@ -2032,14 +2067,108 @@ begin
     inherited Destroy;
 end;
 //--------------------------------------------------------------------------------------------------
+procedure TQRLoadMDLPackageJob.OnOpenInputZipStream(pSender: TObject; var pStream: TStream);
+begin
+    m_pLock.Lock;
+
+    try
+        m_pPackage.Position := 0;
+        pStream             := TMemoryStream.Create;
+        pStream.CopyFrom(m_pPackage, m_pPackage.Size);
+        pStream.Position    := 0;
+    finally
+        m_pLock.Unlock;
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRLoadMDLPackageJob.OnCreateOutZipStream(pSender: TObject;
+                                                var pStream: TStream;
+                                                      pItem: TFullZipFileEntry);
+begin
+    // create a new stream to receive the next file content
+    pStream := TMemorystream.Create;
+end;
+//--------------------------------------------------------------------------------------------------
+procedure TQRLoadMDLPackageJob.OnDoneOutZipStream(pSender: TObject;
+                                              var pStream: TStream;
+                                                    pItem: TFullZipFileEntry);
+var
+    pFileStream: TMemoryStream;
+    fileName:    TFileName;
+begin
+    // is file stream available?
+    if (not Assigned(pStream)) then
+    begin
+        {$ifdef DEBUG}
+            TQRLogHelper.LogToCompiler('MDL - unpack - failed to extract stream from zip - ' +
+                                       pItem.ArchiveFileName                                 +
+                                       ' - class name - '                                    +
+                                       ClassName);
+        {$endif}
+
+        Exit;
+    end;
+
+    pFileStream := nil;
+
+    try
+        // is a directory?
+        if (pItem.IsDirectory) then
+           Exit;
+
+        // rewind zip stream
+        pStream.Position := 0;
+
+        // get next zipped file name (in lower case and without path)
+        fileName := LowerCase(TFileName(TQRFileHelper.ExtractFileName(pItem.ArchiveFileName,
+                                                                      CQR_Zip_Dir_Delimiter)));
+
+        // file name should not be empty
+        if (Length(fileName) = 0) then
+        begin
+            {$ifdef DEBUG}
+                TQRLogHelper.LogToCompiler('MDL - unpack - found invalid file name - class name - ' +
+                                           ClassName);
+            {$endif}
+
+            Exit;
+        end;
+
+        // file already exists in memory dir?
+        if (m_pDir.FileExists(fileName)) then
+        begin
+            {$ifdef DEBUG}
+                TQRLogHelper.LogToCompiler('MDL - unpack - found duplicate - file should be unique in package - ' +
+                                           fileName                                                               +
+                                           ' - class name - '                                                     +
+                                           ClassName);
+            {$endif}
+
+            Exit;
+        end;
+
+        // get model name, if still not exist
+        if (Length(m_Name) = 0) then
+            m_Name := TFileName(TQRFileHelper.ExtractFileNameNoExt(fileName));
+
+        // copy zip stream content to memory stream
+        pFileStream := TMemoryStream.Create;
+        pFileStream.CopyFrom(pStream, pStream.Size);
+        pFileStream.Position := 0;
+
+        // add file to memory dir
+        m_pDir.AddFile(fileName, pFileStream, False);
+
+        pFileStream := nil;
+    finally
+        pFileStream.Free;
+        pStream.Free;
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
 function TQRLoadMDLPackageJob.Unpack: Boolean;
 var
-    pZipFile:     TZipFile;
-    pLocalHeader: TZipHeader;
-    fileName:     TFileName;
-    zipFileName:  string;
-    pZipStream:   TStream;
-    pFileStream:  TMemoryStream;
+    pZipFile: TUnZipper;
 begin
     // no stream to load to?
     if (not Assigned(m_pPackage)) then
@@ -2060,74 +2189,18 @@ begin
                 Exit(True);
         end;
 
-        // create zipper instance
-        pZipFile := TZipFile.Create;
+        pZipFile := nil;
 
         try
-            // open zip file for read
-            pZipFile.Open(m_pPackage, zmRead);
+            // create zipper instance
+            pZipFile := TUnZipper.Create;
 
-            // iterate through zipped files
-            for zipFileName in pZipFile.FileNames do
-            begin
-                // get next zipped file name (in lower case and without path)
-                fileName := LowerCase(TQRFileHelper.ExtractFileName(zipFileName,
-                                                                    CQR_Zip_Dir_Delimiter));
+            pZipFile.OnOpenInputStream := OnOpenInputZipStream;
+            pZipFile.OnCreateStream    := OnCreateOutZipStream;
+            pZipFile.OnDoneStream      := OnDoneOutZipStream;
 
-                // get model name, if still not exist
-                if (Length(m_Name) = 0) then
-                    m_Name := TQRFileHelper.ExtractFileNameNoExt(fileName);
-
-                // found a dir? (in this case file name cannot be found)
-                if (Length(fileName) = 0) then
-                    continue;
-
-                // file already exists in memory dir?
-                if (m_pDir.FileExists(fileName)) then
-                begin
-                    {$ifdef DEBUG}
-                        TQRLogHelper.LogToCompiler('MDL - unpack - found duplicate - file should be unique in package - ' +
-                                                   fileName                                                               +
-                                                   ' - class name - '                                                     +
-                                                   ClassName);
-                    {$endif}
-
-                    Exit(False);
-                end;
-
-                pZipStream := nil;
-
-                try
-                    // extract file from zip
-                    pZipFile.Read(zipFileName, pZipStream, pLocalHeader);
-
-                    // succeeded?
-                    if (not Assigned(pZipStream)) then
-                    begin
-                        {$ifdef DEBUG}
-                            TQRLogHelper.LogToCompiler('MDL - unpack - failed to extract stream from zip - ' +
-                                                       fileName                                              +
-                                                       ' - class name - '                                    +
-                                                       ClassName);
-                        {$endif}
-
-                        Exit(False);
-                    end;
-
-                    // rewind zip stream
-                    pZipStream.Position := 0;
-
-                    // copy zip stream content to memory stream
-                    pFileStream := TMemoryStream.Create;
-                    pFileStream.CopyFrom(pZipStream, pZipStream.Size);
-                    pFileStream.Position := 0;
-
-                    // add file to memory dir
-                    m_pDir.AddFile(fileName, pFileStream, False);
-                finally
-                    pZipStream.Free;
-                end;
-            end;
+            // unzip files
+            pZipFile.UnZipAllFiles;
         finally
             pZipFile.Free;
         end;
@@ -2877,10 +2950,6 @@ var
 begin
     // file exists?
     if (not FileExists(fileName)) then
-        Exit(False);
-
-    // is file a valid zip package?
-    if (not TZipFile.IsValid(fileName)) then
         Exit(False);
 
     // open a stream from file

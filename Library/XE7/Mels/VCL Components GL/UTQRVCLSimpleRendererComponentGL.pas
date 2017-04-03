@@ -30,12 +30,12 @@ unit UTQRVCLSimpleRendererComponentGL;
 interface
 
 uses System.Classes,
+     Winapi.Messages,
+     Winapi.Windows,
      UTQRVCLModelRendererGL,
      UTQRVCLModelShaderGL,
      UTQRVCLModelComponentGL,
-     UTQRVCLModelRenderSurfaceGL,
-     Winapi.Messages,
-     Winapi.Windows;
+     UTQRVCLModelRenderSurfaceGL;
 
 type
     {$REGION 'Documentation'}

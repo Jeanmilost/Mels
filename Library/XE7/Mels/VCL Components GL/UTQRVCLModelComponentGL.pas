@@ -36,6 +36,16 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     Vcl.Graphics,
+     Vcl.Imaging.pngimage,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Forms,
+     Vcl.AppEvnts,
+     Winapi.Windows,
+     Winapi.Messages,
+     Winapi.OpenGL,
+     Winapi.OpenGLext,
      UTQRDesignPatterns,
      UTQRGeometry,
      UTQR3D,
@@ -48,19 +58,8 @@ uses System.Classes,
      UTQRVCLModelShaderGL,
      UTQRVCLModelRenderSurfaceGL,
      UTQRVCLModelComponentPropertiesGL,
-     UTQRVCLHelpersGL,
      UTQRDesignerHook,
-     UTQRVCLHelpers,
-     Vcl.Graphics,
-     Vcl.Imaging.pngimage,
-     Vcl.Controls,
-     Vcl.ExtCtrls,
-     Vcl.Forms,
-     Vcl.AppEvnts,
-     Winapi.Windows,
-     Winapi.Messages,
-     Winapi.OpenGL,
-     Winapi.OpenGLext;
+     UTQRVCLHelpers;
 
 type
     {$REGION 'Documentation'}

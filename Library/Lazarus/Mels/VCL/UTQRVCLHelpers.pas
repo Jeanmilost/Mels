@@ -34,10 +34,10 @@ interface
 uses Classes,
      SysUtils,
      Masks,
-     UTQRCommon,
-     UTQRHelpers,
      Graphics,
-     Windows;
+     Windows,
+     UTQRCommon,
+     UTQRHelpers;
 
 type
     {$REGION 'Documentation'}
