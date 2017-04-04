@@ -36,6 +36,19 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     Vcl.Graphics,
+     Vcl.Imaging.pngimage,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Forms,
+     Vcl.AppEvnts,
+     Winapi.Windows,
+     Winapi.Messages,
+     Winapi.OpenGL,
+     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
+     // earlier, so the DelphiGL component (provided with installation) should be used instead
+     DelphiGL.OpenGL,
+     DelphiGL.OpenGLext,
      UTQRDesignPatterns,
      UTQRGeometry,
      UTQR3D,
@@ -48,22 +61,8 @@ uses System.Classes,
      UTQRVCLModelShaderGL,
      UTQRVCLModelRenderSurfaceGL,
      UTQRVCLModelComponentPropertiesGL,
-     UTQRVCLHelpersGL,
      UTQRDesignerHook,
-     UTQRVCLHelpers,
-     Vcl.Graphics,
-     Vcl.Imaging.pngimage,
-     Vcl.Controls,
-     Vcl.ExtCtrls,
-     Vcl.Forms,
-     Vcl.AppEvnts,
-     Winapi.OpenGL,
-     Winapi.Windows,
-     Winapi.Messages,
-     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-     // earlier, so the DelphiGL component (provided with installation) should be used instead
-     DelphiGL.OpenGL,
-     DelphiGL.OpenGLext;
+     UTQRVCLHelpers;
 
 type
     {$REGION 'Documentation'}

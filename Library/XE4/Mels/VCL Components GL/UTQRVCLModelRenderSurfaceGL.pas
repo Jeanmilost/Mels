@@ -34,18 +34,18 @@ interface
 uses Vcl.Graphics,
      Vcl.Controls,
      Vcl.Forms,
-     Winapi.OpenGL,
      Winapi.Windows,
+     Winapi.OpenGL,
+     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
+     // earlier, so the DelphiGL component (provided with installation) should be used instead
+     DelphiGL.OpenGL,
+     DelphiGL.OpenGLext,
      UTQRCommon,
      UTQRHelpers,
      UTQRVCLHelpers,
      UTQRVCLHelpersGL,
      UTQRVCLModelRendererGL,
-     UTQRLogging,
-     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-     // earlier, so the DelphiGL component (provided with installation) should be used instead
-     DelphiGL.OpenGL,
-     DelphiGL.OpenGLext;
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}

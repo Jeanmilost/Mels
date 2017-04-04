@@ -48,10 +48,11 @@ uses System.Classes,
      UTQRVCLModelComponentPropertiesGL,
      Vcl.Graphics,
      Vcl.Controls,
-     Winapi.Messages,
-     Winapi.Windows,
+
      Winapi.OpenGL,
-     Winapi.OpenGLext;
+     Winapi.OpenGLext,
+     Winapi.Messages,
+     Winapi.Windows;
 
 type
     {$REGION 'Documentation'}

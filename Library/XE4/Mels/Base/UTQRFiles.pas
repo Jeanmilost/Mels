@@ -31,9 +31,7 @@ interface
 
 uses System.SysUtils,
      System.Classes,
-     System.Generics.Collections,
-     System.StrUtils,
-     UTQRHelpers;
+     System.Generics.Collections;
 
 type
     {$REGION 'Documentation'}

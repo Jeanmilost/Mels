@@ -34,12 +34,12 @@ interface
 uses System.Classes,
      System.SysUtils,
      Winapi.OpenGL,
-     UTQR3D,
-     UTQRLogging,
      // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
      // earlier, so the DelphiGL component (provided with installation) should be used instead
      DelphiGL.OpenGL,
-     DelphiGL.OpenGLext;
+     DelphiGL.OpenGLext,
+     UTQR3D,
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}

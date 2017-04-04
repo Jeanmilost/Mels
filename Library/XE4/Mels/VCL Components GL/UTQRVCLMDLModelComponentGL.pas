@@ -48,13 +48,13 @@ uses System.Classes,
      UTQRVCLModelComponentPropertiesGL,
      Vcl.Graphics,
      Vcl.Controls,
-     Winapi.OpenGL,
-     Winapi.Messages,
-     Winapi.Windows,
      // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
      // earlier, so the DelphiGL component (provided with installation) should be used instead
      DelphiGL.OpenGL,
-     DelphiGL.OpenGLext;
+     DelphiGL.OpenGLext,
+     Winapi.OpenGL,
+     Winapi.Messages,
+     Winapi.Windows;
 
 type
     {$REGION 'Documentation'}

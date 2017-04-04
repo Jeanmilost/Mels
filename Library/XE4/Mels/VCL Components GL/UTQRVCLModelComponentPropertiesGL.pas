@@ -31,15 +31,15 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     Vcl.Graphics,
+     Vcl.Controls,
+     Winapi.Windows,
      UTQRGeometry,
      UTQR3D,
      UTQRLight,
      UTQRModelGroup,
      UTQRVCLGraphics,
-     UTQRMD2,
-     Vcl.Graphics,
-     Vcl.Controls,
-     Winapi.Windows;
+     UTQRMD2;
 
 type
     {$REGION 'Documentation'}

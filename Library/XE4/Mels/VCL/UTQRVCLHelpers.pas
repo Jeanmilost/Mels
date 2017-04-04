@@ -32,12 +32,12 @@ interface
 uses System.Classes,
      System.SysUtils,
      System.Masks,
-     UTQRCommon,
-     UTQRHelpers,
-     UTQRLogging,
      Vcl.Graphics,
      Vcl.Imaging.GIFImg,
-     Winapi.Windows;
+     Winapi.Windows,
+     UTQRCommon,
+     UTQRHelpers,
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}

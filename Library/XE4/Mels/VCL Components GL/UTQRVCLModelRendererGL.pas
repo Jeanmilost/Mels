@@ -32,18 +32,18 @@ interface
     (*$NOINCLUDE DelphiGL.OpenGLext *)
 
 uses System.SysUtils,
-     UTQRGeometry,
-     UTQR3D,
-     UTQRHelpers,
-     UTQRVCLHelpers,
-     UTQRVCLModelRenderer,
      Vcl.Graphics,
      Winapi.Windows,
      Winapi.OpenGL,
      // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
      // earlier, so the DelphiGL component (provided with installation) should be used instead
      DelphiGL.OpenGL,
-     DelphiGL.OpenGLext;
+     DelphiGL.OpenGLext,
+     UTQRGeometry,
+     UTQR3D,
+     UTQRHelpers,
+     UTQRVCLHelpers,
+     UTQRVCLModelRenderer;
 
 type
     {$REGION 'Documentation'}
