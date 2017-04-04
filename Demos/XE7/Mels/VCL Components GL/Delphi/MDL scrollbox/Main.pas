@@ -40,7 +40,7 @@ uses System.SysUtils,
      Winapi.Windows,
      Winapi.Messages,
      UTQRVCLModelComponentGL,
-     UTQRVCLMD2ModelComponentGL, UTQRVCLMDLModelComponentGL;
+     UTQRVCLMDLModelComponentGL;
 
 type
     {**

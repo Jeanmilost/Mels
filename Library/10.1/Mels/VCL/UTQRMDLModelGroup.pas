@@ -33,6 +33,8 @@ uses System.Classes,
      System.SysUtils,
      System.Math,
      System.Zip,
+     Vcl.Graphics,
+     Winapi.Windows,
      UTQRCommon,
      UTQRHelpers,
      UTQRFiles,
@@ -45,9 +47,7 @@ uses System.Classes,
      UTQRModelGroup,
      UTQRLogging,
      UTQRThreading,
-     UTQRVCLHelpers,
-     Vcl.Graphics,
-     Winapi.Windows;
+     UTQRVCLHelpers;
 
 type
     {$REGION 'Documentation'}

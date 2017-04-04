@@ -20,7 +20,7 @@
 // *************************************************************************************************
 
 {**
- @abstract(@name contains the MD2 scrollbox demo main form.)
+ @abstract(@name contains the MDL scrollbox demo main form.)
  @author(Jean-Milost Reymond)
  @created(2015 - 2017, this file is part of the Mels library)
 }
@@ -40,21 +40,21 @@ uses System.SysUtils,
      Winapi.Windows,
      Winapi.Messages,
      UTQRVCLModelComponentGL,
-     UTQRVCLMD2ModelComponentGL;
+     UTQRVCLMDLModelComponentGL;
 
 type
     {**
      Main form
-     @note Alpha blending should be enabled in the MD2 model to avoid flickering while the scrollbox
+     @note Alpha blending should be enabled in the MDL model to avoid flickering while the scrollbox
            is scrolled. In this coontext the alpha blending will behave the same way the
            DoubleBuffered behave for other controls
     }
     TMainForm = class(TForm)
         published
+            mlModel: TQRVCLMDLModelGL;
             sbMain: TScrollBox;
             laTitle: TLabel;
-            m2Model: TQRVCLMD2ModelGL;
-            reQuakeII: TRichEdit;
+            reQuake: TRichEdit;
             btSaveToFile: TButton;
             sdSave: TSaveDialog;
 
@@ -79,8 +79,8 @@ implementation
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormShow(pSender: TObject);
 begin
-    if (m2Model.CanFocus) then
-        m2Model.SetFocus;
+    if (mlModel.CanFocus) then
+        mlModel.SetFocus;
 
     UpdateRichEditHeight;
 end;
@@ -102,7 +102,7 @@ begin
         pBitmap.SetSize(100, 100);
 
         // draw model into bitmap
-        SendMessage(m2Model.Handle, WM_PRINTCLIENT, LPARAM(pBitmap.Canvas.Handle), 0);
+        SendMessage(mlModel.Handle, WM_PRINTCLIENT, LPARAM(pBitmap.Canvas.Handle), 0);
 
         // save bitmap
         pBitmap.SaveToFile(sdSave.FileName);
@@ -118,26 +118,26 @@ var
     metrics:                  TTextMetric;
     lineHeight, increase, lc: Integer;
 begin
-    hDCt := GetDC(reQuakeII.Handle);
+    hDCt := GetDC(reQuake.Handle);
 
     try
-        hSaveFont := SelectObject(hDCt, reQuakeII.Handle);
+        hSaveFont := SelectObject(hDCt, reQuake.Handle);
         GetTextMetrics(hDCt, metrics);
         SelectObject(hDCt, hSaveFont);
     finally
-        ReleaseDC(reQuakeII.Handle, hDCt);
+        ReleaseDC(reQuake.Handle, hDCt);
     end;
 
     lineHeight := metrics.tmHeight;
-    increase   := reQuakeII.Height;
-    lc         := reQuakeII.Lines.Count;
+    increase   := reQuake.Height;
+    lc         := reQuake.Lines.Count;
 
     if (lc < 1) then
         lc := 1;
 
-    reQuakeII.Height        := (lc * lineHeight)       + 8;
-    increase                := reQuakeII.Height        - increase;
-    reQuakeII.Parent.Height := reQuakeII.Parent.Height + increase;
+    reQuake.Height        := (lc * lineHeight)     + 8;
+    increase              := reQuake.Height        - increase;
+    reQuake.Parent.Height := reQuake.Parent.Height + increase;
 end;
 //--------------------------------------------------------------------------------------------------
 

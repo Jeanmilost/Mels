@@ -31,9 +31,9 @@ interface
 
 uses System.Classes,
      System.SysUtils,
-     UTQRDesignPatterns,
      Vcl.ExtCtrls,
-     Winapi.Windows;
+     Winapi.Windows,
+     UTQRDesignPatterns;
 
 type
     {$REGION 'Documentation'}

@@ -48,7 +48,6 @@ uses System.Classes,
      UTQRVCLModelComponentPropertiesGL,
      Vcl.Graphics,
      Vcl.Controls,
-
      Winapi.OpenGL,
      Winapi.OpenGLext,
      Winapi.Messages,

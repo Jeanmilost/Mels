@@ -33,6 +33,11 @@ uses System.Classes,
      System.SysUtils,
      System.Generics.Collections,
      System.Math,
+     Vcl.Graphics,
+     Vcl.Imaging.JPEG,
+     Vcl.Imaging.GIFImg,
+     Vcl.Imaging.PNGImage,
+     Winapi.Windows,
      UTQRDesignPatterns,
      UTQRFiles,
      UTQRGeometry,
@@ -41,12 +46,7 @@ uses System.Classes,
      UTQRHelpers,
      UTQRModel,
      UTQRThreading,
-     UTQRVCLHelpers,
-     Vcl.Graphics,
-     Vcl.Imaging.JPEG,
-     Vcl.Imaging.GIFImg,
-     Vcl.Imaging.PNGImage,
-     Winapi.Windows;
+     UTQRVCLHelpers;
 
 type
     // TODO clear model parser when fully cached, also clear in-memory normals table
@@ -918,7 +918,7 @@ type
              @raises(Exception if end index is smaller than start index)
             }
             {$ENDREGION}
-            function ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt; virtual;
+            function ValidateIndex(index, startIndex, endIndex: NativeInt): NativeInt; virtual;
 
         public
             {$REGION 'Documentation'}
@@ -2075,9 +2075,9 @@ begin
                                              loop);
 end;
 //--------------------------------------------------------------------------------------------------
-function TQRFramedModelGroup.ValidateIndex(index, startIndex, endIndex: NativeUInt): NativeUInt;
+function TQRFramedModelGroup.ValidateIndex(index, startIndex, endIndex: NativeInt): NativeInt;
 var
-    range: NativeUInt;
+    range: NativeInt;
 begin
     // is range invalid?
     if (endIndex < startIndex) then
@@ -2091,7 +2091,7 @@ begin
     range := (endIndex - startIndex) + 1;
 
     // calculate and return index within the range delimited by start and end
-    Result := (startIndex + ((index - startIndex) mod range));
+    Result := (startIndex + (Abs(index - startIndex) mod range));
 end;
 //--------------------------------------------------------------------------------------------------
 // TQRModelJobStatus

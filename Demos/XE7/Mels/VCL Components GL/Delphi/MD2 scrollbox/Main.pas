@@ -135,7 +135,7 @@ begin
     if (lc < 1) then
         lc := 1;
 
-    reQuakeII.Height        := (lc * lineHeight)        + 8;
+    reQuakeII.Height        := (lc * lineHeight)       + 8;
     increase                := reQuakeII.Height        - increase;
     reQuakeII.Parent.Height := reQuakeII.Parent.Height + increase;
 end;

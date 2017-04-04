@@ -31,7 +31,6 @@
 
 #pragma package(smart_init)
 #pragma link "UTQRVCLModelComponentGL"
-#pragma link "UTQRVCLMD2ModelComponentGL"
 #pragma link "UTQRVCLMDLModelComponentGL"
 #pragma resource "*.dfm"
 

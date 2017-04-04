@@ -1,7 +1,7 @@
 /*************************************************************************************************
- * ==> Main -------------------------------------------------------------------------------------*
+ * ==> MD2ScrollBox -----------------------------------------------------------------------------*
  *************************************************************************************************
- * Description : Main form for the scrollbox containing a MD2 model component demo.              *
+ * Description : Main entry point for scrollbox containing a MD2 model component demo.           *
  * Developer   : Jean-Milost Reymond                                                             *
  *************************************************************************************************
  * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
@@ -22,48 +22,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. *
  *************************************************************************************************/
 
-#ifndef MainH
-#define MainH
+#include <vcl.h>
+#pragma hdrstop
+#include <tchar.h>
 
-// vcl
-#include <System.Classes.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.StdCtrls.hpp>
-#include <Vcl.ComCtrls.hpp>
-#include <Vcl.Forms.hpp>
-#include <Vcl.Dialogs.hpp>
-
-// Mels library
-#include "UTQRVCLModelComponentGL.hpp"
-#include "UTQRVCLMDLModelComponentGL.hpp"
-
-/**
-* Main form
-*@note Alpha blending should be enabled in the MD2 model to avoid flickering while the scrollbox is
-*      scrolled. In this coontext the alpha blending will behave the same way the DoubleBuffered
-*      behave for other controls
-*/
-class TMainForm : public TForm
+//--------------------------------------------------------------------------------------------------
+USEFORM("Main.cpp", MainForm);
+//---------------------------------------------------------------------------
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
-    __published:
-        TScrollBox *sbMain;
-        TRichEdit *reQuake;
-        TButton *btSaveToFile;
-        TLabel *laTitle;
-        TSaveDialog *sdSave;
-        TQRVCLMDLModelGL *mlModel;
-
-        void __fastcall FormShow(TObject* pSender);
-        void __fastcall btSaveToFileClick(TObject* pSender);
-
-    public:
-        __fastcall TMainForm(TComponent* pOwner);
-
-    private:
-        /**
-        * Update rich edit height
-        */
-        void UpdateRichEditHeight();
-};
-extern PACKAGE TMainForm* MainForm;
-#endif
+    try
+    {
+         Application->Initialize();
+         Application->MainFormOnTaskBar = true;
+         Application->CreateForm(__classid(TMainForm), &MainForm);
+         Application->Run();
+    }
+    catch (Exception &exception)
+    {
+         Application->ShowException(&exception);
+    }
+    catch (...)
+    {
+         try
+         {
+             throw Exception("");
+         }
+         catch (Exception &exception)
+         {
+             Application->ShowException(&exception);
+         }
+    }
+    return 0;
+}
+//--------------------------------------------------------------------------------------------------

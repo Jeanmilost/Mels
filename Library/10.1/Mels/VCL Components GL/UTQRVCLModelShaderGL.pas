@@ -33,10 +33,10 @@ interface
 
 uses System.Classes,
      System.SysUtils,
-     UTQR3D,
-     UTQRLogging,
      Winapi.OpenGL,
-     Winapi.OpenGLext;
+     Winapi.OpenGLext,
+     UTQR3D,
+     UTQRLogging;
 
 type
     {$REGION 'Documentation'}

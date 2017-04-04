@@ -33,6 +33,12 @@ interface
 
 uses System.Classes,
      System.SysUtils,
+     Vcl.Graphics,
+     Vcl.Controls,
+     Winapi.Messages,
+     Winapi.Windows,
+     Winapi.OpenGL,
+     Winapi.OpenGLext,
      UTQRHelpers,
      UTQRVCLHelpers,
      UTQRLogging,
@@ -44,13 +50,7 @@ uses System.Classes,
      UTQRModelGroup,
      UTQRMD3ModelGroup,
      UTQRVCLModelComponentGL,
-     UTQRVCLModelComponentPropertiesGL,
-     Vcl.Graphics,
-     Vcl.Controls,
-     Winapi.Messages,
-     Winapi.Windows,
-     Winapi.OpenGL,
-     Winapi.OpenGLext;
+     UTQRVCLModelComponentPropertiesGL;
 
 type
     {$REGION 'Documentation'}
