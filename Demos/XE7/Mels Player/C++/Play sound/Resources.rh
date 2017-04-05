@@ -1,7 +1,0 @@
-#ifndef RESOURCES_RH
-#define RESOURCES_RH
-
-// sound
-#define ID_DEFAULT_SOUND 1001
-
-#endif

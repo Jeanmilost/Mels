@@ -1,5 +1,0 @@
-#include "Resources.rh"
-
-// textures
-ID_SATURN_RING_TEXTURE    DATA    "..\..\..\..\..\Common\Resources\Textures\texture_saturn_ring.png"
-

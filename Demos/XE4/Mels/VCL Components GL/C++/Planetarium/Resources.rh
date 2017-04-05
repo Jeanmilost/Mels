@@ -1,7 +1,0 @@
-#ifndef RESOURCES_RH
-#define RESOURCES_RH
-
-// textures
-#define ID_SATURN_RING_TEXTURE 1001
-
-#endif
