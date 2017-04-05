@@ -20,9 +20,7 @@ Library
    NOTE If you are using XE5 or higher and a "E2202 Required package 'DelphiGL' not found" error
    occurs, please verify that the DelphiGL item isn't present in the package requirements list,
    and remove it if it's the case.
-6. Copy the UTQRMD2ModelGroup.res file from the Library\Embarcadero\Mels\VCL\ folder to the
-   ($COMMON)\Dcp\ folder, where ($COMMON) is the RAD Studio common installation folder.
-7. Copy the UTQRVCLModelComponentGL.res file from the Library\Embarcadero\Mels\VCL\ folder to the
+6. Copy the UTQRVCLModelComponentGL.res file from the Library\Embarcadero\Mels\VCL\ folder to the
    ($COMMON)\Dcp\ folder, where ($COMMON) is the RAD Studio common installation folder.
 
 Mels Player
