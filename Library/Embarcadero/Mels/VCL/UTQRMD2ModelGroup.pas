@@ -1413,7 +1413,8 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
+        // build normals table file name. NOTE by default the model contains a default normal table,
+        // for that the normalsLoaded flag is set to True
         normalsName   := TQRFileHelper.AppendDelimiter(m_Dir) + m_Name + '.bin';
         normalsLoaded := True;
 
@@ -1753,7 +1754,8 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
+        // build normals table file name. NOTE by default the model contains a default normal table,
+        // for that the normalsLoaded flag is set to True
         normalsName   := m_Name + '.bin';
         normalsLoaded := True;
 
