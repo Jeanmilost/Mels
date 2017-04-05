@@ -335,7 +335,9 @@ type
             m_fOnDone:        TQRThreadJobDoneEvent;
             m_fOnCanceled:    TQRThreadJobCancelEvent;
             m_fOnIdle:        TQRThreadJobIdleEvent;
-            m_Started:        Boolean;
+            {$IF CompilerVersion <= 25}
+                m_Started:    Boolean;
+            {$ENDIF}
 
         protected
             {$REGION 'Documentation'}
@@ -547,7 +549,9 @@ type
              @br @bold(NOTE) This property is implemented by the VCL in RAD Studio XE7 or above
             }
             {$ENDREGION}
-            property Started: Boolean read m_Started;
+            {$IF CompilerVersion <= 25}
+                property Started: Boolean read m_Started;
+            {$ENDIF}
     end;
 
 implementation
@@ -695,7 +699,9 @@ begin
     m_fOnProcess     := nil;
     m_fOnDone        := nil;
     m_fOnCanceled    := nil;
-    m_Started        := False;
+    {$IF CompilerVersion <= 25}
+        m_Started    := False;
+    {$ENDIF}
 end;
 //--------------------------------------------------------------------------------------------------
 destructor TQRVCLThreadWorker.Destroy;
@@ -703,9 +709,13 @@ begin
     // break the thread execution
     Terminate;
 
-    if (m_Started) then
-        // wait until worker has really stopped to work
-        WaitFor;
+    {$IF CompilerVersion <= 25}
+        if (m_Started) then
+    {$ELSE}
+        if (Started) then
+    {$ENDIF}
+            // wait until worker has really stopped to work
+            WaitFor;
 
     m_pJobs.Free;
     m_pLock.Free;
@@ -783,7 +793,9 @@ var
     idle, success:  Boolean;
     fOnIdle:        TQRThreadJobIdleEvent;
 begin
-    m_Started := True;
+    {$IF CompilerVersion <= 25}
+        m_Started := True;
+    {$ENDIF}
 
     // repeat thread execution until terminated
     while (not Terminated) do
@@ -1038,12 +1050,16 @@ begin
         m_pLock.Unlock;
     end;
 
-    if (m_Started and running) then
-    begin
-        // wait until worker has really stopped to work
-        Terminate;
-        WaitFor;
-    end;
+    {$IF CompilerVersion <= 25}
+        if (m_Started and running) then
+    {$ELSE}
+        if (Started and running) then
+    {$ENDIF}
+        begin
+            // wait until worker has really stopped to work
+            Terminate;
+            WaitFor;
+        end;
 
     // notify that job is canceled
     Synchronize(OnCanceledNotify);

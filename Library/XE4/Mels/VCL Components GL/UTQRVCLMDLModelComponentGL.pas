@@ -28,11 +28,29 @@
 unit UTQRVCLMDLModelComponentGL;
 
 interface
-    // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE DelphiGL.OpenGLext *)
+    {$IF CompilerVersion <= 25}
+        // do not include XE7.OpenGLExt in hpp, because it may generate conflicts in C++ code
+        (*$NOINCLUDE DelphiGL.OpenGLext *)
+    {$ELSE}
+        // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
+        (*$NOINCLUDE Winapi.OpenGLext *)
+    {$ENDIF}
 
 uses System.Classes,
      System.SysUtils,
+     Vcl.Graphics,
+     Vcl.Controls,
+     Winapi.OpenGL,
+     {$IF CompilerVersion <= 25}
+         // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
+         // earlier, so the DelphiGL component (provided with installation) should be used instead
+         DelphiGL.OpenGL,
+         DelphiGL.OpenGLext,
+     {$ELSE}
+         Winapi.OpenGLext,
+     {$ENDIF}
+     Winapi.Messages,
+     Winapi.Windows,
      UTQRHelpers,
      UTQRVCLHelpers,
      UTQRLogging,
@@ -45,16 +63,7 @@ uses System.Classes,
      UTQRModelGroup,
      UTQRMDLModelGroup,
      UTQRVCLModelComponentGL,
-     UTQRVCLModelComponentPropertiesGL,
-     Vcl.Graphics,
-     Vcl.Controls,
-     // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
-     // earlier, so the DelphiGL component (provided with installation) should be used instead
-     DelphiGL.OpenGL,
-     DelphiGL.OpenGLext,
-     Winapi.OpenGL,
-     Winapi.Messages,
-     Winapi.Windows;
+     UTQRVCLModelComponentPropertiesGL;
 
 type
     {$REGION 'Documentation'}

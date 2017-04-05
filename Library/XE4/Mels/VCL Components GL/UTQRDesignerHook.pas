@@ -34,10 +34,10 @@ interface
 
 uses System.Classes,
      System.SysUtils,
-     UTQRDesignPatterns,
      Vcl.Controls,
      Winapi.Messages,
-     Winapi.Windows;
+     Winapi.Windows,
+     UTQRDesignPatterns;
 
 type
     {$REGION 'Documentation'}

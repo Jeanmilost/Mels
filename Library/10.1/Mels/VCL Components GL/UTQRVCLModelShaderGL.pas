@@ -28,13 +28,25 @@
 unit UTQRVCLModelShaderGL;
 
 interface
-    // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
-    (*$NOINCLUDE Winapi.OpenGLext *)
+    {$IF CompilerVersion <= 25}
+        // do not include DelphiGL.OpenGLExt in hpp, because it may generate conflicts in C++ code
+        (*$NOINCLUDE DelphiGL.OpenGLext *)
+    {$ELSE}
+        // do not include Winapi.OpenGLExt in hpp, because it may generate conflicts in C++ code
+        (*$NOINCLUDE Winapi.OpenGLext *)
+    {$ENDIF}
 
 uses System.Classes,
      System.SysUtils,
      Winapi.OpenGL,
-     Winapi.OpenGLext,
+     {$IF CompilerVersion <= 25}
+         // unfortunately the required OpenGL headers does not exist or are incomplete in XE4 and
+         // earlier, so the DelphiGL component (provided with installation) should be used instead
+         DelphiGL.OpenGL,
+         DelphiGL.OpenGLext,
+     {$ELSE}
+         Winapi.OpenGLext,
+     {$ENDIF}
      UTQR3D,
      UTQRLogging;
 

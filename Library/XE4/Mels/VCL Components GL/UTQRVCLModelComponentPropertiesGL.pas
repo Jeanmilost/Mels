@@ -38,8 +38,7 @@ uses System.Classes,
      UTQR3D,
      UTQRLight,
      UTQRModelGroup,
-     UTQRVCLGraphics,
-     UTQRMD2;
+     UTQRVCLGraphics;
 
 type
     {$REGION 'Documentation'}
