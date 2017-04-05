@@ -86,6 +86,7 @@
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="Mels_Base.dcp"/>
         <DCCReference Include="Mels_Models.dcp"/>
+        <DCCReference Include="DelphiGL.dcp"/>
         <DCCReference Include="UTQRVCLHelpersGL.pas"/>
         <DCCReference Include="UTQRVCLMD2ModelComponentGL.pas"/>
         <DCCReference Include="UTQRVCLModelComponentGL.pas"/>

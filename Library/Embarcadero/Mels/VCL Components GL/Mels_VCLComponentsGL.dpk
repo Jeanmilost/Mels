@@ -5,7 +5,7 @@ package Mels_VCLComponentsGL;
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
-{$DEBUGINFO OFF}
+{$DEBUGINFO ON}
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
@@ -35,7 +35,8 @@ requires
   vcl,
   vclimg,
   Mels_Base,
-  Mels_Models;
+  Mels_Models,
+  DelphiGL;
 
 contains
   UTQRVCLHelpersGL in 'UTQRVCLHelpersGL.pas',
