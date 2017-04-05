@@ -29,7 +29,14 @@ unit DelphiGL.OpenGL;
 
 interface
     {$IF CompilerVersion > 25}
-        {$MESSAGE ERROR 'DelphiGL is not required for this RAD Studio version and should not be compiled. The Winapi.OpenGL and Winapi.OpenGLext units should be used instead. This package may be removed from your project group if you want.'}
+        // the DelphiGL package was provided to compensate several missing OpenGL functions the Mels
+        // library requires when compiled with RAD Studio XE4 and earlier. As these functions were
+        // provided in the more recent compiler versions, this package become obsolete and the native
+        // Winapi.OpenGL and Winapi.OpenGLext units should be used instead. If this warning appear,
+        // then the package is no longer required and should no more be compiled. For convenience,
+        // it can also be removed from the project group (NOTE in this case the DelphiGL.dcp item
+        // should also be removed from the Mels VCL Components GL package's Requires list)
+        {$MESSAGE WARN 'DelphiGL is no longer required for this RAD Studio version and should no more be compiled. This package and his requirements may be removed if desired.'}
     {$ENDIF}
 
 uses Winapi.OpenGL,
