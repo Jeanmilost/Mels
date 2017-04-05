@@ -28,6 +28,9 @@
 unit DelphiGL.OpenGL;
 
 interface
+    {$IF CompilerVersion > 25}
+        {$MESSAGE ERROR 'DelphiGL is not required for this RAD Studio version and should not be compiled. The Winapi.OpenGL and Winapi.OpenGLext units should be used instead. This package may be removed from your project group if you want.'}
+    {$ENDIF}
 
 uses Winapi.OpenGL,
      Winapi.Windows;
