@@ -75,22 +75,10 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
         <UnitName Value="UTQRVCLMDLModelComponentGL"/>
       </Item12>
     </Files>
-    <RequiredPkgs Count="5">
+    <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="Mels_VCL"/>
       </Item1>
-      <Item2>
-        <PackageName Value="Mels_Models"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="Mels_Base"/>
-      </Item3>
-      <Item4>
-        <PackageName Value="generics_collections"/>
-      </Item4>
-      <Item5>
-        <PackageName Value="FCL"/>
-      </Item5>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

@@ -3,6 +3,7 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="DelphiAL"/>
+    <Author Value="Zachary J. Slater (TimeDoctor)"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
@@ -15,6 +16,8 @@
         </CompilerMessages>
       </Other>
     </CompilerOptions>
+    <Description Value="OpenAL is a cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications. See: http://www.openal.org/"/>
+    <Version Build="7"/>
     <Files Count="1">
       <Item1>
         <Filename Value="openal.pas"/>

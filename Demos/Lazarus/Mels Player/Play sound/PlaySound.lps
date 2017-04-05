@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="14">
+    <Units Count="16">
       <Unit0>
         <Filename Value="PlaySound.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -22,6 +22,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
         <IsVisibleTab Value="True"/>
+        <CursorPos X="26" Y="31"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -41,7 +42,8 @@
       <Unit4>
         <Filename Value="..\..\..\..\Library\Prerequisites\Delphi OpenAL for Lazarus\openal.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="19" Y="7"/>
+        <UsageCount Value="10"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\..\..\Library\Lazarus\Mels\VCL\UTQRMD2ModelGroup.pas"/>
@@ -102,6 +104,17 @@
         <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="..\..\..\..\Library\Lazarus\Mels Player\Base\UTQRPlayer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\..\..\..\..\trunk\Library\Prerequisites\Generics.Collections\generics_collections.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="5" Y="10"/>
+        <UsageCount Value="10"/>
+      </Unit15>
     </Units>
     <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>

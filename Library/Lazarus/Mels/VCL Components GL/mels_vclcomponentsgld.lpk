@@ -37,25 +37,10 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
         <Type Value="Text"/>
       </Item2>
     </Files>
-    <RequiredPkgs Count="6">
+    <RequiredPkgs Count="1">
       <Item1>
         <PackageName Value="Mels_VCLComponentsGL"/>
       </Item1>
-      <Item2>
-        <PackageName Value="Mels_VCL"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="mels_models"/>
-      </Item3>
-      <Item4>
-        <PackageName Value="Mels_Base"/>
-      </Item4>
-      <Item5>
-        <PackageName Value="generics_collections"/>
-      </Item5>
-      <Item6>
-        <PackageName Value="FCL"/>
-      </Item6>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

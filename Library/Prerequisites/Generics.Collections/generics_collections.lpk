@@ -3,6 +3,7 @@
   <Package Version="4">
     <PathDelim Value="\"/>
     <Name Value="generics_collections"/>
+    <Author Value="dathox"/>
     <CompilerOptions>
       <Version Value="11"/>
       <PathDelim Value="\"/>
@@ -15,6 +16,8 @@
         </CompilerMessages>
       </Other>
     </CompilerOptions>
+    <Description Value="FreePascal Generics.Collections library (TList, TDictionary, THashMap and more...). See: https://github.com/dathox/generics.collections/tree/master/src"/>
+    <Version Build="7"/>
     <Files Count="6">
       <Item1>
         <Filename Value="generics.collections.pas"/>
@@ -52,5 +55,8 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>
