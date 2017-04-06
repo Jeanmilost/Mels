@@ -31,9 +31,6 @@ unit UTQRMD2ModelGroup;
 
 interface
 
-// resources
-{$R UTQRMD2ModelGroup.res}
-
 uses Classes,
      SysUtils,
      Math,
@@ -1376,8 +1373,6 @@ end;
 function TQRLoadMD2FileJob.Process: Boolean;
 var
     modelName, normalsName, animCfgName: TFileName;
-    pNormalsStream:                      TResourceStream;
-    hPackageInstance:                    THandle;
     frameCount, i:                       NativeUInt;
     normalsLoaded, textureLoaded:        Boolean;
     vertexFormat:                        TQRVertexFormat;
@@ -1452,41 +1447,15 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
+        // build normals table file name. NOTE by default the model contains a default normal table,
+        // for that the normalsLoaded flag is set to True
         normalsName   := TFileName(TQRFileHelper.AppendDelimiter(m_Dir)) + m_Name + '.bin';
-        normalsLoaded := False;
+        normalsLoaded := True;
 
         // normals file exists?
         if (FileExists(normalsName)) then
             // load normals table
-            if (m_pModel.LoadNormals(normalsName)) then
-                normalsLoaded := True;
-
-        // was normals loaded?
-        if (not normalsLoaded) then
-        begin
-            pNormalsStream := nil;
-
-            try
-                // get module instance at which this control belongs
-                hPackageInstance := System.HInstance;
-
-                // found module and package contains the MD2 normals?
-                if ((hPackageInstance <> 0) and
-                    (FindResource(hPackageInstance, PChar('RC_MD2_NORMALS'), RT_RCDATA) <> 0))
-                then
-                begin
-                    // load normals table from stream
-                    pNormalsStream := TResourceStream.Create(hPackageInstance,
-                                                             PChar('RC_MD2_NORMALS'),
-                                                             RT_RCDATA);
-                    normalsLoaded  := m_pModel.LoadNormals(pNormalsStream, pNormalsStream.Size);
-                end;
-            finally
-                // delete resource stream, if needed
-                pNormalsStream.Free
-            end;
-        end;
+            normalsLoaded := m_pModel.LoadNormals(normalsName);
 
         // normals are loaded, add one step to progress
         Progress := Progress + progressStep;
@@ -1729,8 +1698,6 @@ function TQRLoadMD2MemoryDirJob.Process: Boolean;
 var
     modelName, normalsName, animCfgName:          TFileName;
     pModelStream, pNormalsStream, pAnimCfgStream: TStream;
-    pResNormalsStream:                            TResourceStream;
-    hPackageInstance:                             NativeUInt;
     frameCount, i:                                NativeUInt;
     normalsLoaded, textureLoaded:                 Boolean;
     vertexFormat:                                 TQRVertexFormat;
@@ -1821,9 +1788,10 @@ begin
             // copy light properties
             m_pModel.PreCalculatedLight.Assign(m_pLight);
 
-        // build normals table file name
+        // build normals table file name. NOTE by default the model contains a default normal table,
+        // for that the normalsLoaded flag is set to True
         normalsName   := m_Name + '.bin';
-        normalsLoaded := False;
+        normalsLoaded := True;
 
         // normals file exists?
         if (m_pDir.FileExists(normalsName)) then
@@ -1834,34 +1802,7 @@ begin
             // found it?
             if (Assigned(pNormalsStream)) then
                 // load normals
-                if (m_pModel.LoadNormals(pNormalsStream, pNormalsStream.Size)) then
-                    normalsLoaded := True;
-        end;
-
-        // was normals loaded?
-        if (not normalsLoaded) then
-        begin
-            pResNormalsStream := nil;
-
-            try
-                // get module instance at which this control belongs
-                hPackageInstance := System.HInstance;
-
-                // found module and package contains the MD2 normals?
-                if ((hPackageInstance <> 0) and
-                    (FindResource(hPackageInstance, PChar('RC_MD2_NORMALS'), RT_RCDATA) <> 0))
-                then
-                begin
-                    // load normals table from stream
-                    pResNormalsStream := TResourceStream.Create(hPackageInstance,
-                                                                PChar('RC_MD2_NORMALS'),
-                                                                RT_RCDATA);
-                    normalsLoaded  := m_pModel.LoadNormals(pResNormalsStream, pResNormalsStream.Size);
-                end;
-            finally
-                // delete resource stream, if needed
-                pResNormalsStream.Free
-            end;
+                normalsLoaded := m_pModel.LoadNormals(pNormalsStream, pNormalsStream.Size);
         end;
 
         // normals are loaded, add one step to progress

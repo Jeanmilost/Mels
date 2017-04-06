@@ -25,7 +25,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."/>
     <Version Build="7"/>
-    <Files Count="12">
+    <Files Count="11">
       <Item1>
         <Filename Value="UTQRLogging.pas"/>
         <UnitName Value="UTQRLogging"/>
@@ -35,45 +35,41 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
         <UnitName Value="UTQRMD2ModelGroup"/>
       </Item2>
       <Item3>
-        <Filename Value="UTQRMD2ModelGroup.rc"/>
-        <Type Value="Text"/>
-      </Item3>
-      <Item4>
         <Filename Value="UTQRMD3ModelGroup.pas"/>
         <UnitName Value="UTQRMD3ModelGroup"/>
-      </Item4>
-      <Item5>
+      </Item3>
+      <Item4>
         <Filename Value="UTQRModelGroup.pas"/>
         <UnitName Value="UTQRModelGroup"/>
-      </Item5>
-      <Item6>
+      </Item4>
+      <Item5>
         <Filename Value="UTQRShapeGroup.pas"/>
         <UnitName Value="UTQRShapeGroup"/>
-      </Item6>
-      <Item7>
+      </Item5>
+      <Item6>
         <Filename Value="UTQRThreading.pas"/>
         <UnitName Value="UTQRThreading"/>
-      </Item7>
-      <Item8>
+      </Item6>
+      <Item7>
         <Filename Value="UTQRVCLAnimationTimer.pas"/>
         <UnitName Value="UTQRVCLAnimationTimer"/>
-      </Item8>
-      <Item9>
+      </Item7>
+      <Item8>
         <Filename Value="UTQRVCLGraphics.pas"/>
         <UnitName Value="UTQRVCLGraphics"/>
-      </Item9>
-      <Item10>
+      </Item8>
+      <Item9>
         <Filename Value="UTQRVCLHelpers.pas"/>
         <UnitName Value="UTQRVCLHelpers"/>
-      </Item10>
-      <Item11>
+      </Item9>
+      <Item10>
         <Filename Value="UTQRVCLModelRenderer.pas"/>
         <UnitName Value="UTQRVCLModelRenderer"/>
-      </Item11>
-      <Item12>
+      </Item10>
+      <Item11>
         <Filename Value="UTQRMDLModelGroup.pas"/>
         <UnitName Value="UTQRMDLModelGroup"/>
-      </Item12>
+      </Item11>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
