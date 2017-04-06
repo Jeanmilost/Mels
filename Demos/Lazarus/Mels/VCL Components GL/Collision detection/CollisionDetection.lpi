@@ -28,7 +28,7 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="7">
+    <RequiredPackages Count="6">
       <Item1>
         <PackageName Value="Mels_VCLComponentsGLD"/>
       </Item1>
@@ -45,11 +45,8 @@
         <PackageName Value="Mels_Base"/>
       </Item5>
       <Item6>
-        <PackageName Value="generics_collections"/>
-      </Item6>
-      <Item7>
         <PackageName Value="LCL"/>
-      </Item7>
+      </Item6>
     </RequiredPackages>
     <Units Count="2">
       <Unit0>
