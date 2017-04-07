@@ -20,13 +20,14 @@ uses System.SysUtils,
      Vcl.ComCtrls,
      Winapi.Windows,
      Winapi.Messages,
-     UTQRRADStudioHelper;
+     UTQRRADStudioHelper, Vcl.Grids, Vcl.ValEdit;
 
 type
     {**
      Main form
     }
     TMainForm = class(TForm)
+    veRADStudioVariables: TValueListEditor;
         published
             lvRADStudioVersions: TListView;
             ilIcons: TImageList;
@@ -105,8 +106,49 @@ begin
 end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.lvRADStudioVersionsChange(pSender: TObject; pItem: TListItem; change: TItemChange);
+var
+    fileName, filePath, rsvars:           TFileName;
+    pStrings:                             TStringList;
+    item, ucItem, keyValPair, key, value: UnicodeString;
+    separatorPos:                         NativeInt;
 begin
-    // see: C:\Program Files (x86)\Embarcadero\Studio\15.0\bin\rsvars.bat
+    veRADStudioVariables.Strings.Clear;
+
+    if (pItem.SubItems.Count <= 0) then
+        Exit;
+
+    fileName := pItem.SubItems.GetText;
+    filePath := ExtractFilePath(fileName);
+    rsvars   := IncludeTrailingPathDelimiter(filePath) + 'rsvars.bat';
+
+    pStrings := nil;
+
+    try
+        pStrings := TStringList.Create;
+        pStrings.LoadFromFile(rsvars);
+
+        for item in pStrings do
+        begin
+            ucItem := UpperCase(item);
+
+            if (Pos('@SET ', ucItem) <> 1) then
+                Continue;
+
+            keyValPair := item.Substring(5, Length(item) - 5);
+
+            separatorPos := Pos('=', keyValPair);
+
+            if (separatorPos = 0) then
+                continue;
+
+            key   := keyValPair.Substring(0, separatorPos - 1);
+            value := keyValPair.Substring(separatorPos, Length(keyValPair) - separatorPos);
+
+            veRADStudioVariables.InsertRow(key, value, True)
+        end;
+    finally
+        pStrings.Free;
+    end;
 end;
 //--------------------------------------------------------------------------------------------------
 

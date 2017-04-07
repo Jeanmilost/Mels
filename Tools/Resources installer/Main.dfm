@@ -72,8 +72,23 @@ object MainForm: TMainForm
       Caption = 'Description'
       ExplicitWidth = 53
     end
+    object veRADStudioVariables: TValueListEditor
+      Left = 292
+      Top = 13
+      Width = 306
+      Height = 311
+      Align = alRight
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goAlwaysShowEditor, goThumbTracking]
+      TabOrder = 0
+      ExplicitLeft = 288
+      ExplicitTop = 0
+      ExplicitHeight = 300
+    end
   end
   object ilIcons: TImageList
+    ColorDepth = cd32Bit
+    DrawingStyle = dsTransparent
+    Masked = False
     Left = 592
     Top = 8
   end
