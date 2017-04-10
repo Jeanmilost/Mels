@@ -3,7 +3,7 @@ program ResourcesInstaller;
 uses
   Vcl.Forms,
   Main in 'Main.pas' {MainForm},
-  UTQRRADStudioHelper in 'UTQRRADStudioHelper.pas';
+  UTQRRadStudioHelper in 'UTQRRadStudioHelper.pas';
 
 {$R *.res}
 

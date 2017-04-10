@@ -23,8 +23,8 @@ object MainForm: TMainForm
     Margins.Left = 10
     Margins.Right = 10
     Align = alTop
-    Caption = 'RAD Studio installed versions'
-    ExplicitWidth = 139
+    Caption = 'RAD Studio installed versions (select one)'
+    ExplicitWidth = 199
   end
   object lvRADStudioVersions: TListView
     AlignWithMargins = True
@@ -54,35 +54,59 @@ object MainForm: TMainForm
   end
   object paDescription: TPanel
     AlignWithMargins = True
-    Left = 15
+    Left = 10
     Top = 127
-    Width = 598
+    Width = 608
     Height = 324
-    Margins.Left = 15
-    Margins.Right = 15
+    Margins.Left = 10
+    Margins.Right = 10
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    object laDescription: TLabel
+    ExplicitLeft = 15
+    ExplicitWidth = 598
+    object laPathsAndEnvironmentVariables: TLabel
+      AlignWithMargins = True
       Left = 0
-      Top = 0
-      Width = 598
+      Top = 3
+      Width = 608
       Height = 13
+      Margins.Left = 0
+      Margins.Right = 0
       Align = alTop
-      Caption = 'Description'
-      ExplicitWidth = 53
+      Caption = 'Paths and environment variables'
+      ExplicitLeft = 3
+      ExplicitWidth = 157
     end
     object veRADStudioVariables: TValueListEditor
-      Left = 292
-      Top = 13
-      Width = 306
-      Height = 311
-      Align = alRight
+      AlignWithMargins = True
+      Left = 0
+      Top = 22
+      Width = 608
+      Height = 274
+      Margins.Left = 0
+      Margins.Right = 0
+      Align = alClient
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goAlwaysShowEditor, goThumbTracking]
       TabOrder = 0
-      ExplicitLeft = 288
-      ExplicitTop = 0
-      ExplicitHeight = 300
+      ExplicitLeft = 3
+      ExplicitWidth = 592
+      ExplicitHeight = 299
+      ColWidths = (
+        150
+        452)
+    end
+    object btCopyResources: TButton
+      Left = 0
+      Top = 299
+      Width = 608
+      Height = 25
+      Align = alBottom
+      Caption = 'Copy resources'
+      Enabled = False
+      TabOrder = 1
+      OnClick = btCopyResourcesClick
+      ExplicitTop = 302
     end
   end
   object ilIcons: TImageList

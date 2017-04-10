@@ -1,5 +1,5 @@
 // *************************************************************************************************
-// * ==> UTQRRADStudioHelper ----------------------------------------------------------------------*
+// * ==> UTQRRadStudioHelper ----------------------------------------------------------------------*
 // *************************************************************************************************
 // * MIT License - The Mels Library, a free and easy-to-use 3D Models library                      *
 // *                                                                                               *
@@ -20,16 +20,18 @@
 // *************************************************************************************************
 
 {**
- @abstract(@name provides helper functions to detect which RAD Studio version is in use on the local
+ @abstract(@name provides helper functions to detect which Rad Studio version is in use on the local
            computer.)
  @author(Jean-Milost Reymond)
  @created(2015 - 2017, this file is part of the Mels library)
 }
-unit UTQRRADStudioHelper;
+unit UTQRRadStudioHelper;
 
 interface
 
-uses System.SysUtils,
+uses System.Classes,
+     System.SysUtils,
+     System.Generics.Collections,
      System.Win.Registry,
      Vcl.Controls,
      Winapi.CommCtrl,
@@ -38,9 +40,9 @@ uses System.SysUtils,
 
 type
     {**
-     Delphi versions
+     Rad Studio versions
     }
-    TDelphiVersions =
+    EQRRadStudioVersion =
     (
         Delphi4,
         Delphi5,
@@ -66,7 +68,10 @@ type
     );
 
 const
-    g_DelphiVersionsNames: array[TDelphiVersions] of string =
+    {**
+     Rad Studio human readable names
+    }
+    g_RadStudioName: array[EQRRadStudioVersion] of string =
     (
         'Delphi 4',
         'Delphi 5',
@@ -75,23 +80,26 @@ const
         'Delphi 8',
         'BDS 2005',
         'BDS 2006',
-        'RAD Studio 2007',
-        'RAD Studio 2009',
-        'RAD Studio 2010',
-        'RAD Studio XE',
-        'RAD Studio XE2',
-        'RAD Studio XE3',
-        'RAD Studio XE4',
-        'RAD Studio XE5',
-        'RAD Studio XE6',
-        'RAD Studio XE7',
-        'RAD Studio XE8',
-        'RAD Studio 10 Seattle',
-        'RAD Studio 10.1 Berlin',
-        'RAD Studio 10.2 Tokyo'
+        'Rad Studio 2007',
+        'Rad Studio 2009',
+        'Rad Studio 2010',
+        'Rad Studio XE',
+        'Rad Studio XE2',
+        'Rad Studio XE3',
+        'Rad Studio XE4',
+        'Rad Studio XE5',
+        'Rad Studio XE6',
+        'Rad Studio XE7',
+        'Rad Studio XE8',
+        'Rad Studio 10 Seattle',
+        'Rad Studio 10.1 Berlin',
+        'Rad Studio 10.2 Tokyo'
     );
 
-    g_DelphiRegPaths: array[TDelphiVersions] of string =
+    {**
+     Rad Studio registry paths
+    }
+    g_RadStudioRegPath: array[EQRRadStudioVersion] of string =
     (
         '\Software\Borland\Delphi\4.0',
         '\Software\Borland\Delphi\5.0',
@@ -118,25 +126,83 @@ const
 
 type
     {**
-     Embarcadero RAD Studio helper
+     Embarcadero Rad Studio helper
     }
-    TQRRADStudioHelper = class
-        public
+    TQRRadStudioHelper = class
+        public type
+            {**
+             Installed version info
+            }
+            IInstalledVersionInfo = record
+                m_Version: EQRRadStudioVersion;
+                m_BinName: TFileName;
+            end;
+
+            {**
+             List of installed versions
+            }
+            IQRInstalledVersions = TList<IInstalledVersionInfo>;
+
+            {**
+             Key-value dictionary to contain several Rad studio properties
+            }
+            IQRKeyValueDictionary = TDictionary<UnicodeString, UnicodeString>;
+
+            {**
+             Key-value pair
+            }
+            IQRKeyValuePair = TPair<UnicodeString, UnicodeString>;
+
+        private
+            {**
+             Checks in the registry if a key exists
+             @param(regPath Key path in the registry)
+             @param(hRootKey The registry root key)
+             @return(@true if key exists in the registry, otherwise @false)
+            }
             class function RegKeyExists(const regPath: string; const hRootKey: HKEY): Boolean; static;
 
+            {**
+             Read key content as string value
+             @param(regPath Key path in the registry)
+             @param(regValue Key name in the registry)
+             @param(str @bold([out]) Key content as string value)
+             @param(hRootKey The registry root key)
+             @return(@true on success, otherwise @false)
+            }
             class function RegReadStr(const regPath, regValue: string;
                                                       var str: string;
                                                const hRootKey: HKEY): Boolean; static;
 
-            class procedure ExtractIconFileToImageList(pImageList: TImageList;
-                                                   const fileName: string); static;
+        public
+            {**
+             Get the installed version info list
+             @param(pVersions Installed version list to populate, populated list on function ends)
+            }
+            class procedure GetInstalledVersions(pVersions: IQRInstalledVersions); static;
+
+            {**
+             Get the Rad Studio icons in an image list
+             @param(fileName Rad Studio IDE binary file name and path)
+             @param(pImageList Image list to populate, populated list on function ends)
+            }
+            class procedure ExtractIconFileToImageList(const fileName: string;
+                                                           pImageList: TImageList); static;
+
+            {**
+             Get a list of key-value pairs containing the paths used by the Rad Studio IDE
+             @param(installDir Rad Studio installation directory)
+             @param(pPaths Key-value pair list to populate, populated list on function ends)
+            }
+            class procedure GetPaths(const installDir: UnicodeString;
+                                               pPaths: IQRKeyValueDictionary); static;
     end;
 
 implementation
 //--------------------------------------------------------------------------------------------------
-// TQRRADStudioHelper
+// TQRRadStudioHelper
 //--------------------------------------------------------------------------------------------------
-class function TQRRADStudioHelper.RegKeyExists(const regPath: string; const hRootKey: HKEY): Boolean;
+class function TQRRadStudioHelper.RegKeyExists(const regPath: string; const hRootKey: HKEY): Boolean;
 var
     pReg: TRegistry;
 begin
@@ -154,7 +220,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRRADStudioHelper.RegReadStr(const regPath, regValue: string;
+class function TQRRadStudioHelper.RegReadStr(const regPath, regValue: string;
                                                              var str: string;
                                                       const hRootKey: HKEY): Boolean;
 var
@@ -177,21 +243,126 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class procedure TQRRADStudioHelper.ExtractIconFileToImageList(pImageList: TImageList;
-                                                          const fileName: string);
+class procedure TQRRadStudioHelper.GetInstalledVersions(pVersions: IQRInstalledVersions);
+var
+    versionInfo: IInstalledVersionInfo;
+    version:     EQRRadStudioVersion;
+    fileName:    string;
+    found:       Boolean;
+begin
+    if (not Assigned(pVersions)) then
+        Exit;
+
+    // iterate through Delphi versions to detect
+    for version := Low(EQRRadStudioVersion) to High(EQRRadStudioVersion) do
+    begin
+        // check if matching key exists in HKEY_CURRENT_USER
+        found := TQRRadStudioHelper.RegKeyExists(g_RadStudioRegPath[version], HKEY_CURRENT_USER);
+
+        // found it?
+        if (found) then
+            // get the exe file name and check if the file exists
+            found := TQRRadStudioHelper.RegReadStr(g_RadStudioRegPath[version],
+                                                   'App',
+                                                   fileName,
+                                                   HKEY_CURRENT_USER) and FileExists(fileName);
+
+        // still not found?
+        if (not found) then
+        begin
+            // check if matching key exists in HKEY_LOCAL_MACHINE
+            found := TQRRadStudioHelper.RegKeyExists(g_RadStudioRegPath[version], HKEY_LOCAL_MACHINE);
+
+            // found it?
+            if (found) then
+                // get the exe file name and check if the file exists
+                found := TQRRadStudioHelper.RegReadStr(g_RadStudioRegPath[version],
+                                                       'App',
+                                                       fileName,
+                                                       HKEY_LOCAL_MACHINE) and FileExists(fileName);
+        end;
+
+        // still not found?
+        if (not found) then
+            continue;
+
+        versionInfo           := Default(IInstalledVersionInfo);
+        versionInfo.m_Version := version;
+        versionInfo.m_BinName := fileName;
+
+        pVersions.Add(versionInfo);
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
+class procedure TQRRadStudioHelper.ExtractIconFileToImageList(const fileName: string;
+                                                                  pImageList: TImageList);
 var
     fileInfo: TShFileInfo;
 begin
-    if (FileExists(filename)) then
-    begin
-        FillChar(fileInfo, SizeOf(fileInfo), 0);
-        SHGetFileInfo(PChar(Filename), 0, fileInfo, SizeOf(fileInfo), SHGFI_ICON or SHGFI_SMALLICON);
+    if (not FileExists(filename)) then
+        Exit;
 
-        if (fileInfo.hIcon <> 0) then
+    // get the file info struct. This struct may contain the icon image to get
+    FillChar(fileInfo, SizeOf(fileInfo), 0);
+    SHGetFileInfo(PChar(Filename), 0, fileInfo, SizeOf(fileInfo), SHGFI_ICON or SHGFI_SMALLICON);
+
+    // found icon?
+    if (fileInfo.hIcon <> 0) then
+    begin
+        // extract icon from binary file
+        ImageList_AddIcon(pImageList.Handle, fileInfo.hIcon);
+        DestroyIcon(fileInfo.hIcon);
+    end;
+end;
+//--------------------------------------------------------------------------------------------------
+class procedure TQRRadStudioHelper.GetPaths(const installDir: UnicodeString;
+                                                      pPaths: IQRKeyValueDictionary);
+var
+    rsvars:                             TFileName;
+    item, line, keyValPair, key, value: UnicodeString;
+    separatorPos:                       NativeInt;
+    pStrings:                           TStringList;
+begin
+    if (not Assigned(pPaths)) then
+        Exit;
+
+    // get the rsvars file name
+    rsvars   := IncludeTrailingPathDelimiter(installDir) + 'rsvars.bat';
+    pStrings := nil;
+
+    try
+        // create a string list container and open the rsvars file
+        pStrings := TStringList.Create;
+        pStrings.LoadFromFile(rsvars);
+
+        // iterate through rsvars lines
+        for item in pStrings do
         begin
-            ImageList_AddIcon(pImageList.Handle, fileInfo.hIcon);
-            DestroyIcon(fileInfo.hIcon);
+            // get upper-case line
+            line := UpperCase(item);
+
+            // check if the line begins with a @SET instruction
+            if (Pos('@SET ', line) <> 1) then
+                Continue;
+
+            // extract the key-value pair
+            keyValPair := item.Substring(5, Length(item) - 5);
+
+            // search for the separator
+            separatorPos := Pos('=', keyValPair);
+
+            // no separator found?
+            if (separatorPos = 0) then
+                continue;
+
+            // extract the key and value
+            key   := keyValPair.Substring(0, separatorPos - 1);
+            value := keyValPair.Substring(separatorPos, Length(keyValPair) - separatorPos);
+
+            pPaths.Add(key, value);
         end;
+    finally
+        pStrings.Free;
     end;
 end;
 //--------------------------------------------------------------------------------------------------
