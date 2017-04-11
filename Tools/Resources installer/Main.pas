@@ -28,9 +28,10 @@ unit Main;
 
 interface
 
-uses System.SysUtils,
+uses System.Classes,
+     System.SysUtils,
      System.Variants,
-     System.Classes,
+     System.UITypes,
      Vcl.Graphics,
      Vcl.Controls,
      Vcl.ImgList,
@@ -39,9 +40,11 @@ uses System.SysUtils,
      Vcl.Forms,
      Vcl.Dialogs,
      Vcl.ComCtrls,
+     Vcl.Grids,
+     Vcl.ValEdit,
      Winapi.Windows,
      Winapi.Messages,
-     UTQRRADStudioHelper, Vcl.Grids, Vcl.ValEdit;
+     UTQRRADStudioHelper;
 
 type
     {**
@@ -62,6 +65,10 @@ type
             procedure btCopyResourcesClick(pSender: TObject);
 
         public
+            constructor Create(pOwner: TComponent); override;
+            constructor CreateNew(pOwner: TComponent; dummy: Integer = 0); override;
+            destructor Destroy; override;
+
             class function CopyResources(srcDir, destDir, resName: UnicodeString): Boolean; static;
     end;
 
@@ -73,18 +80,209 @@ implementation
 // Global resources
 //--------------------------------------------------------------------------------------------------
 {$R *.dfm}
+//--------------------------------------------------------------------------------------------------
+// Global functions
+//--------------------------------------------------------------------------------------------------
+function EnumWindowsProc(hWnd: THandle; pProcessList: TStringList): Boolean; stdcall;
+var
+    caption: array [0..128] of Char;
+begin
+    SendMessage(hWnd, WM_GETTEXT, SizeOf(caption), NativeInt(@caption));
+    pProcessList.AddObject(caption, TObject(hWnd));
+
+    Result := True;
+end;
+//--------------------------------------------------------------------------------------------------
+// TMainForm
+//--------------------------------------------------------------------------------------------------
+constructor TMainForm.Create(pOwner: TComponent);
+begin
+    inherited Create(pOwner);
+end;
+//--------------------------------------------------------------------------------------------------
+constructor TMainForm.CreateNew(pOwner: TComponent; dummy: Integer);
+begin
+    inherited CreateNew(pOwner, dummy);
+end;
+//--------------------------------------------------------------------------------------------------
+destructor TMainForm.Destroy;
+begin
+    inherited Destroy;
+end;
+//--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormCreate(pSender: TObject);
 var
-    pVersions: TQRRADStudioHelper.IQRInstalledVersions;
-    version:   TQRRADStudioHelper.IInstalledVersionInfo;
-    pItem:     TListItem;
+    pVersions:           TQRRADStudioHelper.IQRInstalledVersions;
+    version:             TQRRADStudioHelper.IInstalledVersionInfo;
+    pPaths:              TQRRADStudioHelper.IQRKeyValueDictionary;
+    pPathItem:           TQRRADStudioHelper.IQRKeyValuePair;
+    selectedVersion:     EQRRadStudioVersion;
+    pItem:               TListItem;
+    param, filePath:     UnicodeString;
+    i:                   Integer;
+    succeeded, msgShown: Boolean;
 begin
     pVersions := nil;
 
     try
+        // get all installed Rad Studio versions on local computer
         pVersions := TQRRADStudioHelper.IQRInstalledVersions.Create;
-
         TQRRADStudioHelper.GetInstalledVersions(pVersions);
+
+        // command line parameters?
+        if (ParamCount > 0) then
+        begin
+            selectedVersion := EQRRadStudioVersion(-1);
+            succeeded       := False;
+            msgShown        := False;
+
+            // iterate through command line parameters
+            for i := 1 to ParamCount do
+            begin
+                // get parameter
+                param := ParamStr(i);
+
+                // is a valid parameter?
+                if (param[1] <> '/') then
+                    continue;
+
+                // extract parameter value
+                param := param.Substring(1, Length(param) - 1).ToLower;
+
+                // search for wished Rad Studio version
+                if (param = '4') then
+                    selectedVersion := Delphi4
+                else
+                if (param = '5') then
+                    selectedVersion := Delphi5
+                else
+                if (param = '6') then
+                    selectedVersion := Delphi6
+                else
+                if (param = '7') then
+                    selectedVersion := Delphi7
+                else
+                if (param = '8') then
+                    selectedVersion := Delphi8
+                else
+                if (param = '2005') then
+                    selectedVersion := Delphi2005
+                else
+                if (param = '2006') then
+                    selectedVersion := Delphi2006
+                else
+                if (param = '2007') then
+                    selectedVersion := Delphi2007
+                else
+                if (param = '2009') then
+                    selectedVersion := Delphi2009
+                else
+                if (param = '2010') then
+                    selectedVersion := Delphi2010
+                else
+                if (param = 'xe') then
+                    selectedVersion := DelphiXE
+                else
+                if (param = 'xe2') then
+                    selectedVersion := DelphiXE2
+                else
+                if (param = 'xe3') then
+                    selectedVersion := DelphiXE3
+                else
+                if (param = 'xe4') then
+                    selectedVersion := DelphiXE4
+                else
+                if (param = 'xe5') then
+                    selectedVersion := DelphiXE5
+                else
+                if (param = 'xe6') then
+                    selectedVersion := DelphiXE6
+                else
+                if (param = 'xe7') then
+                    selectedVersion := DelphiXE7
+                else
+                if (param = 'xe8') then
+                    selectedVersion := DelphiXE8
+                else
+                if (param = 'seattle') then
+                    selectedVersion := Delphi10_Seattle
+                else
+                if (param = 'berlin') then
+                    selectedVersion := Delphi10_1_Berlin
+                else
+                if (param = 'tokyo') then
+                    selectedVersion := Delphi10_2_Tokyo
+                else
+                begin
+                    MessageDlg('Unknown parameter - ' + param, mtError, [mbOK], 0);
+                    continue;
+                end;
+
+                msgShown := False;
+
+                // iterate through installed versions
+                for version in pVersions do
+                    // found selected version?
+                    if (version.m_Version = selectedVersion) then
+                    begin
+                        // get Rad Studio installation path
+                        filePath := ExtractFilePath(version.m_BinName);
+                        pPaths   := nil;
+
+                        try
+                            // get paths and environment variables
+                            pPaths := TQRRADStudioHelper.IQRKeyValueDictionary.Create;
+                            TQRRADStudioHelper.GetPaths(filePath, pPaths);
+
+                            // iterate through paths and environment variables
+                            for pPathItem in pPaths do
+                                // found Rad Studio common dir?
+                                if (pPathItem.Key = 'BDSCOMMONDIR') then
+                                    // copy the resources from local dir to common dir
+                                    if (not CopyResources('..\',
+                                                          IncludeTrailingPathDelimiter(pPathItem.Value) + 'Dcp\',
+                                                          'UTQRVCLModelComponentGL.res'))
+                                    then
+                                    begin
+                                        MessageDlg('Could not copy the UTQRVCLModelComponentGL.res resource file from:' +
+                                                   #13#10                                                               +
+                                                   ExtractFilePath(Application.ExeName)                                 +
+                                                   #13#10                                                               +
+                                                   'to:'                                                                +
+                                                   #13#10                                                               +
+                                                   IncludeTrailingPathDelimiter(pPathItem.Value) + 'Dcp\'               +
+                                                   #13#10#13#10                                                         +
+                                                   'You should copy this file manually.',
+                                                   mtError,
+                                                   [mbOK],
+                                                   0);
+
+                                        msgShown := True;
+                                    end
+                                    else
+                                    begin
+                                        succeeded := True;
+                                        break;
+                                    end;
+                        finally
+                            pPaths.Free;
+                        end;
+                    end;
+            end;
+
+            if (not succeeded and not msgShown) then
+                MessageDlg('the UTQRVCLModelComponentGL.res resource file was not copied.' +
+                           #13#10#13#10                                                    +
+                           'You should copy this file manually.',
+                           mtError,
+                           [mbOK],
+                           0);
+
+            // all command line were processed, shutdown the application
+            Application.ShowMainForm := False;
+            Application.Terminate;
+            Exit;
+        end;
 
         for version in pVersions do
         begin

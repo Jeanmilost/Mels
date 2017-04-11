@@ -63,8 +63,6 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 15
-    ExplicitWidth = 598
     object laPathsAndEnvironmentVariables: TLabel
       AlignWithMargins = True
       Left = 0
@@ -75,7 +73,6 @@ object MainForm: TMainForm
       Margins.Right = 0
       Align = alTop
       Caption = 'Paths and environment variables'
-      ExplicitLeft = 3
       ExplicitWidth = 157
     end
     object veRADStudioVariables: TValueListEditor
@@ -89,9 +86,6 @@ object MainForm: TMainForm
       Align = alClient
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goAlwaysShowEditor, goThumbTracking]
       TabOrder = 0
-      ExplicitLeft = 3
-      ExplicitWidth = 592
-      ExplicitHeight = 299
       ColWidths = (
         150
         452)
@@ -106,7 +100,6 @@ object MainForm: TMainForm
       Enabled = False
       TabOrder = 1
       OnClick = btCopyResourcesClick
-      ExplicitTop = 302
     end
   end
   object ilIcons: TImageList
