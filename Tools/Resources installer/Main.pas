@@ -112,15 +112,15 @@ end;
 //--------------------------------------------------------------------------------------------------
 procedure TMainForm.FormCreate(pSender: TObject);
 var
-    pVersions:           TQRRADStudioHelper.IQRInstalledVersions;
-    version:             TQRRADStudioHelper.IInstalledVersionInfo;
-    pPaths:              TQRRADStudioHelper.IQRKeyValueDictionary;
-    pPathItem:           TQRRADStudioHelper.IQRKeyValuePair;
-    selectedVersion:     EQRRadStudioVersion;
-    pItem:               TListItem;
-    param, filePath:     UnicodeString;
-    i:                   Integer;
-    succeeded, msgShown: Boolean;
+    pVersions:                TQRRADStudioHelper.IQRInstalledVersions;
+    version:                  TQRRADStudioHelper.IInstalledVersionInfo;
+    pPaths:                   TQRRADStudioHelper.IQRKeyValueDictionary;
+    pPathItem:                TQRRADStudioHelper.IQRKeyValuePair;
+    selectedVersion:          EQRRadStudioVersion;
+    pItem:                    TListItem;
+    param, filePath, srcPath: UnicodeString;
+    i:                        Integer;
+    succeeded, msgShown:      Boolean;
 begin
     pVersions := nil;
 
@@ -218,8 +218,6 @@ begin
                     continue;
                 end;
 
-                msgShown := False;
-
                 // iterate through installed versions
                 for version in pVersions do
                     // found selected version?
@@ -238,8 +236,14 @@ begin
                             for pPathItem in pPaths do
                                 // found Rad Studio common dir?
                                 if (pPathItem.Key = 'BDSCOMMONDIR') then
+                                begin
+                                    // go to application parent dir (the final exe will be put
+                                    // inside a subdir)
+                                    srcPath := ExtractFilePath(Application.ExeName);
+                                    srcPath := ExtractFilePath(ExcludeTrailingPathDelimiter(srcPath));
+
                                     // copy the resources from local dir to common dir
-                                    if (not CopyResources('..\',
+                                    if (not CopyResources(srcPath,
                                                           IncludeTrailingPathDelimiter(pPathItem.Value) + 'Dcp\',
                                                           'UTQRVCLModelComponentGL.res'))
                                     then
@@ -264,6 +268,7 @@ begin
                                         succeeded := True;
                                         break;
                                     end;
+                                end;
                         finally
                             pPaths.Free;
                         end;
@@ -271,7 +276,7 @@ begin
             end;
 
             if (not succeeded and not msgShown) then
-                MessageDlg('the UTQRVCLModelComponentGL.res resource file was not copied.' +
+                MessageDlg('The UTQRVCLModelComponentGL.res resource file was not copied.' +
                            #13#10#13#10                                                    +
                            'You should copy this file manually.',
                            mtError,
@@ -281,6 +286,7 @@ begin
             // all command line were processed, shutdown the application
             Application.ShowMainForm := False;
             Application.Terminate;
+            ExitCode := 0;
             Exit;
         end;
 
@@ -345,7 +351,7 @@ begin
     end;
 
     // copy the resources from local dir to common dir
-    if (not CopyResources('',
+    if (not CopyResources('..\',
                           IncludeTrailingPathDelimiter(veRADStudioVariables.Cells[1, row]) + 'Dcp\',
                           'UTQRVCLModelComponentGL.res'))
     then
