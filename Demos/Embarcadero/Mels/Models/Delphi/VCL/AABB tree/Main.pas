@@ -45,6 +45,11 @@ uses System.Classes,
      Winapi.Messages,
      Winapi.Windows,
      Winapi.OpenGL,
+     {$IF CompilerVersion <= 25}
+         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+         // because the OpenGL include provided by Embarcadero is incomplete
+         DelphiGL.OpenGL,
+     {$ENDIF}
      UTQRSmartPointer,
      UTQRHelpers,
      UTQRGraphics,
@@ -52,10 +57,7 @@ uses System.Classes,
      UTQRGeometry,
      UTQRCollision,
      UTQRShapes,
-     UTQROpenGLHelper,
-     // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-     // because the OpenGL include provided by Embarcadero is incomplete
-     DelphiGL.OpenGL;
+     UTQROpenGLHelper;
 
 type
     {**

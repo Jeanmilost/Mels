@@ -34,6 +34,7 @@
 #include <string>
 
 // Mels library
+#include <UTQRRenderer.hpp>
 #include <UTQRVCLHelpers.hpp>
 
 // engine
@@ -201,18 +202,18 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     const GLfloat aspect = (GLfloat)ClientWidth / (ClientHeight ? (GLfloat)ClientHeight : 1.0f);
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(fov,
-                                                         aspect,
-                                                         zNear,
-                                                         zFar,
-                                                         m_pOptions->ckUseOrthoMatrix->Checked);
+    m_ProjectionMatrix = TQRRenderer::GetPerspective(fov,
+                                                     aspect,
+                                                     zNear,
+                                                     zFar,
+                                                     m_pOptions->ckUseOrthoMatrix->Checked);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
     TQRVector3D up(0.0f, 1.0f, 0.0f);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+    m_ViewMatrix = TQRRenderer::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth,
                                     ClientHeight,
@@ -488,8 +489,8 @@ bool TMainForm::LoadModel()
     else
     {
         // translate and scale model
-        *m_pMD3->Translation = TQRVector3D(0.0f,  -0.1f,  -1.5f);
-        *m_pMD3->Scaling     = TQRVector3D(0.03f,  0.03f,  0.03f);
+        *m_pMD3->Translation = TQRVector3D(0.0f,   -0.1f,   -1.5f);
+        *m_pMD3->Scaling     = TQRVector3D(0.015f,  0.015f,  0.015f);
     }
 
     // rotate model
@@ -589,7 +590,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
 
     // unproject the ray to make it inside the 3d world coordinates
-    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 

@@ -34,7 +34,8 @@
 #pragma link "UTQRVCLMD2ModelComponentGL"
 #pragma resource "*.dfm"
 
-TMainForm *MainForm;
+//--------------------------------------------------------------------------------------------------
+TMainForm* MainForm;
 //--------------------------------------------------------------------------------------------------
 __fastcall TMainForm::TMainForm(TComponent* Owner) :
     TForm(Owner)

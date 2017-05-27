@@ -45,15 +45,17 @@ uses System.Classes,
      Winapi.Messages,
      Winapi.Windows,
      Winapi.OpenGL,
+     {$IF CompilerVersion <= 25}
+         // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
+         // because the OpenGL include provided by Embarcadero is incomplete
+         DelphiGL.OpenGL,
+     {$ENDIF}
      UTQRHelpers,
      UTQRSmartPointer,
      UTQR3D,
      UTQRGeometry,
      UTQRCollision,
-     UTQROpenGLHelper,
-     // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
-     // because the OpenGL include provided by Embarcadero is incomplete
-     DelphiGL.OpenGL;
+     UTQROpenGLHelper;
 
 type
     {**

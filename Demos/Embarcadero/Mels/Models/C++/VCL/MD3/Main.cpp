@@ -30,6 +30,9 @@
 #include <memory>
 #include <string>
 
+// Mels library
+#include <UTQRRenderer.hpp>
+
 // engine
 #include "QR_MathsHelper.h"
 #include "QR_OpenGLHelper.h"
@@ -211,18 +214,18 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     const GLfloat aspectRatio = (GLfloat)ClientWidth / (GLfloat)(ClientHeight ? ClientHeight : 1);
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(fov,
-                                                         aspectRatio,
-                                                         zNear,
-                                                         zFar,
-                                                         true);
+    m_ProjectionMatrix = TQRRenderer::GetPerspective(fov,
+                                                     aspectRatio,
+                                                     zNear,
+                                                     zFar,
+                                                     true);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
     TQRVector3D up(0.0f, 1.0f, 0.0f);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+    m_ViewMatrix = TQRRenderer::LookAtLH(position, direction, up);
 
     // create viewport
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, False);
@@ -434,7 +437,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
     TQRVector3D rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
 
     // unproject the ray to make it inside the 3d world coordinates
-    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 
@@ -522,8 +525,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
         m_pColorShader->Use(true);
 
         // get perspective (or projection) matrix slot from shader
-        GLint uniform = QR_OpenGLHelper::GetUniform(m_pColorShader,
-                                                    EQR_SA_PerspectiveMatrix);
+        GLint uniform = QR_OpenGLHelper::GetUniform(m_pColorShader, EQR_SA_PerspectiveMatrix);
 
         // found it?
         if (uniform == -1)
@@ -604,8 +606,7 @@ void TMainForm::PrepareShaderToDrawModel(QR_Shader_OpenGL* pShader, const TQRTex
     pShader->Use(true);
 
     // get perspective (or projection) matrix slot from shader
-    GLint uniform = QR_OpenGLHelper::GetUniform(pShader,
-                                                EQR_SA_PerspectiveMatrix);
+    GLint uniform = QR_OpenGLHelper::GetUniform(pShader, EQR_SA_PerspectiveMatrix);
 
     // found it?
     if (uniform == -1)

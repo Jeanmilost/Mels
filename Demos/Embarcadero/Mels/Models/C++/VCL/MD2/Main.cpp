@@ -30,6 +30,9 @@
 #include <memory>
 #include <string>
 
+// Mels library
+#include <UTQRRenderer.hpp>
+
 // engine
 #include "QR_MathsHelper.h"
 #include "QR_OpenGLHelper.h"
@@ -204,17 +207,17 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     const GLfloat aspectRatio = (GLfloat)ClientWidth / (GLfloat)(ClientHeight ? ClientHeight : 1);
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(45.0f,
-                                                         aspectRatio,
-                                                         1.0f,
-                                                         200.0f);
+    m_ProjectionMatrix = TQRRenderer::GetPerspective(45.0f,
+                                                     aspectRatio,
+                                                     1.0f,
+                                                     200.0f);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
     TQRVector3D up(0.0f, 1.0f, 0.0f);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+    m_ViewMatrix = TQRRenderer::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth, ClientHeight, !m_UseShader);
 }
@@ -400,7 +403,7 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
         TQRVector3D direction(1.0f, 0.0f, 0.0f);
 
         // configure precalculated light
-        std::auto_ptr<TQRMD2Light> pLight(new TQRMD2Light());
+        std::auto_ptr<TQRDirectionalLight> pLight(new TQRDirectionalLight());
         pLight->Ambient   = pAmbient.get();
         pLight->Color     = pColor.get();
         pLight->Direction = &direction;
@@ -414,7 +417,7 @@ bool TMainForm::LoadModel(bool toggleLight, bool useShader)
     m_ModelMatrix.Translate(TQRVector3D(0.0f, 0.0f, -1.5f));
     m_ModelMatrix.Rotate(-(M_PI / 2.0f), TQRVector3D(1.0f, 0.0f, 0.0f)); // -90°
     m_ModelMatrix.Rotate(-(M_PI / 4.0f), TQRVector3D(0.0f, 0.0f, 1.0f)); // -45°
-    m_ModelMatrix.Scale(TQRVector3D(0.03f, 0.03f, 0.03f));
+    m_ModelMatrix.Scale(TQRVector3D(0.015f, 0.015f, 0.015f));
 
     std::auto_ptr<TQRTexture> pTexture(new TQRTexture());
     LoadTexture(pTexture.get());
@@ -455,7 +458,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix,
     TQRVector3D rayDir = TQRVector3D(rayPos.X, rayPos.Y, 1.0f);
 
     // unproject the ray to make it inside the 3d world coordinates
-    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 

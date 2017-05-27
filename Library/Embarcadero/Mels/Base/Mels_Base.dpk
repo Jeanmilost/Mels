@@ -43,6 +43,7 @@ contains
   UTQRHelpers in 'UTQRHelpers.pas',
   UTQRSmartPointer in 'UTQRSmartPointer.pas',
   UTQRCache in 'UTQRCache.pas',
-  UTQRLight in 'UTQRLight.pas';
+  UTQRLight in 'UTQRLight.pas',
+  UTQRRenderer in 'UTQRRenderer.pas';
 
 end.

@@ -31,10 +31,10 @@ object MainForm: TMainForm
     Antialiasing = EQR_AM_FSAA_2x
     OnDetectCollisions = m2ModelDetectCollisions
     Align = alClient
-    Model.Scaling.X = 0.025000000372529030
-    Model.Scaling.Y = 0.025000000372529030
-    Model.Scaling.Z = 0.025000000372529030
-    Model.Translation.Y = 0.100000001490116100
+    Model.Scaling.X = 0.014999999664723870
+    Model.Scaling.Y = 0.014999999664723870
+    Model.Scaling.Z = 0.014999999664723870
+    Model.Translation.Y = 0.050000000745058060
     Model.Translation.Z = -1.200000047683716000
     Model.RotationX = -1.580000042915344000
     Model.RotationY = -0.779999971389770500

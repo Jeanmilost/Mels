@@ -192,18 +192,18 @@ void __fastcall TMainForm::FormResize(TObject* pSender)
     const GLfloat aspect = (GLfloat)ClientWidth / (ClientHeight ? (GLfloat)ClientHeight : 1.0f);
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix = QR_OpenGLHelper::GetPerspective(fov,
-                                                         aspect,
-                                                         zNear,
-                                                         zFar,
-                                                         m_pOptions->ckUseOrthoMatrix->Checked);
+    m_ProjectionMatrix = TQRRenderer::GetPerspective(fov,
+                                                     aspect,
+                                                     zNear,
+                                                     zFar,
+                                                     m_pOptions->ckUseOrthoMatrix->Checked);
 
     TQRVector3D position(0.0f, 0.0f, 0.0f);
     TQRVector3D direction(0.0f, 0.0f, 1.0f);
     TQRVector3D up(0.0f, 1.0f, 0.0f);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix = QR_OpenGLHelper::LookAtLH(position, direction, up);
+    m_ViewMatrix = TQRRenderer::LookAtLH(position, direction, up);
 
     QR_OpenGLHelper::CreateViewport(ClientWidth,
                                     ClientHeight,
@@ -408,7 +408,7 @@ bool TMainForm::LoadModel(bool toggleLight)
     if (!m_pOptions->ckUseShader->Checked)
         framedModelOptions << EQR_FO_Interpolate;
 
-     std::auto_ptr<TQRMD2Light> pLight;
+     std::auto_ptr<TQRDirectionalLight> pLight;
 
      // do toggle light?
     if (toggleLight)
@@ -419,7 +419,7 @@ bool TMainForm::LoadModel(bool toggleLight)
         TQRVector3D direction(1.0f, 0.0f, 0.0f);
 
         // configure precalculated light
-        pLight.reset(new TQRMD2Light());
+        pLight.reset(new TQRDirectionalLight());
         pLight->Ambient   = pAmbient.get();
         pLight->Color     = pColor.get();
         pLight->Direction = &direction;
@@ -484,13 +484,13 @@ bool TMainForm::LoadModel(bool toggleLight)
     {
         // translate and scale model
         *m_pMD2->Translation = TQRVector3D(0.0f,   0.0f,   -1.5f);
-        *m_pMD2->Scaling     = TQRVector3D(0.015f, 0.015f,  0.015f);
+        *m_pMD2->Scaling     = TQRVector3D(0.013f, 0.013f,  0.013f);
     }
     else
     {
         // translate and scale model
-        *m_pMD2->Translation = TQRVector3D(0.0f,    0.1f,    -1.5f);
-        *m_pMD2->Scaling     = TQRVector3D(0.0325f, 0.0325f,  0.0325f);
+        *m_pMD2->Translation = TQRVector3D(0.0f,   0.05f,  -1.5f);
+        *m_pMD2->Scaling     = TQRVector3D(0.018f, 0.018f,  0.018f);
     }
 
     // rotate model
@@ -561,7 +561,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& modelMatrix, TQRAABB
         rayDir = TQRVector3D(0.0f, 0.0f, 1.0f);
 
     // unproject the ray to make it inside the 3d world coordinates
-    QR_OpenGLHelper::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer::Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     float determinant;
 
