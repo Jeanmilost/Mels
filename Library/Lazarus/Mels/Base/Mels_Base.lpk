@@ -30,8 +30,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."/>
-    <Version Build="7"/>
-    <Files Count="10">
+    <Version Build="8"/>
+    <Files Count="11">
       <Item1>
         <Filename Value="UTQR3D.pas"/>
         <UnitName Value="UTQR3D"/>
@@ -72,6 +72,10 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
         <Filename Value="UTQRLight.pas"/>
         <UnitName Value="UTQRLight"/>
       </Item10>
+      <Item11>
+        <Filename Value="UTQRRenderer.pas"/>
+        <UnitName Value="UTQRRenderer"/>
+      </Item11>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

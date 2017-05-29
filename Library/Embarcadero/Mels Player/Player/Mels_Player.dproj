@@ -38,10 +38,10 @@
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <DCC_Description>Mels Player Library, a small player using OpenAL</DCC_Description>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <SanitizedProjectName>Mels_Player</SanitizedProjectName>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels Player;ProductVersion=0.0.0.7;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels Player;ProductVersion=0.0.0.8;Comments=</VerInfo_Keys>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>

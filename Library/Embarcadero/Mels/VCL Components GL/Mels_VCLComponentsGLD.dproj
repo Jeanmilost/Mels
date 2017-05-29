@@ -40,11 +40,11 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL (Design Time);ProductVersion=0.0.0.7;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL (Design Time);ProductVersion=0.0.0.8;Comments=</VerInfo_Keys>
         <DCC_Description>Mels VCL components using OpenGL to draw them - design time package.</DCC_Description>
         <GenPackage>true</GenPackage>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>

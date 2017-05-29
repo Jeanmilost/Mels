@@ -97,7 +97,7 @@ object MainForm: TMainForm
         'not have a plot-based single-player campaign. '
         'Instead, it simulates the multiplayer '
         'experience with computer-controlled players '
-        'known as bots. [1] The game''s story is brief - '
+        'known as bots. The game''s story is brief - '
         '''the greatest warriors of all time fight for the '
         'amusement of a race called the Vadrigar in '
         'the Arena Eternal.'' The introduction video '
@@ -107,7 +107,7 @@ object MainForm: TMainForm
         'Doom is maintained by the inclusion of player '
         'models related to those earlier games as well '
         'as biographical information included on '
-        'characters in the manual,[2] a familiar '
+        'characters in the manual, a familiar '
         'mixture of gothic and technological map '
         'architecture and specific equipment; for '
         'example, the Quad Damage power-up, the '
@@ -117,10 +117,10 @@ object MainForm: TMainForm
         'In Quake III Arena, the player progresses '
         'through tiers of maps, combating different bot '
         'characters that increase in difficulty, from '
-        'Crash (at Tier 0) to Xaero (at Tier 7).[1] As '
+        'Crash (at Tier 0) to Xaero (at Tier 7). As '
         'the game progresses, the fights take place in '
         'more complex arenas and against tougher '
-        'opponents. [3] While deathmatch maps are '
+        'opponents. While deathmatch maps are '
         'designed for up to 16 players, tournament '
         'maps are designed for duels between 2 '
         'players and in the single-player game could '
@@ -205,12 +205,12 @@ object MainForm: TMainForm
       BorderSpacing.Left = 87
       BorderSpacing.Right = 87
       BorderSpacing.Around = 5
-      Model.Scaling.X = 1
-      Model.Scaling.Y = 1
-      Model.Scaling.Z = 1
+      Model.Scaling.X = 0.0219999998807907
+      Model.Scaling.Y = 0.0219999998807907
+      Model.Scaling.Z = 0.0219999998807907
       Model.Translation.X = 0
-      Model.Translation.Y = -5
-      Model.Translation.Z = -50.000000000000000000
+      Model.Translation.Y = -0.100000001490116
+      Model.Translation.Z = -2
       Model.RotationX = -1.57070004940033
       Model.RotationY = -1.57070004940033
       Model.RotationZ = 0

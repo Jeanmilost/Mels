@@ -44,6 +44,7 @@ uses Classes,
      Gl,
      GLext,
      UTQR3D,
+     UTQRRenderer,
      UTQRGraphics,
      UTQRGeometry,
      UTQRCollision,
@@ -457,18 +458,18 @@ begin
     aspectRatio := widthF / heightF;
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQROpenGLHelper.GetPerspective(fov,
-                                                         aspectRatio,
-                                                         zNear,
-                                                         zFar,
-                                                         True);
+    m_ProjectionMatrix := TQRRenderer.GetPerspective(fov,
+                                                     aspectRatio,
+                                                     zNear,
+                                                     zFar,
+                                                     True);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
     up        := TQRVector3D.Create(0.0, 1.0, 0.0);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix := TQROpenGLHelper.LookAtLH(position, direction, up);
+    m_ViewMatrix := TQRRenderer.LookAtLH(position, direction, up);
 
     // create viewport
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, not m_UseShader);
@@ -728,7 +729,7 @@ begin
     rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
     // unproject the ray to make it inside the 3d world coordinates
-    TQROpenGLHelper.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     // now transform the ray to match with the model position
     invertModel := modelMatrix.Inverse(determinant);

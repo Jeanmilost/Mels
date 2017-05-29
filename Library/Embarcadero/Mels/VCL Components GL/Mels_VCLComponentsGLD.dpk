@@ -39,6 +39,6 @@ requires
   Mels_VCL;
 
 contains
-  UTQRVCLModelsGL_Register in 'UTQRVCLModelsGL_Register.pas';
+  UTQRVCLModelsGL_Register;
 
 end.

@@ -33,17 +33,17 @@ requires
   rtl;
 
 contains
-  UTQR3D in 'UTQR3D.pas',
-  UTQRCollision in 'UTQRCollision.pas',
-  UTQRCommon in 'UTQRCommon.pas',
-  UTQRDesignPatterns in 'UTQRDesignPatterns.pas',
-  UTQRFiles in 'UTQRFiles.pas',
-  UTQRGeometry in 'UTQRGeometry.pas',
-  UTQRGraphics in 'UTQRGraphics.pas',
-  UTQRHelpers in 'UTQRHelpers.pas',
-  UTQRSmartPointer in 'UTQRSmartPointer.pas',
-  UTQRCache in 'UTQRCache.pas',
-  UTQRLight in 'UTQRLight.pas',
-  UTQRRenderer in 'UTQRRenderer.pas';
+  UTQR3D,
+  UTQRCollision,
+  UTQRCommon,
+  UTQRDesignPatterns,
+  UTQRFiles,
+  UTQRGeometry,
+  UTQRGraphics,
+  UTQRHelpers,
+  UTQRSmartPointer,
+  UTQRCache,
+  UTQRLight,
+  UTQRRenderer;
 
 end.

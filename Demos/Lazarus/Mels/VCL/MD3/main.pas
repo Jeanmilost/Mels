@@ -48,6 +48,7 @@ uses Classes,
      UTQRGraphics,
      UTQR3D,
      UTQRGeometry,
+     UTQRRenderer,
      UTQRCollision,
      UTQRThreading,
      UTQRModel,
@@ -429,18 +430,18 @@ begin
     aspect  := widthF / heightF;
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQROpenGLHelper.GetPerspective(fov,
-                                                         aspect,
-                                                         zNear,
-                                                         zFar,
-                                                         m_pOptions.ckUseOrthoMatrix.Checked);
+    m_ProjectionMatrix := TQRRenderer.GetPerspective(fov,
+                                                     aspect,
+                                                     zNear,
+                                                     zFar,
+                                                     m_pOptions.ckUseOrthoMatrix.Checked);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
     up        := TQRVector3D.Create(0.0, 1.0, 0.0);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix := TQROpenGLHelper.LookAtLH(position, direction, up);
+    m_ViewMatrix := TQRRenderer.LookAtLH(position, direction, up);
 
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, not m_pOptions.ckUseShader.Checked);
 
@@ -736,8 +737,8 @@ begin
     else
     begin
         // translate and scale model
-        m_pMD3.Translation^ := TQRVector3D.Create(0.0,  -0.1,  -1.5);
-        m_pMD3.Scaling^     := TQRVector3D.Create(0.03,  0.03,  0.03);
+        m_pMD3.Translation^ := TQRVector3D.Create(0.0,   -0.1,   -1.5);
+        m_pMD3.Scaling^     := TQRVector3D.Create(0.015,  0.015,  0.015);
     end;
 
     // rotate model
@@ -869,7 +870,7 @@ begin
         rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
     // unproject the ray to make it inside the 3d world coordinates
-    TQROpenGLHelper.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     // now transform the ray to match with the model position
     invertModel := modelMatrix.Inverse(determinant);

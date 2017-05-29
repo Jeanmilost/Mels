@@ -33,9 +33,9 @@ interface
 
 uses SysUtils,
      Graphics,
-     Windows,
      Gl,
      GLext,
+     Windows,
      UTQRGeometry,
      UTQR3D,
      UTQRHelpers,

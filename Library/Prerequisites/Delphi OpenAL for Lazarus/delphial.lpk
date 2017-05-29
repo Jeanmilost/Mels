@@ -17,7 +17,7 @@
       </Other>
     </CompilerOptions>
     <Description Value="OpenAL is a cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications. See: http://www.openal.org/"/>
-    <Version Build="7"/>
+    <Version Build="8"/>
     <Files Count="1">
       <Item1>
         <Filename Value="openal.pas"/>

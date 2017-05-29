@@ -26,6 +26,8 @@
 }
 unit UTQRShaderOpenGL;
 
+{$MODE Delphi}
+
 interface
 
 uses Classes,
@@ -334,7 +336,7 @@ end;
 procedure TQRShaderOpenGL.CreateProgram;
 begin
     // create new shader program
-    m_ProgramID := glCreateProgram();
+    m_ProgramID := glCreateProgram;
 
     // succeeded?
     if (m_ProgramID = 0) then

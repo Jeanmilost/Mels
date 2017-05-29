@@ -435,7 +435,7 @@ type
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            class function LoadTGA(const fileName: UnicodeString;
+            class function LoadTGA(const fileName: TFileName;
                                           swapRGB: Boolean;
                                           pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
 
@@ -463,7 +463,7 @@ type
              @return(@true on success, otherwise @false)
             }
             {$ENDREGION}
-            class function LoadPCX(const fileName: UnicodeString;
+            class function LoadPCX(const fileName: TFileName;
                                           pBitmap: Vcl.Graphics.TBitmap): Boolean; overload; static;
 
             {$REGION 'Documentation'}
@@ -974,7 +974,7 @@ begin
     end;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRVCLPictureHelper.LoadTGA(const fileName: UnicodeString;
+class function TQRVCLPictureHelper.LoadTGA(const fileName: TFileName;
                                                   swapRGB: Boolean;
                                                   pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
@@ -1205,7 +1205,7 @@ begin
     Result := False;
 end;
 //--------------------------------------------------------------------------------------------------
-class function TQRVCLPictureHelper.LoadPCX(const fileName: UnicodeString;
+class function TQRVCLPictureHelper.LoadPCX(const fileName: TFileName;
                                                   pBitmap: Vcl.Graphics.TBitmap): Boolean;
 var
     pStream: TFileStream;

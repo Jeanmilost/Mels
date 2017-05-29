@@ -37,11 +37,11 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_Description>Mels Player Base Library, provides a generic interface to implement a player</DCC_Description>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels Player Base;ProductVersion=0.0.0.7;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels Player Base;ProductVersion=0.0.0.8;Comments=</VerInfo_Keys>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <GenDll>true</GenDll>
         <SanitizedProjectName>Mels_Player_Base</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>

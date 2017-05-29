@@ -754,6 +754,16 @@ type
     {$REGION 'Documentation'}
     {**
      4x4 matrix table
+     @br @bold(NOTE) The matrix table can be read in both mathematical or in-memory order. From a
+                     mathematical point of view, the m_Table content should be read as m_Table[x][y],
+                     whereas it should be read as m_Table[y][x] from the in-memory point of view.
+                     The both representation are equivalent and interchangeable, and may be used
+                     anytime if the same logical is used constantly, it's e.g. the reason why the
+                     GetPtr() function may be used to connect to OpenGL functions, although the
+                     matrix was initialized following a mathematical representation. However, this
+                     may be highly confusing when you have to manipulate the source code, because
+                     the table items may appear to be crossed. For that reason, be aware of what you
+                     are doing if you have to modify the source code
     }
     {$ENDREGION}
     TQRMatrix4x4Table = array [0..3, 0..3] of Single;
@@ -943,14 +953,6 @@ type
             }
             {$ENDREGION}
             function Scale(const s: TQRVector3D): TQRMatrix4x4; inline;
-
-            {$REGION 'Documentation'}
-            {**
-             Swaps matrix lines and columns
-             @return(Swapped matrix)
-            }
-            {$ENDREGION}
-            function Swap: TQRMatrix4x4; inline;
 
             {$REGION 'Documentation'}
             {**
@@ -2456,10 +2458,10 @@ constructor TQRMatrix4x4.Create(const _11, _12, _13, _14,
                                       _31, _32, _33, _34,
                                       _41, _42, _43, _44: Single);
 begin
-    m_Table[0][0] := _11; m_Table[0][1] := _12; m_Table[0][2] := _13; m_Table[0][3] := _14;
-    m_Table[1][0] := _21; m_Table[1][1] := _22; m_Table[1][2] := _23; m_Table[1][3] := _24;
-    m_Table[2][0] := _31; m_Table[2][1] := _32; m_Table[2][2] := _33; m_Table[2][3] := _34;
-    m_Table[3][0] := _41; m_Table[3][1] := _42; m_Table[3][2] := _43; m_Table[3][3] := _44;
+    m_Table[0][0] := _11; m_Table[1][0] := _12; m_Table[2][0] := _13; m_Table[3][0] := _14;
+    m_Table[0][1] := _21; m_Table[1][1] := _22; m_Table[2][1] := _23; m_Table[3][1] := _24;
+    m_Table[0][2] := _31; m_Table[1][2] := _32; m_Table[2][2] := _33; m_Table[3][2] := _34;
+    m_Table[0][3] := _41; m_Table[1][3] := _42; m_Table[2][3] := _43; m_Table[3][3] := _44;
 end;
 //--------------------------------------------------------------------------------------------------
 {$IFNDEF CPUX64}
@@ -2715,14 +2717,6 @@ begin
     m_Table[0][3] := m_Table[0][3] * s.m_X; m_Table[1][3] := m_Table[1][3] * s.m_Y; m_Table[2][3] := m_Table[2][3] * s.m_Z;
 
     Result := Self;
-end;
-//--------------------------------------------------------------------------------------------------
-function TQRMatrix4x4.Swap: TQRMatrix4x4;
-begin
-    Result := TQRMatrix4x4.Create(m_Table[0][0], m_Table[1][0], m_Table[2][0], m_Table[3][0],
-                                  m_Table[0][1], m_Table[1][1], m_Table[2][1], m_Table[3][1],
-                                  m_Table[0][2], m_Table[1][2], m_Table[2][2], m_Table[3][2],
-                                  m_Table[0][3], m_Table[1][3], m_Table[2][3], m_Table[3][3]);
 end;
 //--------------------------------------------------------------------------------------------------
 function TQRMatrix4x4.Transform(const vector: TQRVector3D): TQRVector3D;

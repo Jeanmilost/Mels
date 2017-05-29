@@ -59,12 +59,12 @@ object MainForm: TMainForm
       BorderSpacing.Left = 87
       BorderSpacing.Right = 87
       BorderSpacing.Around = 5
-      Model.Scaling.X = 1
-      Model.Scaling.Y = 1
-      Model.Scaling.Z = 1
+      Model.Scaling.X = 0.0219999998807907
+      Model.Scaling.Y = 0.0219999998807907
+      Model.Scaling.Z = 0.0219999998807907
       Model.Translation.X = 0
       Model.Translation.Y = 0
-      Model.Translation.Z = -50.000000000000000000
+      Model.Translation.Z = -2
       Model.RotationX = -1.57070004940033
       Model.RotationY = -1.57070004940033
       Model.RotationZ = 0

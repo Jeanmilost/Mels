@@ -49,7 +49,6 @@ uses Vcl.Graphics,
          Winapi.OpenGLext,
      {$ENDIF}
      Winapi.Windows,
-     UTQRCommon,
      UTQRHelpers,
      UTQRVCLHelpers,
      UTQRVCLHelpersGL,
@@ -64,7 +63,6 @@ type
     {$ENDREGION}
     TQRVCLModelRenderSurfaceGL = class(TObject)
         private
-            m_Allowed:             Boolean;
             m_pOwner:              TWinControl;
             m_pRenderer:           TQRVCLModelRendererGL;
             m_hGLContext:          THandle;
@@ -75,6 +73,7 @@ type
             m_Height:              NativeInt;
             m_Factor:              NativeInt;
             m_Transparent:         Boolean;
+            m_Allowed:             Boolean;
 
         protected
             {$REGION 'Documentation'}

@@ -42,20 +42,20 @@ uses Classes,
      Forms,
      Dialogs,
      Menus,
-     Messages,
      Windows,
      Gl,
      GLext,
      UTQRFiles,
      UTQR3D,
      UTQRGeometry,
+     UTQRRenderer,
+     UTQRLight,
      UTQRCollision,
      UTQRGraphics,
      UTQRModel,
      UTQRModelGroup,
      UTQRMD2,
      UTQRMD2ModelGroup,
-     UTQRModelRenderer,
      UTQRThreading,
      UTQROpenGLHelper,
      UTQRShaderOpenGL,
@@ -421,18 +421,18 @@ begin
     aspect  := widthF / heightF;
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQRModelRenderer.GetPerspective(fov,
-                                                          aspect,
-                                                          zNear,
-                                                          zFar,
-                                                          m_pOptions.ckUseOrthoMatrix.Checked);
+    m_ProjectionMatrix := TQRRenderer.GetPerspective(fov,
+                                                     aspect,
+                                                     zNear,
+                                                     zFar,
+                                                     m_pOptions.ckUseOrthoMatrix.Checked);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
     up        := TQRVector3D.Create(0.0, 1.0, 0.0);
 
     // create view matrix (will not be modified while execution)
-    m_ViewMatrix := TQROpenGLHelper.LookAtLH(position, direction, up);
+    m_ViewMatrix := TQRRenderer.LookAtLH(position, direction, up);
 
     TQROpenGLHelper.CreateViewport(ClientWidth, ClientHeight, not m_pOptions.ckUseShader.Checked);
 
@@ -514,7 +514,7 @@ var
     pModelColor,
     pAmbient,
     pColor:             TQRColor;
-    pLight:             TQRMD2Light;
+    pLight:             TQRDirectionalLight;
     pMemDir:            TQRMemoryDir;
     modelOptions:       TQRModelOptions;
     framedModelOptions: TQRFramedModelOptions;
@@ -618,7 +618,8 @@ begin
 
         // set basic configuration (normals are not required here as the pre-calculated lights are
         // calculated and embedded inside the colors buffer directly)
-        modelOptions := [EQR_MO_Without_Normals];
+        modelOptions       := [EQR_MO_Without_Normals];
+        framedModelOptions := [];
 
         // dispatch caching type
         case (m_pOptions.rgCacheOptions.ItemIndex) of
@@ -653,7 +654,7 @@ begin
             pColor   := TQRColor.Create(255, 255, 255, 255);
 
             // configure precalculated light
-            pLight            := TQRMD2Light.Create;
+            pLight            := TQRDirectionalLight.Create;
             pLight.Ambient    := pAmbient;
             pLight.Color      := pColor;
             pLight.Direction^ := TQRVector3D.Create(1.0, 0.0, 0.0);
@@ -745,13 +746,13 @@ begin
         begin
             // translate and scale model
             m_pMD2.Translation^ := TQRVector3D.Create(0.0,   0.0,   -1.5);
-            m_pMD2.Scaling^     := TQRVector3D.Create(0.015, 0.015,  0.015);
+            m_pMD2.Scaling^     := TQRVector3D.Create(0.013, 0.013,  0.013);
         end
         else
         begin
             // translate and scale model
-            m_pMD2.Translation^ := TQRVector3D.Create(0.0,    0.1,    -1.5);
-            m_pMD2.Scaling^     := TQRVector3D.Create(0.0325, 0.0325,  0.0325);
+            m_pMD2.Translation^ := TQRVector3D.Create(0.0,   0.05,  -1.5);
+            m_pMD2.Scaling^     := TQRVector3D.Create(0.018, 0.018,  0.018);
         end;
 
         // rotate model
@@ -859,7 +860,7 @@ begin
         rayDir := TQRVector3D.Create(0.0, 0.0, 1.0);
 
     // unproject the ray to make it inside the 3d world coordinates
-    TQROpenGLHelper.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
+    TQRRenderer.Unproject(m_ProjectionMatrix, m_ViewMatrix, rayPos, rayDir);
 
     // now transform the ray to match with the model position
     invertModel := modelMatrix.Inverse(determinant);

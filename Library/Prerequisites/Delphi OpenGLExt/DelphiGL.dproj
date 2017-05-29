@@ -37,12 +37,12 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <DCC_Description>DelphiGL is an openGL extension that provides several missing functions for RAD Studio XE4 and earlier.</DCC_Description>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <SanitizedProjectName>DelphiGL</SanitizedProjectName>
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=DelphiGL;ProductVersion=0.0.0.7;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=DelphiGL;ProductVersion=0.0.0.8;Comments=</VerInfo_Keys>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <GenDll>true</GenDll>
         <GenPackage>true</GenPackage>

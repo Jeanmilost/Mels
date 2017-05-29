@@ -35,7 +35,6 @@ uses System.Classes,
      Vcl.Controls,
      Winapi.Windows,
      UTQRGeometry,
-     UTQR3D,
      UTQRLight,
      UTQRModelGroup,
      UTQRVCLGraphics;

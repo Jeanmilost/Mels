@@ -55,6 +55,7 @@ uses System.Classes,
      UTQRFiles,
      UTQR3D,
      UTQRGeometry,
+     UTQRRenderer,
      UTQRLight,
      UTQRCollision,
      UTQRGraphics,
@@ -62,8 +63,6 @@ uses System.Classes,
      UTQRModelGroup,
      UTQRMD2,
      UTQRMD2ModelGroup,
-     UTQRRenderer,
-     UTQRModelRenderer,
      UTQRThreading,
      UTQROpenGLHelper,
      UTQRShaderOpenGL,
@@ -419,11 +418,11 @@ begin
     aspect  := widthF / heightF;
 
     // create projection matrix (will not be modified while execution)
-    m_ProjectionMatrix := TQRModelRenderer.GetPerspective(fov,
-                                                          aspect,
-                                                          zNear,
-                                                          zFar,
-                                                          m_pOptions.ckUseOrthoMatrix.Checked);
+    m_ProjectionMatrix := TQRRenderer.GetPerspective(fov,
+                                                     aspect,
+                                                     zNear,
+                                                     zFar,
+                                                     m_pOptions.ckUseOrthoMatrix.Checked);
 
     position  := Default(TQRVector3D);
     direction := TQRVector3D.Create(0.0, 0.0, 1.0);
@@ -615,7 +614,8 @@ begin
 
         // set basic configuration (normals are not required here as the pre-calculated lights are
         // calculated and embedded inside the colors buffer directly)
-        modelOptions := [EQR_MO_Without_Normals];
+        modelOptions       := [EQR_MO_Without_Normals];
+        framedModelOptions := [];
 
         // dispatch caching type
         case (m_pOptions.rgCacheOptions.ItemIndex) of

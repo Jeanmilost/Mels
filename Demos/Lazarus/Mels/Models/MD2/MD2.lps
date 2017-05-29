@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="20">
+    <Units Count="22">
       <Unit0>
         <Filename Value="MD2.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -19,11 +19,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="682"/>
+        <CursorPos X="16" Y="696"/>
         <UsageCount Value="27"/>
         <Bookmarks Count="3">
-          <Item0 X="12" Y="929" ID="2"/>
-          <Item1 X="37" Y="471" ID="1"/>
-          <Item2 X="67" Y="360" ID="3"/>
+          <Item0 X="12" Y="931" ID="2"/>
+          <Item1 X="37" Y="473" ID="1"/>
+          <Item2 X="67" Y="362" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -40,21 +43,14 @@
       <Unit3>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="317"/>
-        <CursorPos X="21" Y="337"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="26"/>
-        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="774"/>
-        <CursorPos X="50" Y="794"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="26"/>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="resources.rc"/>
@@ -156,19 +152,42 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="C:\Lazarus\lcl\interfaces\win32\win32callback.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\Lazarus\lcl\interfaces\win32\win32int.pp"/>
+        <UnitName Value="Win32Int"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit21>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
-        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
+        <Filename Value="main.pas"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
-        <Caret Line="803" Column="56" TopLine="772"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="419" Column="32" TopLine="394"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\..\..\Common\Lazarus\UTQRShaderOpenGL.pas"/>
-        <Caret Line="337" Column="20" TopLine="317"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="623" Column="67" TopLine="608"/>
       </Position3>
+      <Position4>
+        <Filename Value="main.pas"/>
+        <Caret Line="464" Column="56" TopLine="448"/>
+      </Position4>
+      <Position5>
+        <Filename Value="main.pas"/>
+        <Caret Line="47" Column="19" TopLine="34"/>
+      </Position5>
+      <Position6>
+        <Filename Value="main.pas"/>
+        <Caret Line="610" Column="47" TopLine="594"/>
+      </Position6>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

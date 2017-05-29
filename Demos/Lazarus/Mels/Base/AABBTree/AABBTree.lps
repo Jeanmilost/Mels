@@ -21,7 +21,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="543"/>
         <CursorPos X="76" Y="563"/>
         <UsageCount Value="28"/>
@@ -31,8 +30,12 @@
       <Unit2>
         <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="568"/>
+        <CursorPos X="36" Y="584"/>
         <UsageCount Value="27"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRGeometry.pas"/>
@@ -106,15 +109,14 @@
       </Unit12>
       <Unit13>
         <Filename Value="..\..\..\..\..\..\..\trunk\Library\Lazarus\Mels\Base\UTQRGeometry.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1598"/>
         <CursorPos X="22" Y="1618"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="493" Column="14" TopLine="463"/>
@@ -193,6 +195,9 @@
         <Filename Value="main.pas"/>
         <Caret Line="563" Column="29" TopLine="543"/>
       </Position20>
+      <Position21>
+        <Filename Value="..\..\..\..\Common\Lazarus\UTQROpenGLHelper.pas"/>
+      </Position21>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

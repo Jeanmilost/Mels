@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="45">
+    <Units Count="47">
       <Unit0>
         <Filename Value="CollisionDetection.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -297,8 +297,19 @@
         <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
       </Unit44>
+      <Unit45>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Models\UTQRModelRenderer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\..\..\..\..\Library\Lazarus\Mels\Base\UTQRRenderer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit46>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="105" TopLine="89"/>
@@ -311,6 +322,9 @@
         <Filename Value="main.pas"/>
         <Caret Line="31"/>
       </Position3>
+      <Position4>
+        <Filename Value="main.pas"/>
+      </Position4>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

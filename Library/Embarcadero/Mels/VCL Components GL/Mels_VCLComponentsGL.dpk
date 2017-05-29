@@ -39,17 +39,17 @@ requires
   Mels_VCL;
 
 contains
-  UTQRVCLHelpersGL in 'UTQRVCLHelpersGL.pas',
-  UTQRVCLMD2ModelComponentGL in 'UTQRVCLMD2ModelComponentGL.pas',
-  UTQRVCLModelComponentGL in 'UTQRVCLModelComponentGL.pas',
-  UTQRVCLModelComponentPropertiesGL in 'UTQRVCLModelComponentPropertiesGL.pas',
-  UTQRVCLModelRendererGL in 'UTQRVCLModelRendererGL.pas',
-  UTQRVCLModelRenderSurfaceGL in 'UTQRVCLModelRenderSurfaceGL.pas',
-  UTQRVCLModelShaderGL in 'UTQRVCLModelShaderGL.pas',
-  UTQRVCLSimpleRendererComponentGL in 'UTQRVCLSimpleRendererComponentGL.pas',
-  UTQRDesignerHook in 'UTQRDesignerHook.pas',
-  UTQRVCLShapeComponentGL in 'UTQRVCLShapeComponentGL.pas',
-  UTQRVCLMD3ModelComponentGL in 'UTQRVCLMD3ModelComponentGL.pas',
-  UTQRVCLMDLModelComponentGL in 'UTQRVCLMDLModelComponentGL.pas';
+  UTQRVCLHelpersGL,
+  UTQRVCLMD2ModelComponentGL,
+  UTQRVCLModelComponentGL,
+  UTQRVCLModelComponentPropertiesGL,
+  UTQRVCLModelRendererGL,
+  UTQRVCLModelRenderSurfaceGL,
+  UTQRVCLModelShaderGL,
+  UTQRVCLSimpleRendererComponentGL,
+  UTQRDesignerHook,
+  UTQRVCLShapeComponentGL,
+  UTQRVCLMD3ModelComponentGL,
+  UTQRVCLMDLModelComponentGL;
 
 end.

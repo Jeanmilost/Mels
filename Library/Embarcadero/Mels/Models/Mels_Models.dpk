@@ -34,11 +34,11 @@ requires
   Mels_Base;
 
 contains
-  UTQRMD2 in 'UTQRMD2.pas',
-  UTQRMD3 in 'UTQRMD3.pas',
-  UTQRModel in 'UTQRModel.pas',
-  UTQRModelRenderer in 'UTQRModelRenderer.pas',
-  UTQRShapes in 'UTQRShapes.pas',
-  UTQRMDL in 'UTQRMDL.pas';
+  UTQRMD2,
+  UTQRMD3,
+  UTQRModel,
+  UTQRModelRenderer,
+  UTQRShapes,
+  UTQRMDL;
 
 end.

@@ -32,10 +32,6 @@ interface
 uses System.SysUtils,
      System.Math,
      Vcl.Graphics,
-     Winapi.Windows,
-     UTQRHelpers,
-     UTQR3D,
-     UTQRGeometry,
      {$IF CompilerVersion <= 25}
          Winapi.OpenGL,
          // for compiler until XE4 (not sure until which version), the DelphiGL library is required,
@@ -43,13 +39,17 @@ uses System.SysUtils,
          {$IFDEF USE_SHADER}
              DelphiGL.OpenGLext,
          {$ENDIF}
-         DelphiGL.OpenGL;
+         DelphiGL.OpenGL,
      {$ELSE}
          {$IFDEF USE_SHADER}
              Winapi.OpenGLext,
          {$ENDIF}
-         Winapi.OpenGL;
+         Winapi.OpenGL,
      {$ENDIF}
+     Winapi.Windows,
+     UTQRHelpers,
+     UTQR3D,
+     UTQRGeometry;
 
 const
     //----------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ type
      OpenGL helper, provides common basic tools to work with OpenGL
     }
     {$ENDREGION}
-    TQROpenGLHelper = record
+    TQROpenGLHelper = class
         {$REGION 'Documentation'}
         {**
          Enables OpenGL

@@ -37,11 +37,11 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <PostBuildEvent><![CDATA[ResourcesInstaller\ResourcesInstaller.exe /2010 /XE /XE2 /XE3 /XE4 /XE5 /XE6 /XE7 /XE8 /Seattle /Berlin /Tokyo
 $(PostBuildEvent)]]></PostBuildEvent>
-        <VerInfo_Build>7</VerInfo_Build>
+        <VerInfo_Build>8</VerInfo_Build>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.7;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL;ProductVersion=0.0.0.7;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=0.0.0.8;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=Mels VCL Components GL;ProductVersion=0.0.0.8;Comments=</VerInfo_Keys>
         <DCC_Description>Mels VCL components using OpenGL to draw them - runtime package.</DCC_Description>
         <GenPackage>true</GenPackage>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>

@@ -17,7 +17,7 @@
       </Other>
     </CompilerOptions>
     <Description Value="FreePascal Generics.Collections library (TList, TDictionary, THashMap and more...). See: https://github.com/dathox/generics.collections/tree/master/src"/>
-    <Version Build="7"/>
+    <Version Build="8"/>
     <Files Count="6">
       <Item1>
         <Filename Value="generics.collections.pas"/>
