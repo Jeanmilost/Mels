@@ -5,9 +5,9 @@ program MD3;
 uses
   Vcl.Forms,
   Main in 'Main.pas' {MainForm},
-  UTQROpenGLHelper in '..\..\..\..\..\Common\Delphi\UTQROpenGLHelper.pas',
-  UTQRShaderOpenGL in '..\..\..\..\..\Common\Delphi\UTQRShaderOpenGL.pas',
-  UTOptions in 'UTOptions.pas' {Options};
+  UTOptions in 'UTOptions.pas' {Options},
+  UTQROpenGLHelper in '..\..\..\..\..\Common\Embarcadero\Delphi\UTQROpenGLHelper.pas',
+  UTQRShaderOpenGL in '..\..\..\..\..\Common\Embarcadero\Delphi\UTQRShaderOpenGL.pas';
 
 {$R *.res}
 

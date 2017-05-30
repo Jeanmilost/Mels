@@ -3,7 +3,7 @@
         <ProjectGuid>{161A770B-A9FE-491D-AEB9-BB3D28879891}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj">
+        <Projects Include="..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenAL\DelphiAL.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\..\..\..\Library\Embarcadero\Mels Player\Base\Mels_Player_Base.dproj">
@@ -27,13 +27,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="DelphiAL">
-        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenAL\DelphiAL.dproj"/>
     </Target>
     <Target Name="DelphiAL:Clean">
-        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenAL\DelphiAL.dproj" Targets="Clean"/>
     </Target>
     <Target Name="DelphiAL:Make">
-        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenAL\DelphiAL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Player_Base">
         <MSBuild Projects="..\..\..\..\..\Library\Embarcadero\Mels Player\Base\Mels_Player_Base.dproj"/>

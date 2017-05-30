@@ -39,7 +39,8 @@ Lazarus
 Mels
 
 Prerequisites
-Open the Library\Prerequisites\Generics.Collections\ folder and install the generics_collections.lpk package.
+Open the Library\Prerequisites\Lazarus\Generics.Collections\ folder and install the generics_collections.lpk
+package.
 
 Library
 Open the Library\Lazarus\Mels\ folder and perform the following steps:

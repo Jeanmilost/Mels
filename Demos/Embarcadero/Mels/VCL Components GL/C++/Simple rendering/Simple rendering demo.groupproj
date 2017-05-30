@@ -3,7 +3,7 @@
         <ProjectGuid>{FEA0E89A-60DC-45B9-B0C3-B6977AE3E8ED}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj">
+        <Projects Include="..\..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenGLExt\DelphiGL.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\..\..\..\..\Library\Embarcadero\Mels\Base\Mels_Base.dproj">
@@ -33,13 +33,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="DelphiGL">
-        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenGLExt\DelphiGL.dproj"/>
     </Target>
     <Target Name="DelphiGL:Clean">
-        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenGLExt\DelphiGL.dproj" Targets="Clean"/>
     </Target>
     <Target Name="DelphiGL:Make">
-        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\..\..\Library\Prerequisites\Embarcadero\Delphi OpenGLExt\DelphiGL.dproj" Targets="Make"/>
     </Target>
     <Target Name="Mels_Base">
         <MSBuild Projects="..\..\..\..\..\..\Library\Embarcadero\Mels\Base\Mels_Base.dproj"/>
