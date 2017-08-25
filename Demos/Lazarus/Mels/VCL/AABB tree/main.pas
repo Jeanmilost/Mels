@@ -261,7 +261,7 @@ begin
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.0, 1.0);
 
-    // enable culling
+    // disable culling
     glDisable(GL_CULL_FACE);
     glCullFace(GL_NONE);
 end;
@@ -337,7 +337,7 @@ begin
             // is polygon intersecting ray?
             if (TQRCollisionHelper.GetRayPolygonCollision(pRay, polygon)) then
             begin
-                // ad polygon in collision to resulting list
+                // add polygon in collision to resulting list
                 SetLength(polygonToDraw, Length(polygonToDraw) + 1);
                 polygonToDraw[Length(polygonToDraw) - 1] := polygon;
             end;

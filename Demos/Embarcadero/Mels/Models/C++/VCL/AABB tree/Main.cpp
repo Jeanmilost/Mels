@@ -200,7 +200,7 @@ void __fastcall TMainForm::DrawScene(const double& elapsedTime)
         // is polygon intersecting ray?
         if (TQRCollisionHelper::GetRayPolygonCollision(pRay.get(), polygons[i]))
         {
-            // ad polygon in collision to resulting list
+            // add polygon in collision to resulting list
             polygonToDraw.Length                   += 1;
             polygonToDraw[polygonToDraw.Length - 1] = polygons[i];
         }
@@ -275,7 +275,7 @@ void TMainForm::ConfigOpenGL()
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.0f, 1.0f);
 
-    // enable culling
+    // disable culling
     glDisable(GL_CULL_FACE);
     glCullFace(GL_NONE);
 }

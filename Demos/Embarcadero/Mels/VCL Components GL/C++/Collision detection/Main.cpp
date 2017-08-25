@@ -99,7 +99,7 @@ void TMainForm::DetectAndDrawCollisions(const TQRMatrix4x4& projectionMatrix,
             // is polygon intersecting ray?
             if (TQRCollisionHelper::GetRayPolygonCollision(pRay.get(), polygons[i]))
             {
-                // ad polygon in collision to resulting list
+                // add polygon in collision to resulting list
                 polygonToDraw.Length                    += 1;
                 polygonToDraw[polygonToDraw.Length - 1]  = polygons[i];
             }
