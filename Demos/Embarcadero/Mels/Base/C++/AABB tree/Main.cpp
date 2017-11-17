@@ -313,12 +313,11 @@ void TMainForm::CreateSphere(float       radius,
     vertex.m_Type      = EQR_VT_TriangleStrip;
     vertex.m_Stride    = vertex.CalculateStride();
 
-    const float       pi     = atan(1.0f) * 4.0f;
     const std::size_t stride = vertex.m_Stride;
 
     // initialize basic values
-    majorStep = (pi          / slices);
-    minorStep = ((2.0f * pi) / stacks);
+    majorStep = (M_PI          / slices);
+    minorStep = ((2.0f * M_PI) / stacks);
 
     // iterate through vertex slices
     for (i = 0; i <= slices; ++i)
@@ -335,7 +334,7 @@ void TMainForm::CreateSphere(float       radius,
         meshIndex = mesh.Length;
         fanLength = (stacks + 1) * stride * 2;
 
-        // adde new mesh in output array
+        // add new mesh in output array
         mesh.Length += 1;
 
         // populate mesh

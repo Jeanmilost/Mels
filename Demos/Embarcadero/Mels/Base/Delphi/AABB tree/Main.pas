@@ -331,7 +331,7 @@ begin
         meshIndex := Length(mesh);
         fanLength := (stacks + 1) * NativeInt(stride) * 2;
 
-        // adde new mesh in output array
+        // add new mesh in output array
         SetLength(mesh, Length(mesh) + 1);
 
         // populate mesh
@@ -360,7 +360,7 @@ begin
                 // set normals
                 mesh[meshIndex].m_Buffer[index]     := (x * r0) / radius;
                 mesh[meshIndex].m_Buffer[index + 1] := (y * r0) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] := z0       / radius;
+                mesh[meshIndex].m_Buffer[index + 2] :=      z0  / radius;
 
                 Inc(index, 3);
             end;
@@ -411,7 +411,7 @@ begin
                 // set normals
                 mesh[meshIndex].m_Buffer[index]     := (x * r1) / radius;
                 mesh[meshIndex].m_Buffer[index + 1] := (y * r1) / radius;
-                mesh[meshIndex].m_Buffer[index + 2] :=  z1      / radius;
+                mesh[meshIndex].m_Buffer[index + 2] :=      z1  / radius;
 
                 Inc(index, 3);
             end;
