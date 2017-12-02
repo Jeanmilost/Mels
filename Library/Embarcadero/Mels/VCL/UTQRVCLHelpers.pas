@@ -1066,8 +1066,7 @@ begin
             // read image pixels
             pStream.ReadBuffer(pImage^, imageSize);
 
-            // TGAs are stored as BGR, and not RGB, so swap the R and B bytes. 32 bit TGA files
-            // have alpha channel and gets loaded differently
+            // 32 bit TGA files contains an alpha channel and should be loaded differently
             if (header.m_BPP = 24) then
             begin
                 // do swap RGB colors to BGR?
@@ -1116,9 +1115,9 @@ begin
                 Exit(False);
 
             colorDepth   := colorDepth div 8;
-            currentByte  :=0;
-            currentPixel :=0;
-            bufferIndex  :=0;
+            currentByte  := 0;
+            currentPixel := 0;
+            bufferIndex  := 0;
 
             // read and uncompress image pixels
             GetMem(pCompImage, readLength - sizeOf(TQRTGAHeader));
