@@ -1181,7 +1181,7 @@ begin
     minorStep := ((2.0 * Pi) / m_Stacks);
 
     // iterate through vertex m_Slices
-    for i := 0 to m_Slices do
+    for i := 0 to m_Slices - 1 do
     begin
         // is canceled?
         if (Assigned(hIsCanceled) and hIsCanceled) then
